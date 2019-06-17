@@ -103,6 +103,14 @@
 
 - [Special types and traits](special-types-and-traits.md)
 
+- [Name resolution](resolve/name-resolution.md)
+    - [Namespaces](resolve/namespaces.md)
+    - [Scopes](resolve/scopes.md)
+    - [Definitions](resolve/definitions.md)
+        - [Preludes](resolve/preludes.md)
+    - [Paths](resolve/paths.md)
+    - [Module and macro resolution](resolve/macros.md)
+
 - [Memory model](memory-model.md)
     - [Memory allocation and lifetime](memory-allocation-and-lifetime.md)
     - [Memory ownership](memory-ownership.md)
