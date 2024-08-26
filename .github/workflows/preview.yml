@@ -1,0 +1,38 @@
+name: Publish Preview
+on:
+  workflow_dispatch:
+    inputs:
+      pr_num:
+        description: "PR number"
+        type: number
+        required: true
+
+permissions:
+  contents: read
+
+jobs:
+  publish:
+    name: Publish preview to GitHub Pages
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Download preview
+        uses: actions/download-artifact@v4
+        with:
+          name: preview-1234
+          #github-token: ...
+          #run-id: ...
+      - name: Update GitHub Pages
+        run: |
+          git config user.name "Deploy from CI"
+          git config user.email ""
+          git worktree add --orphan -B gh-pages gh-pages
+          rm -rf gh-pages/pr-1234
+          mkdir gh-pages/pr-1234
+          unzip -n pr-1234.zip -d gh-pages/pr-1234
+          cd gh-pages
+          git add -A
+          git commit -m 'Preview pr-1234'
+          git push origin +gh-pages
+          cd ..
