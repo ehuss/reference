@@ -2,6 +2,8 @@ r[expr.placeholder]
 # `_` expressions
 
 r[expr.placeholder.syntax]
+{{ grammar UnderscoreExpression }}
+
 > **<sup>Syntax</sup>**\
 > _UnderscoreExpression_ :\
 > &nbsp;&nbsp; `_`

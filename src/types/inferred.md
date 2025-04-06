@@ -2,6 +2,8 @@ r[type.inferred]
 # Inferred type
 
 r[type.inferred.syntax]
+{{ grammar InferredType }}
+
 > **<sup>Syntax</sup>**\
 > _InferredType_ : `_`
 

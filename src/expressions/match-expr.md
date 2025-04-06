@@ -2,6 +2,8 @@ r[expr.match]
 # `match` expressions
 
 r[expr.match.syntax]
+{{ grammar MatchExpression Scrutinee MatchArms MatchArm MatchArmGuard }}
+
 > **<sup>Syntax</sup>**\
 > _MatchExpression_ :\
 > &nbsp;&nbsp; `match` _Scrutinee_ `{`\
@@ -9,7 +11,7 @@ r[expr.match.syntax]
 > &nbsp;&nbsp; &nbsp;&nbsp; _MatchArms_<sup>?</sup>\
 > &nbsp;&nbsp; `}`
 >
->_Scrutinee_ :\
+> _Scrutinee_ :\
 > &nbsp;&nbsp; [_Expression_]<sub>_except struct expression_</sub>
 >
 > _MatchArms_ :\

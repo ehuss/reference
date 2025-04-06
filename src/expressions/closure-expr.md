@@ -2,6 +2,8 @@ r[expr.closure]
 # Closure expressions
 
 r[expr.closure.syntax]
+{{ grammar ClosureExpression ClosureParameters ClosureParam }}
+
 > **<sup>Syntax</sup>**\
 > _ClosureExpression_ :\
 > &nbsp;&nbsp; `async`[^cl-async-edition]<sup>?</sup>\

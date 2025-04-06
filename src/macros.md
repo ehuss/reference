@@ -16,6 +16,8 @@ r[macro.invocation]
 ## Macro Invocation
 
 r[macro.invocation.syntax]
+{{ grammar MacroInvocation DelimTokenTree TokenTree MacroInvocationSemi }}
+
 > **<sup>Syntax</sup>**\
 > _MacroInvocation_ :\
 > &nbsp;&nbsp; [_SimplePath_] `!` _DelimTokenTree_

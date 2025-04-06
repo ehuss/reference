@@ -2,6 +2,8 @@ r[expr.range]
 # Range expressions
 
 r[expr.range.syntax]
+{{ grammar RangeExpression RangeExpr RangeFromExpr RangeToExpr RangeFullExpr RangeInclusiveExpr RangeToInclusiveExpr }}
+
 > **<sup>Syntax</sup>**\
 > _RangeExpression_ :\
 > &nbsp;&nbsp; &nbsp;&nbsp; _RangeExpr_\

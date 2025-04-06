@@ -2,6 +2,8 @@ r[expr.block]
 # Block expressions
 
 r[expr.block.syntax]
+{{ grammar BlockExpression Statements }}
+
 > **<sup>Syntax</sup>**\
 > _BlockExpression_ :\
 > &nbsp;&nbsp; `{`\
@@ -91,6 +93,8 @@ r[expr.block.async]
 ## `async` blocks
 
 r[expr.block.async.syntax]
+{{ grammar AsyncBlockExpression }}
+
 > **<sup>Syntax</sup>**\
 > _AsyncBlockExpression_ :\
 > &nbsp;&nbsp; `async` `move`<sup>?</sup> _BlockExpression_
@@ -158,6 +162,8 @@ r[expr.block.const]
 ## `const` blocks
 
 r[expr.block.const.syntax]
+{{ grammar ConstBlockExpression }}
+
 > **<sup>Syntax</sup>**\
 > _ConstBlockExpression_ :\
 > &nbsp;&nbsp; `const` _BlockExpression_
@@ -221,6 +227,8 @@ if false {
 
 r[expr.block.unsafe]
 ## `unsafe` blocks
+
+{{ grammar UnsafeBlockExpression }}
 
 > **<sup>Syntax</sup>**\
 > _UnsafeBlockExpression_ :\

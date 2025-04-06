@@ -2,6 +2,8 @@ r[items]
 # Items
 
 r[items.syntax]
+{{ grammar Item VisItem MacroItem }}
+
 > **<sup>Syntax:</sup>**\
 > _Item_:\
 > &nbsp;&nbsp; [_OuterAttribute_]<sup>\*</sup>\

@@ -2,6 +2,8 @@ r[expr.method]
 # Method-call expressions
 
 r[expr.method.syntax]
+{{ grammar MethodCallExpression }}
+
 > **<sup>Syntax</sup>**\
 > _MethodCallExpression_ :\
 > &nbsp;&nbsp; [_Expression_] `.` [_PathExprSegment_] `(`[_CallParams_]<sup>?</sup> `)`
@@ -89,6 +91,8 @@ r[expr.method.edition2021]
 
 > [!WARNING]
 > For [trait objects], if there is an inherent method of the same name as a trait method, it will give a compiler error when trying to call the method in a method call expression.
+{{ grammar }}
+
 > Instead, you can call the method using [disambiguating function call syntax], in which case it calls the trait method, not the inherent method.
 > There is no way to call the inherent method.
 > Just don't define inherent methods on trait objects with the same name as a trait method and you'll be fine.

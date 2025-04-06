@@ -2,6 +2,8 @@ r[items.mod]
 # Modules
 
 r[items.mod.syntax]
+{{ grammar Module }}
+
 > **<sup>Syntax:</sup>**\
 > _Module_ :\
 > &nbsp;&nbsp; &nbsp;&nbsp; `unsafe`<sup>?</sup> `mod` [IDENTIFIER] `;`\

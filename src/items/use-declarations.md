@@ -2,6 +2,8 @@ r[items.use]
 # Use declarations
 
 r[items.use.syntax]
+{{ grammar UseDeclaration UseTree }}
+
 > **<sup>Syntax:</sup>**\
 > _UseDeclaration_ :\
 > &nbsp;&nbsp; `use` _UseTree_ `;`

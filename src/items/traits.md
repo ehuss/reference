@@ -2,6 +2,8 @@ r[items.traits]
 # Traits
 
 r[items.traits.syntax]
+{{ grammar Trait }}
+
 > **<sup>Syntax</sup>**\
 > _Trait_ :\
 > &nbsp;&nbsp; `unsafe`<sup>?</sup> `trait` [IDENTIFIER]&nbsp;

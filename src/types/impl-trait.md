@@ -2,6 +2,8 @@ r[type.impl-trait]
 # Impl trait
 
 r[type.impl-trait.syntax]
+{{ grammar ImplTraitType ImplTraitTypeOneBound }}
+
 > **<sup>Syntax</sup>**\
 > _ImplTraitType_ : `impl` [_TypeParamBounds_]
 >

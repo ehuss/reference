@@ -2,6 +2,8 @@ r[items.generics]
 # Generic parameters
 
 r[items.generics.syntax]
+{{ grammar GenericParams GenericParam LifetimeParam TypeParam ConstParam }}
+
 > **<sup>Syntax</sup>**\
 > _GenericParams_ :\
 > &nbsp;&nbsp; &nbsp;&nbsp; `<` `>`\
@@ -17,7 +19,7 @@ r[items.generics.syntax]
 > &nbsp;&nbsp; [IDENTIFIER]&nbsp;( `:` [_TypeParamBounds_]<sup>?</sup> )<sup>?</sup> ( `=` [_Type_] )<sup>?</sup>
 >
 > _ConstParam_:\
-> &nbsp;&nbsp; `const` [IDENTIFIER] `:` [_Type_] ( `=` _[Block][block]_ | [IDENTIFIER] | -<sup>?</sup>[LITERAL] )<sup>?</sup>
+> &nbsp;&nbsp; `const` [IDENTIFIER] `:` [_Type_] ( `=` _[BlockExpression][block]_ | [IDENTIFIER] | `-`<sup>?</sup>[_LiteralExpression_][literal] )<sup>?</sup>
 
 r[items.generics.syntax.intro]
 [Functions], [type aliases], [structs], [enumerations], [unions], [traits], and
@@ -234,6 +236,8 @@ r[items.generics.where]
 ## Where clauses
 
 r[items.generics.where.syntax]
+{{ grammar WhereClause WhereClauseItem LifetimeWhereClauseItem TypeBoundWhereClauseItem }}
+
 > **<sup>Syntax</sup>**\
 > _WhereClause_ :\
 > &nbsp;&nbsp; `where` ( _WhereClauseItem_ `,` )<sup>\*</sup> _WhereClauseItem_ <sup>?</sup>

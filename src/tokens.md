@@ -1,6 +1,25 @@
 r[lex.token]
 # Tokens
 
+r[lex.token.syntax]
+{{ grammar Token }}
+
+> **<sup>Lexer</sup>**\
+> Token :\
+> &nbsp;&nbsp; &nbsp;&nbsp; IDENTIFIER_OR_KEYWORD\
+> &nbsp;&nbsp; | RAW_IDENTIFIER\
+> &nbsp;&nbsp; | CHAR_LITERAL\
+> &nbsp;&nbsp; | STRING_LITERAL\
+> &nbsp;&nbsp; | RAW_STRING_LITERAL\
+> &nbsp;&nbsp; | BYTE_LITERAL\
+> &nbsp;&nbsp; | BYTE_STRING_LITERAL\
+> &nbsp;&nbsp; | RAW_BYTE_STRING_LITERAL\
+> &nbsp;&nbsp; | C_STRING_LITERAL\
+> &nbsp;&nbsp; | RAW_C_STRING_LITERAL\
+> &nbsp;&nbsp; | INTEGER_LITERAL\
+> &nbsp;&nbsp; | FLOAT_LITERAL\
+> &nbsp;&nbsp; | LIFETIME_TOKEN
+
 r[lex.token.intro]
 Tokens are primitive productions in the grammar defined by regular
 (non-recursive) languages.  Rust source input can be broken down
@@ -97,6 +116,8 @@ r[lex.token.literal.literal.suffix.intro]
 A suffix is a sequence of characters following the primary part of a literal (without intervening whitespace), of the same form as a non-raw identifier or keyword.
 
 r[lex.token.literal.suffix.syntax]
+{{ grammar SUFFIX SUFFIX_NO_E }}
+
 > **<sup>Lexer</sup>**\
 > SUFFIX : IDENTIFIER_OR_KEYWORD\
 > SUFFIX_NO_E : SUFFIX <sub>_not beginning with `e` or `E`_</sub>
@@ -131,9 +152,11 @@ r[lex.token.literal.char]
 #### Character literals
 
 r[lex.token.literal.char.syntax]
+{{ grammar CHAR_LITERAL QUOTE_ESCAPE ASCII_ESCAPE UNICODE_ESCAPE }}
+
 > **<sup>Lexer</sup>**\
 > CHAR_LITERAL :\
-> &nbsp;&nbsp; `'` ( ~\[`'` `\` \\n \\r \\t] | QUOTE_ESCAPE | ASCII_ESCAPE | UNICODE_ESCAPE ) `'` SUFFIX<sup>?</sup>
+> &nbsp;&nbsp; `'` ( ~\[`'` `\` LF CR TAB] | QUOTE_ESCAPE | ASCII_ESCAPE | UNICODE_ESCAPE ) `'` SUFFIX<sup>?</sup>
 >
 > QUOTE_ESCAPE :\
 > &nbsp;&nbsp; `\'` | `\"`
@@ -154,10 +177,12 @@ r[lex.token.literal.str]
 #### String literals
 
 r[lex.token.literal.str.syntax]
+{{ grammar STRING_LITERAL STRING_CONTINUE }}
+
 > **<sup>Lexer</sup>**\
 > STRING_LITERAL :\
 > &nbsp;&nbsp; `"` (\
-> &nbsp;&nbsp; &nbsp;&nbsp; ~\[`"` `\` _IsolatedCR_]\
+> &nbsp;&nbsp; &nbsp;&nbsp; ~\[`"` `\` CR]\
 > &nbsp;&nbsp; &nbsp;&nbsp; | QUOTE_ESCAPE\
 > &nbsp;&nbsp; &nbsp;&nbsp; | ASCII_ESCAPE\
 > &nbsp;&nbsp; &nbsp;&nbsp; | UNICODE_ESCAPE\
@@ -165,7 +190,7 @@ r[lex.token.literal.str.syntax]
 > &nbsp;&nbsp; )<sup>\*</sup> `"` SUFFIX<sup>?</sup>
 >
 > STRING_CONTINUE :\
-> &nbsp;&nbsp; `\` _followed by_ \\n
+> &nbsp;&nbsp; `\` LF
 
 r[lex.token.literal.str.intro]
 A _string literal_ is a sequence of any Unicode characters enclosed within two
@@ -215,12 +240,14 @@ r[lex.token.literal.str-raw]
 #### Raw string literals
 
 r[lex.token.literal.str-raw.syntax]
+{{ grammar RAW_STRING_LITERAL RAW_STRING_CONTENT }}
+
 > **<sup>Lexer</sup>**\
 > RAW_STRING_LITERAL :\
 > &nbsp;&nbsp; `r` RAW_STRING_CONTENT SUFFIX<sup>?</sup>
 >
 > RAW_STRING_CONTENT :\
-> &nbsp;&nbsp; &nbsp;&nbsp; `"` ( ~ _IsolatedCR_ )<sup>* (non-greedy)</sup> `"`\
+> &nbsp;&nbsp; &nbsp;&nbsp; `"` ( ~ CR )<sup>* (non-greedy)</sup> `"`\
 > &nbsp;&nbsp; | `#` RAW_STRING_CONTENT `#`
 
 r[lex.token.literal.str-raw.intro]
@@ -257,12 +284,14 @@ r[lex.token.byte]
 #### Byte literals
 
 r[lex.token.byte.syntax]
+{{ grammar BYTE_LITERAL ASCII_FOR_CHAR BYTE_ESCAPE }}
+
 > **<sup>Lexer</sup>**\
 > BYTE_LITERAL :\
 > &nbsp;&nbsp; `b'` ( ASCII_FOR_CHAR | BYTE_ESCAPE )  `'` SUFFIX<sup>?</sup>
 >
 > ASCII_FOR_CHAR :\
-> &nbsp;&nbsp; _any ASCII (i.e. 0x00 to 0x7F), except_ `'`, `\`, \\n, \\r or \\t
+> &nbsp;&nbsp; \<any ASCII (i.e. 0x00 to 0x7F) except `'`, `\`, LF, CR, or TAB\>
 >
 > BYTE_ESCAPE :\
 > &nbsp;&nbsp; &nbsp;&nbsp; `\x` HEX_DIGIT HEX_DIGIT\
@@ -280,12 +309,14 @@ r[lex.token.str-byte]
 #### Byte string literals
 
 r[lex.token.str-byte.syntax]
+{{ grammar BYTE_STRING_LITERAL ASCII_FOR_STRING }}
+
 > **<sup>Lexer</sup>**\
 > BYTE_STRING_LITERAL :\
 > &nbsp;&nbsp; `b"` ( ASCII_FOR_STRING | BYTE_ESCAPE | STRING_CONTINUE )<sup>\*</sup> `"` SUFFIX<sup>?</sup>
 >
 > ASCII_FOR_STRING :\
-> &nbsp;&nbsp; _any ASCII (i.e 0x00 to 0x7F), except_ `"`, `\` _and IsolatedCR_
+> &nbsp;&nbsp; \<any ASCII (i.e 0x00 to 0x7F) except `"`, `\`, or CR\>
 
 r[lex.token.str-byte.intro]
 A non-raw _byte string literal_ is a sequence of ASCII characters and _escapes_,
@@ -328,6 +359,8 @@ r[lex.token.str-byte-raw]
 #### Raw byte string literals
 
 r[lex.token.str-byte-raw.syntax]
+{{ grammar RAW_BYTE_STRING_LITERAL RAW_BYTE_STRING_CONTENT ASCII_FOR_RAW }}
+
 > **<sup>Lexer</sup>**\
 > RAW_BYTE_STRING_LITERAL :\
 > &nbsp;&nbsp; `br` RAW_BYTE_STRING_CONTENT SUFFIX<sup>?</sup>
@@ -337,7 +370,7 @@ r[lex.token.str-byte-raw.syntax]
 > &nbsp;&nbsp; | `#` RAW_BYTE_STRING_CONTENT `#`
 >
 > ASCII_FOR_RAW :\
-> &nbsp;&nbsp; _any ASCII (i.e. 0x00 to 0x7F) except IsolatedCR_
+> &nbsp;&nbsp; \<any ASCII (i.e. 0x00 to 0x7F) except CR\>
 
 r[lex.token.str-byte-raw.intro]
 Raw byte string literals do not process any escapes. They start with the
@@ -374,10 +407,12 @@ r[lex.token.str-c]
 #### C string literals
 
 r[lex.token.str-c.syntax]
+{{ grammar C_STRING_LITERAL }}
+
 > **<sup>Lexer</sup>**\
 > C_STRING_LITERAL :\
 > &nbsp;&nbsp; `c"` (\
-> &nbsp;&nbsp; &nbsp;&nbsp; ~\[`"` `\` _IsolatedCR_ _NUL_]\
+> &nbsp;&nbsp; &nbsp;&nbsp; ~\[`"` `\` CR _NUL_]\
 > &nbsp;&nbsp; &nbsp;&nbsp; | BYTE_ESCAPE _except `\0` or `\x00`_\
 > &nbsp;&nbsp; &nbsp;&nbsp; | UNICODE_ESCAPE _except `\u{0}`, `\u{00}`, …, `\u{000000}`_\
 > &nbsp;&nbsp; &nbsp;&nbsp; | STRING_CONTINUE\
@@ -448,12 +483,14 @@ r[lex.token.str-c-raw]
 #### Raw C string literals
 
 r[lex.token.str-c-raw.syntax]
+{{ grammar RAW_C_STRING_LITERAL RAW_C_STRING_CONTENT }}
+
 > **<sup>Lexer</sup>**\
 > RAW_C_STRING_LITERAL :\
 > &nbsp;&nbsp; `cr` RAW_C_STRING_CONTENT SUFFIX<sup>?</sup>
 >
 > RAW_C_STRING_CONTENT :\
-> &nbsp;&nbsp; &nbsp;&nbsp; `"` ( ~ _IsolatedCR_ _NUL_ )<sup>* (non-greedy)</sup> `"`\
+> &nbsp;&nbsp; &nbsp;&nbsp; `"` ( ~\[CR NUL] )<sup>* (non-greedy)</sup> `"`\
 > &nbsp;&nbsp; | `#` RAW_C_STRING_CONTENT `#`
 
 r[lex.token.str-c-raw.intro]
@@ -498,6 +535,8 @@ r[lex.token.literal.int]
 #### Integer literals
 
 r[lex.token.literal.int.syntax]
+{{ grammar INTEGER_LITERAL DEC_LITERAL BIN_LITERAL OCT_LITERAL HEX_LITERAL BIN_DIGIT OCT_DIGIT DEC_DIGIT HEX_DIGIT }}
+
 > **<sup>Lexer</sup>**\
 > INTEGER_LITERAL :\
 > &nbsp;&nbsp; ( DEC_LITERAL | BIN_LITERAL | OCT_LITERAL | HEX_LITERAL )
@@ -599,6 +638,8 @@ r[lex.token.literal.int.tuple-field]
 #### Tuple index
 
 r[lex.token.literal.int.tuple-field.syntax]
+{{ grammar TUPLE_INDEX }}
+
 > **<sup>Lexer</sup>**\
 > TUPLE_INDEX: \
 > &nbsp;&nbsp; INTEGER_LITERAL
@@ -629,10 +670,12 @@ r[lex.token.literal.float]
 #### Floating-point literals
 
 r[lex.token.literal.float.syntax]
+{{ grammar FLOAT_LITERAL FLOAT_EXPONENT }}
+
 > **<sup>Lexer</sup>**\
 > FLOAT_LITERAL :\
 > &nbsp;&nbsp; &nbsp;&nbsp; DEC_LITERAL `.`
->   _(not immediately followed by `.`, `_` or an XID_Start character)_\
+>   _not immediately followed by `.`, `_` or an XID_Start character_\
 > &nbsp;&nbsp; | DEC_LITERAL `.` DEC_LITERAL SUFFIX_NO_E<sup>?</sup>\
 > &nbsp;&nbsp; | DEC_LITERAL (`.` DEC_LITERAL)<sup>?</sup> FLOAT_EXPONENT SUFFIX<sup>?</sup>
 >
@@ -685,17 +728,19 @@ Examples of floating-point literals which are not accepted as literal expression
 r[lex.token.literal.reserved]
 #### Reserved forms similar to number literals
 
+{{ grammar RESERVED_NUMBER }}
+
 > **<sup>Lexer</sup>**\
 > RESERVED_NUMBER :\
 > &nbsp;&nbsp; &nbsp;&nbsp; BIN_LITERAL \[`2`-`9`&ZeroWidthSpace;]\
 > &nbsp;&nbsp; | OCT_LITERAL \[`8`-`9`&ZeroWidthSpace;]\
 > &nbsp;&nbsp; | ( BIN_LITERAL | OCT_LITERAL | HEX_LITERAL ) `.` \
-> &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; _(not immediately followed by `.`, `_` or an XID_Start character)_\
+> &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; _not immediately followed by `.`, `_` or an XID_Start character_\
 > &nbsp;&nbsp; | ( BIN_LITERAL | OCT_LITERAL ) (`e`|`E`)\
-> &nbsp;&nbsp; | `0b` `_`<sup>\*</sup> _end of input or not BIN_DIGIT_\
-> &nbsp;&nbsp; | `0o` `_`<sup>\*</sup> _end of input or not OCT_DIGIT_\
-> &nbsp;&nbsp; | `0x` `_`<sup>\*</sup> _end of input or not HEX_DIGIT_\
-> &nbsp;&nbsp; | DEC_LITERAL ( . DEC_LITERAL)<sup>?</sup> (`e`|`E`) (`+`|`-`)<sup>?</sup> _end of input or not DEC_DIGIT_
+> &nbsp;&nbsp; | `0b` `_`<sup>\*</sup> \<end of input or not BIN_DIGIT\>\
+> &nbsp;&nbsp; | `0o` `_`<sup>\*</sup> \<end of input or not OCT_DIGIT\>\
+> &nbsp;&nbsp; | `0x` `_`<sup>\*</sup> \<end of input or not HEX_DIGIT\>\
+> &nbsp;&nbsp; | DEC_LITERAL ( . DEC_LITERAL)<sup>?</sup> (`e`|`E`) (`+`|`-`)<sup>?</sup> \<end of input or not DEC_DIGIT\>
 
 r[lex.token.literal.reserved.intro]
 The following lexical forms similar to number literals are _reserved forms_.
@@ -735,25 +780,27 @@ r[lex.token.life]
 ## Lifetimes and loop labels
 
 r[lex.token.life.syntax]
+{{ grammar LIFETIME_TOKEN LIFETIME_OR_LABEL RAW_LIFETIME RESERVED_RAW_LIFETIME }}
+
 > **<sup>Lexer</sup>**\
 > LIFETIME_TOKEN :\
 > &nbsp;&nbsp; &nbsp;&nbsp; `'` [IDENTIFIER_OR_KEYWORD][identifier]
->   _(not immediately followed by `'`)_\
+>   _not immediately followed by `'`_\
 > &nbsp;&nbsp; | `'_`
->   _(not immediately followed by `'`)_\
+>   _not immediately followed by `'`_\
 > &nbsp;&nbsp; | RAW_LIFETIME
 >
 > LIFETIME_OR_LABEL :\
 > &nbsp;&nbsp; &nbsp;&nbsp; `'` [NON_KEYWORD_IDENTIFIER][identifier]
->   _(not immediately followed by `'`)_\
+>   _not immediately followed by `'`_\
 > &nbsp;&nbsp; | RAW_LIFETIME
 >
 > RAW_LIFETIME :\
 > &nbsp;&nbsp; `'r#` [IDENTIFIER_OR_KEYWORD][identifier] <sub>*Except `crate`, `self`, `super`, `Self`*</sub>
->   _(not immediately followed by `'`)_
+>   _not immediately followed by `'`_
 >
 > RESERVED_RAW_LIFETIME : `'r#_`
->   _(not immediately followed by `'`)_
+>   _not immediately followed by `'`_
 
 r[lex.token.life.intro]
 Lifetime parameters and [loop labels] use LIFETIME_OR_LABEL tokens. Any
@@ -847,11 +894,13 @@ r[lex.token.reserved-prefix]
 ## Reserved prefixes
 
 r[lex.token.reserved-prefix.syntax]
+{{ grammar RESERVED_TOKEN_DOUBLE_QUOTE RESERVED_TOKEN_SINGLE_QUOTE RESERVED_TOKEN_POUND RESERVED_TOKEN_LIFETIME }}
+
 > **<sup>Lexer 2021+</sup>**\
-> RESERVED_TOKEN_DOUBLE_QUOTE : ( IDENTIFIER_OR_KEYWORD <sub>_Except `b` or `c` or `r` or `br` or `cr`_</sub> | `_` ) `"`\
-> RESERVED_TOKEN_SINGLE_QUOTE : ( IDENTIFIER_OR_KEYWORD <sub>_Except `b`_</sub> | `_` ) `'`\
-> RESERVED_TOKEN_POUND : ( IDENTIFIER_OR_KEYWORD <sub>_Except `r` or `br` or `cr`_</sub> | `_` ) `#`\
-> RESERVED_TOKEN_LIFETIME : `'` (IDENTIFIER_OR_KEYWORD <sub>_Except `r`_</sub> | _) `#`
+> RESERVED_TOKEN_DOUBLE_QUOTE : ( IDENTIFIER_OR_KEYWORD <sub>_except `b` or `c` or `r` or `br` or `cr`_</sub> | `_` ) `"`\
+> RESERVED_TOKEN_SINGLE_QUOTE : ( IDENTIFIER_OR_KEYWORD <sub>_except `b`_</sub> | `_` ) `'`\
+> RESERVED_TOKEN_POUND : ( IDENTIFIER_OR_KEYWORD <sub>_except `r` or `br` or `cr`_</sub> | `_` ) `#`\
+> RESERVED_TOKEN_LIFETIME : `'` ( IDENTIFIER_OR_KEYWORD <sub>_except `r`_</sub> | `_` ) `#`
 
 r[lex.token.reserved-prefix.intro]
 Some lexical forms known as _reserved prefixes_ are reserved for future use.
@@ -897,6 +946,8 @@ r[lex.token.reserved-guards]
 ## Reserved guards
 
 r[lex.token.reserved-guards.syntax]
+{{ grammar RESERVED_GUARDED_STRING_LITERAL RESERVED_POUNDS }}
+
 > **<sup>Lexer 2024+</sup>**\
 > RESERVED_GUARDED_STRING_LITERAL : `#`<sup>+</sup> [STRING_LITERAL]\
 > RESERVED_POUNDS : `#`<sup>2..</sup>

@@ -2,6 +2,8 @@ r[items.extern-crate]
 # Extern crate declarations
 
 r[items.extern-crate.syntax]
+{{ grammar ExternCrate CrateRef AsClause }}
+
 > **<sup>Syntax:</sup>**\
 > _ExternCrate_ :\
 > &nbsp;&nbsp; `extern` `crate` _CrateRef_ _AsClause_<sup>?</sup> `;`

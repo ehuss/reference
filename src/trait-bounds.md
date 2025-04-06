@@ -2,6 +2,8 @@ r[bound]
 # Trait and lifetime bounds
 
 r[bound.syntax]
+{{ grammar TypeParamBounds TypeParamBound TraitBound LifetimeBounds Lifetime UseBound UseBoundGenericArgs UseBoundGenericArg }}
+
 > **<sup>Syntax</sup>**\
 > _TypeParamBounds_ :\
 > &nbsp;&nbsp; _TypeParamBound_ ( `+` _TypeParamBound_ )<sup>\*</sup> `+`<sup>?</sup>
@@ -148,6 +150,9 @@ r[bound.higher-ranked]
 ## Higher-ranked trait bounds
 
 r[bound.higher-ranked.syntax]
+{{ grammar ForLifetimes }}
+
+> **<sup>Syntax</sup>**\
 > _ForLifetimes_ :\
 > &nbsp;&nbsp; `for` [_GenericParams_]
 

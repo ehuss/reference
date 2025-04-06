@@ -551,3 +551,11 @@ main > .rule {
     z-index: 1000;
     padding: 1rem;
 }
+
+.grammar {
+    font-family: var(--mono-font);
+}
+
+.grammar-prose {
+    font-family: "Open Sans", sans-serif;
+}

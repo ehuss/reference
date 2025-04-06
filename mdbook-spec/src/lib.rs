@@ -14,6 +14,7 @@ use std::io;
 use std::ops::Range;
 use std::path::PathBuf;
 
+pub mod grammar;
 mod rules;
 mod std_links;
 mod test_links;
@@ -61,7 +62,7 @@ pub struct Diagnostics {
 }
 
 impl Diagnostics {
-    fn new() -> Diagnostics {
+    pub fn new() -> Diagnostics {
         let deny_warnings = std::env::var("SPEC_DENY_WARNINGS").as_deref() == Ok("1");
         Diagnostics {
             deny_warnings,
@@ -268,6 +269,7 @@ impl Preprocessor for Spec {
         if diag.deny_warnings && self.rust_root.is_none() {
             bail!("error: SPEC_RUST_ROOT environment variable must be set");
         }
+        let grammar = grammar::load_grammar(&mut diag);
         let rules = self.collect_rules(&book, &mut diag);
         let tests = self.collect_tests(&rules);
         let summary_table = test_links::make_summary_table(&book, &tests, &rules);
@@ -278,6 +280,10 @@ impl Preprocessor for Spec {
                 "master".into()
             }
         };
+
+        // Map of GrammarName -> Path of page where it is defined
+        // This is used to help generate links to the productions.
+        let grammar_map = grammar::collect_grammar_paths(&book, &grammar, &mut diag);
 
         book.for_each_mut(|item| {
             let BookItem::Chapter(ch) = item else {
@@ -293,6 +299,7 @@ impl Preprocessor for Spec {
             if ch.name == "Test summary" {
                 ch.content = ch.content.replace("{{summary-table}}", &summary_table);
             }
+            ch.content = grammar::insert_grammar(&grammar, &ch, &grammar_map, &mut diag);
         });
 
         // Final pass will resolve everything as a std link (or error if the

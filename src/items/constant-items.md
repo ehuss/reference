@@ -2,6 +2,8 @@ r[items.const]
 # Constant items
 
 r[items.const.syntax]
+{{ grammar ConstantItem }}
+
 > **<sup>Syntax</sup>**\
 > _ConstantItem_ :\
 > &nbsp;&nbsp; `const` ( [IDENTIFIER] | `_` ) `:` [_Type_] ( `=` [_Expression_] )<sup>?</sup> `;`

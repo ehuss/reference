@@ -2,6 +2,8 @@ r[expr.struct]
 # Struct expressions
 
 r[expr.struct.syntax]
+{{ grammar StructExpression StructExprStruct StructExprFields StructExprField StructBase StructExprTuple StructExprUnit }}
+
 > **<sup>Syntax</sup>**\
 > _StructExpression_ :\
 > &nbsp;&nbsp; &nbsp;&nbsp; _StructExprStruct_\

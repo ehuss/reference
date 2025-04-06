@@ -9,6 +9,8 @@ r[type.pointer.reference]
 ## References (`&` and `&mut`)
 
 r[type.pointer.reference.syntax]
+{{ grammar ReferenceType }}
+
 > **<sup>Syntax</sup>**\
 > _ReferenceType_ :\
 > &nbsp;&nbsp; `&` [_Lifetime_]<sup>?</sup> `mut`<sup>?</sup> [_TypeNoBounds_]
@@ -44,6 +46,8 @@ r[type.pointer.raw]
 ## Raw pointers (`*const` and `*mut`)
 
 r[type.pointer.raw.syntax]
+{{ grammar RawPointerType }}
+
 > **<sup>Syntax</sup>**\
 > _RawPointerType_ :\
 > &nbsp;&nbsp; `*` ( `mut` | `const` ) [_TypeNoBounds_]

@@ -2,6 +2,8 @@ r[expr.literal]
 # Literal expressions
 
 r[expr.literal.syntax]
+{{ grammar LiteralExpression }}
+
 > **<sup>Syntax</sup>**\
 > _LiteralExpression_ :\
 > &nbsp;&nbsp; &nbsp;&nbsp; [CHAR_LITERAL]\

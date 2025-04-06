@@ -2,6 +2,8 @@ r[expr.field]
 # Field access expressions
 
 r[expr.field.syntax]
+{{ grammar FieldExpression }}
+
 > **<sup>Syntax</sup>**\
 > _FieldExpression_ :\
 > &nbsp;&nbsp; [_Expression_] `.` [IDENTIFIER]

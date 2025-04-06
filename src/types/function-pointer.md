@@ -2,6 +2,8 @@ r[type.fn-pointer]
 # Function pointer types
 
 r[type.fn-pointer.syntax]
+{{ grammar BareFunctionType FunctionTypeQualifiers BareFunctionReturnType FunctionParametersMaybeNamedVariadic MaybeNamedFunctionParameters MaybeNamedParam MaybeNamedFunctionParametersVariadic }}
+
 > **<sup>Syntax</sup>**\
 > _BareFunctionType_ :\
 > &nbsp;&nbsp; [_ForLifetimes_]<sup>?</sup> _FunctionTypeQualifiers_ `fn`\

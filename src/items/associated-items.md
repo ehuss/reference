@@ -2,6 +2,8 @@ r[items.associated]
 # Associated Items
 
 r[items.associated.syntax]
+{{ grammar AssociatedItem }}
+
 > **<sup>Syntax</sup>**\
 > _AssociatedItem_ :\
 > &nbsp;&nbsp; [_OuterAttribute_]<sup>\*</sup> (\

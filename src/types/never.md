@@ -2,6 +2,8 @@ r[type.never]
 # Never type
 
 r[type.never.syntax]
+{{ grammar NeverType }}
+
 > **<sup>Syntax</sup>**\
 > _NeverType_ : `!`
 

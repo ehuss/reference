@@ -2,6 +2,8 @@ r[items.union]
 # Unions
 
 r[items.union.syntax]
+{{ grammar Union }}
+
 > **<sup>Syntax</sup>**\
 > _Union_ :\
 > &nbsp;&nbsp; `union` [IDENTIFIER]&nbsp;[_GenericParams_]<sup>?</sup> [_WhereClause_]<sup>?</sup>

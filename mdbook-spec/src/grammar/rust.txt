@@ -1,0 +1,1003 @@
+Visibility ->
+      `pub`
+    | `pub` `(` `crate` `)`
+    | `pub` `(` `self` `)`
+    | `pub` `(` `super` `)`
+    | `pub` `(` `in` SimplePath `)`
+
+MacroInvocation ->
+    SimplePath `!` DelimTokenTree
+
+DelimTokenTree ->
+      `(` TokenTree* `)`
+    | `[` TokenTree* `]`
+    | `{` TokenTree* `}`
+
+TokenTree ->
+    Token | DelimTokenTree
+
+MacroInvocationSemi ->
+      SimplePath `!` `(` TokenTree* `)` `;`
+    | SimplePath `!` `[` TokenTree* `]` `;`
+    | SimplePath `!` `{` TokenTree* `}`
+
+Statement ->
+      `;`
+    | Item
+    | LetStatement
+    | ExpressionStatement
+    | MacroInvocationSemi
+
+LetStatement ->
+    OuterAttribute* `let` PatternNoTopAlt
+    ( `:` Type )? (`=` Expression
+    ( `else` BlockExpression) ? ) ? `;`
+
+ExpressionStatement ->
+      ExpressionWithoutBlock `;`
+    | ExpressionWithBlock `;`?
+
+Type ->
+      TypeNoBounds
+    | ImplTraitType
+    | TraitObjectType
+
+TypeNoBounds ->
+      ParenthesizedType
+    | ImplTraitTypeOneBound
+    | TraitObjectTypeOneBound
+    | TypePath
+    | TupleType
+    | NeverType
+    | RawPointerType
+    | ReferenceType
+    | ArrayType
+    | SliceType
+    | InferredType
+    | QualifiedPathInType
+    | BareFunctionType
+    | MacroInvocation
+
+ParenthesizedType ->
+    `(` Type `)`
+
+MacroRulesDefinition ->
+    `macro_rules` `!` IDENTIFIER MacroRulesDef
+
+MacroRulesDef ->
+      `(` MacroRules `)` `;`
+    | `[` MacroRules `]` `;`
+    | `{` MacroRules `}`
+
+MacroRules ->
+    MacroRule ( `;` MacroRule )* `;`?
+
+MacroRule ->
+    MacroMatcher `=>` MacroTranscriber
+
+MacroMatcher ->
+      `(` MacroMatch* `)`
+    | `[` MacroMatch* `]`
+    | `{` MacroMatch* `}`
+
+MacroMatch ->
+      Token
+    | MacroMatcher
+    | `$` ( IDENTIFIER_OR_KEYWORD  | RAW_IDENTIFIER | `_` ) `:` MacroFragSpec
+    | `$` `(` MacroMatch+ `)` MacroRepSep? MacroRepOp
+
+MacroFragSpec ->
+      `block` | `expr` | `expr_2021` | `ident` | `item` | `lifetime` | `literal`
+    | `meta` | `pat` | `pat_param` | `path` | `stmt` | `tt` | `ty` | `vis`
+
+MacroRepSep ->
+    Token
+
+MacroRepOp ->
+    `*` | `+` | `?`
+
+MacroTranscriber ->
+    DelimTokenTree
+
+Item ->
+    OuterAttribute* ( VisItem | MacroItem )
+
+VisItem ->
+    Visibility?
+    (
+        Module
+      | ExternCrate
+      | UseDeclaration
+      | Function
+      | TypeAlias
+      | Struct
+      | Enumeration
+      | Union
+      | ConstantItem
+      | StaticItem
+      | Trait
+      | Implementation
+      | ExternBlock
+    )
+
+MacroItem ->
+      MacroInvocationSemi
+    | MacroRulesDefinition
+
+Expression ->
+      ExpressionWithoutBlock
+    | ExpressionWithBlock
+
+ExpressionWithoutBlock ->
+    OuterAttribute*
+    (
+        LiteralExpression
+      | PathExpression
+      | OperatorExpression
+      | GroupedExpression
+      | ArrayExpression
+      | AwaitExpression
+      | IndexExpression
+      | TupleExpression
+      | TupleIndexingExpression
+      | StructExpression
+      | CallExpression
+      | MethodCallExpression
+      | FieldExpression
+      | ClosureExpression
+      | AsyncBlockExpression
+      | ContinueExpression
+      | BreakExpression
+      | RangeExpression
+      | ReturnExpression
+      | UnderscoreExpression
+      | MacroInvocation
+    )
+
+ExpressionWithBlock ->
+    OuterAttribute*
+    (
+        BlockExpression
+      | ConstBlockExpression
+      | UnsafeBlockExpression
+      | LoopExpression
+      | IfExpression
+      | IfLetExpression
+      | MatchExpression
+    )
+
+ConfigurationPredicate ->
+      ConfigurationOption
+    | ConfigurationAll
+    | ConfigurationAny
+    | ConfigurationNot
+
+ConfigurationOption ->
+    IDENTIFIER ( `=` ( STRING_LITERAL | RAW_STRING_LITERAL ) )?
+
+ConfigurationAll ->
+    `all` `(` ConfigurationPredicateList? `)`
+
+ConfigurationAny ->
+    `any` `(` ConfigurationPredicateList? `)`
+
+ConfigurationNot ->
+    `not` `(` ConfigurationPredicate `)`
+
+ConfigurationPredicateList ->
+    ConfigurationPredicate (`,` ConfigurationPredicate)* `,`?
+
+CfgAttribute ->
+    `cfg` `(` ConfigurationPredicate `)`
+
+CfgAttrAttribute ->
+    `cfg_attr` `(` ConfigurationPredicate `,` CfgAttrs? `)`
+
+CfgAttrs ->
+    Attr (`,` Attr)* `,`?
+
+Enumeration ->
+    `enum`
+    IDENTIFIER
+    GenericParams?
+    WhereClause?
+    `{` EnumItems? `}`
+
+EnumItems ->
+    EnumItem ( `,` EnumItem )* `,`?
+
+EnumItem ->
+    OuterAttribute* Visibility?
+    IDENTIFIER ( EnumItemTuple | EnumItemStruct )?
+                               EnumItemDiscriminant?
+
+EnumItemTuple ->
+    `(` TupleFields? `)`
+
+EnumItemStruct ->
+    `{` StructFields? `}`
+
+EnumItemDiscriminant ->
+    `=` Expression
+
+LoopExpression ->
+    LoopLabel? (
+        InfiniteLoopExpression
+      | PredicateLoopExpression
+      | PredicatePatternLoopExpression
+      | IteratorLoopExpression
+      | LabelBlockExpression
+    )
+
+InfiniteLoopExpression ->
+    `loop` BlockExpression
+
+PredicateLoopExpression ->
+    `while` Expression BlockExpression
+
+PredicatePatternLoopExpression ->
+    `while` `let` Pattern `=` Scrutinee
+             BlockExpression
+
+IteratorLoopExpression ->
+    `for` Pattern `in` Expression
+             BlockExpression
+
+LoopLabel ->
+    LIFETIME_OR_LABEL `:`
+
+BreakExpression ->
+    `break` LIFETIME_OR_LABEL? Expression?
+
+LabelBlockExpression ->
+    BlockExpression
+
+ContinueExpression ->
+    `continue` LIFETIME_OR_LABEL?
+
+TypeAlias ->
+    `type` IDENTIFIER GenericParams?
+             ( `:` TypeParamBounds )?
+             WhereClause? ( `=` Type WhereClause?)? `;`
+
+LiteralExpression ->
+      CHAR_LITERAL
+    | STRING_LITERAL
+    | RAW_STRING_LITERAL
+    | BYTE_LITERAL
+    | BYTE_STRING_LITERAL
+    | RAW_BYTE_STRING_LITERAL
+    | C_STRING_LITERAL
+    | RAW_C_STRING_LITERAL
+    | INTEGER_LITERAL
+    | FLOAT_LITERAL
+    | `true` | `false`
+
+NeverType ->
+    `!`
+
+ConstantItem ->
+    `const` ( IDENTIFIER | `_` ) `:` Type ( `=` Expression )? `;`
+
+AwaitExpression ->
+    Expression `.` `await`
+
+ReturnExpression ->
+    `return` Expression?
+
+StaticItem ->
+    ItemSafety? `static` `mut`? IDENTIFIER `:` Type
+             ( `=` Expression )? `;`
+
+BareFunctionType ->
+    ForLifetimes? FunctionTypeQualifiers `fn`
+       `(` FunctionParametersMaybeNamedVariadic? `)` BareFunctionReturnType?
+
+FunctionTypeQualifiers ->
+    `unsafe`? (`extern` Abi?)?
+
+BareFunctionReturnType ->
+    `->` TypeNoBounds
+
+FunctionParametersMaybeNamedVariadic ->
+    MaybeNamedFunctionParameters | MaybeNamedFunctionParametersVariadic
+
+MaybeNamedFunctionParameters ->
+    MaybeNamedParam ( `,` MaybeNamedParam )* `,`?
+
+MaybeNamedParam ->
+    OuterAttribute* ( ( IDENTIFIER | `_` ) `:` )? Type
+
+MaybeNamedFunctionParametersVariadic ->
+    ( MaybeNamedParam `,` )* MaybeNamedParam `,` OuterAttribute* `...`
+
+MatchExpression ->
+    `match` Scrutinee `{`
+        InnerAttribute*
+        MatchArms?
+    `}`
+
+Scrutinee ->
+    Expression
+
+MatchArms ->
+    ( MatchArm `=>` ( ExpressionWithoutBlock `,` | ExpressionWithBlock `,`? ) )*
+    MatchArm `=>` Expression `,`?
+
+MatchArm ->
+    OuterAttribute* Pattern MatchArmGuard?
+
+MatchArmGuard ->
+    `if` Expression
+
+ExternCrate ->
+    `extern` `crate` CrateRef AsClause? `;`
+
+CrateRef ->
+    IDENTIFIER | `self`
+
+AsClause ->
+    `as` ( IDENTIFIER | `_` )
+
+CallExpression ->
+    Expression `(` CallParams? `)`
+
+CallParams ->
+    Expression ( `,` Expression )* `,`?
+
+InferredType ->
+    `_`
+
+OperatorExpression ->
+      BorrowExpression
+    | DereferenceExpression
+    | ErrorPropagationExpression
+    | NegationExpression
+    | ArithmeticOrLogicalExpression
+    | ComparisonExpression
+    | LazyBooleanExpression
+    | TypeCastExpression
+    | AssignmentExpression
+    | CompoundAssignmentExpression
+
+BorrowExpression ->
+      (`&`|`&&`) Expression
+    | (`&`|`&&`) `mut` Expression
+    | (`&`|`&&`) `raw` `const` Expression
+    | (`&`|`&&`) `raw` `mut` Expression
+
+DereferenceExpression ->
+    `*` Expression
+
+ErrorPropagationExpression ->
+    Expression `?`
+
+NegationExpression ->
+      `-` Expression
+    | `!` Expression
+
+ArithmeticOrLogicalExpression ->
+      Expression `+` Expression
+    | Expression `-` Expression
+    | Expression `*` Expression
+    | Expression `/` Expression
+    | Expression `%` Expression
+    | Expression `&` Expression
+    | Expression `|` Expression
+    | Expression `^` Expression
+    | Expression `<<` Expression
+    | Expression `>>` Expression
+
+ComparisonExpression ->
+      Expression `==` Expression
+    | Expression `!=` Expression
+    | Expression `>` Expression
+    | Expression `<` Expression
+    | Expression `>=` Expression
+    | Expression `<=` Expression
+
+LazyBooleanExpression ->
+      Expression `||` Expression
+    | Expression `&&` Expression
+
+TypeCastExpression ->
+    Expression `as` TypeNoBounds
+
+AssignmentExpression ->
+    Expression `=` Expression
+
+CompoundAssignmentExpression ->
+      Expression `+=` Expression
+    | Expression `-=` Expression
+    | Expression `*=` Expression
+    | Expression `/=` Expression
+    | Expression `%=` Expression
+    | Expression `&=` Expression
+    | Expression `|=` Expression
+    | Expression `^=` Expression
+    | Expression `<<=` Expression
+    | Expression `>>=` Expression
+
+TypeParamBounds ->
+    TypeParamBound ( `+` TypeParamBound )* `+`?
+
+TypeParamBound ->
+      Lifetime | TraitBound | UseBound
+
+TraitBound ->
+       ( `?` | ForLifetimes )? TypePath
+    | `(` ( `?` | ForLifetimes )? TypePath `)`
+
+LifetimeBounds ->
+    ( Lifetime `+` )* Lifetime?
+
+Lifetime ->
+      LIFETIME_OR_LABEL
+    | `'static`
+    | `'_`
+
+UseBound ->
+    `use` UseBoundGenericArgs
+
+UseBoundGenericArgs ->
+      `<` `>`
+    | `<` ( UseBoundGenericArg `,`)* UseBoundGenericArg `,`? `>`
+
+UseBoundGenericArg ->
+      Lifetime
+    | IDENTIFIER
+    | `Self`
+
+ForLifetimes ->
+    `for` GenericParams
+
+ClosureExpression ->
+    `async`?
+    `move`?
+    ( `||` | `|` ClosureParameters? `|` )
+    (Expression | `->` TypeNoBounds BlockExpression)
+
+ClosureParameters ->
+    ClosureParam (`,` ClosureParam)* `,`?
+
+ClosureParam ->
+    OuterAttribute* PatternNoTopAlt ( `:` Type )?
+
+ArrayType ->
+    `[` Type `;` Expression `]`
+
+Function ->
+    FunctionQualifiers `fn` IDENTIFIER GenericParams?
+        `(` FunctionParameters? `)`
+        FunctionReturnType? WhereClause?
+        ( BlockExpression | `;` )
+
+FunctionQualifiers ->
+    `const`? `async`? ItemSafety? (`extern` Abi?)?
+
+ItemSafety ->
+    `safe` | `unsafe`
+
+Abi ->
+    STRING_LITERAL | RAW_STRING_LITERAL
+
+FunctionParameters ->
+      SelfParam `,`?
+    | (SelfParam `,`)? FunctionParam (`,` FunctionParam)* `,`?
+
+SelfParam ->
+    OuterAttribute* ( ShorthandSelf | TypedSelf )
+
+ShorthandSelf ->
+    (`&` | `&` Lifetime)? `mut`? `self`
+
+TypedSelf ->
+    `mut`? `self` `:` Type
+
+FunctionParam ->
+    OuterAttribute* ( FunctionParamPattern | `...` | Type )
+
+FunctionParamPattern ->
+    PatternNoTopAlt `:` ( Type | `...` )
+
+FunctionReturnType ->
+    `->` Type
+
+TupleType ->
+      `(` `)`
+    | `(` ( Type `,` )+ Type? `)`
+
+Crate ->
+    InnerAttribute*
+    Item*
+
+MethodCallExpression ->
+    Expression `.` PathExprSegment `(`CallParams? `)`
+
+ReferenceType ->
+    `&` Lifetime? `mut`? TypeNoBounds
+
+RawPointerType ->
+    `*` ( `mut` | `const` ) TypeNoBounds
+
+UseDeclaration ->
+    `use` UseTree `;`
+
+UseTree ->
+      (SimplePath? `::`)? `*`
+    | (SimplePath? `::`)? `{` (UseTree ( `,`  UseTree )* `,`?)? `}`
+    | SimplePath ( `as` ( IDENTIFIER | `_` ) )?
+
+ImplTraitType ->
+    `impl` TypeParamBounds
+
+ImplTraitTypeOneBound ->
+    `impl` TraitBound
+
+FieldExpression ->
+    Expression `.` IDENTIFIER
+
+Module ->
+      `unsafe`? `mod` IDENTIFIER `;`
+    | `unsafe`? `mod` IDENTIFIER `{`
+        InnerAttribute*
+        Item*
+      `}`
+
+SliceType ->
+    `[` Type `]`
+
+ArrayExpression ->
+    `[` ArrayElements? `]`
+
+ArrayElements ->
+      Expression ( `,` Expression )* `,`?
+    | Expression `;` Expression
+
+IndexExpression ->
+    Expression `[` Expression `]`
+
+TraitObjectType ->
+    `dyn`? TypeParamBounds
+
+TraitObjectTypeOneBound ->
+    `dyn`? TraitBound
+
+ExternBlock ->
+    `unsafe`? `extern` Abi? `{`
+      InnerAttribute*
+      ExternalItem*
+    `}`
+
+ExternalItem ->
+    OuterAttribute* (
+         MacroInvocationSemi
+      | ( Visibility? ( StaticItem | Function ) )
+    )
+
+InnerAttribute ->
+    `#` `!` `[` Attr `]`
+
+OuterAttribute ->
+    `#` `[` Attr `]`
+
+Attr ->
+      SimplePath AttrInput?
+    | `unsafe` `(` SimplePath AttrInput? `)`
+
+AttrInput ->
+      DelimTokenTree
+    | `=` Expression
+
+MetaItem ->
+      SimplePath
+    | SimplePath `=` Expression
+    | SimplePath `(` MetaSeq? `)`
+
+MetaSeq ->
+    MetaItemInner ( `,` MetaItemInner )* `,`?
+
+MetaItemInner ->
+      MetaItem
+    | Expression
+
+MetaWord ->
+    IDENTIFIER
+
+MetaNameValueStr ->
+    IDENTIFIER `=` (STRING_LITERAL | RAW_STRING_LITERAL)
+
+MetaListPaths ->
+    IDENTIFIER `(` ( SimplePath (`,` SimplePath)* `,`? )? `)`
+
+MetaListIdents ->
+    IDENTIFIER `(` ( IDENTIFIER (`,` IDENTIFIER)* `,`? )? `)`
+
+MetaListNameValueStr ->
+    IDENTIFIER `(` ( MetaNameValueStr (`,` MetaNameValueStr)* `,`? )? `)`
+
+UnderscoreExpression ->
+    `_`
+
+Pattern ->
+    `|`? PatternNoTopAlt  ( `|` PatternNoTopAlt )*
+
+PatternNoTopAlt ->
+     PatternWithoutRange
+    | RangePattern
+
+PatternWithoutRange ->
+     LiteralPattern
+    | IdentifierPattern
+    | WildcardPattern
+    | RestPattern
+    | ReferencePattern
+    | StructPattern
+    | TupleStructPattern
+    | TuplePattern
+    | GroupedPattern
+    | SlicePattern
+    | PathPattern
+    | MacroInvocation
+
+LiteralPattern ->
+      `true` | `false`
+    | CHAR_LITERAL
+    | BYTE_LITERAL
+    | STRING_LITERAL
+    | RAW_STRING_LITERAL
+    | BYTE_STRING_LITERAL
+    | RAW_BYTE_STRING_LITERAL
+    | C_STRING_LITERAL
+    | RAW_C_STRING_LITERAL
+    | `-`? INTEGER_LITERAL
+    | `-`? FLOAT_LITERAL
+
+IdentifierPattern ->
+      `ref`? `mut`? IDENTIFIER (`@` PatternNoTopAlt ) ?
+
+WildcardPattern ->
+    `_`
+
+RestPattern ->
+    `..`
+
+RangePattern ->
+      RangeExclusivePattern
+    | RangeInclusivePattern
+    | RangeFromPattern
+    | RangeToExclusivePattern
+    | RangeToInclusivePattern
+    | ObsoleteRangePattern
+
+RangeExclusivePattern ->
+      RangePatternBound `..` RangePatternBound
+
+RangeInclusivePattern ->
+      RangePatternBound `..=` RangePatternBound
+
+RangeFromPattern ->
+      RangePatternBound `..`
+
+RangeToExclusivePattern ->
+      `..` RangePatternBound
+
+RangeToInclusivePattern ->
+      `..=` RangePatternBound
+
+ObsoleteRangePattern ->
+    RangePatternBound `...` RangePatternBound
+
+RangePatternBound ->
+      CHAR_LITERAL
+    | BYTE_LITERAL
+    | `-`? INTEGER_LITERAL
+    | `-`? FLOAT_LITERAL
+    | PathExpression
+
+ReferencePattern ->
+    (`&`|`&&`) `mut`? PatternWithoutRange
+
+StructPattern ->
+    PathInExpression `{`
+      StructPatternElements ?
+    `}`
+
+StructPatternElements ->
+      StructPatternFields (`,` | `,` StructPatternEtCetera)?
+    | StructPatternEtCetera
+
+StructPatternFields ->
+    StructPatternField (`,` StructPatternField) *
+
+StructPatternField ->
+    OuterAttribute *
+    (
+         TUPLE_INDEX `:` Pattern
+      | IDENTIFIER `:` Pattern
+      | `ref`? `mut`? IDENTIFIER
+    )
+
+StructPatternEtCetera ->
+    `..`
+
+TupleStructPattern ->
+    PathInExpression `(` TupleStructItems? `)`
+
+TupleStructItems ->
+    Pattern ( `,` Pattern )* `,`?
+
+TuplePattern ->
+    `(` TuplePatternItems? `)`
+
+TuplePatternItems ->
+      Pattern `,`
+    | RestPattern
+    | Pattern (`,` Pattern)+ `,`?
+
+GroupedPattern ->
+    `(` Pattern `)`
+
+SlicePattern ->
+    `[` SlicePatternItems? `]`
+
+SlicePatternItems ->
+    Pattern (`,` Pattern)* `,`?
+
+PathPattern ->
+      PathExpression
+
+RangeExpression ->
+      RangeExpr
+    | RangeFromExpr
+    | RangeToExpr
+    | RangeFullExpr
+    | RangeInclusiveExpr
+    | RangeToInclusiveExpr
+
+RangeExpr ->
+    Expression `..` Expression
+
+RangeFromExpr ->
+    Expression `..`
+
+RangeToExpr ->
+    `..` Expression
+
+RangeFullExpr ->
+    `..`
+
+RangeInclusiveExpr ->
+    Expression `..=` Expression
+
+RangeToInclusiveExpr ->
+    `..=` Expression
+
+Implementation ->
+    InherentImpl | TraitImpl
+
+InherentImpl ->
+    `impl` GenericParams? Type WhereClause? `{`
+      InnerAttribute*
+      AssociatedItem*
+    `}`
+
+TraitImpl ->
+    `unsafe`? `impl` GenericParams? `!`?
+             TypePath `for` Type
+    WhereClause?
+    `{`
+      InnerAttribute*
+      AssociatedItem*
+    `}`
+
+TupleExpression ->
+    `(` TupleElements? `)`
+
+TupleElements ->
+    ( Expression `,` )+ Expression?
+
+TupleIndexingExpression ->
+    Expression `.` TUPLE_INDEX
+
+IfExpression ->
+    `if` Expression BlockExpression
+    (`else` ( BlockExpression | IfExpression | IfLetExpression ) )?
+
+IfLetExpression ->
+    `if` `let` Pattern `=` Scrutinee BlockExpression
+    (`else` ( BlockExpression | IfExpression | IfLetExpression ) )?
+
+BlockExpression ->
+    `{`
+        InnerAttribute*
+        Statements?
+    `}`
+
+Statements ->
+      Statement+
+    | Statement+ ExpressionWithoutBlock
+    | ExpressionWithoutBlock
+
+AsyncBlockExpression ->
+    `async` `move`? BlockExpression
+
+ConstBlockExpression ->
+    `const` BlockExpression
+
+UnsafeBlockExpression ->
+    `unsafe` BlockExpression
+
+GenericParams ->
+      `<` `>`
+    | `<` (GenericParam `,`)* GenericParam `,`? `>`
+
+GenericParam ->
+    OuterAttribute* ( LifetimeParam | TypeParam | ConstParam )
+
+LifetimeParam ->
+    Lifetime ( `:` LifetimeBounds )?
+
+TypeParam ->
+    IDENTIFIER ( `:` TypeParamBounds? )? ( `=` Type )?
+
+ConstParam ->
+    `const` IDENTIFIER `:` Type ( `=` BlockExpression | IDENTIFIER | `-`?LiteralExpression )?
+
+WhereClause ->
+    `where` ( WhereClauseItem `,` )* WhereClauseItem ?
+
+WhereClauseItem ->
+      LifetimeWhereClauseItem
+    | TypeBoundWhereClauseItem
+
+LifetimeWhereClauseItem ->
+    Lifetime `:` LifetimeBounds
+
+TypeBoundWhereClauseItem ->
+    ForLifetimes? Type `:` TypeParamBounds?
+
+PathExpression ->
+      PathInExpression
+    | QualifiedPathInExpression
+
+Struct ->
+      StructStruct
+    | TupleStruct
+
+StructStruct ->
+    `struct`
+  IDENTIFIER
+  GenericParams?
+  WhereClause?
+  ( `{` StructFields? `}` | `;` )
+
+TupleStruct ->
+    `struct`
+  IDENTIFIER
+  GenericParams?
+  `(` TupleFields? `)`
+  WhereClause?
+  `;`
+
+StructFields ->
+    StructField (`,` StructField)* `,`?
+
+StructField ->
+    OuterAttribute*
+    Visibility?
+    IDENTIFIER `:` Type
+
+TupleFields ->
+    TupleField (`,` TupleField)* `,`?
+
+TupleField ->
+    OuterAttribute*
+    Visibility?
+    Type
+
+Union ->
+    `union` IDENTIFIER GenericParams? WhereClause?
+  `{`StructFields? `}`
+
+Trait ->
+    `unsafe`? `trait` IDENTIFIER
+             GenericParams?
+             ( `:` TypeParamBounds? )?
+             WhereClause? `{`
+     InnerAttribute*
+     AssociatedItem*
+    `}`
+
+StructExpression ->
+      StructExprStruct
+    | StructExprTuple
+    | StructExprUnit
+
+StructExprStruct ->
+    PathInExpression `{` (StructExprFields | StructBase)? `}`
+
+StructExprFields ->
+    StructExprField (`,` StructExprField)* (`,` StructBase | `,`?)
+
+StructExprField ->
+    OuterAttribute *
+    (
+         IDENTIFIER
+      | (IDENTIFIER | TUPLE_INDEX) `:` Expression
+    )
+
+StructBase ->
+    `..` Expression
+
+StructExprTuple ->
+    PathInExpression `(`
+      ( Expression (`,` Expression)* `,`? )?
+    `)`
+
+StructExprUnit ->
+    PathInExpression
+
+GroupedExpression ->
+    `(` Expression `)`
+
+SimplePath ->
+    `::`? SimplePathSegment (`::` SimplePathSegment)*
+
+SimplePathSegment ->
+    IDENTIFIER | `super` | `self` | `crate` | `$crate`
+
+PathInExpression ->
+    `::`? PathExprSegment (`::` PathExprSegment)*
+
+PathExprSegment ->
+    PathIdentSegment (`::` GenericArgs)?
+
+PathIdentSegment ->
+    IDENTIFIER | `super` | `self` | `Self` | `crate` | `$crate`
+
+GenericArgs ->
+      `<` `>`
+    | `<` ( GenericArg `,` )* GenericArg `,`? `>`
+
+GenericArg ->
+    Lifetime | Type | GenericArgsConst | GenericArgsBinding | GenericArgsBounds
+
+GenericArgsConst ->
+      BlockExpression
+    | LiteralExpression
+    | `-` LiteralExpression
+    | SimplePathSegment
+
+GenericArgsBinding ->
+    IDENTIFIER GenericArgs? `=` Type
+
+GenericArgsBounds ->
+    IDENTIFIER GenericArgs? `:` TypeParamBounds
+
+QualifiedPathInExpression ->
+    QualifiedPathType (`::` PathExprSegment)+
+
+QualifiedPathType ->
+    `<` Type (`as` TypePath)? `>`
+
+QualifiedPathInType ->
+    QualifiedPathType (`::` TypePathSegment)+
+
+TypePath ->
+    `::`? TypePathSegment (`::` TypePathSegment)*
+
+TypePathSegment ->
+    PathIdentSegment (`::`? (GenericArgs | TypePathFn))?
+
+TypePathFn ->
+    `(` TypePathFnInputs? `)` (`->` TypeNoBounds)?
+
+TypePathFnInputs ->
+    Type (`,` Type)* `,`?
+
+AssociatedItem ->
+    OuterAttribute* (
+         MacroInvocationSemi
+      | ( Visibility? ( TypeAlias | ConstantItem | Function ) )
+    )

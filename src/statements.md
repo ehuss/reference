@@ -2,6 +2,8 @@ r[statement]
 # Statements
 
 r[statement.syntax]
+{{ grammar Statement }}
+
 > **<sup>Syntax</sup>**\
 > _Statement_ :\
 > &nbsp;&nbsp; &nbsp;&nbsp; `;`\
@@ -56,6 +58,8 @@ r[statement.let]
 ### `let` statements
 
 r[statement.let.syntax]
+{{ grammar LetStatement }}
+
 > **<sup>Syntax</sup>**\
 > _LetStatement_ :\
 > &nbsp;&nbsp; [_OuterAttribute_]<sup>\*</sup> `let` [_PatternNoTopAlt_]
@@ -98,6 +102,8 @@ r[statement.expr]
 ## Expression statements
 
 r[statement.expr.syntax]
+{{ grammar ExpressionStatement }}
+
 > **<sup>Syntax</sup>**\
 > _ExpressionStatement_ :\
 > &nbsp;&nbsp; &nbsp;&nbsp; [_ExpressionWithoutBlock_][expression] `;`\

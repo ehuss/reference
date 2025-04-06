@@ -2,6 +2,8 @@ r[items.struct]
 # Structs
 
 r[items.struct.syntax]
+{{ grammar Struct StructStruct TupleStruct StructFields StructField TupleFields TupleField }}
+
 > **<sup>Syntax</sup>**\
 > _Struct_ :\
 > &nbsp;&nbsp; &nbsp;&nbsp; _StructStruct_\

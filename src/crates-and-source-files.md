@@ -2,6 +2,8 @@ r[crate]
 # Crates and source files
 
 r[crate.syntax]
+{{ grammar Crate }}
+
 > **<sup>Syntax</sup>**\
 > _Crate_ :\
 > &nbsp;&nbsp; [_InnerAttribute_]<sup>\*</sup>\

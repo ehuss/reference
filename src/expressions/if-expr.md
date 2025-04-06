@@ -4,6 +4,8 @@ r[expr.if]
 ## `if` expressions
 
 r[expr.if.syntax]
+{{ grammar IfExpression }}
+
 > **<sup>Syntax</sup>**\
 > _IfExpression_ :\
 > &nbsp;&nbsp; `if` [_Expression_]<sub>_except struct expression_</sub> [_BlockExpression_]\
@@ -56,6 +58,8 @@ r[expr.if.let]
 ## `if let` expressions
 
 r[expr.if.let.syntax]
+{{ grammar IfLetExpression }}
+
 > **<sup>Syntax</sup>**\
 > _IfLetExpression_ :\
 > &nbsp;&nbsp; `if` `let` [_Pattern_] `=` [_Scrutinee_]<sub>_except lazy boolean operator expression_</sub>

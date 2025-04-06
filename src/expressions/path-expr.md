@@ -2,6 +2,8 @@ r[expr.path]
 # Path expressions
 
 r[expr.path.syntax]
+{{ grammar PathExpression }}
+
 > **<sup>Syntax</sup>**\
 > _PathExpression_ :\
 > &nbsp;&nbsp; &nbsp;&nbsp; [_PathInExpression_]\

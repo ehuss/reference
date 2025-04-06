@@ -2,6 +2,8 @@ r[expr.await]
 # Await expressions
 
 r[expr.await.syntax]
+{{ grammar AwaitExpression }}
+
 > **<sup>Syntax</sup>**\
 > _AwaitExpression_ :\
 > &nbsp;&nbsp; [_Expression_] `.` `await`

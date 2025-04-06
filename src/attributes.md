@@ -2,6 +2,8 @@
 # Attributes
 
 r[attributes.syntax]
+{{ grammar InnerAttribute OuterAttribute Attr AttrInput }}
+
 > **<sup>Syntax</sup>**\
 > _InnerAttribute_ :\
 > &nbsp;&nbsp; `#` `!` `[` _Attr_ `]`
@@ -113,6 +115,8 @@ A "meta item" is the syntax used for the _Attr_ rule by most [built-in
 attributes]. It has the following grammar:
 
 r[attributes.meta.syntax]
+{{ grammar MetaItem MetaSeq MetaItemInner }}
+
 > **<sup>Syntax</sup>**\
 > _MetaItem_ :\
 > &nbsp;&nbsp; &nbsp;&nbsp; [_SimplePath_]\
@@ -160,6 +164,8 @@ r[attributes.meta.builtin]
 Various built-in attributes use different subsets of the meta item syntax to
 specify their inputs. The following grammar rules show some commonly used
 forms:
+
+{{ grammar MetaWord MetaNameValueStr MetaListPaths MetaListIdents MetaListNameValueStr }}
 
 > **<sup>Syntax</sup>**\
 > _MetaWord_:\

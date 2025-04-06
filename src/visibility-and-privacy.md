@@ -2,6 +2,8 @@ r[vis]
 # Visibility and Privacy
 
 r[vis.syntax]
+{{ grammar Visibility }}
+
 > **<sup>Syntax</sup>**\
 > _Visibility_ :\
 > &nbsp;&nbsp; &nbsp;&nbsp; `pub`\

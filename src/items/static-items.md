@@ -2,6 +2,8 @@ r[items.static]
 # Static items
 
 r[items.static.syntax]
+{{ grammar StaticItem }}
+
 > **<sup>Syntax</sup>**\
 > _StaticItem_ :\
 > &nbsp;&nbsp; [_ItemSafety_]<sup>?</sup>[^extern-safety] `static` `mut`<sup>?</sup> [IDENTIFIER] `:` [_Type_]

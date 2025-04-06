@@ -45,6 +45,8 @@ r[type.name]
 ## Type expressions
 
 r[type.name.syntax]
+{{ grammar Type TypeNoBounds }}
+
 > **<sup>Syntax</sup>**\
 > _Type_ :\
 > &nbsp;&nbsp; &nbsp;&nbsp; _TypeNoBounds_\
@@ -103,6 +105,9 @@ r[type.name.parenthesized]
 ### Parenthesized types
 
 r[type.name.parenthesized.syntax]
+{{ grammar ParenthesizedType }}
+
+> **<sup>Syntax</sup>**\
 > _ParenthesizedType_ :\
 > &nbsp;&nbsp; `(` [_Type_] `)`
 

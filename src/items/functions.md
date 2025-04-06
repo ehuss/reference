@@ -2,6 +2,8 @@ r[items.fn]
 # Functions
 
 r[items.fn.syntax]
+{{ grammar Function FunctionQualifiers ItemSafety Abi FunctionParameters SelfParam ShorthandSelf TypedSelf FunctionParam FunctionParamPattern FunctionReturnType }}
+
 > **<sup>Syntax</sup>**\
 > _Function_ :\
 > &nbsp;&nbsp; _FunctionQualifiers_ `fn` [IDENTIFIER]&nbsp;[_GenericParams_]<sup>?</sup>\

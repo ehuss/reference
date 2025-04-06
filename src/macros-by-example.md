@@ -2,6 +2,8 @@ r[macro.decl]
 # Macros By Example
 
 r[macro.decl.syntax]
+{{ grammar MacroRulesDefinition MacroRulesDef MacroRules MacroRule MacroMatcher MacroMatch MacroFragSpec MacroRepSep MacroRepOp MacroTranscriber }}
+
 > **<sup>Syntax</sup>**\
 > _MacroRulesDefinition_ :\
 > &nbsp;&nbsp; `macro_rules` `!` [IDENTIFIER] _MacroRulesDef_

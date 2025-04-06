@@ -2,6 +2,8 @@ r[items.extern]
 # External blocks
 
 r[items.extern.syntax]
+{{ grammar ExternBlock ExternalItem }}
+
 > **<sup>Syntax</sup>**\
 > _ExternBlock_ :\
 > &nbsp;&nbsp; `unsafe`<sup>?</sup>[^unsafe-2024] `extern` [_Abi_]<sup>?</sup> `{`\

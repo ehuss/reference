@@ -4,6 +4,8 @@ r[expr.array]
 ## Array expressions
 
 r[expr.array.syntax]
+{{ grammar ArrayExpression ArrayElements }}
+
 > **<sup>Syntax</sup>**\
 > _ArrayExpression_ :\
 > &nbsp;&nbsp; `[` _ArrayElements_<sup>?</sup> `]`
@@ -65,6 +67,8 @@ const EMPTY: Vec<i32> = Vec::new();
 
 r[expr.array.index]
 ## Array and slice indexing expressions
+
+{{ grammar IndexExpression }}
 
 > **<sup>Syntax</sup>**\
 > _IndexExpression_ :\

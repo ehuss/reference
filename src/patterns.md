@@ -2,6 +2,8 @@ r[patterns]
 # Patterns
 
 r[patterns.syntax]
+{{ grammar Pattern PatternNoTopAlt PatternWithoutRange }}
+
 > **<sup>Syntax</sup>**\
 > _Pattern_ :\
 > &nbsp;&nbsp; &nbsp;&nbsp; `|`<sup>?</sup> _PatternNoTopAlt_  ( `|` _PatternNoTopAlt_ )<sup>\*</sup>
@@ -138,6 +140,8 @@ r[patterns.literal]
 ## Literal patterns
 
 r[patterns.literal.syntax]
+{{ grammar LiteralPattern }}
+
 > **<sup>Syntax</sup>**\
 > _LiteralPattern_ :\
 > &nbsp;&nbsp; &nbsp;&nbsp; `true` | `false`\
@@ -190,6 +194,8 @@ r[patterns.ident]
 ## Identifier patterns
 
 r[patterns.ident.syntax]
+{{ grammar IdentifierPattern }}
+
 > **<sup>Syntax</sup>**\
 > _IdentifierPattern_ :\
 > &nbsp;&nbsp; &nbsp;&nbsp; `ref`<sup>?</sup> `mut`<sup>?</sup> [IDENTIFIER] (`@` [_PatternNoTopAlt_] ) <sup>?</sup>
@@ -372,6 +378,8 @@ r[patterns.wildcard]
 ## Wildcard pattern
 
 r[patterns.wildcard.syntax]
+{{ grammar WildcardPattern }}
+
 > **<sup>Syntax</sup>**\
 > _WildcardPattern_ :\
 > &nbsp;&nbsp; `_`
@@ -419,6 +427,9 @@ The wildcard pattern is always irrefutable.
 
 r[patterns.rest]
 ## Rest patterns
+
+r[patterns.rest.syntax]
+{{ grammar RestPattern }}
 
 > **<sup>Syntax</sup>**\
 > _RestPattern_ :\
@@ -478,6 +489,8 @@ r[patterns.range]
 ## Range patterns
 
 r[patterns.range.syntax]
+{{ grammar RangePattern RangeExclusivePattern RangeInclusivePattern RangeFromPattern RangeToExclusivePattern RangeToInclusivePattern ObsoleteRangePattern RangePatternBound }}
+
 > **<sup>Syntax</sup>**\
 > _RangePattern_ :\
 > &nbsp;&nbsp; &nbsp;&nbsp; _RangeExclusivePattern_\
@@ -678,6 +691,8 @@ r[patterns.ref]
 ## Reference patterns
 
 r[patterns.ref.syntax]
+{{ grammar ReferencePattern }}
+
 > **<sup>Syntax</sup>**\
 > _ReferencePattern_ :\
 > &nbsp;&nbsp; (`&`|`&&`) `mut`<sup>?</sup> [_PatternWithoutRange_]
@@ -709,6 +724,8 @@ r[patterns.struct]
 ## Struct patterns
 
 r[patterns.struct.syntax]
+{{ grammar StructPattern StructPatternElements StructPatternFields StructPatternField StructPatternEtCetera }}
+
 > **<sup>Syntax</sup>**\
 > _StructPattern_ :\
 > &nbsp;&nbsp; [_PathInExpression_] `{`\
@@ -827,6 +844,8 @@ r[patterns.tuple-struct]
 ## Tuple struct patterns
 
 r[patterns.tuple-struct.syntax]
+{{ grammar TupleStructPattern TupleStructItems }}
+
 > **<sup>Syntax</sup>**\
 > _TupleStructPattern_ :\
 > &nbsp;&nbsp; [_PathInExpression_] `(` _TupleStructItems_<sup>?</sup> `)`
@@ -845,6 +864,8 @@ r[patterns.tuple]
 ## Tuple patterns
 
 r[patterns.tuple.syntax]
+{{ grammar TuplePattern TuplePatternItems }}
+
 > **<sup>Syntax</sup>**\
 > _TuplePattern_ :\
 > &nbsp;&nbsp; `(` _TuplePatternItems_<sup>?</sup> `)`
@@ -878,6 +899,8 @@ r[patterns.paren]
 ## Grouped patterns
 
 r[patterns.paren.syntax]
+{{ grammar GroupedPattern }}
+
 > **<sup>Syntax</sup>**\
 > _GroupedPattern_ :\
 > &nbsp;&nbsp; `(` [_Pattern_] `)`
@@ -898,6 +921,8 @@ r[patterns.slice]
 ## Slice patterns
 
 r[patterns.slice.syntax]
+{{ grammar SlicePattern SlicePatternItems }}
+
 > **<sup>Syntax</sup>**\
 > _SlicePattern_ :\
 > &nbsp;&nbsp; `[` _SlicePatternItems_<sup>?</sup> `]`
@@ -940,6 +965,8 @@ r[patterns.path]
 ## Path patterns
 
 r[patterns.path.syntax]
+{{ grammar PathPattern }}
+
 > **<sup>Syntax</sup>**\
 > _PathPattern_ :\
 > &nbsp;&nbsp; &nbsp;&nbsp; [_PathExpression_]

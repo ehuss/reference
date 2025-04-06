@@ -2,6 +2,8 @@ r[type.tuple]
 # Tuple types
 
 r[type.tuple.syntax]
+{{ grammar TupleType }}
+
 > **<sup>Syntax</sup>**\
 > _TupleType_ :\
 > &nbsp;&nbsp; &nbsp;&nbsp; `(` `)`\

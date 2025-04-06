@@ -2,6 +2,8 @@ r[items.impl]
 # Implementations
 
 r[items.impl.syntax]
+{{ grammar Implementation InherentImpl TraitImpl }}
+
 > **<sup>Syntax</sup>**\
 > _Implementation_ :\
 > &nbsp;&nbsp; _InherentImpl_ | _TraitImpl_

@@ -2,6 +2,8 @@ r[type.slice]
 # Slice types
 
 r[type.slice.syntax]
+{{ grammar SliceType }}
+
 > **<sup>Syntax</sup>**\
 > _SliceType_ :\
 > &nbsp;&nbsp; `[` [_Type_] `]`

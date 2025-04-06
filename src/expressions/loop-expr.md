@@ -2,6 +2,8 @@ r[expr.loop]
 # Loops and other breakable expressions
 
 r[expr.loop.syntax]
+{{ grammar LoopExpression }}
+
 > **<sup>Syntax</sup>**\
 > _LoopExpression_ :\
 > &nbsp;&nbsp; [_LoopLabel_]<sup>?</sup> (\
@@ -41,6 +43,8 @@ r[expr.loop.infinite]
 ## Infinite loops
 
 r[expr.loop.infinite.syntax]
+{{ grammar InfiniteLoopExpression }}
+
 > **<sup>Syntax</sup>**\
 > _InfiniteLoopExpression_ :\
 > &nbsp;&nbsp; `loop` [_BlockExpression_]
@@ -59,6 +63,8 @@ r[expr.loop.while]
 ## Predicate loops
 
 r[expr.loop.while.syntax]
+{{ grammar PredicateLoopExpression }}
+
 > **<sup>Syntax</sup>**\
 > _PredicateLoopExpression_ :\
 > &nbsp;&nbsp; `while` [_Expression_]<sub>_except struct expression_</sub> [_BlockExpression_]
@@ -85,6 +91,8 @@ r[expr.loop.while.let]
 ## Predicate pattern loops
 
 r[expr.loop.while.let.syntax]
+{{ grammar PredicatePatternLoopExpression }}
+
 > **<sup>Syntax</sup>**\
 > [_PredicatePatternLoopExpression_] :\
 > &nbsp;&nbsp; `while` `let` [_Pattern_] `=` [_Scrutinee_]<sub>_except lazy boolean operator expression_</sub>
@@ -151,6 +159,8 @@ r[expr.loop.for]
 ## Iterator loops
 
 r[expr.loop.for.syntax]
+{{ grammar IteratorLoopExpression }}
+
 > **<sup>Syntax</sup>**\
 > _IteratorLoopExpression_ :\
 > &nbsp;&nbsp; `for` [_Pattern_] `in` [_Expression_]<sub>_except struct expression_</sub>
@@ -225,6 +235,8 @@ r[expr.loop.label]
 ## Loop labels
 
 r[expr.loop.label.syntax]
+{{ grammar LoopLabel }}
+
 > **<sup>Syntax</sup>**\
 > _LoopLabel_ :\
 > &nbsp;&nbsp; [LIFETIME_OR_LABEL] `:`
@@ -255,6 +267,8 @@ r[expr.loop.break]
 ## `break` expressions
 
 r[expr.loop.break.syntax]
+{{ grammar BreakExpression }}
+
 > **<sup>Syntax</sup>**\
 > _BreakExpression_ :\
 > &nbsp;&nbsp; `break` [LIFETIME_OR_LABEL]<sup>?</sup> [_Expression_]<sup>?</sup>
@@ -292,6 +306,8 @@ A `break` expression is only permitted in the body of a loop, and has one of the
 r[expr.loop.block-labels]
 ## Labelled block expressions
 
+{{ grammar LabelBlockExpression }}
+
 > **<sup>Syntax</sup>**\
 > _LabelBlockExpression_ :\
 > &nbsp;&nbsp; [_BlockExpression_]
@@ -328,6 +344,8 @@ r[expr.loop.continue]
 ## `continue` expressions
 
 r[expr.loop.continue.syntax]
+{{ grammar ContinueExpression }}
+
 > **<sup>Syntax</sup>**\
 > _ContinueExpression_ :\
 > &nbsp;&nbsp; `continue` [LIFETIME_OR_LABEL]<sup>?</sup>

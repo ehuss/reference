@@ -2,6 +2,8 @@ r[items.enum]
 # Enumerations
 
 r[items.enum.syntax]
+{{ grammar Enumeration EnumItems EnumItem EnumItemTuple EnumItemStruct EnumItemDiscriminant }}
+
 > **<sup>Syntax</sup>**\
 > _Enumeration_ :\
 > &nbsp;&nbsp; `enum`
