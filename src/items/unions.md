@@ -2,6 +2,11 @@ r[items.union]
 # Unions
 
 r[items.union.syntax]
+```syntax
+Union ->
+    `union` IDENTIFIER GenericParams? WhereClause? `{` StructFields? `}`
+```
+
 > **<sup>Syntax</sup>**\
 > _Union_ :\
 > &nbsp;&nbsp; `union` [IDENTIFIER]&nbsp;[_GenericParams_]<sup>?</sup> [_WhereClause_]<sup>?</sup>

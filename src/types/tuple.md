@@ -2,6 +2,12 @@ r[type.tuple]
 # Tuple types
 
 r[type.tuple.syntax]
+```syntax
+TupleType ->
+      `(` `)`
+    | `(` ( Type `,` )+ Type? `)`
+```
+
 > **<sup>Syntax</sup>**\
 > _TupleType_ :\
 > &nbsp;&nbsp; &nbsp;&nbsp; `(` `)`\

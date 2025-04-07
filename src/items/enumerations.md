@@ -2,6 +2,23 @@ r[items.enum]
 # Enumerations
 
 r[items.enum.syntax]
+```syntax
+Enumeration ->
+    `enum` IDENTIFIER GenericParams? WhereClause? `{` EnumItems? `}`
+
+EnumItems -> EnumItem ( `,` EnumItem )* `,`?
+
+EnumItem ->
+    OuterAttribute* Visibility?
+    IDENTIFIER ( EnumItemTuple | EnumItemStruct )? EnumItemDiscriminant?
+
+EnumItemTuple -> `(` TupleFields? `)`
+
+EnumItemStruct -> `{` StructFields? `}`
+
+EnumItemDiscriminant -> `=` Expression
+```
+
 > **<sup>Syntax</sup>**\
 > _Enumeration_ :\
 > &nbsp;&nbsp; `enum`

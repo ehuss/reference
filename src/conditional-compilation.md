@@ -2,6 +2,29 @@ r[cfg]
 # Conditional compilation
 
 r[cfg.syntax]
+```syntax
+ConfigurationPredicate ->
+      ConfigurationOption
+    | ConfigurationAll
+    | ConfigurationAny
+    | ConfigurationNot
+
+ConfigurationOption ->
+    IDENTIFIER ( `=` ( STRING_LITERAL | RAW_STRING_LITERAL ) )?
+
+ConfigurationAll ->
+    `all` `(` ConfigurationPredicateList? `)`
+
+ConfigurationAny ->
+    `any` `(` ConfigurationPredicateList? `)`
+
+ConfigurationNot ->
+    `not` `(` ConfigurationPredicate `)`
+
+ConfigurationPredicateList ->
+    ConfigurationPredicate (`,` ConfigurationPredicate)* `,`?
+```
+
 > **<sup>Syntax</sup>**\
 > _ConfigurationPredicate_ :\
 > &nbsp;&nbsp; &nbsp;&nbsp; _ConfigurationOption_\
@@ -12,16 +35,16 @@ r[cfg.syntax]
 > _ConfigurationOption_ :\
 > &nbsp;&nbsp; [IDENTIFIER]&nbsp;(`=` ([STRING_LITERAL] | [RAW_STRING_LITERAL]))<sup>?</sup>
 >
-> _ConfigurationAll_\
+> _ConfigurationAll_ :\
 > &nbsp;&nbsp; `all` `(` _ConfigurationPredicateList_<sup>?</sup> `)`
 >
-> _ConfigurationAny_\
+> _ConfigurationAny_ :\
 > &nbsp;&nbsp; `any` `(` _ConfigurationPredicateList_<sup>?</sup> `)`
 >
-> _ConfigurationNot_\
+> _ConfigurationNot_ :\
 > &nbsp;&nbsp; `not` `(` _ConfigurationPredicate_ `)`
 >
-> _ConfigurationPredicateList_\
+> _ConfigurationPredicateList_ :\
 > &nbsp;&nbsp; _ConfigurationPredicate_ (`,` _ConfigurationPredicate_)<sup>\*</sup> `,`<sup>?</sup>
 
 r[cfg.general]
@@ -313,8 +336,12 @@ r[cfg.attr]
 ### The `cfg` attribute
 
 r[cfg.attr.syntax]
+```syntax
+CfgAttribute -> `cfg` `(` ConfigurationPredicate `)`
+```
+
 > **<sup>Syntax</sup>**\
-> _CfgAttrAttribute_ :\
+> _CfgAttribute_ :\
 > &nbsp;&nbsp; `cfg` `(` _ConfigurationPredicate_ `)`
 
 <!-- should we say they're active attributes here? -->
@@ -380,6 +407,12 @@ r[cfg.cfg_attr]
 ### The `cfg_attr` attribute
 
 r[cfg.cfg_attr.syntax]
+```syntax
+CfgAttrAttribute -> `cfg_attr` `(` ConfigurationPredicate `,` CfgAttrs? `)`
+
+CfgAttrs -> Attr (`,` Attr)* `,`?
+```
+
 > **<sup>Syntax</sup>**\
 > _CfgAttrAttribute_ :\
 > &nbsp;&nbsp; `cfg_attr` `(` _ConfigurationPredicate_ `,` _CfgAttrs_<sup>?</sup> `)`

@@ -2,6 +2,12 @@ r[type.trait-object]
 # Trait objects
 
 r[type.trait-object.syntax]
+```syntax
+TraitObjectType -> `dyn`? TypeParamBounds
+
+TraitObjectTypeOneBound -> `dyn`? TraitBound
+```
+
 > **<sup>Syntax</sup>**\
 > _TraitObjectType_ :\
 > &nbsp;&nbsp; `dyn`<sup>?</sup> [_TypeParamBounds_]

@@ -2,6 +2,17 @@ r[items.extern-crate]
 # Extern crate declarations
 
 r[items.extern-crate.syntax]
+```syntax
+ExternCrate ->
+    `extern` `crate` CrateRef AsClause? `;`
+
+CrateRef ->
+    IDENTIFIER | `self`
+
+AsClause ->
+    `as` ( IDENTIFIER | `_` )
+```
+
 > **<sup>Syntax:</sup>**\
 > _ExternCrate_ :\
 > &nbsp;&nbsp; `extern` `crate` _CrateRef_ _AsClause_<sup>?</sup> `;`

@@ -2,6 +2,15 @@ r[vis]
 # Visibility and Privacy
 
 r[vis.syntax]
+```syntax
+Visibility ->
+      `pub`
+    | `pub` `(` `crate` `)`
+    | `pub` `(` `self` `)`
+    | `pub` `(` `super` `)`
+    | `pub` `(` `in` SimplePath `)`
+```
+
 > **<sup>Syntax</sup>**\
 > _Visibility_ :\
 > &nbsp;&nbsp; &nbsp;&nbsp; `pub`\

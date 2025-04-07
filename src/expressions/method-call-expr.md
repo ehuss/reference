@@ -2,6 +2,10 @@ r[expr.method]
 # Method-call expressions
 
 r[expr.method.syntax]
+```syntax
+MethodCallExpression -> Expression `.` PathExprSegment `(`CallParams? `)`
+```
+
 > **<sup>Syntax</sup>**\
 > _MethodCallExpression_ :\
 > &nbsp;&nbsp; [_Expression_] `.` [_PathExprSegment_] `(`[_CallParams_]<sup>?</sup> `)`

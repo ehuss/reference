@@ -2,6 +2,43 @@ r[macro.decl]
 # Macros By Example
 
 r[macro.decl.syntax]
+```syntax
+MacroRulesDefinition ->
+    `macro_rules` `!` IDENTIFIER MacroRulesDef
+
+MacroRulesDef ->
+      `(` MacroRules `)` `;`
+    | `[` MacroRules `]` `;`
+    | `{` MacroRules `}`
+
+MacroRules ->
+    MacroRule ( `;` MacroRule )* `;`?
+
+MacroRule ->
+    MacroMatcher `=>` MacroTranscriber
+
+MacroMatcher ->
+      `(` MacroMatch* `)`
+    | `[` MacroMatch* `]`
+    | `{` MacroMatch* `}`
+
+MacroMatch ->
+      Token _except `$` and [delimiters]_
+    | MacroMatcher
+    | `$` ( IDENTIFIER_OR_KEYWORD _except `crate`_ | RAW_IDENTIFIER | `_` ) `:` MacroFragSpec
+    | `$` `(` MacroMatch+ `)` MacroRepSep? MacroRepOp
+
+MacroFragSpec ->
+      `block` | `expr` | `expr_2021` | `ident` | `item` | `lifetime` | `literal`
+    | `meta` | `pat` | `pat_param` | `path` | `stmt` | `tt` | `ty` | `vis`
+
+MacroRepSep -> Token _except [delimiters] and [MacroRepOp]_
+
+MacroRepOp -> `*` | `+` | `?`
+
+MacroTranscriber -> DelimTokenTree
+```
+
 > **<sup>Syntax</sup>**\
 > _MacroRulesDefinition_ :\
 > &nbsp;&nbsp; `macro_rules` `!` [IDENTIFIER] _MacroRulesDef_

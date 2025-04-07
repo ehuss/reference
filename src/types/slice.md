@@ -2,6 +2,10 @@ r[type.slice]
 # Slice types
 
 r[type.slice.syntax]
+```syntax
+SliceType -> `[` Type `]`
+```
+
 > **<sup>Syntax</sup>**\
 > _SliceType_ :\
 > &nbsp;&nbsp; `[` [_Type_] `]`

@@ -2,6 +2,10 @@ r[type.array]
 # Array types
 
 r[type.array.syntax]
+```syntax
+ArrayType -> `[` Type `;` Expression `]`
+```
+
 > **<sup>Syntax</sup>**\
 > _ArrayType_ :\
 > &nbsp;&nbsp; `[` [_Type_] `;` [_Expression_] `]`

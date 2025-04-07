@@ -2,14 +2,36 @@ r[ident]
 # Identifiers
 
 r[ident.syntax]
+```lexer
+IDENTIFIER_OR_KEYWORD ->
+      XID_Start XID_Continue*
+    | `_` XID_Continue+
+
+XID_Start -> <`XID_Start` defined by Unicode>
+
+XID_Continue -> <`XID_Continue` defined by Unicode>
+
+RAW_IDENTIFIER -> `r#` IDENTIFIER_OR_KEYWORD _except `crate`, `self`, `super`, `Self`_
+
+NON_KEYWORD_IDENTIFIER -> IDENTIFIER_OR_KEYWORD _except a [strict] or [reserved] keyword_
+
+IDENTIFIER -> NON_KEYWORD_IDENTIFIER | RAW_IDENTIFIER
+
+RESERVED_RAW_IDENTIFIER -> `r#_`
+```
+
 > **<sup>Lexer:</sup>**\
 > IDENTIFIER_OR_KEYWORD :\
 > &nbsp;&nbsp; &nbsp;&nbsp; XID_Start XID_Continue<sup>\*</sup>\
 > &nbsp;&nbsp; | `_` XID_Continue<sup>+</sup>
 >
-> RAW_IDENTIFIER : `r#` IDENTIFIER_OR_KEYWORD <sub>*Except `crate`, `self`, `super`, `Self`*</sub>
+> XID_Start : \<`XID_Start` defined by Unicode\>
 >
-> NON_KEYWORD_IDENTIFIER : IDENTIFIER_OR_KEYWORD <sub>*Except a [strict] or [reserved] keyword*</sub>
+> XID_Continue : \<`XID_Continue` defined by Unicode\>
+>
+> RAW_IDENTIFIER : `r#` IDENTIFIER_OR_KEYWORD <sub>*except `crate`, `self`, `super`, `Self`*</sub>
+>
+> NON_KEYWORD_IDENTIFIER : IDENTIFIER_OR_KEYWORD <sub>*except a [strict] or [reserved] keyword*</sub>
 >
 > IDENTIFIER :\
 > NON_KEYWORD_IDENTIFIER | RAW_IDENTIFIER

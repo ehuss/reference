@@ -2,6 +2,20 @@
 # Attributes
 
 r[attributes.syntax]
+```syntax
+InnerAttribute -> `#` `!` `[` Attr `]`
+
+OuterAttribute -> `#` `[` Attr `]`
+
+Attr ->
+      SimplePath AttrInput?
+    | `unsafe` `(` SimplePath AttrInput? `)`
+
+AttrInput ->
+      DelimTokenTree
+    | `=` Expression
+```
+
 > **<sup>Syntax</sup>**\
 > _InnerAttribute_ :\
 > &nbsp;&nbsp; `#` `!` `[` _Attr_ `]`
@@ -113,6 +127,20 @@ A "meta item" is the syntax used for the _Attr_ rule by most [built-in
 attributes]. It has the following grammar:
 
 r[attributes.meta.syntax]
+```syntax
+MetaItem ->
+      SimplePath
+    | SimplePath `=` Expression
+    | SimplePath `(` MetaSeq? `)`
+
+MetaSeq ->
+    MetaItemInner ( `,` MetaItemInner )* `,`?
+
+MetaItemInner ->
+      MetaItem
+    | Expression
+```
+
 > **<sup>Syntax</sup>**\
 > _MetaItem_ :\
 > &nbsp;&nbsp; &nbsp;&nbsp; [_SimplePath_]\
@@ -160,6 +188,23 @@ r[attributes.meta.builtin]
 Various built-in attributes use different subsets of the meta item syntax to
 specify their inputs. The following grammar rules show some commonly used
 forms:
+
+```syntax
+MetaWord ->
+    IDENTIFIER
+
+MetaNameValueStr ->
+    IDENTIFIER `=` (STRING_LITERAL | RAW_STRING_LITERAL)
+
+MetaListPaths ->
+    IDENTIFIER `(` ( SimplePath (`,` SimplePath)* `,`? )? `)`
+
+MetaListIdents ->
+    IDENTIFIER `(` ( IDENTIFIER (`,` IDENTIFIER)* `,`? )? `)`
+
+MetaListNameValueStr ->
+    IDENTIFIER `(` ( MetaNameValueStr (`,` MetaNameValueStr)* `,`? )? `)`
+```
 
 > **<sup>Syntax</sup>**\
 > _MetaWord_:\

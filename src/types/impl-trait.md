@@ -2,6 +2,12 @@ r[type.impl-trait]
 # Impl trait
 
 r[type.impl-trait.syntax]
+```syntax
+ImplTraitType -> `impl` TypeParamBounds
+
+ImplTraitTypeOneBound -> `impl` TraitBound
+```
+
 > **<sup>Syntax</sup>**\
 > _ImplTraitType_ : `impl` [_TypeParamBounds_]
 >

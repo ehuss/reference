@@ -2,6 +2,11 @@ r[items.const]
 # Constant items
 
 r[items.const.syntax]
+```syntax
+ConstantItem ->
+    `const` ( IDENTIFIER | `_` ) `:` Type ( `=` Expression )? `;`
+```
+
 > **<sup>Syntax</sup>**\
 > _ConstantItem_ :\
 > &nbsp;&nbsp; `const` ( [IDENTIFIER] | `_` ) `:` [_Type_] ( `=` [_Expression_] )<sup>?</sup> `;`

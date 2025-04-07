@@ -2,6 +2,28 @@ r[type.fn-pointer]
 # Function pointer types
 
 r[type.fn-pointer.syntax]
+```syntax
+BareFunctionType ->
+    ForLifetimes? FunctionTypeQualifiers `fn`
+       `(` FunctionParametersMaybeNamedVariadic? `)` BareFunctionReturnType?
+
+FunctionTypeQualifiers -> `unsafe`? (`extern` Abi?)?
+
+BareFunctionReturnType -> `->` TypeNoBounds
+
+FunctionParametersMaybeNamedVariadic ->
+    MaybeNamedFunctionParameters | MaybeNamedFunctionParametersVariadic
+
+MaybeNamedFunctionParameters ->
+    MaybeNamedParam ( `,` MaybeNamedParam )* `,`?
+
+MaybeNamedParam ->
+    OuterAttribute* ( ( IDENTIFIER | `_` ) `:` )? Type
+
+MaybeNamedFunctionParametersVariadic ->
+    ( MaybeNamedParam `,` )* MaybeNamedParam `,` OuterAttribute* `...`
+```
+
 > **<sup>Syntax</sup>**\
 > _BareFunctionType_ :\
 > &nbsp;&nbsp; [_ForLifetimes_]<sup>?</sup> _FunctionTypeQualifiers_ `fn`\

@@ -2,6 +2,20 @@ r[expr.closure]
 # Closure expressions
 
 r[expr.closure.syntax]
+```syntax
+ClosureExpression ->
+    `async`?[^cl-async-edition]
+    `move`?
+    ( `||` | `|` ClosureParameters? `|` )
+    (Expression | `->` TypeNoBounds BlockExpression)
+
+ClosureParameters -> ClosureParam (`,` ClosureParam)* `,`?
+
+ClosureParam -> OuterAttribute* PatternNoTopAlt ( `:` Type )?
+```
+
+[^cl-async-edition]: The `async` qualifier is not allowed in the 2015 edition.
+
 > **<sup>Syntax</sup>**\
 > _ClosureExpression_ :\
 > &nbsp;&nbsp; `async`[^cl-async-edition]<sup>?</sup>\
@@ -14,8 +28,6 @@ r[expr.closure.syntax]
 >
 > _ClosureParam_ :\
 > &nbsp;&nbsp; [_OuterAttribute_]<sup>\*</sup> [_PatternNoTopAlt_]&nbsp;( `:` [_Type_] )<sup>?</sup>
->
-> [^cl-async-edition]: The `async` qualifier is not allowed in the 2015 edition.
 
 r[expr.closure.intro]
 A *closure expression*, also known as a lambda expression or a lambda, defines a [closure type] and evaluates to a value of that type.

@@ -2,6 +2,19 @@ r[expr.block]
 # Block expressions
 
 r[expr.block.syntax]
+```syntax
+BlockExpression ->
+    `{`
+        InnerAttribute*
+        Statements?
+    `}`
+
+Statements ->
+      Statement+
+    | Statement+ ExpressionWithoutBlock
+    | ExpressionWithoutBlock
+```
+
 > **<sup>Syntax</sup>**\
 > _BlockExpression_ :\
 > &nbsp;&nbsp; `{`\
@@ -91,6 +104,10 @@ r[expr.block.async]
 ## `async` blocks
 
 r[expr.block.async.syntax]
+```syntax
+AsyncBlockExpression -> `async` `move`? BlockExpression
+```
+
 > **<sup>Syntax</sup>**\
 > _AsyncBlockExpression_ :\
 > &nbsp;&nbsp; `async` `move`<sup>?</sup> _BlockExpression_
@@ -158,6 +175,10 @@ r[expr.block.const]
 ## `const` blocks
 
 r[expr.block.const.syntax]
+```syntax
+ConstBlockExpression -> `const` BlockExpression
+```
+
 > **<sup>Syntax</sup>**\
 > _ConstBlockExpression_ :\
 > &nbsp;&nbsp; `const` _BlockExpression_
@@ -222,10 +243,16 @@ if false {
 r[expr.block.unsafe]
 ## `unsafe` blocks
 
+r[expr.block.unsafe.syntax]
+```syntax
+UnsafeBlockExpression -> `unsafe` BlockExpression
+```
+
 > **<sup>Syntax</sup>**\
 > _UnsafeBlockExpression_ :\
 > &nbsp;&nbsp; `unsafe` _BlockExpression_
 
+r[expr.block.unsafe.intro]
 _See [`unsafe` blocks] for more information on when to use `unsafe`_.
 
 A block of code can be prefixed with the `unsafe` keyword to permit [unsafe operations].

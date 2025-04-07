@@ -2,6 +2,10 @@ r[expr.paren]
 # Grouped expressions
 
 r[expr.paren.syntax]
+```syntax
+GroupedExpression -> `(` Expression `)`
+```
+
 > **<sup>Syntax</sup>**\
 > _GroupedExpression_ :\
 > &nbsp;&nbsp; `(` [_Expression_] `)`

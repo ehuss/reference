@@ -2,6 +2,15 @@ r[items.traits]
 # Traits
 
 r[items.traits.syntax]
+```syntax
+Trait ->
+    `unsafe`? `trait` IDENTIFIER GenericParams? ( `:` TypeParamBounds? )? WhereClause?
+    `{`
+        InnerAttribute*
+        AssociatedItem*
+    `}`
+```
+
 > **<sup>Syntax</sup>**\
 > _Trait_ :\
 > &nbsp;&nbsp; `unsafe`<sup>?</sup> `trait` [IDENTIFIER]&nbsp;

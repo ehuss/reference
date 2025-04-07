@@ -2,6 +2,12 @@ r[expr.path]
 # Path expressions
 
 r[expr.path.syntax]
+```syntax
+PathExpression ->
+      PathInExpression
+    | QualifiedPathInExpression
+```
+
 > **<sup>Syntax</sup>**\
 > _PathExpression_ :\
 > &nbsp;&nbsp; &nbsp;&nbsp; [_PathInExpression_]\

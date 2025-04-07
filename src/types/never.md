@@ -2,6 +2,10 @@ r[type.never]
 # Never type
 
 r[type.never.syntax]
+```syntax
+NeverType -> `!`
+```
+
 > **<sup>Syntax</sup>**\
 > _NeverType_ : `!`
 

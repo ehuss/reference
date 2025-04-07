@@ -2,6 +2,22 @@ r[expr.literal]
 # Literal expressions
 
 r[expr.literal.syntax]
+```syntax
+LiteralExpression ->
+      CHAR_LITERAL
+    | STRING_LITERAL
+    | RAW_STRING_LITERAL
+    | BYTE_LITERAL
+    | BYTE_STRING_LITERAL
+    | RAW_BYTE_STRING_LITERAL
+    | C_STRING_LITERAL
+    | RAW_C_STRING_LITERAL
+    | INTEGER_LITERAL
+    | FLOAT_LITERAL
+    | `true`
+    | `false`
+```
+
 > **<sup>Syntax</sup>**\
 > _LiteralExpression_ :\
 > &nbsp;&nbsp; &nbsp;&nbsp; [CHAR_LITERAL]\

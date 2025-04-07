@@ -551,3 +551,70 @@ main > .rule {
     z-index: 1000;
     padding: 1rem;
 }
+
+.grammar {
+    font-family: var(--mono-font);
+}
+
+.grammar-text {
+    font-family: "Open Sans", sans-serif;
+}
+
+/* Places a box around literals to differentiate from other grammar punctuation like | and ( . */
+.grammar-literal {
+    font-family: var(--mono-font);
+    border-radius: 4px;
+    border: solid 1px var(--theme-popup-border);
+    font-weight: bold;
+    font-size: var(--code-font-size);
+    padding: 1px 4px;
+    color: var(--inline-code-color);
+}
+
+.light .grammar-literal {
+    background-color: #fafafa
+}
+.rust .grammar-literal {
+    background-color: #dedede
+}
+.coal .grammar-literal {
+    background-color: #1d1f21;
+}
+.navy .grammar-literal {
+    background-color: #1d1f21;
+}
+.ayu .grammar-literal {
+    background-color: #191f26
+}
+
+/* Adds a highlight to the targeted production name. */
+.grammar-production:target {
+    border: 2px solid;
+    border-radius: 8px;
+    padding: 0 4px;
+}
+
+.light .grammar-production:target {
+    border-color: #ffffcc;
+    box-shadow: 0 0 4px 4px #e3e3e3cc;
+}
+
+.rust .grammar-production:target {
+    border-color: #e1e1a0;
+    box-shadow: 0 0 4px 4px #a8a8a8cc;
+}
+
+.coal .grammar-production:target {
+    border-color: #82825a;
+    box-shadow: 0 0 4px 4px #393939cc;
+}
+
+.navy .grammar-production:target {
+    border-color: #828270;
+    box-shadow: 0 0 4px 4px #3e3b3bcc;
+}
+
+.ayu .grammar-production:target {
+    border-color: #6c6c53;
+    box-shadow: 0 0 4px 4px #4a4a4acc;
+}

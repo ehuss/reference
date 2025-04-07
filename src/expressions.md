@@ -2,6 +2,50 @@ r[expr]
 # Expressions
 
 r[expr.syntax]
+```syntax
+Expression ->
+      ExpressionWithoutBlock
+    | ExpressionWithBlock
+
+ExpressionWithoutBlock ->
+    OuterAttribute*
+    (
+        LiteralExpression
+      | PathExpression
+      | OperatorExpression
+      | GroupedExpression
+      | ArrayExpression
+      | AwaitExpression
+      | IndexExpression
+      | TupleExpression
+      | TupleIndexingExpression
+      | StructExpression
+      | CallExpression
+      | MethodCallExpression
+      | FieldExpression
+      | ClosureExpression
+      | AsyncBlockExpression
+      | ContinueExpression
+      | BreakExpression
+      | RangeExpression
+      | ReturnExpression
+      | UnderscoreExpression
+      | MacroInvocation
+    )
+
+ExpressionWithBlock ->
+    OuterAttribute*
+    (
+        BlockExpression
+      | ConstBlockExpression
+      | UnsafeBlockExpression
+      | LoopExpression
+      | IfExpression
+      | IfLetExpression
+      | MatchExpression
+    )
+```
+
 > **<sup>Syntax</sup>**\
 > _Expression_ :\
 > &nbsp;&nbsp; &nbsp;&nbsp; _ExpressionWithoutBlock_\

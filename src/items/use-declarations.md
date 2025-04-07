@@ -2,6 +2,15 @@ r[items.use]
 # Use declarations
 
 r[items.use.syntax]
+```syntax
+UseDeclaration -> `use` UseTree `;`
+
+UseTree ->
+      (SimplePath? `::`)? `*`
+    | (SimplePath? `::`)? `{` (UseTree ( `,`  UseTree )* `,`?)? `}`
+    | SimplePath ( `as` ( IDENTIFIER | `_` ) )?
+```
+
 > **<sup>Syntax:</sup>**\
 > _UseDeclaration_ :\
 > &nbsp;&nbsp; `use` _UseTree_ `;`

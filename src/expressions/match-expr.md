@@ -2,6 +2,25 @@ r[expr.match]
 # `match` expressions
 
 r[expr.match.syntax]
+```syntax
+MatchExpression ->
+    `match` Scrutinee `{`
+        InnerAttribute*
+        MatchArms?
+    `}`
+
+Scrutinee -> Expression _except [StructExprStruct]_
+
+MatchArms ->
+    ( MatchArm `=>` ( ExpressionWithoutBlock `,` | ExpressionWithBlock `,`? ) )*
+    MatchArm `=>` Expression `,`?
+
+MatchArm -> OuterAttribute* Pattern MatchArmGuard?
+
+MatchArmGuard -> `if` Expression
+```
+<!-- TODO: The exception above isn't accurate, see https://github.com/rust-lang/reference/issues/569 -->
+
 > **<sup>Syntax</sup>**\
 > _MatchExpression_ :\
 > &nbsp;&nbsp; `match` _Scrutinee_ `{`\
@@ -9,7 +28,7 @@ r[expr.match.syntax]
 > &nbsp;&nbsp; &nbsp;&nbsp; _MatchArms_<sup>?</sup>\
 > &nbsp;&nbsp; `}`
 >
->_Scrutinee_ :\
+> _Scrutinee_ :\
 > &nbsp;&nbsp; [_Expression_]<sub>_except struct expression_</sub>
 >
 > _MatchArms_ :\
