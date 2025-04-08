@@ -22,3 +22,10 @@ function spec_toggle_tests(rule_id) {
         el.classList.remove('popup-hidden');
     }
 }
+
+function toggle_grammar() {
+    const elements = document.querySelectorAll('.grammar-content');
+    elements.forEach(element => {
+        element.classList.toggle('grammar-hidden');
+    });
+}

@@ -19,6 +19,14 @@ r[paths.simple]
 ### Simple Paths
 
 r[paths.simple.syntax]
+```syntax
+SimplePath ->
+    `::`? SimplePathSegment (`::` SimplePathSegment)*
+
+SimplePathSegment ->
+    IDENTIFIER | `super` | `self` | `crate` | `$crate`
+```
+
 > **<sup>Syntax</sup>**\
 > _SimplePath_ :\
 > &nbsp;&nbsp; `::`<sup>?</sup> _SimplePathSegment_ (`::` _SimplePathSegment_)<sup>\*</sup>
@@ -42,6 +50,36 @@ r[paths.expr]
 ### Paths in expressions
 
 r[paths.expr.syntax]
+```syntax
+PathInExpression ->
+    `::`? PathExprSegment (`::` PathExprSegment)*
+
+PathExprSegment ->
+    PathIdentSegment (`::` GenericArgs)?
+
+PathIdentSegment ->
+    IDENTIFIER | `super` | `self` | `Self` | `crate` | `$crate`
+
+GenericArgs ->
+      `<` `>`
+    | `<` ( GenericArg `,` )* GenericArg `,`? `>`
+
+GenericArg ->
+    Lifetime | Type | GenericArgsConst | GenericArgsBinding | GenericArgsBounds
+
+GenericArgsConst ->
+      BlockExpression
+    | LiteralExpression
+    | `-` LiteralExpression
+    | SimplePathSegment
+
+GenericArgsBinding ->
+    IDENTIFIER GenericArgs? `=` Type
+
+GenericArgsBounds ->
+    IDENTIFIER GenericArgs? `:` TypeParamBounds
+```
+
 > **<sup>Syntax</sup>**\
 > _PathInExpression_ :\
 > &nbsp;&nbsp; `::`<sup>?</sup> _PathExprSegment_ (`::` _PathExprSegment_)<sup>\*</sup>
@@ -100,6 +138,17 @@ r[paths.qualified]
 ## Qualified paths
 
 r[paths.qualified.syntax]
+```syntax
+QualifiedPathInExpression ->
+    QualifiedPathType (`::` PathExprSegment)+
+
+QualifiedPathType ->
+    `<` Type (`as` TypePath)? `>`
+
+QualifiedPathInType ->
+    QualifiedPathType (`::` TypePathSegment)+
+```
+
 > **<sup>Syntax</sup>**\
 > _QualifiedPathInExpression_ :\
 > &nbsp;&nbsp; _QualifiedPathType_ (`::` _PathExprSegment_)<sup>+</sup>
@@ -137,6 +186,20 @@ r[paths.type]
 ### Paths in types
 
 r[paths.type.syntax]
+```syntax
+TypePath ->
+    `::`? TypePathSegment (`::` TypePathSegment)*
+
+TypePathSegment ->
+    PathIdentSegment (`::`? (GenericArgs | TypePathFn))?
+
+TypePathFn ->
+    `(` TypePathFnInputs? `)` (`->` TypeNoBounds)?
+
+TypePathFnInputs ->
+    Type (`,` Type)* `,`?
+```
+
 > **<sup>Syntax</sup>**\
 > _TypePath_ :\
 > &nbsp;&nbsp; `::`<sup>?</sup> _TypePathSegment_ (`::` _TypePathSegment_)<sup>\*</sup>
@@ -145,10 +208,10 @@ r[paths.type.syntax]
 > &nbsp;&nbsp; _PathIdentSegment_ (`::`<sup>?</sup> ([_GenericArgs_] | _TypePathFn_))<sup>?</sup>
 >
 > _TypePathFn_ :\
-> `(` _TypePathFnInputs_<sup>?</sup> `)` (`->` [_TypeNoBounds_])<sup>?</sup>
+> &nbsp;&nbsp; `(` _TypePathFnInputs_<sup>?</sup> `)` (`->` [_TypeNoBounds_])<sup>?</sup>
 >
 > _TypePathFnInputs_ :\
-> [_Type_] (`,` [_Type_])<sup>\*</sup> `,`<sup>?</sup>
+> &nbsp;&nbsp; [_Type_] (`,` [_Type_])<sup>\*</sup> `,`<sup>?</sup>
 
 r[paths.type.intro]
 Type paths are used within type definitions, trait bounds, type parameter bounds,

@@ -2,6 +2,34 @@ r[bound]
 # Trait and lifetime bounds
 
 r[bound.syntax]
+```syntax
+TypeParamBounds -> TypeParamBound ( `+` TypeParamBound )* `+`?
+
+TypeParamBound -> Lifetime | TraitBound | UseBound
+
+TraitBound ->
+      ( `?` | ForLifetimes )? TypePath
+    | `(` ( `?` | ForLifetimes )? TypePath `)`
+
+LifetimeBounds -> ( Lifetime `+` )* Lifetime?
+
+Lifetime ->
+      LIFETIME_OR_LABEL
+    | `'static`
+    | `'_`
+
+UseBound -> `use` UseBoundGenericArgs
+
+UseBoundGenericArgs ->
+      `<` `>`
+    | `<` ( UseBoundGenericArg `,`)* UseBoundGenericArg `,`? `>`
+
+UseBoundGenericArg ->
+      Lifetime
+    | IDENTIFIER
+    | `Self`
+```
+
 > **<sup>Syntax</sup>**\
 > _TypeParamBounds_ :\
 > &nbsp;&nbsp; _TypeParamBound_ ( `+` _TypeParamBound_ )<sup>\*</sup> `+`<sup>?</sup>
@@ -148,6 +176,11 @@ r[bound.higher-ranked]
 ## Higher-ranked trait bounds
 
 r[bound.higher-ranked.syntax]
+```syntax
+ForLifetimes -> `for` GenericParams
+```
+
+> **<sup>Syntax</sup>**\
 > _ForLifetimes_ :\
 > &nbsp;&nbsp; `for` [_GenericParams_]
 

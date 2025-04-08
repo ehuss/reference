@@ -2,6 +2,35 @@ r[expr.struct]
 # Struct expressions
 
 r[expr.struct.syntax]
+```syntax
+StructExpression ->
+      StructExprStruct
+    | StructExprTuple
+    | StructExprUnit
+
+StructExprStruct ->
+    PathInExpression `{` (StructExprFields | StructBase)? `}`
+
+StructExprFields ->
+    StructExprField (`,` StructExprField)* (`,` StructBase | `,`?)
+
+StructExprField ->
+    OuterAttribute *
+    (
+        IDENTIFIER
+      | (IDENTIFIER | TUPLE_INDEX) `:` Expression
+    )
+
+StructBase -> `..` Expression
+
+StructExprTuple ->
+    PathInExpression `(`
+      ( Expression (`,` Expression)* `,`? )?
+    `)`
+
+StructExprUnit -> PathInExpression
+```
+
 > **<sup>Syntax</sup>**\
 > _StructExpression_ :\
 > &nbsp;&nbsp; &nbsp;&nbsp; _StructExprStruct_\

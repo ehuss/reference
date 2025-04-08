@@ -2,6 +2,33 @@ r[items]
 # Items
 
 r[items.syntax]
+```syntax
+Item ->
+    OuterAttribute* ( VisItem | MacroItem )
+
+VisItem ->
+    Visibility?
+    (
+        Module
+      | ExternCrate
+      | UseDeclaration
+      | Function
+      | TypeAlias
+      | Struct
+      | Enumeration
+      | Union
+      | ConstantItem
+      | StaticItem
+      | Trait
+      | Implementation
+      | ExternBlock
+    )
+
+MacroItem ->
+      MacroInvocationSemi
+    | MacroRulesDefinition
+```
+
 > **<sup>Syntax:</sup>**\
 > _Item_:\
 > &nbsp;&nbsp; [_OuterAttribute_]<sup>\*</sup>\

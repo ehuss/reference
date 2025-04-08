@@ -16,6 +16,24 @@ r[macro.invocation]
 ## Macro Invocation
 
 r[macro.invocation.syntax]
+```syntax
+MacroInvocation ->
+    SimplePath `!` DelimTokenTree
+
+DelimTokenTree ->
+      `(` TokenTree* `)`
+    | `[` TokenTree* `]`
+    | `{` TokenTree* `}`
+
+TokenTree ->
+    Token _except [delimiters]_ | DelimTokenTree
+
+MacroInvocationSemi ->
+      SimplePath `!` `(` TokenTree* `)` `;`
+    | SimplePath `!` `[` TokenTree* `]` `;`
+    | SimplePath `!` `{` TokenTree* `}`
+```
+
 > **<sup>Syntax</sup>**\
 > _MacroInvocation_ :\
 > &nbsp;&nbsp; [_SimplePath_] `!` _DelimTokenTree_

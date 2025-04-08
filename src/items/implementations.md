@@ -2,6 +2,24 @@ r[items.impl]
 # Implementations
 
 r[items.impl.syntax]
+```syntax
+Implementation -> InherentImpl | TraitImpl
+
+InherentImpl ->
+    `impl` GenericParams? Type WhereClause? `{`
+        InnerAttribute*
+        AssociatedItem*
+    `}`
+
+TraitImpl ->
+    `unsafe`? `impl` GenericParams? `!`? TypePath `for` Type
+    WhereClause?
+    `{`
+        InnerAttribute*
+        AssociatedItem*
+    `}`
+```
+
 > **<sup>Syntax</sup>**\
 > _Implementation_ :\
 > &nbsp;&nbsp; _InherentImpl_ | _TraitImpl_

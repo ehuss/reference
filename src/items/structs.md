@@ -2,6 +2,26 @@ r[items.struct]
 # Structs
 
 r[items.struct.syntax]
+```syntax
+Struct ->
+      StructStruct
+    | TupleStruct
+
+StructStruct ->
+    `struct` IDENTIFIER GenericParams? WhereClause? ( `{` StructFields? `}` | `;` )
+
+TupleStruct ->
+    `struct` IDENTIFIER GenericParams? `(` TupleFields? `)` WhereClause? `;`
+
+StructFields -> StructField (`,` StructField)* `,`?
+
+StructField -> OuterAttribute* Visibility? IDENTIFIER `:` Type
+
+TupleFields -> TupleField (`,` TupleField)* `,`?
+
+TupleField -> OuterAttribute* Visibility? Type
+```
+
 > **<sup>Syntax</sup>**\
 > _Struct_ :\
 > &nbsp;&nbsp; &nbsp;&nbsp; _StructStruct_\

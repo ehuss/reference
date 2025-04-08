@@ -2,6 +2,15 @@ r[statement]
 # Statements
 
 r[statement.syntax]
+```syntax
+Statement ->
+      `;`
+    | Item
+    | LetStatement
+    | ExpressionStatement
+    | MacroInvocationSemi
+```
+
 > **<sup>Syntax</sup>**\
 > _Statement_ :\
 > &nbsp;&nbsp; &nbsp;&nbsp; `;`\
@@ -56,6 +65,15 @@ r[statement.let]
 ### `let` statements
 
 r[statement.let.syntax]
+```syntax
+LetStatement ->
+    OuterAttribute* `let` PatternNoTopAlt ( `:` Type )?
+    (
+          `=` Expression
+        | `=` Expression _except [LazyBooleanExpression] or end with a `}`_ `else` BlockExpression
+    )? `;`
+```
+
 > **<sup>Syntax</sup>**\
 > _LetStatement_ :\
 > &nbsp;&nbsp; [_OuterAttribute_]<sup>\*</sup> `let` [_PatternNoTopAlt_]
@@ -98,6 +116,12 @@ r[statement.expr]
 ## Expression statements
 
 r[statement.expr.syntax]
+```syntax
+ExpressionStatement ->
+      ExpressionWithoutBlock `;`
+    | ExpressionWithBlock `;`?
+```
+
 > **<sup>Syntax</sup>**\
 > _ExpressionStatement_ :\
 > &nbsp;&nbsp; &nbsp;&nbsp; [_ExpressionWithoutBlock_][expression] `;`\

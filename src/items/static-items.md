@@ -2,13 +2,17 @@ r[items.static]
 # Static items
 
 r[items.static.syntax]
+```syntax
+StaticItem ->
+    ItemSafety?[^extern-safety] `static` `mut`? IDENTIFIER `:` Type ( `=` Expression )? `;`
+```
+
+[^extern-safety]: The `safe` and `unsafe` function qualifiers are only allowed semantically within `extern` blocks.
+
 > **<sup>Syntax</sup>**\
 > _StaticItem_ :\
 > &nbsp;&nbsp; [_ItemSafety_]<sup>?</sup>[^extern-safety] `static` `mut`<sup>?</sup> [IDENTIFIER] `:` [_Type_]
 >              ( `=` [_Expression_] )<sup>?</sup> `;`
->
-> [^extern-safety]: The `safe` and `unsafe` function qualifiers are only
->   allowed semantically within `extern` blocks.
 
 r[items.static.intro]
 A *static item* is similar to a [constant], except that it represents an allocated object in the

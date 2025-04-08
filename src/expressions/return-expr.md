@@ -2,6 +2,10 @@ r[expr.return]
 # `return` expressions
 
 r[expr.return.syntax]
+```syntax
+ReturnExpression -> `return` Expression?
+```
+
 > **<sup>Syntax</sup>**\
 > _ReturnExpression_ :\
 > &nbsp;&nbsp; `return` [_Expression_]<sup>?</sup>

@@ -4,6 +4,12 @@ r[expr.tuple]
 ## Tuple expressions
 
 r[expr.tuple.syntax]
+```syntax
+TupleExpression -> `(` TupleElements? `)`
+
+TupleElements -> ( Expression `,` )+ Expression?
+```
+
 > **<sup>Syntax</sup>**\
 > _TupleExpression_ :\
 > &nbsp;&nbsp; `(` _TupleElements_<sup>?</sup> `)`
@@ -46,6 +52,10 @@ r[expr.tuple-index]
 ## Tuple indexing expressions
 
 r[expr.tuple-index.syntax]
+```syntax
+TupleIndexingExpression -> Expression `.` TUPLE_INDEX
+```
+
 > **<sup>Syntax</sup>**\
 > _TupleIndexingExpression_ :\
 > &nbsp;&nbsp; [_Expression_] `.` [TUPLE_INDEX]

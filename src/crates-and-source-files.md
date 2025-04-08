@@ -2,6 +2,12 @@ r[crate]
 # Crates and source files
 
 r[crate.syntax]
+```syntax
+Crate ->
+    InnerAttribute*
+    Item*
+```
+
 > **<sup>Syntax</sup>**\
 > _Crate_ :\
 > &nbsp;&nbsp; [_InnerAttribute_]<sup>\*</sup>\

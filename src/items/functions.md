@@ -2,6 +2,49 @@ r[items.fn]
 # Functions
 
 r[items.fn.syntax]
+```syntax
+Function ->
+    FunctionQualifiers `fn` IDENTIFIER GenericParams?
+        `(` FunctionParameters? `)`
+        FunctionReturnType? WhereClause?
+        ( BlockExpression | `;` )
+
+FunctionQualifiers -> `const`? `async`?[^async-edition] ItemSafety?[^extern-qualifiers] (`extern` Abi?)?
+
+ItemSafety -> `safe`[^extern-safe] | `unsafe`
+
+Abi -> STRING_LITERAL | RAW_STRING_LITERAL
+
+FunctionParameters ->
+      SelfParam `,`?
+    | (SelfParam `,`)? FunctionParam (`,` FunctionParam)* `,`?
+
+SelfParam -> OuterAttribute* ( ShorthandSelf | TypedSelf )
+
+ShorthandSelf -> (`&` | `&` Lifetime)? `mut`? `self`
+
+TypedSelf -> `mut`? `self` `:` Type
+
+FunctionParam -> OuterAttribute* ( FunctionParamPattern | `...` | Type[^fn-param-2015] )
+
+FunctionParamPattern -> PatternNoTopAlt `:` ( Type | `...` )
+
+FunctionReturnType -> `->` Type
+```
+
+[^async-edition]: The `async` qualifier is not allowed in the 2015 edition.
+
+[^extern-safe]: The `safe` function qualifier is only allowed semantically within
+  `extern` blocks.
+
+[^extern-qualifiers]: *Relevant to editions earlier than Rust 2024*: Within
+  `extern` blocks, the `safe` or `unsafe` function qualifier is only allowed
+  when the `extern` is qualified as `unsafe`.
+
+[^fn-param-2015]: Function parameters with only a type are only allowed
+  in an associated function of a [trait item] in the 2015 edition.
+
+
 > **<sup>Syntax</sup>**\
 > _Function_ :\
 > &nbsp;&nbsp; _FunctionQualifiers_ `fn` [IDENTIFIER]&nbsp;[_GenericParams_]<sup>?</sup>\
@@ -41,18 +84,6 @@ r[items.fn.syntax]
 >
 > _FunctionReturnType_ :\
 > &nbsp;&nbsp; `->` [_Type_]
->
-> [^async-edition]: The `async` qualifier is not allowed in the 2015 edition.
->
-> [^extern-safe]: The `safe` function qualifier is only allowed semantically within
->   `extern` blocks.
->
-> [^extern-qualifiers]: *Relevant to editions earlier than Rust 2024*: Within
->   `extern` blocks, the `safe` or `unsafe` function qualifier is only allowed
->   when the `extern` is qualified as `unsafe`.
->
-> [^fn-param-2015]: Function parameters with only a type are only allowed
->   in an associated function of a [trait item] in the 2015 edition.
 
 r[items.fn.intro]
 A _function_ consists of a [block] (that's the _body_ of the function),

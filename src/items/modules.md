@@ -2,6 +2,15 @@ r[items.mod]
 # Modules
 
 r[items.mod.syntax]
+```syntax
+Module ->
+      `unsafe`? `mod` IDENTIFIER `;`
+    | `unsafe`? `mod` IDENTIFIER `{`
+        InnerAttribute*
+        Item*
+      `}`
+```
+
 > **<sup>Syntax:</sup>**\
 > _Module_ :\
 > &nbsp;&nbsp; &nbsp;&nbsp; `unsafe`<sup>?</sup> `mod` [IDENTIFIER] `;`\

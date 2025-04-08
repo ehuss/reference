@@ -2,6 +2,14 @@ r[items.associated]
 # Associated Items
 
 r[items.associated.syntax]
+```syntax
+AssociatedItem ->
+    OuterAttribute* (
+        MacroInvocationSemi
+      | ( Visibility? ( TypeAlias | ConstantItem | Function ) )
+    )
+```
+
 > **<sup>Syntax</sup>**\
 > _AssociatedItem_ :\
 > &nbsp;&nbsp; [_OuterAttribute_]<sup>\*</sup> (\

@@ -45,6 +45,29 @@ r[type.name]
 ## Type expressions
 
 r[type.name.syntax]
+```syntax
+Type ->
+      TypeNoBounds
+    | ImplTraitType
+    | TraitObjectType
+
+TypeNoBounds ->
+      ParenthesizedType
+    | ImplTraitTypeOneBound
+    | TraitObjectTypeOneBound
+    | TypePath
+    | TupleType
+    | NeverType
+    | RawPointerType
+    | ReferenceType
+    | ArrayType
+    | SliceType
+    | InferredType
+    | QualifiedPathInType
+    | BareFunctionType
+    | MacroInvocation
+```
+
 > **<sup>Syntax</sup>**\
 > _Type_ :\
 > &nbsp;&nbsp; &nbsp;&nbsp; _TypeNoBounds_\
@@ -103,6 +126,11 @@ r[type.name.parenthesized]
 ### Parenthesized types
 
 r[type.name.parenthesized.syntax]
+```syntax
+ParenthesizedType -> `(` Type `)`
+```
+
+> **<sup>Syntax</sup>**\
 > _ParenthesizedType_ :\
 > &nbsp;&nbsp; `(` [_Type_] `)`
 

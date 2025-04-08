@@ -2,6 +2,20 @@ r[expr.operator]
 # Operator expressions
 
 r[expr.operator.syntax]
+```syntax
+OperatorExpression ->
+      BorrowExpression
+    | DereferenceExpression
+    | ErrorPropagationExpression
+    | NegationExpression
+    | ArithmeticOrLogicalExpression
+    | ComparisonExpression
+    | LazyBooleanExpression
+    | TypeCastExpression
+    | AssignmentExpression
+    | CompoundAssignmentExpression
+```
+
 > **<sup>Syntax</sup>**\
 > _OperatorExpression_ :\
 > &nbsp;&nbsp; &nbsp;&nbsp; [_BorrowExpression_]\
@@ -53,6 +67,14 @@ r[expr.operator.int-overflow.shift]
 
 r[expr.operator.borrow]
 ## Borrow operators
+
+```syntax
+BorrowExpression ->
+      (`&`|`&&`) Expression
+    | (`&`|`&&`) `mut` Expression
+    | (`&`|`&&`) `raw` `const` Expression
+    | (`&`|`&&`) `raw` `mut` Expression
+```
 
 > **<sup>Syntax</sup>**\
 > _BorrowExpression_ :\
@@ -159,6 +181,10 @@ r[expr.deref]
 ## The dereference operator
 
 r[expr.deref.syntax]
+```syntax
+DereferenceExpression -> `*` Expression
+```
+
 > **<sup>Syntax</sup>**\
 > _DereferenceExpression_ :\
 > &nbsp;&nbsp; `*` [_Expression_]
@@ -190,6 +216,10 @@ r[expr.try]
 ## The question mark operator
 
 r[expr.try.syntax]
+```syntax
+ErrorPropagationExpression -> Expression `?`
+```
+
 > **<sup>Syntax</sup>**\
 > _ErrorPropagationExpression_ :\
 > &nbsp;&nbsp; [_Expression_] `?`
@@ -252,6 +282,12 @@ r[expr.negate]
 ## Negation operators
 
 r[expr.negate.syntax]
+```syntax
+NegationExpression ->
+      `-` Expression
+    | `!` Expression
+```
+
 > **<sup>Syntax</sup>**\
 > _NegationExpression_ :\
 > &nbsp;&nbsp; &nbsp;&nbsp; `-` [_Expression_]\
@@ -285,6 +321,20 @@ r[expr.arith-logic]
 ## Arithmetic and Logical Binary Operators
 
 r[expr.arith-logic.syntax]
+```syntax
+ArithmeticOrLogicalExpression ->
+      Expression `+` Expression
+    | Expression `-` Expression
+    | Expression `*` Expression
+    | Expression `/` Expression
+    | Expression `%` Expression
+    | Expression `&` Expression
+    | Expression `|` Expression
+    | Expression `^` Expression
+    | Expression `<<` Expression
+    | Expression `>>` Expression
+```
+
 > **<sup>Syntax</sup>**\
 > _ArithmeticOrLogicalExpression_ :\
 > &nbsp;&nbsp; &nbsp;&nbsp; [_Expression_] `+` [_Expression_]\
@@ -347,6 +397,16 @@ r[expr.cmp]
 ## Comparison Operators
 
 r[expr.cmp.syntax]
+```syntax
+ComparisonExpression ->
+      Expression `==` Expression
+    | Expression `!=` Expression
+    | Expression `>` Expression
+    | Expression `<` Expression
+    | Expression `>=` Expression
+    | Expression `<=` Expression
+```
+
 > **<sup>Syntax</sup>**\
 > _ComparisonExpression_ :\
 > &nbsp;&nbsp; &nbsp;&nbsp; [_Expression_] `==` [_Expression_]\
@@ -405,6 +465,12 @@ r[expr.bool-logic]
 ## Lazy boolean operators
 
 r[expr.bool-logic.syntax]
+```syntax
+LazyBooleanExpression ->
+      Expression `||` Expression
+    | Expression `&&` Expression
+```
+
 > **<sup>Syntax</sup>**\
 > _LazyBooleanExpression_ :\
 > &nbsp;&nbsp; &nbsp;&nbsp; [_Expression_] `||` [_Expression_]\
@@ -427,6 +493,10 @@ r[expr.as]
 ## Type cast expressions
 
 r[expr.as.syntax]
+```syntax
+TypeCastExpression -> Expression `as` TypeNoBounds
+```
+
 > **<sup>Syntax</sup>**\
 > _TypeCastExpression_ :\
 > &nbsp;&nbsp; [_Expression_] `as` [_TypeNoBounds_]
@@ -688,6 +758,10 @@ r[expr.assign]
 ## Assignment expressions
 
 r[expr.assign.syntax]
+```syntax
+AssignmentExpression -> Expression `=` Expression
+```
+
 > **<sup>Syntax</sup>**\
 > _AssignmentExpression_ :\
 > &nbsp;&nbsp; [_Expression_] `=` [_Expression_]
@@ -800,6 +874,20 @@ r[expr.compound-assign]
 ## Compound assignment expressions
 
 r[expr.compound-assign.syntax]
+```syntax
+CompoundAssignmentExpression ->
+      Expression `+=` Expression
+    | Expression `-=` Expression
+    | Expression `*=` Expression
+    | Expression `/=` Expression
+    | Expression `%=` Expression
+    | Expression `&=` Expression
+    | Expression `|=` Expression
+    | Expression `^=` Expression
+    | Expression `<<=` Expression
+    | Expression `>>=` Expression
+```
+
 > **<sup>Syntax</sup>**\
 > _CompoundAssignmentExpression_ :\
 > &nbsp;&nbsp; &nbsp;&nbsp; [_Expression_] `+=` [_Expression_]\

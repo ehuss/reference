@@ -2,6 +2,28 @@ r[patterns]
 # Patterns
 
 r[patterns.syntax]
+```syntax
+Pattern -> `|`? PatternNoTopAlt  ( `|` PatternNoTopAlt )*
+
+PatternNoTopAlt ->
+      PatternWithoutRange
+    | RangePattern
+
+PatternWithoutRange ->
+      LiteralPattern
+    | IdentifierPattern
+    | WildcardPattern
+    | RestPattern
+    | ReferencePattern
+    | StructPattern
+    | TupleStructPattern
+    | TuplePattern
+    | GroupedPattern
+    | SlicePattern
+    | PathPattern
+    | MacroInvocation
+```
+
 > **<sup>Syntax</sup>**\
 > _Pattern_ :\
 > &nbsp;&nbsp; &nbsp;&nbsp; `|`<sup>?</sup> _PatternNoTopAlt_  ( `|` _PatternNoTopAlt_ )<sup>\*</sup>
@@ -138,6 +160,21 @@ r[patterns.literal]
 ## Literal patterns
 
 r[patterns.literal.syntax]
+```syntax
+LiteralPattern ->
+      `true` | `false`
+    | CHAR_LITERAL
+    | BYTE_LITERAL
+    | STRING_LITERAL
+    | RAW_STRING_LITERAL
+    | BYTE_STRING_LITERAL
+    | RAW_BYTE_STRING_LITERAL
+    | C_STRING_LITERAL
+    | RAW_C_STRING_LITERAL
+    | `-`? INTEGER_LITERAL
+    | `-`? FLOAT_LITERAL
+```
+
 > **<sup>Syntax</sup>**\
 > _LiteralPattern_ :\
 > &nbsp;&nbsp; &nbsp;&nbsp; `true` | `false`\
@@ -190,6 +227,10 @@ r[patterns.ident]
 ## Identifier patterns
 
 r[patterns.ident.syntax]
+```syntax
+IdentifierPattern -> `ref`? `mut`? IDENTIFIER (`@` PatternNoTopAlt ) ?
+```
+
 > **<sup>Syntax</sup>**\
 > _IdentifierPattern_ :\
 > &nbsp;&nbsp; &nbsp;&nbsp; `ref`<sup>?</sup> `mut`<sup>?</sup> [IDENTIFIER] (`@` [_PatternNoTopAlt_] ) <sup>?</sup>
@@ -372,6 +413,10 @@ r[patterns.wildcard]
 ## Wildcard pattern
 
 r[patterns.wildcard.syntax]
+```syntax
+WildcardPattern -> `_`
+```
+
 > **<sup>Syntax</sup>**\
 > _WildcardPattern_ :\
 > &nbsp;&nbsp; `_`
@@ -419,6 +464,11 @@ The wildcard pattern is always irrefutable.
 
 r[patterns.rest]
 ## Rest patterns
+
+r[patterns.rest.syntax]
+```syntax
+RestPattern -> `..`
+```
 
 > **<sup>Syntax</sup>**\
 > _RestPattern_ :\
@@ -478,6 +528,43 @@ r[patterns.range]
 ## Range patterns
 
 r[patterns.range.syntax]
+```syntax
+RangePattern ->
+      RangeExclusivePattern
+    | RangeInclusivePattern
+    | RangeFromPattern
+    | RangeToExclusivePattern
+    | RangeToInclusivePattern
+    | ObsoleteRangePattern[^obsolete-range-edition]
+
+RangeExclusivePattern ->
+      RangePatternBound `..` RangePatternBound
+
+RangeInclusivePattern ->
+      RangePatternBound `..=` RangePatternBound
+
+RangeFromPattern ->
+      RangePatternBound `..`
+
+RangeToExclusivePattern ->
+      `..` RangePatternBound
+
+RangeToInclusivePattern ->
+      `..=` RangePatternBound
+
+ObsoleteRangePattern ->
+    RangePatternBound `...` RangePatternBound
+
+RangePatternBound ->
+      CHAR_LITERAL
+    | BYTE_LITERAL
+    | `-`? INTEGER_LITERAL
+    | `-`? FLOAT_LITERAL
+    | PathExpression
+```
+
+[^obsolete-range-edition]: The _ObsoleteRangePattern_ syntax has been removed in the 2021 edition.
+
 > **<sup>Syntax</sup>**\
 > _RangePattern_ :\
 > &nbsp;&nbsp; &nbsp;&nbsp; _RangeExclusivePattern_\
@@ -511,8 +598,6 @@ r[patterns.range.syntax]
 > &nbsp;&nbsp; | `-`<sup>?</sup> [INTEGER_LITERAL]\
 > &nbsp;&nbsp; | `-`<sup>?</sup> [FLOAT_LITERAL]\
 > &nbsp;&nbsp; | [_PathExpression_]
->
-> [^obsolete-range-edition]: The _ObsoleteRangePattern_ syntax has been removed in the 2021 edition.
 
 r[patterns.range.intro]
 *Range patterns* match scalar values within the range defined by their bounds.
@@ -678,6 +763,10 @@ r[patterns.ref]
 ## Reference patterns
 
 r[patterns.ref.syntax]
+```syntax
+ReferencePattern -> (`&`|`&&`) `mut`? PatternWithoutRange
+```
+
 > **<sup>Syntax</sup>**\
 > _ReferencePattern_ :\
 > &nbsp;&nbsp; (`&`|`&&`) `mut`<sup>?</sup> [_PatternWithoutRange_]
@@ -709,6 +798,30 @@ r[patterns.struct]
 ## Struct patterns
 
 r[patterns.struct.syntax]
+```syntax
+StructPattern ->
+    PathInExpression `{`
+        StructPatternElements ?
+    `}`
+
+StructPatternElements ->
+      StructPatternFields (`,` | `,` StructPatternEtCetera)?
+    | StructPatternEtCetera
+
+StructPatternFields ->
+    StructPatternField (`,` StructPatternField) *
+
+StructPatternField ->
+    OuterAttribute *
+    (
+        TUPLE_INDEX `:` Pattern
+      | IDENTIFIER `:` Pattern
+      | `ref`? `mut`? IDENTIFIER
+    )
+
+StructPatternEtCetera -> `..`
+```
+
 > **<sup>Syntax</sup>**\
 > _StructPattern_ :\
 > &nbsp;&nbsp; [_PathInExpression_] `{`\
@@ -827,6 +940,12 @@ r[patterns.tuple-struct]
 ## Tuple struct patterns
 
 r[patterns.tuple-struct.syntax]
+```syntax
+TupleStructPattern -> PathInExpression `(` TupleStructItems? `)`
+
+TupleStructItems -> Pattern ( `,` Pattern )* `,`?
+```
+
 > **<sup>Syntax</sup>**\
 > _TupleStructPattern_ :\
 > &nbsp;&nbsp; [_PathInExpression_] `(` _TupleStructItems_<sup>?</sup> `)`
@@ -845,6 +964,15 @@ r[patterns.tuple]
 ## Tuple patterns
 
 r[patterns.tuple.syntax]
+```syntax
+TuplePattern -> `(` TuplePatternItems? `)`
+
+TuplePatternItems ->
+      Pattern `,`
+    | RestPattern
+    | Pattern (`,` Pattern)+ `,`?
+```
+
 > **<sup>Syntax</sup>**\
 > _TuplePattern_ :\
 > &nbsp;&nbsp; `(` _TuplePatternItems_<sup>?</sup> `)`
@@ -878,6 +1006,10 @@ r[patterns.paren]
 ## Grouped patterns
 
 r[patterns.paren.syntax]
+```syntax
+GroupedPattern -> `(` Pattern `)`
+```
+
 > **<sup>Syntax</sup>**\
 > _GroupedPattern_ :\
 > &nbsp;&nbsp; `(` [_Pattern_] `)`
@@ -898,6 +1030,12 @@ r[patterns.slice]
 ## Slice patterns
 
 r[patterns.slice.syntax]
+```syntax
+SlicePattern -> `[` SlicePatternItems? `]`
+
+SlicePatternItems -> Pattern (`,` Pattern)* `,`?
+```
+
 > **<sup>Syntax</sup>**\
 > _SlicePattern_ :\
 > &nbsp;&nbsp; `[` _SlicePatternItems_<sup>?</sup> `]`
@@ -940,6 +1078,10 @@ r[patterns.path]
 ## Path patterns
 
 r[patterns.path.syntax]
+```syntax
+PathPattern -> PathExpression
+```
+
 > **<sup>Syntax</sup>**\
 > _PathPattern_ :\
 > &nbsp;&nbsp; &nbsp;&nbsp; [_PathExpression_]

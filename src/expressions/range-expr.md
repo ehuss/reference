@@ -2,6 +2,28 @@ r[expr.range]
 # Range expressions
 
 r[expr.range.syntax]
+```syntax
+RangeExpression ->
+      RangeExpr
+    | RangeFromExpr
+    | RangeToExpr
+    | RangeFullExpr
+    | RangeInclusiveExpr
+    | RangeToInclusiveExpr
+
+RangeExpr -> Expression `..` Expression
+
+RangeFromExpr -> Expression `..`
+
+RangeToExpr -> `..` Expression
+
+RangeFullExpr -> `..`
+
+RangeInclusiveExpr -> Expression `..=` Expression
+
+RangeToInclusiveExpr -> `..=` Expression
+```
+
 > **<sup>Syntax</sup>**\
 > _RangeExpression_ :\
 > &nbsp;&nbsp; &nbsp;&nbsp; _RangeExpr_\

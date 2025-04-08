@@ -4,6 +4,13 @@ r[expr.if]
 ## `if` expressions
 
 r[expr.if.syntax]
+```syntax
+IfExpression ->
+    `if` Expression _except [StructExprStruct]_ BlockExpression
+    (`else` ( BlockExpression | IfExpression | IfLetExpression ) )?
+```
+<!-- TODO: The exception above isn't accurate, see https://github.com/rust-lang/reference/issues/569 -->
+
 > **<sup>Syntax</sup>**\
 > _IfExpression_ :\
 > &nbsp;&nbsp; `if` [_Expression_]<sub>_except struct expression_</sub> [_BlockExpression_]\
@@ -56,6 +63,12 @@ r[expr.if.let]
 ## `if let` expressions
 
 r[expr.if.let.syntax]
+```syntax
+IfLetExpression ->
+    `if` `let` Pattern `=` Scrutinee _except [LazyBooleanExpression]_ BlockExpression
+    (`else` ( BlockExpression | IfExpression | IfLetExpression ) )?
+```
+
 > **<sup>Syntax</sup>**\
 > _IfLetExpression_ :\
 > &nbsp;&nbsp; `if` `let` [_Pattern_] `=` [_Scrutinee_]<sub>_except lazy boolean operator expression_</sub>

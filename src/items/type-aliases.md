@@ -2,6 +2,13 @@ r[items.type]
 # Type aliases
 
 r[items.type.syntax]
+```syntax
+TypeAlias ->
+    `type` IDENTIFIER GenericParams? ( `:` TypeParamBounds )?
+        WhereClause?
+        ( `=` Type WhereClause?)? `;`
+```
+
 > **<sup>Syntax</sup>**\
 > _TypeAlias_ :\
 > &nbsp;&nbsp; `type` [IDENTIFIER]&nbsp;[_GenericParams_]<sup>?</sup>

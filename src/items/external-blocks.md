@@ -2,6 +2,23 @@ r[items.extern]
 # External blocks
 
 r[items.extern.syntax]
+```syntax
+ExternBlock ->
+    `unsafe`?[^unsafe-2024] `extern` Abi? `{`
+        InnerAttribute*
+        ExternalItem*
+    `}`
+
+ExternalItem ->
+    OuterAttribute* (
+        MacroInvocationSemi
+      | Visibility? StaticItem
+      | Visibility? Function
+    )
+```
+
+[^unsafe-2024]: Starting with the 2024 Edition, the `unsafe` keyword is required semantically.
+
 > **<sup>Syntax</sup>**\
 > _ExternBlock_ :\
 > &nbsp;&nbsp; `unsafe`<sup>?</sup>[^unsafe-2024] `extern` [_Abi_]<sup>?</sup> `{`\
@@ -14,8 +31,6 @@ r[items.extern.syntax]
 > &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; [_MacroInvocationSemi_]\
 > &nbsp;&nbsp; &nbsp;&nbsp; | ( [_Visibility_]<sup>?</sup> ( [_StaticItem_] | [_Function_] ) )\
 > &nbsp;&nbsp; )
->
-> [^unsafe-2024]: Starting with the 2024 Edition, the `unsafe` keyword is required semantically.
 
 r[items.extern.intro]
 External blocks provide _declarations_ of items that are not _defined_ in the

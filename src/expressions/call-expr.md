@@ -2,6 +2,12 @@ r[expr.call]
 # Call expressions
 
 r[expr.call.syntax]
+```syntax
+CallExpression -> Expression `(` CallParams? `)`
+
+CallParams -> Expression ( `,` Expression )* `,`?
+```
+
 > **<sup>Syntax</sup>**\
 > _CallExpression_ :\
 > &nbsp;&nbsp; [_Expression_] `(` _CallParams_<sup>?</sup> `)`

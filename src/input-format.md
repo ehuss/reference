@@ -6,6 +6,27 @@ This chapter describes how a source file is interpreted as a sequence of tokens.
 
 See [Crates and source files] for a description of how programs are organised into files.
 
+r[input.syntax]
+<!-- TODO: consider putting these in a more generic location? -->
+```lexer
+NUL -> U+0000
+
+TAB -> U+0009
+
+LF -> U+000A
+
+CR -> U+000D
+```
+
+> **<sup>Lexer</sup>**\
+> NUL : U+0000
+>
+> TAB : U+0009
+>
+> LF : U+000A
+>
+> CR : U+000D
+
 r[input.encoding]
 ## Source encoding
 
