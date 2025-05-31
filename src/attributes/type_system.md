@@ -37,7 +37,45 @@ more fields or variants added in the future.
 >     #[non_exhaustive] Reaction(u32),
 >     #[non_exhaustive] Quit,
 > }
+> ```
+
+r[attributes.type-system.non_exhaustive.allowed-positions]
+It can be applied to [`struct`s][struct], [`enum`s][enum], and `enum` variants.
+
+r[attributes.type-system.non_exhaustive.syntax]
+The `non_exhaustive` attribute uses the [MetaWord] syntax and thus does not
+take any inputs.
+
+r[attributes.type-system.non_exhaustive.same-crate]
+Within the defining crate, `non_exhaustive` has no effect.
+
+> [!EXAMPLE]
+> Using the definitions from [above][attributes.type-system.non_exhaustive.intro], the following examples when used within the same crate are allowed without restrictions.
 >
+> ```rust
+> # #[non_exhaustive]
+> # pub struct Config {
+> #     pub window_width: u16,
+> #     pub window_height: u16,
+> # }
+> #
+> # #[non_exhaustive]
+> # pub struct Token;
+> #
+> # #[non_exhaustive]
+> # pub struct Id(pub u64);
+> #
+> # #[non_exhaustive]
+> # pub enum Error {
+> #     Message(String),
+> #     Other,
+> # }
+> #
+> # pub enum Message {
+> #     #[non_exhaustive] Send { from: u32, to: u32, contents: String },
+> #     #[non_exhaustive] Reaction(u32),
+> #     #[non_exhaustive] Quit,
+> # }
 > // Non-exhaustive structs can be constructed as normal within the defining crate.
 > let config = Config { window_width: 640, window_height: 480 };
 > let token = Token;
@@ -65,15 +103,6 @@ more fields or variants added in the future.
 > }
 > ```
 
-r[attributes.type-system.non_exhaustive.allowed-positions]
-It can be applied to [`struct`s][struct], [`enum`s][enum], and `enum` variants.
-
-r[attributes.type-system.non_exhaustive.syntax]
-The `non_exhaustive` attribute uses the [MetaWord] syntax and thus does not
-take any inputs.
-
-r[attributes.type-system.non_exhaustive.same-crate]
-Within the defining crate, `non_exhaustive` has no effect.
 
 r[attributes.type-system.non_exhaustive.external-crate]
 Outside of the defining crate, types annotated with `non_exhaustive` have limitations that
