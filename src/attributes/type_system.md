@@ -227,7 +227,8 @@ It's also not allowed to use numeric casts (`as`) on enums that contain any non-
 > let _ = EnumWithNonExhaustiveVariants::First as u8;
 > ```
 
-Non-exhaustive types are always considered inhabited in downstream crates.
+r[attributes.type-system.non_exhaustive.inhabited]
+Non-exhaustive types are always considered [inhabited] in downstream crates, even though the constructors are not accessible.
 
 [`match`]: ../expressions/match-expr.md
 [attributes]: ../attributes.md
@@ -235,3 +236,4 @@ Non-exhaustive types are always considered inhabited in downstream crates.
 [functional update syntax]: ../expressions/struct-expr.md#functional-update-syntax
 [struct]: ../items/structs.md
 [visibility]: ../visibility-and-privacy.md
+[inhabited]: ../glossary.md#inhabited
