@@ -41,6 +41,32 @@ The *`inline` [attribute]* suggests that a copy of the attributed function shoul
 > [!NOTE]
 > The `rustc` compiler automatically inlines functions based on internal heuristics. Incorrectly inlining functions can make the program slower, so this attribute should be used with care.
 
+r[attributes.codegen.inline.syntax]
+The syntax for the `inline` attribute is:
+
+```grammar,attributes
+@root InlineAttribute ->
+      `inline`
+    | `inline` `(` `always` `)`
+    | `inline` `(` `never` `)`
+```
+
+r[attributes.codegen.inline.allowed-positions]
+The `inline` attribute can be applied to [free functions][items.fn], [closures][expr.closure], [inherent associated functions][items.associated.fn], and [trait][items.traits] functions with a body.
+
+It has no effect when applied to [trait functions without a body][items.traits.associated-item-decls], [external function definitions][items.extern.fn], [associated consts][items.associated.const], [fields][StructField], [match arms][MatchArm], and [macro definitions][macro.decl].
+
+All other positions is an error.
+
+<!-- TODO: It was a consequence of history when there was no validation on attributes that led to this happening. Is this the best way to document this? -->
+
+<!-- TODO: People get confused by phrasing like "no effect" or "ignored" when in reality rustc generates a warning (unused attribute in this case). Should the reference break its rule of avoiding lints in cases like this? -->
+
+<!-- TODO: It (except never) is ignored on externally exported functions: no_mangle, export_name, or linkage. Is that something we want to document? -->
+
+r[attributes.codegen.inline.duplicates]
+Only the first instance of `inline` on a function is honored. Subsequent `inline` attributes are ignored.
+
 r[attributes.codegen.inline.modes]
 There are three ways to use the inline attribute:
 
