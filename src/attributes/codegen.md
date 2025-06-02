@@ -23,6 +23,21 @@ r[attributes.codegen.inline]
 r[attributes.codegen.inline.intro]
 The *`inline` [attribute]* suggests that a copy of the attributed function should be placed in the caller, rather than generating code to call the function where it is defined.
 
+> [!EXAMPLE]
+> ```rust
+> // Suggests that `example1` should be inlined.
+> #[inline]
+> fn example1() {}
+>
+> // Suggests that `example2` should always be inlined.
+> #[inline(always)]
+> fn example2() {}
+>
+> // Suggests that `example3` should never be inlined.
+> #[inline(never)]
+> fn example3() {}
+> ```
+
 > [!NOTE]
 > The `rustc` compiler automatically inlines functions based on internal heuristics. Incorrectly inlining functions can make the program slower, so this attribute should be used with care.
 
