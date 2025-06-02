@@ -21,9 +21,7 @@ r[attributes.codegen.inline]
 ### The `inline` attribute
 
 r[attributes.codegen.inline.intro]
-The *`inline` [attribute]* suggests that a copy of the attributed function
-should be placed in the caller, rather than generating code to call the
-function where it is defined.
+The *`inline` [attribute]* suggests that a copy of the attributed function should be placed in the caller, rather than generating code to call the function where it is defined.
 
 > [!NOTE]
 > The `rustc` compiler automatically inlines functions based on internal heuristics. Incorrectly inlining functions can make the program slower, so this attribute should be used with care.
@@ -32,10 +30,8 @@ r[attributes.codegen.inline.modes]
 There are three ways to use the inline attribute:
 
 * `#[inline]` *suggests* performing an inline expansion.
-* `#[inline(always)]` *suggests* that an inline expansion should always be
-  performed.
-* `#[inline(never)]` *suggests* that an inline expansion should never be
-  performed.
+* `#[inline(always)]` *suggests* that an inline expansion should always be performed.
+* `#[inline(never)]` *suggests* that an inline expansion should never be performed.
 
 > [!NOTE]
 > `#[inline]` in every form is a hint, with no *requirements* on the language to place a copy of the attributed function in the caller.
