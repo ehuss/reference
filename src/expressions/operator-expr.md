@@ -911,7 +911,7 @@ It will then set the value of the assigned operand's place to the value of perfo
 
 > [!NOTE]
 > This right-before-left evaluation only occurs in non-generic code involving primitive types.
-> In all other cases—including generic contexts or non-primitive types—the expression is desugared into a trait method call, and operands are evaluated left to right.
+> In all other cases---including generic contexts or non-primitive types---the expression is desugared into a trait method call, and operands are evaluated left to right.
 
 r[expr.compound-assign.trait]
 Otherwise, this expression is syntactic sugar for calling the function of the overloading compound assignment trait of the operator (see the table earlier in this chapter).
