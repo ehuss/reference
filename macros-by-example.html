@@ -12,24 +12,23 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff">
 
-        <link rel="icon" href="favicon.svg">
-        <link rel="shortcut icon" href="favicon.png">
-        <link rel="stylesheet" href="css/variables.css">
-        <link rel="stylesheet" href="css/general.css">
-        <link rel="stylesheet" href="css/chrome.css">
-        <link rel="stylesheet" href="css/print.css" media="print">
+        <link rel="icon" href="favicon-de23e50b.svg">
+        <link rel="shortcut icon" href="favicon-8114d1fc.png">
+        <link rel="stylesheet" href="css/variables-3865ffda.css">
+        <link rel="stylesheet" href="css/general-d297d479.css">
+        <link rel="stylesheet" href="css/chrome-03ed7f09.css">
+        <link rel="stylesheet" href="css/print-9e4910d8.css" media="print">
 
         <!-- Fonts -->
-        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
-        <link rel="stylesheet" href="fonts/fonts.css">
+        <link rel="stylesheet" href="fonts/fonts-9644e21d.css">
 
         <!-- Highlight.js Stylesheets -->
-        <link rel="stylesheet" id="highlight-css" href="highlight.css">
-        <link rel="stylesheet" id="tomorrow-night-css" href="tomorrow-night.css">
-        <link rel="stylesheet" id="ayu-highlight-css" href="ayu-highlight.css">
+        <link rel="stylesheet" id="mdbook-highlight-css" href="highlight-493f70e1.css">
+        <link rel="stylesheet" id="mdbook-tomorrow-night-css" href="tomorrow-night-4c0ae647.css">
+        <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="ayu-highlight-56612340.css">
 
         <!-- Custom theme stylesheets -->
-        <link rel="stylesheet" href="theme/reference.css">
+        <link rel="stylesheet" href="theme/reference-94a8e8ad.css">
 
 
         <!-- Provide site root and default themes to javascript -->
@@ -37,12 +36,24 @@
             const path_to_root = "";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "searchindex-54e4028f.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="toc.js"></script>
+        <script src="toc-cb7fc751.js"></script>
     </head>
     <body>
-    <div id="body-container">
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="mdbook-body-container">
         <!-- Work around some values being stored in localStorage wrapped in quotes -->
         <script>
             try {
@@ -71,56 +82,59 @@
             html.classList.add("js");
         </script>
 
-        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+        <input type="checkbox" id="mdbook-sidebar-toggle-anchor" class="hidden">
 
         <!-- Hide / unhide sidebar before it is displayed -->
         <script>
             let sidebar = null;
-            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            const sidebar_toggle = document.getElementById("mdbook-sidebar-toggle-anchor");
             if (document.body.clientWidth >= 1080) {
                 try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
                 sidebar = sidebar || 'visible';
             } else {
                 sidebar = 'hidden';
+                sidebar_toggle.checked = false;
             }
-            sidebar_toggle.checked = sidebar === 'visible';
-            html.classList.remove('sidebar-visible');
-            html.classList.add("sidebar-" + sidebar);
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
         </script>
 
-        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+        <nav id="mdbook-sidebar" class="sidebar" aria-label="Table of contents">
             <!-- populated by js -->
             <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
             <noscript>
                 <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
             </noscript>
-            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+            <div id="mdbook-sidebar-resize-handle" class="sidebar-resize-handle">
                 <div class="sidebar-resize-indicator"></div>
             </div>
         </nav>
 
-        <div id="page-wrapper" class="page-wrapper">
+        <div id="mdbook-page-wrapper" class="page-wrapper">
 
             <div class="page">
-                <div id="menu-bar-hover-placeholder"></div>
-                <div id="menu-bar" class="menu-bar sticky">
+                <div id="mdbook-menu-bar-hover-placeholder"></div>
+                <div id="mdbook-menu-bar" class="menu-bar sticky">
                     <div class="left-buttons">
-                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
-                            <i class="fa fa-bars"></i>
+                        <label id="mdbook-sidebar-toggle" class="icon-button" for="mdbook-sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="mdbook-sidebar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"/></svg></span>
                         </label>
-                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
-                            <i class="fa fa-paint-brush"></i>
+                        <button id="mdbook-theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="mdbook-theme-list">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M371.3 367.1c27.3-3.9 51.9-19.4 67.2-42.9L600.2 74.1c12.6-19.5 9.4-45.3-7.6-61.2S549.7-4.4 531.1 9.6L294.4 187.2c-24 18-38.2 46.1-38.4 76.1L371.3 367.1zm-19.6 25.4l-116-104.4C175.9 290.3 128 339.6 128 400c0 3.9 .2 7.8 .6 11.6c1.8 17.5-10.2 36.4-27.8 36.4H96c-17.7 0-32 14.3-32 32s14.3 32 32 32H240c61.9 0 112-50.1 112-112c0-2.5-.1-5-.2-7.5z"/></svg></span>
                         </button>
-                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
-                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
-                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
-                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
-                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
-                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
-                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        <ul id="mdbook-theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-ayu">Ayu</button></li>
                         </ul>
-                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
-                            <i class="fa fa-search"></i>
+                        <button id="mdbook-search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="mdbook-searchbar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352c79.5 0 144-64.5 144-144s-64.5-144-144-144S64 128.5 64 208s64.5 144 144 144z"/></svg></span>
                         </button>
                     </div>
 
@@ -128,39 +142,44 @@
 
                     <div class="right-buttons">
                         <a href="print.html" title="Print this book" aria-label="Print this book">
-                            <i id="print-button" class="fa fa-print"></i>
+                            <span class=fa-svg id="print-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M128 0C92.7 0 64 28.7 64 64v96h64V64H354.7L384 93.3V160h64V93.3c0-17-6.7-33.3-18.7-45.3L400 18.7C388 6.7 371.7 0 354.7 0H128zM384 352v32 64H128V384 368 352H384zm64 32h32c17.7 0 32-14.3 32-32V256c0-35.3-28.7-64-64-64H64c-35.3 0-64 28.7-64 64v96c0 17.7 14.3 32 32 32H64v64c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V384zm-16-88c-13.3 0-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24s-10.7 24-24 24z"/></svg></span>
                         </a>
                         <a href="https://github.com/rust-lang/reference/" title="Git repository" aria-label="Git repository">
-                            <i id="git-repository-button" class="fa fa-github"></i>
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg></span>
                         </a>
-                        <a href="https://github.com/rust-lang/reference/edit/master/src/macros-by-example.md" title="Suggest an edit" aria-label="Suggest an edit">
-                            <i id="git-edit-button" class="fa fa-edit"></i>
+                        <a href="https://github.com/rust-lang/reference/edit/master/src/macros-by-example.md" title="Suggest an edit" aria-label="Suggest an edit" rel="edit">
+                            <span class=fa-svg id="git-edit-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M421.7 220.3l-11.3 11.3-22.6 22.6-205 205c-6.6 6.6-14.8 11.5-23.8 14.1L30.8 511c-8.4 2.5-17.5 .2-23.7-6.1S-1.5 489.7 1 481.2L38.7 353.1c2.6-9 7.5-17.2 14.1-23.8l205-205 22.6-22.6 11.3-11.3 33.9 33.9 62.1 62.1 33.9 33.9zM96 353.9l-9.3 9.3c-.9 .9-1.6 2.1-2 3.4l-25.3 86 86-25.3c1.3-.4 2.5-1.1 3.4-2l9.3-9.3H112c-8.8 0-16-7.2-16-16V353.9zM453.3 19.3l39.4 39.4c25 25 25 65.5 0 90.5l-14.5 14.5-22.6 22.6-11.3 11.3-33.9-33.9-62.1-62.1L314.3 67.7l11.3-11.3 22.6-22.6 14.5-14.5c25-25 65.5-25 90.5 0z"/></svg></span>
                         </a>
 
                     </div>
                 </div>
 
-                <div id="search-wrapper" class="hidden">
-                    <form id="searchbar-outer" class="searchbar-outer">
-                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                <div id="mdbook-search-wrapper" class="hidden">
+                    <form id="mdbook-searchbar-outer" class="searchbar-outer">
+                        <div class="search-wrapper">
+                            <input type="search" id="mdbook-searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="mdbook-searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <span class=fa-svg id="fa-spin"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M304 48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zm0 416c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM48 304c26.5 0 48-21.5 48-48s-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48zm464-48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM142.9 437c18.7-18.7 18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zm0-294.2c18.7-18.7 18.7-49.1 0-67.9S93.7 56.2 75 75s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zM369.1 437c18.7 18.7 49.1 18.7 67.9 0s18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9z"/></svg></span>
+                            </div>
+                        </div>
                     </form>
-                    <div id="searchresults-outer" class="searchresults-outer hidden">
-                        <div id="searchresults-header" class="searchresults-header"></div>
-                        <ul id="searchresults">
+                    <div id="mdbook-searchresults-outer" class="searchresults-outer hidden">
+                        <div id="mdbook-searchresults-header" class="searchresults-header"></div>
+                        <ul id="mdbook-searchresults">
                         </ul>
                     </div>
                 </div>
 
                 <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
                 <script>
-                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
-                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
-                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                    document.getElementById('mdbook-sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('mdbook-sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#mdbook-sidebar a')).forEach(function(link) {
                         link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
                     });
                 </script>
 
-                <div id="content" class="content">
+                <div id="mdbook-content" class="content">
                     <main>
                         <div class="rule" id="r-macro.decl"><a class="rule-link" href="#r-macro.decl" title="macro.decl"><span>[macro<wbr>.decl]</span/></a>
 </div>
@@ -168,41 +187,43 @@
 <div class="rule" id="r-macro.decl.syntax"><a class="rule-link" href="#r-macro.decl.syntax" title="macro.decl.syntax"><span>[macro<wbr>.decl<wbr>.syntax]</span/></a>
 </div>
 <div class="grammar-container">
-<button class="grammar-toggle" type="button" title="Toggle grammar display"onclick="toggle_grammar()">Toggle Railroad</button>
-<p><strong><sup>Syntax</sup></strong></p>
-<div class="grammar-content grammar-text">
-<p><span class="grammar-text grammar-production" id="grammar-MacroRulesDefinition">MacroRulesDefinition</span> → <br />
-    <span class="grammar-literal">macro_rules</span> <span class="grammar-literal">!</span> <span class="grammar-text"><a href="identifiers.html">IDENTIFIER</a></span> <span class="grammar-text"><a href="macros-by-example.html#grammar-MacroRulesDef">MacroRulesDef</a></span></p>
-<p><span class="grammar-text grammar-production" id="grammar-MacroRulesDef">MacroRulesDef</span> → <br />
+<p><strong><sup>Syntax</sup></strong>
+<br>
+<span class="grammar-text grammar-production" id="grammar-MacroRulesDefinition" onclick="show_railroad()"><a href="macros-by-example.html#railroad-MacroRulesDefinition">MacroRulesDefinition</a></span> → <br />
+    <span class="grammar-literal">macro_rules</span> <span class="grammar-literal">!</span> <span class="grammar-text"><a href="identifiers.html#grammar-IDENTIFIER">IDENTIFIER</a></span> <span class="grammar-text"><a href="macros-by-example.html#grammar-MacroRulesDef">MacroRulesDef</a></span></p>
+<p><span class="grammar-text grammar-production" id="grammar-MacroRulesDef" onclick="show_railroad()"><a href="macros-by-example.html#railroad-MacroRulesDef">MacroRulesDef</a></span> → <br />
       <span class="grammar-literal">(</span> <span class="grammar-text"><a href="macros-by-example.html#grammar-MacroRules">MacroRules</a></span> <span class="grammar-literal">)</span> <span class="grammar-literal">;</span> <br />
     | <span class="grammar-literal">[</span> <span class="grammar-text"><a href="macros-by-example.html#grammar-MacroRules">MacroRules</a></span> <span class="grammar-literal">]</span> <span class="grammar-literal">;</span> <br />
     | <span class="grammar-literal">{</span> <span class="grammar-text"><a href="macros-by-example.html#grammar-MacroRules">MacroRules</a></span> <span class="grammar-literal">}</span></p>
-<p><span class="grammar-text grammar-production" id="grammar-MacroRules">MacroRules</span> → <br />
+<p><span class="grammar-text grammar-production" id="grammar-MacroRules" onclick="show_railroad()"><a href="macros-by-example.html#railroad-MacroRules">MacroRules</a></span> → <br />
     <span class="grammar-text"><a href="macros-by-example.html#grammar-MacroRule">MacroRule</a></span> ( <span class="grammar-literal">;</span> <span class="grammar-text"><a href="macros-by-example.html#grammar-MacroRule">MacroRule</a></span> )<sup>*</sup> <span class="grammar-literal">;</span><sup>?</sup></p>
-<p><span class="grammar-text grammar-production" id="grammar-MacroRule">MacroRule</span> → <br />
+<p><span class="grammar-text grammar-production" id="grammar-MacroRule" onclick="show_railroad()"><a href="macros-by-example.html#railroad-MacroRule">MacroRule</a></span> → <br />
     <span class="grammar-text"><a href="macros-by-example.html#grammar-MacroMatcher">MacroMatcher</a></span> <span class="grammar-literal">=&gt;</span> <span class="grammar-text"><a href="macros-by-example.html#grammar-MacroTranscriber">MacroTranscriber</a></span></p>
-<p><span class="grammar-text grammar-production" id="grammar-MacroMatcher">MacroMatcher</span> → <br />
+<p><span class="grammar-text grammar-production" id="grammar-MacroMatcher" onclick="show_railroad()"><a href="macros-by-example.html#railroad-MacroMatcher">MacroMatcher</a></span> → <br />
       <span class="grammar-literal">(</span> <span class="grammar-text"><a href="macros-by-example.html#grammar-MacroMatch">MacroMatch</a></span><sup>*</sup> <span class="grammar-literal">)</span> <br />
     | <span class="grammar-literal">[</span> <span class="grammar-text"><a href="macros-by-example.html#grammar-MacroMatch">MacroMatch</a></span><sup>*</sup> <span class="grammar-literal">]</span> <br />
     | <span class="grammar-literal">{</span> <span class="grammar-text"><a href="macros-by-example.html#grammar-MacroMatch">MacroMatch</a></span><sup>*</sup> <span class="grammar-literal">}</span></p>
-<p><span class="grammar-text grammar-production" id="grammar-MacroMatch">MacroMatch</span> → <br />
-      <span class="grammar-text"><a href="tokens.html">Token</a></span><sub class="grammar-text">except <code>$</code> and <a href="tokens.html#delimiters">delimiters</a></sub> <br />
+<p><span class="grammar-text grammar-production" id="grammar-MacroMatch" onclick="show_railroad()"><a href="macros-by-example.html#railroad-MacroMatch">MacroMatch</a></span> → <br />
+      <span class="grammar-text"><a href="tokens.html#grammar-Token">Token</a></span><sub class="grammar-text">except <code>$</code> and <a href="tokens.html#r-lex.token.delim">delimiters</a></sub> <br />
     | <span class="grammar-text"><a href="macros-by-example.html#grammar-MacroMatcher">MacroMatcher</a></span> <br />
-    | <span class="grammar-literal">$</span> ( <span class="grammar-text"><a href="identifiers.html">IDENTIFIER_OR_KEYWORD</a></span><sub class="grammar-text">except <code>crate</code></sub> | <span class="grammar-text"><a href="identifiers.html">RAW_IDENTIFIER</a></span> | <span class="grammar-literal">_</span> ) <span class="grammar-literal">:</span> <span class="grammar-text"><a href="macros-by-example.html#grammar-MacroFragSpec">MacroFragSpec</a></span> <br />
+    | <span class="grammar-literal">$</span> ( <span class="grammar-text"><a href="identifiers.html#grammar-IDENTIFIER_OR_KEYWORD">IDENTIFIER_OR_KEYWORD</a></span><sub class="grammar-text">except <code>crate</code></sub> | <span class="grammar-text"><a href="identifiers.html#grammar-RAW_IDENTIFIER">RAW_IDENTIFIER</a></span> | <span class="grammar-literal">_</span> ) <span class="grammar-literal">:</span> <span class="grammar-text"><a href="macros-by-example.html#grammar-MacroFragSpec">MacroFragSpec</a></span> <br />
     | <span class="grammar-literal">$</span> <span class="grammar-literal">(</span> <span class="grammar-text"><a href="macros-by-example.html#grammar-MacroMatch">MacroMatch</a></span><sup>+</sup> <span class="grammar-literal">)</span> <span class="grammar-text"><a href="macros-by-example.html#grammar-MacroRepSep">MacroRepSep</a></span><sup>?</sup> <span class="grammar-text"><a href="macros-by-example.html#grammar-MacroRepOp">MacroRepOp</a></span></p>
-<p><span class="grammar-text grammar-production" id="grammar-MacroFragSpec">MacroFragSpec</span> → <br />
+<p><span class="grammar-text grammar-production" id="grammar-MacroFragSpec" onclick="show_railroad()"><a href="macros-by-example.html#railroad-MacroFragSpec">MacroFragSpec</a></span> → <br />
       <span class="grammar-literal">block</span> | <span class="grammar-literal">expr</span> | <span class="grammar-literal">expr_2021</span> | <span class="grammar-literal">ident</span> | <span class="grammar-literal">item</span> | <span class="grammar-literal">lifetime</span> | <span class="grammar-literal">literal</span> <br />
     | <span class="grammar-literal">meta</span> | <span class="grammar-literal">pat</span> | <span class="grammar-literal">pat_param</span> | <span class="grammar-literal">path</span> | <span class="grammar-literal">stmt</span> | <span class="grammar-literal">tt</span> | <span class="grammar-literal">ty</span> | <span class="grammar-literal">vis</span></p>
-<p><span class="grammar-text grammar-production" id="grammar-MacroRepSep">MacroRepSep</span> → <span class="grammar-text"><a href="tokens.html">Token</a></span><sub class="grammar-text">except <a href="tokens.html#delimiters">delimiters</a> and <a href="macros-by-example.html#grammar-MacroRepOp">MacroRepOp</a></sub></p>
-<p><span class="grammar-text grammar-production" id="grammar-MacroRepOp">MacroRepOp</span> → <span class="grammar-literal">*</span> | <span class="grammar-literal">+</span> | <span class="grammar-literal">?</span></p>
-<p><span class="grammar-text grammar-production" id="grammar-MacroTranscriber">MacroTranscriber</span> → <span class="grammar-text"><a href="macros.html#grammar-DelimTokenTree">DelimTokenTree</a></span></p>
+<p><span class="grammar-text grammar-production" id="grammar-MacroRepSep" onclick="show_railroad()"><a href="macros-by-example.html#railroad-MacroRepSep">MacroRepSep</a></span> → <span class="grammar-text"><a href="tokens.html#grammar-Token">Token</a></span><sub class="grammar-text">except <a href="tokens.html#r-lex.token.delim">delimiters</a> and <a href="macros-by-example.html#grammar-MacroRepOp">MacroRepOp</a></sub></p>
+<p><span class="grammar-text grammar-production" id="grammar-MacroRepOp" onclick="show_railroad()"><a href="macros-by-example.html#railroad-MacroRepOp">MacroRepOp</a></span> → <span class="grammar-literal">*</span> | <span class="grammar-literal">+</span> | <span class="grammar-literal">?</span></p>
+<p><span class="grammar-text grammar-production" id="grammar-MacroTranscriber" onclick="show_railroad()"><a href="macros-by-example.html#railroad-MacroTranscriber">MacroTranscriber</a></span> → <span class="grammar-text"><a href="macros.html#grammar-DelimTokenTree">DelimTokenTree</a></span></p>
+<p><button class="grammar-toggle-railroad" type="button" title="Toggle railroad display" onclick="toggle_railroad()">Show Railroad</button></p>
 </div>
-<div class="grammar-content grammar-railroad grammar-hidden">
-<div style="width: 460px; height: auto; max-width: 100%; max-height: 100%"><svg class="railroad" viewBox="0 0 460 74" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<div class="grammar-railroad grammar-hidden">
+<div style="width: 460px; height: auto; max-width: 100%; max-height: 100%" class="railroad-production" id="railroad-MacroRulesDefinition"><svg class="railroad" viewBox="0 0 460 74" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 <rect class="railroad_canvas" height="100%" width="100%"/>
 <g class="verticalgrid">
+<a class="link" xlink:href="macros-by-example.html#grammar-MacroRulesDefinition">
 <text class="comment" x="88" y="25">
 MacroRulesDefinition</text>
+</a>
 <g class="sequence">
 <path d=" M 10 53 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5 m 10 0 h 5"/>
 <g class="sequence">
@@ -216,16 +237,20 @@ macro_rules</text>
 <text x="167" y="58">
 !</text>
 </g>
+<a class="link" xlink:href="identifiers.html#railroad-IDENTIFIER">
 <g class="nonterminal">
 <rect height="22" width="100" x="191" y="42"/>
 <text x="241" y="58">
 IDENTIFIER</text>
 </g>
+</a>
+<a class="link" xlink:href="macros-by-example.html#railroad-MacroRulesDef">
 <g class="nonterminal">
 <rect height="22" width="124" x="301" y="42"/>
 <text x="363" y="58">
 MacroRulesDef</text>
 </g>
+</a>
 <path d=" M 143 53 h 10"/>
 <path d=" M 181 53 h 10"/>
 <path d=" M 291 53 h 10"/>
@@ -237,11 +262,13 @@ MacroRulesDef</text>
 </g>
 </svg>
 </div>
-<div style="width: 332px; height: auto; max-width: 100%; max-height: 100%"><svg class="railroad" viewBox="0 0 332 140" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<div style="width: 332px; height: auto; max-width: 100%; max-height: 100%" class="railroad-production" id="railroad-MacroRulesDef"><svg class="railroad" viewBox="0 0 332 140" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 <rect class="railroad_canvas" height="100%" width="100%"/>
 <g class="verticalgrid">
+<a class="link" xlink:href="macros-by-example.html#grammar-MacroRulesDef">
 <text class="comment" x="60" y="25">
 MacroRulesDef</text>
+</a>
 <g class="sequence">
 <path d=" M 10 53 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5 m 10 0 h 5"/>
 <g class="choice">
@@ -252,11 +279,13 @@ MacroRulesDef</text>
 <text x="73" y="58">
 (</text>
 </g>
+<a class="link" xlink:href="macros-by-example.html#railroad-MacroRules">
 <g class="nonterminal">
 <rect height="22" width="100" x="97" y="42"/>
 <text x="147" y="58">
 MacroRules</text>
 </g>
+</a>
 <g class="terminal">
 <rect height="22" rx="10" ry="10" width="28" x="207" y="42"/>
 <text x="221" y="58">
@@ -280,11 +309,13 @@ MacroRules</text>
 <text x="73" y="91">
 [</text>
 </g>
+<a class="link" xlink:href="macros-by-example.html#railroad-MacroRules">
 <g class="nonterminal">
 <rect height="22" width="100" x="97" y="75"/>
 <text x="147" y="91">
 MacroRules</text>
 </g>
+</a>
 <g class="terminal">
 <rect height="22" rx="10" ry="10" width="28" x="207" y="75"/>
 <text x="221" y="91">
@@ -306,11 +337,13 @@ MacroRules</text>
 <text x="73" y="124">
 {</text>
 </g>
+<a class="link" xlink:href="macros-by-example.html#railroad-MacroRules">
 <g class="nonterminal">
 <rect height="22" width="100" x="97" y="108"/>
 <text x="147" y="124">
 MacroRules</text>
 </g>
+</a>
 <g class="terminal">
 <rect height="22" rx="10" ry="10" width="28" x="207" y="108"/>
 <text x="221" y="124">
@@ -327,77 +360,92 @@ MacroRules</text>
 </g>
 </svg>
 </div>
-<div style="width: 412px; height: auto; max-width: 100%; max-height: 100%"><svg class="railroad" viewBox="0 0 412 100" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<div style="width: 460px; height: auto; max-width: 100%; max-height: 100%" class="railroad-production" id="railroad-MacroRules"><svg class="railroad" viewBox="0 0 460 100" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 <rect class="railroad_canvas" height="100%" width="100%"/>
 <g class="verticalgrid">
+<a class="link" xlink:href="macros-by-example.html#grammar-MacroRules">
 <text class="comment" x="50" y="25">
 MacroRules</text>
+</a>
 <g class="sequence">
 <path d=" M 10 66 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5 m 10 0 h 5"/>
 <g class="sequence">
+<a class="link" xlink:href="macros-by-example.html#railroad-MacroRule">
 <g class="nonterminal">
 <rect height="22" width="92" x="35" y="55"/>
 <text x="81" y="71">
 MacroRule</text>
 </g>
+</a>
+<g class="optional">
+<path d=" M 137 66 h 24 m -24 0 a 12 12 0 0 0 12 -12 v 0 a 12 12 0 0 1 12 -12 h 154 m -74 0 l -5 -5 m 0 10 l 5 -5 m 74 0 a 12 12 0 0 1 12 12 v 0 a 12 12 0 0 0 12 12 h -24"/>
 <g class="repeat">
-<path d=" M 137 66 h 12 m 130 0 h 12 m -12 0 a 12 12 0 0 1 12 12 v 0 a 12 12 0 0 1 -12 12 m 0 0 h -130 m 68 0 l 5 -5 m 0 10 l -5 -5 m -68 0 a 12 12 0 0 1 -12 -12 v 0 a 12 12 0 0 1 12 -12"/>
+<path d=" M 161 66 h 12 m 130 0 h 12 m -12 0 a 12 12 0 0 1 12 12 v 0 a 12 12 0 0 1 -12 12 m 0 0 h -130 m 68 0 l 5 -5 m 0 10 l -5 -5 m -68 0 a 12 12 0 0 1 -12 -12 v 0 a 12 12 0 0 1 12 -12"/>
 <g/>
 <g class="sequence">
 <g class="terminal">
-<rect height="22" rx="10" ry="10" width="28" x="149" y="55"/>
-<text x="163" y="71">
+<rect height="22" rx="10" ry="10" width="28" x="173" y="55"/>
+<text x="187" y="71">
 ;</text>
 </g>
+<a class="link" xlink:href="macros-by-example.html#railroad-MacroRule">
 <g class="nonterminal">
-<rect height="22" width="92" x="187" y="55"/>
-<text x="233" y="71">
+<rect height="22" width="92" x="211" y="55"/>
+<text x="257" y="71">
 MacroRule</text>
 </g>
-<path d=" M 177 66 h 10"/>
+</a>
+<path d=" M 201 66 h 10"/>
+</g>
 </g>
 </g>
 <g class="optional">
-<path d=" M 301 66 h 24 m -24 0 a 12 12 0 0 0 12 -12 v 0 a 12 12 0 0 1 12 -12 h 28 a 12 12 0 0 1 12 12 v 0 a 12 12 0 0 0 12 12 h -24"/>
+<path d=" M 349 66 h 24 m -24 0 a 12 12 0 0 0 12 -12 v 0 a 12 12 0 0 1 12 -12 h 28 a 12 12 0 0 1 12 12 v 0 a 12 12 0 0 0 12 12 h -24"/>
 <g class="terminal">
-<rect height="22" rx="10" ry="10" width="28" x="325" y="55"/>
-<text x="339" y="71">
+<rect height="22" rx="10" ry="10" width="28" x="373" y="55"/>
+<text x="387" y="71">
 ;</text>
 </g>
 </g>
 <path d=" M 127 66 h 10"/>
-<path d=" M 291 66 h 10"/>
+<path d=" M 339 66 h 10"/>
 </g>
-<path d=" M 387 66 h 5 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5"/>
+<path d=" M 435 66 h 5 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5"/>
 <path d=" M 25 66 h 10"/>
-<path d=" M 377 66 h 10"/>
+<path d=" M 425 66 h 10"/>
 </g>
 </g>
 </svg>
 </div>
-<div style="width: 390px; height: auto; max-width: 100%; max-height: 100%"><svg class="railroad" viewBox="0 0 390 74" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<div style="width: 390px; height: auto; max-width: 100%; max-height: 100%" class="railroad-production" id="railroad-MacroRule"><svg class="railroad" viewBox="0 0 390 74" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 <rect class="railroad_canvas" height="100%" width="100%"/>
 <g class="verticalgrid">
+<a class="link" xlink:href="macros-by-example.html#grammar-MacroRule">
 <text class="comment" x="46" y="25">
 MacroRule</text>
+</a>
 <g class="sequence">
 <path d=" M 10 53 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5 m 10 0 h 5"/>
 <g class="sequence">
+<a class="link" xlink:href="macros-by-example.html#railroad-MacroMatcher">
 <g class="nonterminal">
 <rect height="22" width="116" x="35" y="42"/>
 <text x="93" y="58">
 MacroMatcher</text>
 </g>
+</a>
 <g class="terminal">
 <rect height="22" rx="10" ry="10" width="36" x="161" y="42"/>
 <text x="179" y="58">
 =&gt;</text>
 </g>
+<a class="link" xlink:href="macros-by-example.html#railroad-MacroTranscriber">
 <g class="nonterminal">
 <rect height="22" width="148" x="207" y="42"/>
 <text x="281" y="58">
 MacroTranscriber</text>
 </g>
+</a>
 <path d=" M 151 53 h 10"/>
 <path d=" M 197 53 h 10"/>
 </g>
@@ -408,130 +456,153 @@ MacroTranscriber</text>
 </g>
 </svg>
 </div>
-<div style="width: 318px; height: auto; max-width: 100%; max-height: 100%"><svg class="railroad" viewBox="0 0 318 179" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<div style="width: 366px; height: auto; max-width: 100%; max-height: 100%" class="railroad-production" id="railroad-MacroMatcher"><svg class="railroad" viewBox="0 0 366 216" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 <rect class="railroad_canvas" height="100%" width="100%"/>
 <g class="verticalgrid">
+<a class="link" xlink:href="macros-by-example.html#grammar-MacroMatcher">
 <text class="comment" x="57" y="25">
 MacroMatcher</text>
+</a>
 <g class="sequence">
-<path d=" M 10 53 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5 m 10 0 h 5"/>
+<path d=" M 10 66 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5 m 10 0 h 5"/>
 <g class="choice">
-<path d=" M 35 53 h 24 m 200 0 h 24"/>
+<path d=" M 35 66 h 24 m 248 0 h 24"/>
 <g class="sequence">
 <g class="terminal">
-<rect height="22" rx="10" ry="10" width="28" x="59" y="42"/>
-<text x="73" y="58">
+<rect height="22" rx="10" ry="10" width="28" x="59" y="55"/>
+<text x="73" y="71">
 (</text>
 </g>
+<g class="optional">
+<path d=" M 97 66 h 24 m -24 0 a 12 12 0 0 0 12 -12 v 0 a 12 12 0 0 1 12 -12 h 124 m -59 0 l -5 -5 m 0 10 l 5 -5 m 59 0 a 12 12 0 0 1 12 12 v 0 a 12 12 0 0 0 12 12 h -24"/>
 <g class="repeat">
-<path d=" M 97 53 h 12 m 100 0 h 12 m -12 0 a 12 12 0 0 1 12 12 v 0 a 12 12 0 0 1 -12 12 m 0 0 h -100 m 53 0 l 5 -5 m 0 10 l -5 -5 m -53 0 a 12 12 0 0 1 -12 -12 v 0 a 12 12 0 0 1 12 -12"/>
+<path d=" M 121 66 h 12 m 100 0 h 12 m -12 0 a 12 12 0 0 1 12 12 v 0 a 12 12 0 0 1 -12 12 m 0 0 h -100 m 53 0 l 5 -5 m 0 10 l -5 -5 m -53 0 a 12 12 0 0 1 -12 -12 v 0 a 12 12 0 0 1 12 -12"/>
 <g/>
+<a class="link" xlink:href="macros-by-example.html#railroad-MacroMatch">
 <g class="nonterminal">
-<rect height="22" width="100" x="109" y="42"/>
-<text x="159" y="58">
+<rect height="22" width="100" x="133" y="55"/>
+<text x="183" y="71">
 MacroMatch</text>
+</g>
+</a>
 </g>
 </g>
 <g class="terminal">
-<rect height="22" rx="10" ry="10" width="28" x="231" y="42"/>
-<text x="245" y="58">
+<rect height="22" rx="10" ry="10" width="28" x="279" y="55"/>
+<text x="293" y="71">
 )</text>
 </g>
-<path d=" M 87 53 h 10"/>
-<path d=" M 221 53 h 10"/>
+<path d=" M 87 66 h 10"/>
+<path d=" M 269 66 h 10"/>
 </g>
-<path d=" M 35 53 a 12 12 0 0 1 12 12 v 22 m 224 0 v -22 a 12 12 0 0 1 12 -12"/>
-<path d=" M 47 87 v 46 m 224 0 v -46"/>
-<path d=" M 47 87 v 0 a 12 12 0 0 0 12 12 m 200 0 h 0 a 12 12 0 0 0 12 -12 v 0"/>
+<path d=" M 35 66 a 12 12 0 0 1 12 12 v 22 m 272 0 v -22 a 12 12 0 0 1 12 -12"/>
+<path d=" M 47 112 v 46 m 272 0 v -46"/>
+<path d=" M 47 100 v 12 a 12 12 0 0 0 12 12 m 248 0 h 0 a 12 12 0 0 0 12 -12 v -12"/>
 <g class="sequence">
 <g class="terminal">
-<rect height="22" rx="10" ry="10" width="28" x="59" y="88"/>
-<text x="73" y="104">
+<rect height="22" rx="10" ry="10" width="28" x="59" y="113"/>
+<text x="73" y="129">
 [</text>
 </g>
+<g class="optional">
+<path d=" M 97 124 h 24 m -24 0 a 12 12 0 0 0 12 -12 v 0 a 12 12 0 0 1 12 -12 h 124 m -59 0 l -5 -5 m 0 10 l 5 -5 m 59 0 a 12 12 0 0 1 12 12 v 0 a 12 12 0 0 0 12 12 h -24"/>
 <g class="repeat">
-<path d=" M 97 99 h 12 m 100 0 h 12 m -12 0 a 12 12 0 0 1 12 12 v 0 a 12 12 0 0 1 -12 12 m 0 0 h -100 m 53 0 l 5 -5 m 0 10 l -5 -5 m -53 0 a 12 12 0 0 1 -12 -12 v 0 a 12 12 0 0 1 12 -12"/>
+<path d=" M 121 124 h 12 m 100 0 h 12 m -12 0 a 12 12 0 0 1 12 12 v 0 a 12 12 0 0 1 -12 12 m 0 0 h -100 m 53 0 l 5 -5 m 0 10 l -5 -5 m -53 0 a 12 12 0 0 1 -12 -12 v 0 a 12 12 0 0 1 12 -12"/>
 <g/>
+<a class="link" xlink:href="macros-by-example.html#railroad-MacroMatch">
 <g class="nonterminal">
-<rect height="22" width="100" x="109" y="88"/>
-<text x="159" y="104">
+<rect height="22" width="100" x="133" y="113"/>
+<text x="183" y="129">
 MacroMatch</text>
+</g>
+</a>
 </g>
 </g>
 <g class="terminal">
-<rect height="22" rx="10" ry="10" width="28" x="231" y="88"/>
-<text x="245" y="104">
+<rect height="22" rx="10" ry="10" width="28" x="279" y="113"/>
+<text x="293" y="129">
 ]</text>
 </g>
-<path d=" M 87 99 h 10"/>
-<path d=" M 221 99 h 10"/>
+<path d=" M 87 124 h 10"/>
+<path d=" M 269 124 h 10"/>
 </g>
-<path d=" M 47 133 v 0 a 12 12 0 0 0 12 12 m 200 0 h 0 a 12 12 0 0 0 12 -12 v 0"/>
+<path d=" M 47 158 v 12 a 12 12 0 0 0 12 12 m 248 0 h 0 a 12 12 0 0 0 12 -12 v -12"/>
 <g class="sequence">
 <g class="terminal">
-<rect height="22" rx="10" ry="10" width="28" x="59" y="134"/>
-<text x="73" y="150">
+<rect height="22" rx="10" ry="10" width="28" x="59" y="171"/>
+<text x="73" y="187">
 {</text>
 </g>
+<g class="optional">
+<path d=" M 97 182 h 24 m -24 0 a 12 12 0 0 0 12 -12 v 0 a 12 12 0 0 1 12 -12 h 124 m -59 0 l -5 -5 m 0 10 l 5 -5 m 59 0 a 12 12 0 0 1 12 12 v 0 a 12 12 0 0 0 12 12 h -24"/>
 <g class="repeat">
-<path d=" M 97 145 h 12 m 100 0 h 12 m -12 0 a 12 12 0 0 1 12 12 v 0 a 12 12 0 0 1 -12 12 m 0 0 h -100 m 53 0 l 5 -5 m 0 10 l -5 -5 m -53 0 a 12 12 0 0 1 -12 -12 v 0 a 12 12 0 0 1 12 -12"/>
+<path d=" M 121 182 h 12 m 100 0 h 12 m -12 0 a 12 12 0 0 1 12 12 v 0 a 12 12 0 0 1 -12 12 m 0 0 h -100 m 53 0 l 5 -5 m 0 10 l -5 -5 m -53 0 a 12 12 0 0 1 -12 -12 v 0 a 12 12 0 0 1 12 -12"/>
 <g/>
+<a class="link" xlink:href="macros-by-example.html#railroad-MacroMatch">
 <g class="nonterminal">
-<rect height="22" width="100" x="109" y="134"/>
-<text x="159" y="150">
+<rect height="22" width="100" x="133" y="171"/>
+<text x="183" y="187">
 MacroMatch</text>
+</g>
+</a>
 </g>
 </g>
 <g class="terminal">
-<rect height="22" rx="10" ry="10" width="28" x="231" y="134"/>
-<text x="245" y="150">
+<rect height="22" rx="10" ry="10" width="28" x="279" y="171"/>
+<text x="293" y="187">
 }</text>
 </g>
-<path d=" M 87 145 h 10"/>
-<path d=" M 221 145 h 10"/>
+<path d=" M 87 182 h 10"/>
+<path d=" M 269 182 h 10"/>
 </g>
 </g>
-<path d=" M 293 53 h 5 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5"/>
-<path d=" M 25 53 h 10"/>
-<path d=" M 283 53 h 10"/>
+<path d=" M 341 66 h 5 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5"/>
+<path d=" M 25 66 h 10"/>
+<path d=" M 331 66 h 10"/>
 </g>
 </g>
 </svg>
 </div>
-<div style="width: 742px; height: auto; max-width: 100%; max-height: 100%"><svg class="railroad" viewBox="0 0 742 351" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<div style="width: 632px; height: auto; max-width: 100%; max-height: 100%" class="railroad-production" id="railroad-MacroMatch"><svg class="railroad" viewBox="0 0 632 351" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 <rect class="railroad_canvas" height="100%" width="100%"/>
 <g class="verticalgrid">
+<a class="link" xlink:href="macros-by-example.html#grammar-MacroMatch">
 <text class="comment" x="50" y="25">
 MacroMatch</text>
+</a>
 <g class="sequence">
 <path d=" M 10 89 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5 m 10 0 h 5"/>
 <g class="choice">
-<path d=" M 35 89 h 24 m 222 0 h 426 m -210 0 l -5 -5 m 0 10 l 5 -5 m 210 0"/>
+<path d=" M 35 89 h 24 m 208 0 h 330 m -162 0 l -5 -5 m 0 10 l 5 -5 m 162 0"/>
 <g class="sequence">
 <g class="labeledbox">
-<rect height="66" width="222" x="59" y="42"/>
-<path d=" M 59 89 h 8 m 60 0 h 154 m -74 0 l -5 -5 m 0 10 l 5 -5 m 74 0"/>
-<text class="comment" x="170" y="65">
-except `$` and [delimiters]</text>
+<rect height="66" width="208" x="59" y="42"/>
+<path d=" M 59 89 h 8 m 60 0 h 140 m -67 0 l -5 -5 m 0 10 l 5 -5 m 67 0"/>
+<text class="comment" x="163" y="65">
+except `$` and delimiters</text>
+<a class="link" xlink:href="tokens.html#railroad-Token">
 <g class="nonterminal">
 <rect height="22" width="60" x="67" y="78"/>
 <text x="97" y="94">
 Token</text>
 </g>
+</a>
 </g>
 </g>
-<path d=" M 35 89 a 12 12 0 0 1 12 12 v 17 m 648 0 v -17 a 12 12 0 0 1 12 -12"/>
-<path d=" M 47 118 v 33 m 648 0 v -33"/>
-<path d=" M 47 186 v 107 m 0 -50 l -5 -5 m 10 0 l -5 5 m 0 50 m 648 0 v -107 m 0 56 l -5 5 m 10 0 l -5 -5 m 0 -56"/>
-<path d=" M 47 118 v 0 a 12 12 0 0 0 12 12 m 116 0 h 508 m -251 0 l -5 -5 m 0 10 l 5 -5 m 251 0 a 12 12 0 0 0 12 -12 v 0"/>
+<path d=" M 35 89 a 12 12 0 0 1 12 12 v 17 m 538 0 v -17 a 12 12 0 0 1 12 -12"/>
+<path d=" M 47 118 v 33 m 538 0 v -33"/>
+<path d=" M 47 186 v 107 m 0 -50 l -5 -5 m 10 0 l -5 5 m 0 50 m 538 0 v -107 m 0 56 l -5 5 m 10 0 l -5 -5 m 0 -56"/>
+<path d=" M 47 118 v 0 a 12 12 0 0 0 12 12 m 116 0 h 398 m -196 0 l -5 -5 m 0 10 l 5 -5 m 196 0 a 12 12 0 0 0 12 -12 v 0"/>
 <g class="sequence">
+<a class="link" xlink:href="macros-by-example.html#railroad-MacroMatcher">
 <g class="nonterminal">
 <rect height="22" width="116" x="59" y="119"/>
 <text x="117" y="135">
 MacroMatcher</text>
 </g>
+</a>
 </g>
-<path d=" M 47 151 v 35 a 12 12 0 0 0 12 12 m 470 0 h 154 m -74 0 l -5 -5 m 0 10 l 5 -5 m 74 0 a 12 12 0 0 0 12 -12 v -35"/>
+<path d=" M 47 151 v 35 a 12 12 0 0 0 12 12 m 470 0 h 44 a 12 12 0 0 0 12 -12 v -35"/>
 <g class="sequence">
 <g class="terminal">
 <rect height="22" rx="10" ry="10" width="28" x="59" y="187"/>
@@ -545,20 +616,24 @@ $</text>
 <path d=" M 121 198 h 8 m 196 0 h 8"/>
 <text class="comment" x="183" y="174">
 except `crate`</text>
+<a class="link" xlink:href="identifiers.html#railroad-IDENTIFIER_OR_KEYWORD">
 <g class="nonterminal">
 <rect height="22" width="196" x="129" y="187"/>
 <text x="227" y="203">
 IDENTIFIER_OR_KEYWORD</text>
 </g>
+</a>
 </g>
 <path d=" M 97 198 a 12 12 0 0 1 12 12 v 17 m 236 0 v -17 a 12 12 0 0 1 12 -12"/>
 <path d=" M 109 227 v 33 m 236 0 v -33"/>
 <path d=" M 109 227 v 0 a 12 12 0 0 0 12 12 m 132 0 h 80 m -37 0 l -5 -5 m 0 10 l 5 -5 m 37 0 a 12 12 0 0 0 12 -12 v 0"/>
+<a class="link" xlink:href="identifiers.html#railroad-RAW_IDENTIFIER">
 <g class="nonterminal">
 <rect height="22" width="132" x="121" y="228"/>
 <text x="187" y="244">
 RAW_IDENTIFIER</text>
 </g>
+</a>
 <path d=" M 109 260 v 0 a 12 12 0 0 0 12 12 m 28 0 h 184 m -89 0 l -5 -5 m 0 10 l 5 -5 m 89 0 a 12 12 0 0 0 12 -12 v 0"/>
 <g class="terminal">
 <rect height="22" rx="10" ry="10" width="28" x="121" y="261"/>
@@ -571,16 +646,18 @@ _</text>
 <text x="381" y="203">
 :</text>
 </g>
+<a class="link" xlink:href="macros-by-example.html#railroad-MacroFragSpec">
 <g class="nonterminal">
 <rect height="22" width="124" x="405" y="187"/>
 <text x="467" y="203">
 MacroFragSpec</text>
 </g>
+</a>
 <path d=" M 87 198 h 10"/>
 <path d=" M 357 198 h 10"/>
 <path d=" M 395 198 h 10"/>
 </g>
-<path d=" M 47 293 v 12 a 12 12 0 0 0 12 12 m 624 0 h 0 a 12 12 0 0 0 12 -12 v -12"/>
+<path d=" M 47 293 v 12 a 12 12 0 0 0 12 12 m 514 0 h 0 a 12 12 0 0 0 12 -12 v -12"/>
 <g class="sequence">
 <g class="terminal">
 <rect height="22" rx="10" ry="10" width="28" x="59" y="306"/>
@@ -592,60 +669,60 @@ $</text>
 <text x="111" y="322">
 (</text>
 </g>
-<g class="sequence">
-<g class="nonterminal">
-<rect height="22" width="100" x="135" y="306"/>
-<text x="185" y="322">
-MacroMatch</text>
-</g>
 <g class="repeat">
-<path d=" M 245 317 h 12 m 100 0 h 12 m -12 0 a 12 12 0 0 1 12 12 v 0 a 12 12 0 0 1 -12 12 m 0 0 h -100 m 53 0 l 5 -5 m 0 10 l -5 -5 m -53 0 a 12 12 0 0 1 -12 -12 v 0 a 12 12 0 0 1 12 -12"/>
+<path d=" M 135 317 h 12 m 100 0 h 12 m -12 0 a 12 12 0 0 1 12 12 v 0 a 12 12 0 0 1 -12 12 m 0 0 h -100 m 53 0 l 5 -5 m 0 10 l -5 -5 m -53 0 a 12 12 0 0 1 -12 -12 v 0 a 12 12 0 0 1 12 -12"/>
 <g/>
+<a class="link" xlink:href="macros-by-example.html#railroad-MacroMatch">
 <g class="nonterminal">
-<rect height="22" width="100" x="257" y="306"/>
-<text x="307" y="322">
+<rect height="22" width="100" x="147" y="306"/>
+<text x="197" y="322">
 MacroMatch</text>
 </g>
-</g>
-<path d=" M 235 317 h 10"/>
+</a>
 </g>
 <g class="terminal">
-<rect height="22" rx="10" ry="10" width="28" x="379" y="306"/>
-<text x="393" y="322">
+<rect height="22" rx="10" ry="10" width="28" x="269" y="306"/>
+<text x="283" y="322">
 )</text>
 </g>
 <g class="optional">
-<path d=" M 417 317 h 24 m -24 0 a 12 12 0 0 0 12 -12 v 0 a 12 12 0 0 1 12 -12 h 108 m -51 0 l -5 -5 m 0 10 l 5 -5 m 51 0 a 12 12 0 0 1 12 12 v 0 a 12 12 0 0 0 12 12 h -24"/>
+<path d=" M 307 317 h 24 m -24 0 a 12 12 0 0 0 12 -12 v 0 a 12 12 0 0 1 12 -12 h 108 m -51 0 l -5 -5 m 0 10 l 5 -5 m 51 0 a 12 12 0 0 1 12 12 v 0 a 12 12 0 0 0 12 12 h -24"/>
+<a class="link" xlink:href="macros-by-example.html#railroad-MacroRepSep">
 <g class="nonterminal">
-<rect height="22" width="108" x="441" y="306"/>
-<text x="495" y="322">
+<rect height="22" width="108" x="331" y="306"/>
+<text x="385" y="322">
 MacroRepSep</text>
 </g>
+</a>
 </g>
+<a class="link" xlink:href="macros-by-example.html#railroad-MacroRepOp">
 <g class="nonterminal">
-<rect height="22" width="100" x="583" y="306"/>
-<text x="633" y="322">
+<rect height="22" width="100" x="473" y="306"/>
+<text x="523" y="322">
 MacroRepOp</text>
 </g>
+</a>
 <path d=" M 87 317 h 10"/>
 <path d=" M 125 317 h 10"/>
-<path d=" M 369 317 h 10"/>
-<path d=" M 407 317 h 10"/>
-<path d=" M 573 317 h 10"/>
+<path d=" M 259 317 h 10"/>
+<path d=" M 297 317 h 10"/>
+<path d=" M 463 317 h 10"/>
 </g>
 </g>
-<path d=" M 717 89 h 5 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5"/>
+<path d=" M 607 89 h 5 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5"/>
 <path d=" M 25 89 h 10"/>
-<path d=" M 707 89 h 10"/>
+<path d=" M 597 89 h 10"/>
 </g>
 </g>
 </svg>
 </div>
-<div style="width: 210px; height: auto; max-width: 100%; max-height: 100%"><svg class="railroad" viewBox="0 0 210 536" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<div style="width: 210px; height: auto; max-width: 100%; max-height: 100%" class="railroad-production" id="railroad-MacroFragSpec"><svg class="railroad" viewBox="0 0 210 536" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 <rect class="railroad_canvas" height="100%" width="100%"/>
 <g class="verticalgrid">
+<a class="link" xlink:href="macros-by-example.html#grammar-MacroFragSpec">
 <text class="comment" x="60" y="25">
 MacroFragSpec</text>
+</a>
 <g class="sequence">
 <path d=" M 10 53 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5 m 10 0 h 5"/>
 <g class="choice">
@@ -765,36 +842,42 @@ vis</text>
 </g>
 </svg>
 </div>
-<div style="width: 355px; height: auto; max-width: 100%; max-height: 100%"><svg class="railroad" viewBox="0 0 355 118" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<div style="width: 327px; height: auto; max-width: 100%; max-height: 100%" class="railroad-production" id="railroad-MacroRepSep"><svg class="railroad" viewBox="0 0 327 118" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 <rect class="railroad_canvas" height="100%" width="100%"/>
 <g class="verticalgrid">
+<a class="link" xlink:href="macros-by-example.html#grammar-MacroRepSep">
 <text class="comment" x="53" y="25">
 MacroRepSep</text>
+</a>
 <g class="sequence">
 <path d=" M 10 89 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5 m 10 0 h 5"/>
 <g class="labeledbox">
-<rect height="66" width="285" x="35" y="42"/>
-<path d=" M 35 89 h 8 m 60 0 h 217 m -105 0 l -5 -5 m 0 10 l 5 -5 m 105 0"/>
-<text class="comment" x="177" y="65">
-except [delimiters] and [MacroRepOp]</text>
+<rect height="66" width="257" x="35" y="42"/>
+<path d=" M 35 89 h 8 m 60 0 h 189 m -91 0 l -5 -5 m 0 10 l 5 -5 m 91 0"/>
+<text class="comment" x="163" y="65">
+except delimiters and MacroRepOp</text>
+<a class="link" xlink:href="tokens.html#railroad-Token">
 <g class="nonterminal">
 <rect height="22" width="60" x="43" y="78"/>
 <text x="73" y="94">
 Token</text>
 </g>
+</a>
 </g>
-<path d=" M 330 89 h 5 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5"/>
+<path d=" M 302 89 h 5 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5"/>
 <path d=" M 25 89 h 10"/>
-<path d=" M 320 89 h 10"/>
+<path d=" M 292 89 h 10"/>
 </g>
 </g>
 </svg>
 </div>
-<div style="width: 146px; height: auto; max-width: 100%; max-height: 100%"><svg class="railroad" viewBox="0 0 146 140" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<div style="width: 146px; height: auto; max-width: 100%; max-height: 100%" class="railroad-production" id="railroad-MacroRepOp"><svg class="railroad" viewBox="0 0 146 140" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 <rect class="railroad_canvas" height="100%" width="100%"/>
 <g class="verticalgrid">
+<a class="link" xlink:href="macros-by-example.html#grammar-MacroRepOp">
 <text class="comment" x="50" y="25">
 MacroRepOp</text>
+</a>
 <g class="sequence">
 <path d=" M 10 53 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5 m 10 0 h 5"/>
 <g class="choice">
@@ -826,18 +909,22 @@ MacroRepOp</text>
 </g>
 </svg>
 </div>
-<div style="width: 202px; height: auto; max-width: 100%; max-height: 100%"><svg class="railroad" viewBox="0 0 202 74" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<div style="width: 202px; height: auto; max-width: 100%; max-height: 100%" class="railroad-production" id="railroad-MacroTranscriber"><svg class="railroad" viewBox="0 0 202 74" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 <rect class="railroad_canvas" height="100%" width="100%"/>
 <g class="verticalgrid">
+<a class="link" xlink:href="macros-by-example.html#grammar-MacroTranscriber">
 <text class="comment" x="71" y="25">
 MacroTranscriber</text>
+</a>
 <g class="sequence">
 <path d=" M 10 53 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5 m 10 0 h 5"/>
+<a class="link" xlink:href="macros.html#railroad-DelimTokenTree">
 <g class="nonterminal">
 <rect height="22" width="132" x="35" y="42"/>
 <text x="101" y="58">
 DelimTokenTree</text>
 </g>
+</a>
 <path d=" M 177 53 h 5 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5"/>
 <path d=" M 25 53 h 10"/>
 <path d=" M 167 53 h 10"/>
@@ -846,38 +933,6 @@ DelimTokenTree</text>
 </svg>
 </div>
 </div>
-</div>
-<blockquote>
-<p><strong><sup>Syntax</sup></strong><br />
-<em>MacroRulesDefinition</em> :<br />
-   <code>macro_rules</code> <code>!</code> <a href="identifiers.html">IDENTIFIER</a> <em>MacroRulesDef</em></p>
-<p><em>MacroRulesDef</em> :<br />
-      <code>(</code> <em>MacroRules</em> <code>)</code> <code>;</code><br />
-   | <code>[</code> <em>MacroRules</em> <code>]</code> <code>;</code><br />
-   | <code>{</code> <em>MacroRules</em> <code>}</code></p>
-<p><em>MacroRules</em> :<br />
-   <em>MacroRule</em> ( <code>;</code> <em>MacroRule</em> )<sup>*</sup> <code>;</code><sup>?</sup></p>
-<p><em>MacroRule</em> :<br />
-   <em>MacroMatcher</em> <code>=&gt;</code> <em>MacroTranscriber</em></p>
-<p><em>MacroMatcher</em> :<br />
-      <code>(</code> <em>MacroMatch</em><sup>*</sup> <code>)</code><br />
-   | <code>[</code> <em>MacroMatch</em><sup>*</sup> <code>]</code><br />
-   | <code>{</code> <em>MacroMatch</em><sup>*</sup> <code>}</code></p>
-<p><em>MacroMatch</em> :<br />
-      <a href="tokens.html"><em>Token</em></a><sub><em>except <code>$</code> and <a href="tokens.html#delimiters">delimiters</a></em></sub><br />
-   | <em>MacroMatcher</em><br />
-   | <code>$</code> ( <a href="identifiers.html">IDENTIFIER_OR_KEYWORD</a> <sub><em>except <code>crate</code></em></sub> | <a href="identifiers.html">RAW_IDENTIFIER</a> | <code>_</code> ) <code>:</code> <em>MacroFragSpec</em><br />
-   | <code>$</code> <code>(</code> <em>MacroMatch</em><sup>+</sup> <code>)</code> <em>MacroRepSep</em><sup>?</sup> <em>MacroRepOp</em></p>
-<p><em>MacroFragSpec</em> :<br />
-      <code>block</code> | <code>expr</code> | <code>expr_2021</code> | <code>ident</code> | <code>item</code> | <code>lifetime</code> | <code>literal</code><br />
-   | <code>meta</code> | <code>pat</code> | <code>pat_param</code> | <code>path</code> | <code>stmt</code> | <code>tt</code> | <code>ty</code> | <code>vis</code></p>
-<p><em>MacroRepSep</em> :<br />
-   <a href="tokens.html"><em>Token</em></a><sub><em>except <a href="tokens.html#delimiters">delimiters</a> and MacroRepOp</em></sub></p>
-<p><em>MacroRepOp</em> :<br />
-   <code>*</code> | <code>+</code> | <code>?</code></p>
-<p><em>MacroTranscriber</em> :<br />
-   <a href="macros.html"><em>DelimTokenTree</em></a></p>
-</blockquote>
 <div class="rule" id="r-macro.decl.intro"><a class="rule-link" href="#r-macro.decl.intro" title="macro.decl.intro"><span>[macro<wbr>.decl<wbr>.intro]</span/></a>
 </div>
 <p><code>macro_rules</code> allows users to define syntax extension in a declarative way.  We
@@ -968,38 +1023,38 @@ fragment of the kind specified and binds it to the metavariable <code>$</code><e
 </div>
 <p>Valid fragment specifiers are:</p>
 <ul>
-<li><code>block</code>: a <a href="expressions/block-expr.html"><em>BlockExpression</em></a></li>
-<li><code>expr</code>: an <a href="expressions.html"><em>Expression</em></a></li>
-<li><code>expr_2021</code>: an <a href="expressions.html"><em>Expression</em></a> except <a href="expressions/underscore-expr.html"><em>UnderscoreExpression</em></a> and <a href="expressions/block-expr.html#const-blocks"><em>ConstBlockExpression</em></a> (see <a href="macros-by-example.html#r-macro.decl.meta.edition2024">macro.decl.meta.edition2024</a>)</li>
-<li><code>ident</code>: an <a href="identifiers.html">IDENTIFIER_OR_KEYWORD</a> or <a href="identifiers.html">RAW_IDENTIFIER</a></li>
-<li><code>item</code>: an <a href="items.html"><em>Item</em></a></li>
-<li><code>lifetime</code>: a <a href="tokens.html#lifetimes-and-loop-labels">LIFETIME_TOKEN</a></li>
-<li><code>literal</code>: matches <code>-</code><sup>?</sup><a href="expressions/literal-expr.html"><em>LiteralExpression</em></a></li>
-<li><code>meta</code>: an <a href="attributes.html"><em>Attr</em></a>, the contents of an attribute</li>
-<li><code>pat</code>: a <a href="patterns.html"><em>Pattern</em></a> (see <a href="macros-by-example.html#r-macro.decl.meta.edition2021">macro.decl.meta.edition2021</a>)</li>
-<li><code>pat_param</code>: a <a href="patterns.html"><em>PatternNoTopAlt</em></a></li>
-<li><code>path</code>: a <a href="paths.html#paths-in-types"><em>TypePath</em></a> style path</li>
-<li><code>stmt</code>: a <a href="statements.html"><em>Statement</em></a> without the trailing semicolon (except for item statements that require semicolons)</li>
-<li><code>tt</code>: a <a href="macros.html#macro-invocation"><em>TokenTree</em></a> (a single <a href="tokens.html">token</a> or tokens in matching delimiters <code>()</code>, <code>[]</code>, or <code>{}</code>)</li>
-<li><code>ty</code>: a <a href="types.html#type-expressions"><em>Type</em></a></li>
-<li><code>vis</code>: a possibly empty <a href="visibility-and-privacy.html"><em>Visibility</em></a> qualifier</li>
+<li><code>block</code>: a <a href="expressions/block-expr.html#grammar-BlockExpression">BlockExpression</a></li>
+<li><code>expr</code>: an <a href="expressions.html#grammar-Expression">Expression</a></li>
+<li><code>expr_2021</code>: an <a href="expressions.html#grammar-Expression">Expression</a> except <a href="expressions/underscore-expr.html#grammar-UnderscoreExpression">UnderscoreExpression</a> and <a href="expressions/block-expr.html#grammar-ConstBlockExpression">ConstBlockExpression</a> (see <a href="macros-by-example.html#r-macro.decl.meta.edition2024">macro.decl.meta.edition2024</a>)</li>
+<li><code>ident</code>: an <a href="identifiers.html#grammar-IDENTIFIER_OR_KEYWORD">IDENTIFIER_OR_KEYWORD</a>, <a href="identifiers.html#grammar-RAW_IDENTIFIER">RAW_IDENTIFIER</a>, or <a href="macros-by-example.html#r-macro.decl.hygiene.crate"><code>$crate</code></a></li>
+<li><code>item</code>: an <a href="items.html#grammar-Item">Item</a></li>
+<li><code>lifetime</code>: a <a href="tokens.html#grammar-LIFETIME_TOKEN">LIFETIME_TOKEN</a></li>
+<li><code>literal</code>: matches <code>-</code><sup>?</sup><a href="expressions/literal-expr.html#grammar-LiteralExpression">LiteralExpression</a></li>
+<li><code>meta</code>: an <a href="attributes.html#grammar-Attr">Attr</a>, the contents of an attribute</li>
+<li><code>pat</code>: a <a href="patterns.html#grammar-Pattern">Pattern</a> (see <a href="macros-by-example.html#r-macro.decl.meta.edition2021">macro.decl.meta.edition2021</a>)</li>
+<li><code>pat_param</code>: a <a href="patterns.html#grammar-PatternNoTopAlt">PatternNoTopAlt</a></li>
+<li><code>path</code>: a <a href="paths.html#grammar-TypePath">TypePath</a> style path</li>
+<li><code>stmt</code>: a <a href="statements.html#grammar-Statement">Statement</a> without the trailing semicolon (except for item statements that require semicolons)</li>
+<li><code>tt</code>: a <a href="macros.html#grammar-TokenTree">TokenTree</a> (a single <a href="tokens.html">token</a> or tokens in matching delimiters <code>()</code>, <code>[]</code>, or <code>{}</code>)</li>
+<li><code>ty</code>: a <a href="types.html#grammar-Type">Type</a></li>
+<li><code>vis</code>: a possibly empty <a href="visibility-and-privacy.html#grammar-Visibility">Visibility</a> qualifier</li>
 </ul>
 <div class="rule" id="r-macro.decl.meta.transcription"><a class="rule-link" href="#r-macro.decl.meta.transcription" title="macro.decl.meta.transcription"><span>[macro<wbr>.decl<wbr>.meta<wbr>.transcription]</span/></a>
 </div>
 <p>In the transcriber, metavariables are referred to simply by <code>$</code><em>name</em>, since
 the fragment kind is specified in the matcher. Metavariables are replaced with
-the syntax element that matched them.</p>
+the syntax element that matched them.
+Metavariables can be transcribed more than once or not at all.</p>
 <div class="rule" id="r-macro.decl.meta.dollar-crate"><a class="rule-link" href="#r-macro.decl.meta.dollar-crate" title="macro.decl.meta.dollar-crate"><span>[macro<wbr>.decl<wbr>.meta<wbr>.dollar-crate]</span/></a>
 </div>
-<p>The keyword metavariable <code>$crate</code> can be used to refer to the current crate; see <a href="#hygiene">Hygiene</a> below. Metavariables can be
-transcribed more than once or not at all.</p>
+<p>The keyword metavariable <a href="macros-by-example.html#r-macro.decl.hygiene.crate"><code>$crate</code></a> can be used to refer to the current crate.</p>
 <div class="rule" id="r-macro.decl.meta.edition2021"><a class="rule-link" href="#r-macro.decl.meta.edition2021" title="macro.decl.meta.edition2021"><span>[macro<wbr>.decl<wbr>.meta<wbr>.edition2021]</span/></a>
 </div>
 <div class="alert alert-edition">
 <blockquote>
 <p class="alert-title"><span class="alert-title-edition">2021</span> Edition differences</p>
-<p>Starting with the 2021 edition, <code>pat</code> fragment-specifiers match top-level or-patterns (that is, they accept <a href="patterns.html"><em>Pattern</em></a>).</p>
-<p>Before the 2021 edition, they match exactly the same fragments as <code>pat_param</code> (that is, they accept <a href="patterns.html"><em>PatternNoTopAlt</em></a>).</p>
+<p>Starting with the 2021 edition, <code>pat</code> fragment-specifiers match top-level or-patterns (that is, they accept <a href="patterns.html#grammar-Pattern">Pattern</a>).</p>
+<p>Before the 2021 edition, they match exactly the same fragments as <code>pat_param</code> (that is, they accept <a href="patterns.html#grammar-PatternNoTopAlt">PatternNoTopAlt</a>).</p>
 <p>The relevant edition is the one in effect for the <code>macro_rules!</code> definition.</p>
 </blockquote>
 </div>
@@ -1008,7 +1063,7 @@ transcribed more than once or not at all.</p>
 <div class="alert alert-edition">
 <blockquote>
 <p class="alert-title"><span class="alert-title-edition">2024</span> Edition differences</p>
-<p>Before the 2024 edition, <code>expr</code> fragment specifiers do not match <a href="expressions/underscore-expr.html"><em>UnderscoreExpression</em></a> or <a href="expressions/block-expr.html#const-blocks"><em>ConstBlockExpression</em></a> at the top level. They are allowed within subexpressions.</p>
+<p>Before the 2024 edition, <code>expr</code> fragment specifiers do not match <a href="expressions/underscore-expr.html#grammar-UnderscoreExpression">UnderscoreExpression</a> or <a href="expressions/block-expr.html#grammar-ConstBlockExpression">ConstBlockExpression</a> at the top level. They are allowed within subexpressions.</p>
 <p>The <code>expr_2021</code> fragment specifier exists to maintain backwards compatibility with editions before 2024.</p>
 </blockquote>
 </div>
@@ -1188,7 +1243,7 @@ imported this way are imported into the <a href="names/preludes.html#macro_use-p
 which means that they can be shadowed by any other name. While macros imported
 by <code>#[macro_use]</code> can be used before the import statement, in case of a
 conflict, the last macro imported wins. Optionally, a list of macros to import
-can be specified using the <a href="attributes.html#meta-item-attribute-syntax"><em>MetaListIdents</em></a> syntax; this is not supported
+can be specified using the <a href="attributes.html#grammar-MetaListIdents">MetaListIdents</a> syntax; this is not supported
 when <code>#[macro_use]</code> is applied to a module.</p>
 <!-- ignore: requires external crates -->
 <pre><code class="language-rust ignore">#[macro_use(lazy_static)] // Or #[macro_use] to import all macros.
@@ -1434,11 +1489,10 @@ after must be able to follow whatever comes before.</li>
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
                             <a rel="prev" href="macros.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
-                                <i class="fa fa-angle-left"></i>
-                            </a>
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
 
                             <a rel="next prefetch" href="procedural-macros.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
-                                <i class="fa fa-angle-right"></i>
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
                             </a>
 
                         <div style="clear: both"></div>
@@ -1448,16 +1502,21 @@ after must be able to follow whatever comes before.</li>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
                     <a rel="prev" href="macros.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
-                        <i class="fa fa-angle-left"></i>
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
                     </a>
 
                     <a rel="next prefetch" href="procedural-macros.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
-                        <i class="fa fa-angle-right"></i>
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
                     </a>
             </nav>
 
         </div>
 
+        <template id=fa-eye><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM432 256c0 79.5-64.5 144-144 144s-144-64.5-144-144s64.5-144 144-144s144 64.5 144 144zM288 192c0 35.3-28.7 64-64 64c-11.5 0-22.3-3-31.6-8.4c-.2 2.8-.4 5.5-.4 8.4c0 53 43 96 96 96s96-43 96-96s-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6z"/></svg></span></template>
+        <template id=fa-eye-slash><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M38.8 5.1C28.4-3.1 13.3-1.2 5.1 9.2S-1.2 34.7 9.2 42.9l592 464c10.4 8.2 25.5 6.3 33.7-4.1s6.3-25.5-4.1-33.7L525.6 386.7c39.6-40.6 66.4-86.1 79.9-118.4c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C465.5 68.8 400.8 32 320 32c-68.2 0-125 26.3-169.3 60.8L38.8 5.1zM223.1 149.5C248.6 126.2 282.7 112 320 112c79.5 0 144 64.5 144 144c0 24.9-6.3 48.3-17.4 68.7L408 294.5c5.2-11.8 8-24.8 8-38.5c0-53-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6c0 10.2-2.4 19.8-6.6 28.3l-90.3-70.8zm223.1 298L373 389.9c-16.4 6.5-34.3 10.1-53 10.1c-79.5 0-144-64.5-144-144c0-6.9 .5-13.6 1.4-20.2L83.1 161.5C60.3 191.2 44 220.8 34.5 243.7c-3.3 7.9-3.3 16.7 0 24.6c14.9 35.7 46.2 87.7 93 131.1C174.5 443.2 239.2 480 320 480c47.8 0 89.9-12.9 126.2-32.5z"/></svg></span></template>
+        <template id=fa-copy><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M502.6 70.63l-61.25-61.25C435.4 3.371 427.2 0 418.7 0H255.1c-35.35 0-64 28.66-64 64l.0195 256C192 355.4 220.7 384 256 384h192c35.2 0 64-28.8 64-64V93.25C512 84.77 508.6 76.63 502.6 70.63zM464 320c0 8.836-7.164 16-16 16H255.1c-8.838 0-16-7.164-16-16L239.1 64.13c0-8.836 7.164-16 16-16h128L384 96c0 17.67 14.33 32 32 32h47.1V320zM272 448c0 8.836-7.164 16-16 16H63.1c-8.838 0-16-7.164-16-16L47.98 192.1c0-8.836 7.164-16 16-16H160V128H63.99c-35.35 0-64 28.65-64 64l.0098 256C.002 483.3 28.66 512 64 512h192c35.2 0 64-28.8 64-64v-32h-47.1L272 448z"/></svg></span></template>
+        <template id=fa-play><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/></svg></span></template>
+        <template id=fa-clock-rotate-left><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M75 75L41 41C25.9 25.9 0 36.6 0 57.9V168c0 13.3 10.7 24 24 24H134.1c21.4 0 32.1-25.9 17-41l-30.8-30.8C155 85.5 203 64 256 64c106 0 192 86 192 192s-86 192-192 192c-40.8 0-78.6-12.7-109.7-34.4c-14.5-10.1-34.4-6.6-44.6 7.9s-6.6 34.4 7.9 44.6C151.2 495 201.7 512 256 512c141.4 0 256-114.6 256-256S397.4 0 256 0C185.3 0 121.3 28.7 75 75zm181 53c-13.3 0-24 10.7-24 24V256c0 6.4 2.5 12.5 7 17l72 72c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-65-65V152c0-13.3-10.7-24-24-24z"/></svg></span></template>
 
 
 
@@ -1466,16 +1525,17 @@ after must be able to follow whatever comes before.</li>
         </script>
 
 
-        <script src="elasticlunr.min.js"></script>
-        <script src="mark.min.js"></script>
-        <script src="searcher.js"></script>
+        <script src="elasticlunr-ef4e11c1.min.js"></script>
+        <script src="mark-09e88c2c.min.js"></script>
+        <script src="searcher-c2a407aa.js"></script>
 
-        <script src="clipboard.min.js"></script>
-        <script src="highlight.js"></script>
-        <script src="book.js"></script>
+        <script src="clipboard-1626706a.min.js"></script>
+        <script src="highlight-abc7f01d.js"></script>
+        <script src="book-81fc5345.js"></script>
 
         <!-- Custom JS scripts -->
-        <script src="theme/reference.js"></script>
+        <script src="theme/reference-cfed9ca5.js"></script>
+
 
 
     </div>

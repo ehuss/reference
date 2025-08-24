@@ -12,24 +12,23 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff">
 
-        <link rel="icon" href="favicon.svg">
-        <link rel="shortcut icon" href="favicon.png">
-        <link rel="stylesheet" href="css/variables.css">
-        <link rel="stylesheet" href="css/general.css">
-        <link rel="stylesheet" href="css/chrome.css">
-        <link rel="stylesheet" href="css/print.css" media="print">
+        <link rel="icon" href="favicon-de23e50b.svg">
+        <link rel="shortcut icon" href="favicon-8114d1fc.png">
+        <link rel="stylesheet" href="css/variables-3865ffda.css">
+        <link rel="stylesheet" href="css/general-d297d479.css">
+        <link rel="stylesheet" href="css/chrome-03ed7f09.css">
+        <link rel="stylesheet" href="css/print-9e4910d8.css" media="print">
 
         <!-- Fonts -->
-        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
-        <link rel="stylesheet" href="fonts/fonts.css">
+        <link rel="stylesheet" href="fonts/fonts-9644e21d.css">
 
         <!-- Highlight.js Stylesheets -->
-        <link rel="stylesheet" id="highlight-css" href="highlight.css">
-        <link rel="stylesheet" id="tomorrow-night-css" href="tomorrow-night.css">
-        <link rel="stylesheet" id="ayu-highlight-css" href="ayu-highlight.css">
+        <link rel="stylesheet" id="mdbook-highlight-css" href="highlight-493f70e1.css">
+        <link rel="stylesheet" id="mdbook-tomorrow-night-css" href="tomorrow-night-4c0ae647.css">
+        <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="ayu-highlight-56612340.css">
 
         <!-- Custom theme stylesheets -->
-        <link rel="stylesheet" href="theme/reference.css">
+        <link rel="stylesheet" href="theme/reference-94a8e8ad.css">
 
 
         <!-- Provide site root and default themes to javascript -->
@@ -37,12 +36,24 @@
             const path_to_root = "";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "searchindex-54e4028f.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="toc.js"></script>
+        <script src="toc-cb7fc751.js"></script>
     </head>
     <body>
-    <div id="body-container">
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="mdbook-body-container">
         <!-- Work around some values being stored in localStorage wrapped in quotes -->
         <script>
             try {
@@ -71,56 +82,59 @@
             html.classList.add("js");
         </script>
 
-        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+        <input type="checkbox" id="mdbook-sidebar-toggle-anchor" class="hidden">
 
         <!-- Hide / unhide sidebar before it is displayed -->
         <script>
             let sidebar = null;
-            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            const sidebar_toggle = document.getElementById("mdbook-sidebar-toggle-anchor");
             if (document.body.clientWidth >= 1080) {
                 try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
                 sidebar = sidebar || 'visible';
             } else {
                 sidebar = 'hidden';
+                sidebar_toggle.checked = false;
             }
-            sidebar_toggle.checked = sidebar === 'visible';
-            html.classList.remove('sidebar-visible');
-            html.classList.add("sidebar-" + sidebar);
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
         </script>
 
-        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+        <nav id="mdbook-sidebar" class="sidebar" aria-label="Table of contents">
             <!-- populated by js -->
             <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
             <noscript>
                 <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
             </noscript>
-            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+            <div id="mdbook-sidebar-resize-handle" class="sidebar-resize-handle">
                 <div class="sidebar-resize-indicator"></div>
             </div>
         </nav>
 
-        <div id="page-wrapper" class="page-wrapper">
+        <div id="mdbook-page-wrapper" class="page-wrapper">
 
             <div class="page">
-                <div id="menu-bar-hover-placeholder"></div>
-                <div id="menu-bar" class="menu-bar sticky">
+                <div id="mdbook-menu-bar-hover-placeholder"></div>
+                <div id="mdbook-menu-bar" class="menu-bar sticky">
                     <div class="left-buttons">
-                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
-                            <i class="fa fa-bars"></i>
+                        <label id="mdbook-sidebar-toggle" class="icon-button" for="mdbook-sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="mdbook-sidebar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"/></svg></span>
                         </label>
-                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
-                            <i class="fa fa-paint-brush"></i>
+                        <button id="mdbook-theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="mdbook-theme-list">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M371.3 367.1c27.3-3.9 51.9-19.4 67.2-42.9L600.2 74.1c12.6-19.5 9.4-45.3-7.6-61.2S549.7-4.4 531.1 9.6L294.4 187.2c-24 18-38.2 46.1-38.4 76.1L371.3 367.1zm-19.6 25.4l-116-104.4C175.9 290.3 128 339.6 128 400c0 3.9 .2 7.8 .6 11.6c1.8 17.5-10.2 36.4-27.8 36.4H96c-17.7 0-32 14.3-32 32s14.3 32 32 32H240c61.9 0 112-50.1 112-112c0-2.5-.1-5-.2-7.5z"/></svg></span>
                         </button>
-                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
-                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
-                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
-                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
-                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
-                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
-                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        <ul id="mdbook-theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-ayu">Ayu</button></li>
                         </ul>
-                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
-                            <i class="fa fa-search"></i>
+                        <button id="mdbook-search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="mdbook-searchbar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352c79.5 0 144-64.5 144-144s-64.5-144-144-144S64 128.5 64 208s64.5 144 144 144z"/></svg></span>
                         </button>
                     </div>
 
@@ -128,39 +142,44 @@
 
                     <div class="right-buttons">
                         <a href="print.html" title="Print this book" aria-label="Print this book">
-                            <i id="print-button" class="fa fa-print"></i>
+                            <span class=fa-svg id="print-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M128 0C92.7 0 64 28.7 64 64v96h64V64H354.7L384 93.3V160h64V93.3c0-17-6.7-33.3-18.7-45.3L400 18.7C388 6.7 371.7 0 354.7 0H128zM384 352v32 64H128V384 368 352H384zm64 32h32c17.7 0 32-14.3 32-32V256c0-35.3-28.7-64-64-64H64c-35.3 0-64 28.7-64 64v96c0 17.7 14.3 32 32 32H64v64c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V384zm-16-88c-13.3 0-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24s-10.7 24-24 24z"/></svg></span>
                         </a>
                         <a href="https://github.com/rust-lang/reference/" title="Git repository" aria-label="Git repository">
-                            <i id="git-repository-button" class="fa fa-github"></i>
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg></span>
                         </a>
-                        <a href="https://github.com/rust-lang/reference/edit/master/src/patterns.md" title="Suggest an edit" aria-label="Suggest an edit">
-                            <i id="git-edit-button" class="fa fa-edit"></i>
+                        <a href="https://github.com/rust-lang/reference/edit/master/src/patterns.md" title="Suggest an edit" aria-label="Suggest an edit" rel="edit">
+                            <span class=fa-svg id="git-edit-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M421.7 220.3l-11.3 11.3-22.6 22.6-205 205c-6.6 6.6-14.8 11.5-23.8 14.1L30.8 511c-8.4 2.5-17.5 .2-23.7-6.1S-1.5 489.7 1 481.2L38.7 353.1c2.6-9 7.5-17.2 14.1-23.8l205-205 22.6-22.6 11.3-11.3 33.9 33.9 62.1 62.1 33.9 33.9zM96 353.9l-9.3 9.3c-.9 .9-1.6 2.1-2 3.4l-25.3 86 86-25.3c1.3-.4 2.5-1.1 3.4-2l9.3-9.3H112c-8.8 0-16-7.2-16-16V353.9zM453.3 19.3l39.4 39.4c25 25 25 65.5 0 90.5l-14.5 14.5-22.6 22.6-11.3 11.3-33.9-33.9-62.1-62.1L314.3 67.7l11.3-11.3 22.6-22.6 14.5-14.5c25-25 65.5-25 90.5 0z"/></svg></span>
                         </a>
 
                     </div>
                 </div>
 
-                <div id="search-wrapper" class="hidden">
-                    <form id="searchbar-outer" class="searchbar-outer">
-                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                <div id="mdbook-search-wrapper" class="hidden">
+                    <form id="mdbook-searchbar-outer" class="searchbar-outer">
+                        <div class="search-wrapper">
+                            <input type="search" id="mdbook-searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="mdbook-searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <span class=fa-svg id="fa-spin"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M304 48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zm0 416c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM48 304c26.5 0 48-21.5 48-48s-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48zm464-48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM142.9 437c18.7-18.7 18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zm0-294.2c18.7-18.7 18.7-49.1 0-67.9S93.7 56.2 75 75s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zM369.1 437c18.7 18.7 49.1 18.7 67.9 0s18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9z"/></svg></span>
+                            </div>
+                        </div>
                     </form>
-                    <div id="searchresults-outer" class="searchresults-outer hidden">
-                        <div id="searchresults-header" class="searchresults-header"></div>
-                        <ul id="searchresults">
+                    <div id="mdbook-searchresults-outer" class="searchresults-outer hidden">
+                        <div id="mdbook-searchresults-header" class="searchresults-header"></div>
+                        <ul id="mdbook-searchresults">
                         </ul>
                     </div>
                 </div>
 
                 <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
                 <script>
-                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
-                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
-                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                    document.getElementById('mdbook-sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('mdbook-sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#mdbook-sidebar a')).forEach(function(link) {
                         link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
                     });
                 </script>
 
-                <div id="content" class="content">
+                <div id="mdbook-content" class="content">
                     <main>
                         <div class="rule" id="r-patterns"><a class="rule-link" href="#r-patterns" title="patterns"><span>[patterns]</span/></a>
 </div>
@@ -168,14 +187,13 @@
 <div class="rule" id="r-patterns.syntax"><a class="rule-link" href="#r-patterns.syntax" title="patterns.syntax"><span>[patterns<wbr>.syntax]</span/></a>
 </div>
 <div class="grammar-container">
-<button class="grammar-toggle" type="button" title="Toggle grammar display"onclick="toggle_grammar()">Toggle Railroad</button>
-<p><strong><sup>Syntax</sup></strong></p>
-<div class="grammar-content grammar-text">
-<p><span class="grammar-text grammar-production" id="grammar-Pattern">Pattern</span> → <span class="grammar-literal">|</span><sup>?</sup> <span class="grammar-text"><a href="patterns.html#grammar-PatternNoTopAlt">PatternNoTopAlt</a></span> ( <span class="grammar-literal">|</span> <span class="grammar-text"><a href="patterns.html#grammar-PatternNoTopAlt">PatternNoTopAlt</a></span> )<sup>*</sup></p>
-<p><span class="grammar-text grammar-production" id="grammar-PatternNoTopAlt">PatternNoTopAlt</span> → <br />
+<p><strong><sup>Syntax</sup></strong>
+<br>
+<span class="grammar-text grammar-production" id="grammar-Pattern" onclick="show_railroad()"><a href="patterns.html#railroad-Pattern">Pattern</a></span> → <span class="grammar-literal">|</span><sup>?</sup> <span class="grammar-text"><a href="patterns.html#grammar-PatternNoTopAlt">PatternNoTopAlt</a></span> ( <span class="grammar-literal">|</span> <span class="grammar-text"><a href="patterns.html#grammar-PatternNoTopAlt">PatternNoTopAlt</a></span> )<sup>*</sup></p>
+<p><span class="grammar-text grammar-production" id="grammar-PatternNoTopAlt" onclick="show_railroad()"><a href="patterns.html#railroad-PatternNoTopAlt">PatternNoTopAlt</a></span> → <br />
       <span class="grammar-text"><a href="patterns.html#grammar-PatternWithoutRange">PatternWithoutRange</a></span> <br />
     | <span class="grammar-text"><a href="patterns.html#grammar-RangePattern">RangePattern</a></span></p>
-<p><span class="grammar-text grammar-production" id="grammar-PatternWithoutRange">PatternWithoutRange</span> → <br />
+<p><span class="grammar-text grammar-production" id="grammar-PatternWithoutRange" onclick="show_railroad()"><a href="patterns.html#railroad-PatternWithoutRange">PatternWithoutRange</a></span> → <br />
       <span class="grammar-text"><a href="patterns.html#grammar-LiteralPattern">LiteralPattern</a></span> <br />
     | <span class="grammar-text"><a href="patterns.html#grammar-IdentifierPattern">IdentifierPattern</a></span> <br />
     | <span class="grammar-text"><a href="patterns.html#grammar-WildcardPattern">WildcardPattern</a></span> <br />
@@ -188,13 +206,16 @@
     | <span class="grammar-text"><a href="patterns.html#grammar-SlicePattern">SlicePattern</a></span> <br />
     | <span class="grammar-text"><a href="patterns.html#grammar-PathPattern">PathPattern</a></span> <br />
     | <span class="grammar-text"><a href="macros.html#grammar-MacroInvocation">MacroInvocation</a></span></p>
+<p><button class="grammar-toggle-railroad" type="button" title="Toggle railroad display" onclick="toggle_railroad()">Show Railroad</button></p>
 </div>
-<div class="grammar-content grammar-railroad grammar-hidden">
-<div style="width: 508px; height: auto; max-width: 100%; max-height: 100%"><svg class="railroad" viewBox="0 0 508 100" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<div class="grammar-railroad grammar-hidden">
+<div style="width: 556px; height: auto; max-width: 100%; max-height: 100%" class="railroad-production" id="railroad-Pattern"><svg class="railroad" viewBox="0 0 556 100" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 <rect class="railroad_canvas" height="100%" width="100%"/>
 <g class="verticalgrid">
+<a class="link" xlink:href="patterns.html#grammar-Pattern">
 <text class="comment" x="39" y="25">
 Pattern</text>
+</a>
 <g class="sequence">
 <path d=" M 10 66 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5 m 10 0 h 5"/>
 <g class="sequence">
@@ -206,61 +227,74 @@ Pattern</text>
 |</text>
 </g>
 </g>
+<a class="link" xlink:href="patterns.html#railroad-PatternNoTopAlt">
 <g class="nonterminal">
 <rect height="22" width="140" x="121" y="55"/>
 <text x="191" y="71">
 PatternNoTopAlt</text>
 </g>
+</a>
+<g class="optional">
+<path d=" M 271 66 h 24 m -24 0 a 12 12 0 0 0 12 -12 v 0 a 12 12 0 0 1 12 -12 h 202 m -98 0 l -5 -5 m 0 10 l 5 -5 m 98 0 a 12 12 0 0 1 12 12 v 0 a 12 12 0 0 0 12 12 h -24"/>
 <g class="repeat">
-<path d=" M 271 66 h 12 m 178 0 h 12 m -12 0 a 12 12 0 0 1 12 12 v 0 a 12 12 0 0 1 -12 12 m 0 0 h -178 m 92 0 l 5 -5 m 0 10 l -5 -5 m -92 0 a 12 12 0 0 1 -12 -12 v 0 a 12 12 0 0 1 12 -12"/>
+<path d=" M 295 66 h 12 m 178 0 h 12 m -12 0 a 12 12 0 0 1 12 12 v 0 a 12 12 0 0 1 -12 12 m 0 0 h -178 m 92 0 l 5 -5 m 0 10 l -5 -5 m -92 0 a 12 12 0 0 1 -12 -12 v 0 a 12 12 0 0 1 12 -12"/>
 <g/>
 <g class="sequence">
 <g class="terminal">
-<rect height="22" rx="10" ry="10" width="28" x="283" y="55"/>
-<text x="297" y="71">
+<rect height="22" rx="10" ry="10" width="28" x="307" y="55"/>
+<text x="321" y="71">
 |</text>
 </g>
+<a class="link" xlink:href="patterns.html#railroad-PatternNoTopAlt">
 <g class="nonterminal">
-<rect height="22" width="140" x="321" y="55"/>
-<text x="391" y="71">
+<rect height="22" width="140" x="345" y="55"/>
+<text x="415" y="71">
 PatternNoTopAlt</text>
 </g>
-<path d=" M 311 66 h 10"/>
+</a>
+<path d=" M 335 66 h 10"/>
+</g>
 </g>
 </g>
 <path d=" M 111 66 h 10"/>
 <path d=" M 261 66 h 10"/>
 </g>
-<path d=" M 483 66 h 5 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5"/>
+<path d=" M 531 66 h 5 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5"/>
 <path d=" M 25 66 h 10"/>
-<path d=" M 473 66 h 10"/>
+<path d=" M 521 66 h 10"/>
 </g>
 </g>
 </svg>
 </div>
-<div style="width: 290px; height: auto; max-width: 100%; max-height: 100%"><svg class="railroad" viewBox="0 0 290 107" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<div style="width: 290px; height: auto; max-width: 100%; max-height: 100%" class="railroad-production" id="railroad-PatternNoTopAlt"><svg class="railroad" viewBox="0 0 290 107" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 <rect class="railroad_canvas" height="100%" width="100%"/>
 <g class="verticalgrid">
+<a class="link" xlink:href="patterns.html#grammar-PatternNoTopAlt">
 <text class="comment" x="67" y="25">
 PatternNoTopAlt</text>
+</a>
 <g class="sequence">
 <path d=" M 10 53 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5 m 10 0 h 5"/>
 <g class="choice">
 <path d=" M 35 53 h 24 m 172 0 h 24"/>
 <g class="sequence">
+<a class="link" xlink:href="patterns.html#railroad-PatternWithoutRange">
 <g class="nonterminal">
 <rect height="22" width="172" x="59" y="42"/>
 <text x="145" y="58">
 PatternWithoutRange</text>
 </g>
+</a>
 </g>
 <path d=" M 35 53 a 12 12 0 0 1 12 12 v 9 m 196 0 v -9 a 12 12 0 0 1 12 -12"/>
 <path d=" M 47 74 v 0 a 12 12 0 0 0 12 12 m 116 0 h 56 m -25 0 l -5 -5 m 0 10 l 5 -5 m 25 0 a 12 12 0 0 0 12 -12 v 0"/>
+<a class="link" xlink:href="patterns.html#railroad-RangePattern">
 <g class="nonterminal">
 <rect height="22" width="116" x="59" y="75"/>
 <text x="117" y="91">
 RangePattern</text>
 </g>
+</a>
 </g>
 <path d=" M 265 53 h 5 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5"/>
 <path d=" M 25 53 h 10"/>
@@ -269,21 +303,25 @@ RangePattern</text>
 </g>
 </svg>
 </div>
-<div style="width: 282px; height: auto; max-width: 100%; max-height: 100%"><svg class="railroad" viewBox="0 0 282 437" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<div style="width: 282px; height: auto; max-width: 100%; max-height: 100%" class="railroad-production" id="railroad-PatternWithoutRange"><svg class="railroad" viewBox="0 0 282 437" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 <rect class="railroad_canvas" height="100%" width="100%"/>
 <g class="verticalgrid">
+<a class="link" xlink:href="patterns.html#grammar-PatternWithoutRange">
 <text class="comment" x="81" y="25">
 PatternWithoutRange</text>
+</a>
 <g class="sequence">
 <path d=" M 10 53 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5 m 10 0 h 5"/>
 <g class="choice">
 <path d=" M 35 53 h 24 m 132 0 h 56 m -25 0 l -5 -5 m 0 10 l 5 -5 m 25 0"/>
 <g class="sequence">
+<a class="link" xlink:href="patterns.html#railroad-LiteralPattern">
 <g class="nonterminal">
 <rect height="22" width="132" x="59" y="42"/>
 <text x="125" y="58">
 LiteralPattern</text>
 </g>
+</a>
 </g>
 <path d=" M 35 53 a 12 12 0 0 1 12 12 v 9 m 188 0 v -9 a 12 12 0 0 1 12 -12"/>
 <path d=" M 47 74 v 33 m 188 0 v -33"/>
@@ -298,90 +336,112 @@ LiteralPattern</text>
 <path d=" M 47 371 v 33 m 188 0 v -33"/>
 <path d=" M 47 74 v 0 a 12 12 0 0 0 12 12 m 156 0 h 8 a 12 12 0 0 0 12 -12 v 0"/>
 <g class="sequence">
+<a class="link" xlink:href="patterns.html#railroad-IdentifierPattern">
 <g class="nonterminal">
 <rect height="22" width="156" x="59" y="75"/>
 <text x="137" y="91">
 IdentifierPattern</text>
 </g>
+</a>
 </g>
 <path d=" M 47 107 v 0 a 12 12 0 0 0 12 12 m 140 0 h 24 a 12 12 0 0 0 12 -12 v 0"/>
 <g class="sequence">
+<a class="link" xlink:href="patterns.html#railroad-WildcardPattern">
 <g class="nonterminal">
 <rect height="22" width="140" x="59" y="108"/>
 <text x="129" y="124">
 WildcardPattern</text>
 </g>
+</a>
 </g>
 <path d=" M 47 140 v 0 a 12 12 0 0 0 12 12 m 108 0 h 56 m -25 0 l -5 -5 m 0 10 l 5 -5 m 25 0 a 12 12 0 0 0 12 -12 v 0"/>
 <g class="sequence">
+<a class="link" xlink:href="patterns.html#railroad-RestPattern">
 <g class="nonterminal">
 <rect height="22" width="108" x="59" y="141"/>
 <text x="113" y="157">
 RestPattern</text>
 </g>
+</a>
 </g>
 <path d=" M 47 173 v 0 a 12 12 0 0 0 12 12 m 148 0 h 16 a 12 12 0 0 0 12 -12 v 0"/>
 <g class="sequence">
+<a class="link" xlink:href="patterns.html#railroad-ReferencePattern">
 <g class="nonterminal">
 <rect height="22" width="148" x="59" y="174"/>
 <text x="133" y="190">
 ReferencePattern</text>
 </g>
+</a>
 </g>
 <path d=" M 47 206 v 0 a 12 12 0 0 0 12 12 m 124 0 h 40 a 12 12 0 0 0 12 -12 v 0"/>
 <g class="sequence">
+<a class="link" xlink:href="patterns.html#railroad-StructPattern">
 <g class="nonterminal">
 <rect height="22" width="124" x="59" y="207"/>
 <text x="121" y="223">
 StructPattern</text>
 </g>
+</a>
 </g>
 <path d=" M 47 239 v 0 a 12 12 0 0 0 12 12 m 164 0 h 0 a 12 12 0 0 0 12 -12 v 0"/>
 <g class="sequence">
+<a class="link" xlink:href="patterns.html#railroad-TupleStructPattern">
 <g class="nonterminal">
 <rect height="22" width="164" x="59" y="240"/>
 <text x="141" y="256">
 TupleStructPattern</text>
 </g>
+</a>
 </g>
 <path d=" M 47 272 v 0 a 12 12 0 0 0 12 12 m 116 0 h 48 a 12 12 0 0 0 12 -12 v 0"/>
 <g class="sequence">
+<a class="link" xlink:href="patterns.html#railroad-TuplePattern">
 <g class="nonterminal">
 <rect height="22" width="116" x="59" y="273"/>
 <text x="117" y="289">
 TuplePattern</text>
 </g>
+</a>
 </g>
 <path d=" M 47 305 v 0 a 12 12 0 0 0 12 12 m 132 0 h 32 a 12 12 0 0 0 12 -12 v 0"/>
 <g class="sequence">
+<a class="link" xlink:href="patterns.html#railroad-GroupedPattern">
 <g class="nonterminal">
 <rect height="22" width="132" x="59" y="306"/>
 <text x="125" y="322">
 GroupedPattern</text>
 </g>
+</a>
 </g>
 <path d=" M 47 338 v 0 a 12 12 0 0 0 12 12 m 116 0 h 48 a 12 12 0 0 0 12 -12 v 0"/>
 <g class="sequence">
+<a class="link" xlink:href="patterns.html#railroad-SlicePattern">
 <g class="nonterminal">
 <rect height="22" width="116" x="59" y="339"/>
 <text x="117" y="355">
 SlicePattern</text>
 </g>
+</a>
 </g>
 <path d=" M 47 371 v 0 a 12 12 0 0 0 12 12 m 108 0 h 56 m -25 0 l -5 -5 m 0 10 l 5 -5 m 25 0 a 12 12 0 0 0 12 -12 v 0"/>
 <g class="sequence">
+<a class="link" xlink:href="patterns.html#railroad-PathPattern">
 <g class="nonterminal">
 <rect height="22" width="108" x="59" y="372"/>
 <text x="113" y="388">
 PathPattern</text>
 </g>
+</a>
 </g>
 <path d=" M 47 404 v 0 a 12 12 0 0 0 12 12 m 140 0 h 24 a 12 12 0 0 0 12 -12 v 0"/>
+<a class="link" xlink:href="macros.html#railroad-MacroInvocation">
 <g class="nonterminal">
 <rect height="22" width="140" x="59" y="405"/>
 <text x="129" y="421">
 MacroInvocation</text>
 </g>
+</a>
 </g>
 <path d=" M 257 53 h 5 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5"/>
 <path d=" M 25 53 h 10"/>
@@ -391,28 +451,6 @@ MacroInvocation</text>
 </svg>
 </div>
 </div>
-</div>
-<blockquote>
-<p><strong><sup>Syntax</sup></strong><br />
-<em>Pattern</em> :<br />
-      <code>|</code><sup>?</sup> <em>PatternNoTopAlt</em>  ( <code>|</code> <em>PatternNoTopAlt</em> )<sup>*</sup></p>
-<p><em>PatternNoTopAlt</em> :<br />
-      <em>PatternWithoutRange</em><br />
-   | <a href="#range-patterns"><em>RangePattern</em></a></p>
-<p><em>PatternWithoutRange</em> :<br />
-      <a href="#literal-patterns"><em>LiteralPattern</em></a><br />
-   | <a href="#identifier-patterns"><em>IdentifierPattern</em></a><br />
-   | <a href="#wildcard-pattern"><em>WildcardPattern</em></a><br />
-   | <a href="#rest-patterns"><em>RestPattern</em></a><br />
-   | <a href="#reference-patterns"><em>ReferencePattern</em></a><br />
-   | <a href="#struct-patterns"><em>StructPattern</em></a><br />
-   | <a href="#tuple-struct-patterns"><em>TupleStructPattern</em></a><br />
-   | <a href="#tuple-patterns"><em>TuplePattern</em></a><br />
-   | <a href="#grouped-patterns"><em>GroupedPattern</em></a><br />
-   | <a href="#slice-patterns"><em>SlicePattern</em></a><br />
-   | <a href="#path-patterns"><em>PathPattern</em></a><br />
-   | <a href="macros.html#macro-invocation"><em>MacroInvocation</em></a></p>
-</blockquote>
 <div class="rule" id="r-patterns.intro"><a class="rule-link" href="#r-patterns.intro" title="patterns.intro"><span>[patterns<wbr>.intro]</span/></a>
 </div>
 <p>Patterns are used to match values against structures and to, optionally, bind variables to values inside these structures.
@@ -478,7 +516,7 @@ The remaining fields can have any value and are not bound to any variables.</li>
 <div class="rule" id="r-patterns.while-let"><a class="rule-link" href="#r-patterns.while-let" title="patterns.while-let"><span>[patterns<wbr>.while-let]</span/></a>
 </div>
 <ul>
-<li><a href="expressions/loop-expr.html#predicate-pattern-loops"><code>while let</code> expressions</a></li>
+<li><a href="expressions/loop-expr.html#while-let-patterns"><code>while let</code> expressions</a></li>
 </ul>
 <div class="rule" id="r-patterns.for"><a class="rule-link" href="#r-patterns.for" title="patterns.for"><span>[patterns<wbr>.for]</span/></a>
 </div>
@@ -493,9 +531,9 @@ The remaining fields can have any value and are not bound to any variables.</li>
 <p>Patterns can be used to <em>destructure</em> <a href="items/structs.html">structs</a>, <a href="items/enumerations.html">enums</a>, and <a href="types/tuple.html">tuples</a>.
 Destructuring breaks up a value into its component pieces.
 The syntax used is almost the same as when creating such values.</p>
-<div class="rule" id="r-patterns.destructure.placeholder"><a class="rule-link" href="#r-patterns.destructure.placeholder" title="patterns.destructure.placeholder"><span>[patterns<wbr>.destructure<wbr>.placeholder]</span/></a>
+<div class="rule" id="r-patterns.destructure.wildcard"><a class="rule-link" href="#r-patterns.destructure.wildcard" title="patterns.destructure.wildcard"><span>[patterns<wbr>.destructure<wbr>.wildcard]</span/></a>
 </div>
-<p>In a pattern whose <a href="glossary.html#scrutinee">scrutinee</a> expression has a <code>struct</code>, <code>enum</code> or <code>tuple</code> type, a placeholder (<code>_</code>) stands in for a <em>single</em> data field, whereas a wildcard <code>..</code>  stands in for <em>all</em> the remaining fields of a particular variant.</p>
+<p>In a pattern whose <a href="glossary.html#scrutinee">scrutinee</a> expression has a <code>struct</code>, <code>enum</code> or <code>tuple</code> type, a <a href="#wildcard-pattern">wildcard pattern</a> (<code>_</code>) stands in for a <em>single</em> data field, whereas an <a href="#grammar-StructPatternEtCetera">et cetera</a> or <a href="#rest-patterns">rest pattern</a> (<code>..</code>) stands in for <em>all</em> the remaining fields of a particular variant.</p>
 <div class="rule" id="r-patterns.destructure.named-field-shorthand"><a class="rule-link" href="#r-patterns.destructure.named-field-shorthand" title="patterns.destructure.named-field-shorthand"><span>[patterns<wbr>.destructure<wbr>.named-field-shorthand]</span/></a>
 </div>
 <p>When destructuring a data structure with named (but not numbered) fields, it is allowed to write <code>fieldname</code> as a shorthand for <code>fieldname: fieldname</code>.</p>
@@ -540,185 +578,50 @@ if let (a, 3) = (1, 2) {           // "(a, 3)" is refutable, and will not match
 <div class="rule" id="r-patterns.literal.syntax"><a class="rule-link" href="#r-patterns.literal.syntax" title="patterns.literal.syntax"><span>[patterns<wbr>.literal<wbr>.syntax]</span/></a>
 </div>
 <div class="grammar-container">
-<button class="grammar-toggle" type="button" title="Toggle grammar display"onclick="toggle_grammar()">Toggle Railroad</button>
-<p><strong><sup>Syntax</sup></strong></p>
-<div class="grammar-content grammar-text">
-<p><span class="grammar-text grammar-production" id="grammar-LiteralPattern">LiteralPattern</span> → <br />
-      <span class="grammar-literal">true</span> | <span class="grammar-literal">false</span> <br />
-    | <span class="grammar-text"><a href="tokens.html#character-literals">CHAR_LITERAL</a></span> <br />
-    | <span class="grammar-text"><a href="tokens.html#byte-literals">BYTE_LITERAL</a></span> <br />
-    | <span class="grammar-text"><a href="tokens.html#string-literals">STRING_LITERAL</a></span> <br />
-    | <span class="grammar-text"><a href="tokens.html#raw-string-literals">RAW_STRING_LITERAL</a></span> <br />
-    | <span class="grammar-text"><a href="tokens.html#byte-string-literals">BYTE_STRING_LITERAL</a></span> <br />
-    | <span class="grammar-text"><a href="tokens.html#raw-byte-string-literals">RAW_BYTE_STRING_LITERAL</a></span> <br />
-    | <span class="grammar-text"><a href="tokens.html#c-string-literals">C_STRING_LITERAL</a></span> <br />
-    | <span class="grammar-text"><a href="tokens.html#raw-c-string-literals">RAW_C_STRING_LITERAL</a></span> <br />
-    | <span class="grammar-literal">-</span><sup>?</sup> <span class="grammar-text"><a href="tokens.html#integer-literals">INTEGER_LITERAL</a></span> <br />
-    | <span class="grammar-literal">-</span><sup>?</sup> <span class="grammar-text"><a href="tokens.html#floating-point-literals">FLOAT_LITERAL</a></span></p>
+<p><strong><sup>Syntax</sup></strong>
+<br>
+<span class="grammar-text grammar-production" id="grammar-LiteralPattern" onclick="show_railroad()"><a href="patterns.html#railroad-LiteralPattern">LiteralPattern</a></span> → <span class="grammar-literal">-</span><sup>?</sup> <span class="grammar-text"><a href="expressions/literal-expr.html#grammar-LiteralExpression">LiteralExpression</a></span></p>
+<p><button class="grammar-toggle-railroad" type="button" title="Toggle railroad display" onclick="toggle_railroad()">Show Railroad</button></p>
 </div>
-<div class="grammar-content grammar-railroad grammar-hidden">
-<div style="width: 344px; height: auto; max-width: 100%; max-height: 100%"><svg class="railroad" viewBox="0 0 344 461" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<div class="grammar-railroad grammar-hidden">
+<div style="width: 312px; height: auto; max-width: 100%; max-height: 100%" class="railroad-production" id="railroad-LiteralPattern"><svg class="railroad" viewBox="0 0 312 87" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 <rect class="railroad_canvas" height="100%" width="100%"/>
 <g class="verticalgrid">
+<a class="link" xlink:href="patterns.html#grammar-LiteralPattern">
 <text class="comment" x="64" y="25">
 LiteralPattern</text>
+</a>
 <g class="sequence">
-<path d=" M 10 53 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5 m 10 0 h 5"/>
-<g class="choice">
-<path d=" M 35 53 h 24 m 52 0 h 198 m -96 0 l -5 -5 m 0 10 l 5 -5 m 96 0"/>
-<g class="sequence">
-<g class="terminal">
-<rect height="22" rx="10" ry="10" width="52" x="59" y="42"/>
-<text x="85" y="58">
-true</text>
-</g>
-</g>
-<path d=" M 35 53 a 12 12 0 0 1 12 12 v 9 m 250 0 v -9 a 12 12 0 0 1 12 -12"/>
-<path d=" M 47 74 v 33 m 250 0 v -33"/>
-<path d=" M 47 107 v 33 m 250 0 v -33"/>
-<path d=" M 47 140 v 33 m 250 0 v -33"/>
-<path d=" M 47 173 v 33 m 250 0 v -33"/>
-<path d=" M 47 206 v 33 m 250 0 v -33"/>
-<path d=" M 47 239 v 33 m 250 0 v -33"/>
-<path d=" M 47 272 v 33 m 250 0 v -33"/>
-<path d=" M 47 305 v 33 m 250 0 v -33"/>
-<path d=" M 47 338 v 33 m 250 0 v -33"/>
-<path d=" M 47 383 v 33 m 250 0 v -33"/>
-<path d=" M 47 74 v 0 a 12 12 0 0 0 12 12 m 60 0 h 166 m -80 0 l -5 -5 m 0 10 l 5 -5 m 80 0 a 12 12 0 0 0 12 -12 v 0"/>
-<g class="sequence">
-<g class="terminal">
-<rect height="22" rx="10" ry="10" width="60" x="59" y="75"/>
-<text x="89" y="91">
-false</text>
-</g>
-</g>
-<path d=" M 47 107 v 0 a 12 12 0 0 0 12 12 m 116 0 h 110 m -52 0 l -5 -5 m 0 10 l 5 -5 m 52 0 a 12 12 0 0 0 12 -12 v 0"/>
-<g class="sequence">
-<g class="nonterminal">
-<rect height="22" width="116" x="59" y="108"/>
-<text x="117" y="124">
-CHAR_LITERAL</text>
-</g>
-</g>
-<path d=" M 47 140 v 0 a 12 12 0 0 0 12 12 m 116 0 h 110 m -52 0 l -5 -5 m 0 10 l 5 -5 m 52 0 a 12 12 0 0 0 12 -12 v 0"/>
-<g class="sequence">
-<g class="nonterminal">
-<rect height="22" width="116" x="59" y="141"/>
-<text x="117" y="157">
-BYTE_LITERAL</text>
-</g>
-</g>
-<path d=" M 47 173 v 0 a 12 12 0 0 0 12 12 m 132 0 h 94 m -44 0 l -5 -5 m 0 10 l 5 -5 m 44 0 a 12 12 0 0 0 12 -12 v 0"/>
-<g class="sequence">
-<g class="nonterminal">
-<rect height="22" width="132" x="59" y="174"/>
-<text x="125" y="190">
-STRING_LITERAL</text>
-</g>
-</g>
-<path d=" M 47 206 v 0 a 12 12 0 0 0 12 12 m 164 0 h 62 m -28 0 l -5 -5 m 0 10 l 5 -5 m 28 0 a 12 12 0 0 0 12 -12 v 0"/>
-<g class="sequence">
-<g class="nonterminal">
-<rect height="22" width="164" x="59" y="207"/>
-<text x="141" y="223">
-RAW_STRING_LITERAL</text>
-</g>
-</g>
-<path d=" M 47 239 v 0 a 12 12 0 0 0 12 12 m 172 0 h 54 m -24 0 l -5 -5 m 0 10 l 5 -5 m 24 0 a 12 12 0 0 0 12 -12 v 0"/>
-<g class="sequence">
-<g class="nonterminal">
-<rect height="22" width="172" x="59" y="240"/>
-<text x="145" y="256">
-BYTE_STRING_LITERAL</text>
-</g>
-</g>
-<path d=" M 47 272 v 0 a 12 12 0 0 0 12 12 m 212 0 h 14 a 12 12 0 0 0 12 -12 v 0"/>
-<g class="sequence">
-<g class="nonterminal">
-<rect height="22" width="212" x="59" y="273"/>
-<text x="165" y="289">
-RAW_BYTE_STRING_LITERAL</text>
-</g>
-</g>
-<path d=" M 47 305 v 0 a 12 12 0 0 0 12 12 m 148 0 h 78 m -36 0 l -5 -5 m 0 10 l 5 -5 m 36 0 a 12 12 0 0 0 12 -12 v 0"/>
-<g class="sequence">
-<g class="nonterminal">
-<rect height="22" width="148" x="59" y="306"/>
-<text x="133" y="322">
-C_STRING_LITERAL</text>
-</g>
-</g>
-<path d=" M 47 338 v 0 a 12 12 0 0 0 12 12 m 188 0 h 38 a 12 12 0 0 0 12 -12 v 0"/>
-<g class="sequence">
-<g class="nonterminal">
-<rect height="22" width="188" x="59" y="339"/>
-<text x="153" y="355">
-RAW_C_STRING_LITERAL</text>
-</g>
-</g>
-<path d=" M 47 371 v 12 a 12 12 0 0 0 12 12 m 226 0 h 0 a 12 12 0 0 0 12 -12 v -12"/>
+<path d=" M 10 66 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5 m 10 0 h 5"/>
 <g class="sequence">
 <g class="optional">
-<path d=" M 59 395 h 24 m -24 0 a 12 12 0 0 0 12 -12 v 0 a 12 12 0 0 1 12 -12 h 28 a 12 12 0 0 1 12 12 v 0 a 12 12 0 0 0 12 12 h -24"/>
+<path d=" M 35 66 h 24 m -24 0 a 12 12 0 0 0 12 -12 v 0 a 12 12 0 0 1 12 -12 h 28 a 12 12 0 0 1 12 12 v 0 a 12 12 0 0 0 12 12 h -24"/>
 <g class="terminal">
-<rect height="22" rx="10" ry="10" width="28" x="83" y="384"/>
-<text x="97" y="400">
+<rect height="22" rx="10" ry="10" width="28" x="59" y="55"/>
+<text x="73" y="71">
 -</text>
 </g>
 </g>
+<a class="link" xlink:href="expressions/literal-expr.html#railroad-LiteralExpression">
 <g class="nonterminal">
-<rect height="22" width="140" x="145" y="384"/>
-<text x="215" y="400">
-INTEGER_LITERAL</text>
+<rect height="22" width="156" x="121" y="55"/>
+<text x="199" y="71">
+LiteralExpression</text>
 </g>
-<path d=" M 135 395 h 10"/>
+</a>
+<path d=" M 111 66 h 10"/>
 </g>
-<path d=" M 47 416 v 12 a 12 12 0 0 0 12 12 m 210 0 h 16 a 12 12 0 0 0 12 -12 v -12"/>
-<g class="sequence">
-<g class="optional">
-<path d=" M 59 440 h 24 m -24 0 a 12 12 0 0 0 12 -12 v 0 a 12 12 0 0 1 12 -12 h 28 a 12 12 0 0 1 12 12 v 0 a 12 12 0 0 0 12 12 h -24"/>
-<g class="terminal">
-<rect height="22" rx="10" ry="10" width="28" x="83" y="429"/>
-<text x="97" y="445">
--</text>
-</g>
-</g>
-<g class="nonterminal">
-<rect height="22" width="124" x="145" y="429"/>
-<text x="207" y="445">
-FLOAT_LITERAL</text>
-</g>
-<path d=" M 135 440 h 10"/>
-</g>
-</g>
-<path d=" M 319 53 h 5 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5"/>
-<path d=" M 25 53 h 10"/>
-<path d=" M 309 53 h 10"/>
+<path d=" M 287 66 h 5 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5"/>
+<path d=" M 25 66 h 10"/>
+<path d=" M 277 66 h 10"/>
 </g>
 </g>
 </svg>
 </div>
 </div>
-</div>
-<blockquote>
-<p><strong><sup>Syntax</sup></strong><br />
-<em>LiteralPattern</em> :<br />
-      <code>true</code> | <code>false</code><br />
-   | <a href="tokens.html#character-literals">CHAR_LITERAL</a><br />
-   | <a href="tokens.html#byte-literals">BYTE_LITERAL</a><br />
-   | <a href="tokens.html#string-literals">STRING_LITERAL</a><br />
-   | <a href="tokens.html#raw-string-literals">RAW_STRING_LITERAL</a><br />
-   | <a href="tokens.html#byte-string-literals">BYTE_STRING_LITERAL</a><br />
-   | <a href="tokens.html#raw-byte-string-literals">RAW_BYTE_STRING_LITERAL</a><br />
-   | <a href="tokens.html#c-string-literals">C_STRING_LITERAL</a><br />
-   | <a href="tokens.html#raw-c-string-literals">RAW_C_STRING_LITERAL</a><br />
-   | <code>-</code><sup>?</sup> <a href="tokens.html#integer-literals">INTEGER_LITERAL</a><br />
-   | <code>-</code><sup>?</sup> <a href="tokens.html#floating-point-literals">FLOAT_LITERAL</a></p>
-</blockquote>
 <div class="rule" id="r-patterns.literal.intro"><a class="rule-link" href="#r-patterns.literal.intro" title="patterns.literal.intro"><span>[patterns<wbr>.literal<wbr>.intro]</span/></a>
 </div>
-<p><em>Literal patterns</em> match exactly the same value as what is created by the literal.
-Since negative numbers are not <a href="expressions/literal-expr.html">literals</a>, literal patterns also accept an optional minus sign before the literal, which acts like the negation operator.</p>
+<p><em>Literal patterns</em> match exactly the same value as what is created by the literal. Since negative numbers are not <a href="expressions/literal-expr.html">literals</a>, literals in patterns may be prefixed by an optional minus sign, which acts like the negation operator.</p>
 <div class="alert alert-warning">
 <blockquote>
 <p class="alert-title"><svg viewBox="0 0 16 16" width="18" height="18"><path d="M6.457 1.047c.659-1.234 2.427-1.234 3.086 0l6.082 11.378A1.75 1.75 0 0 1 14.082 15H1.918a1.75 1.75 0 0 1-1.543-2.575Zm1.763.707a.25.25 0 0 0-.44 0L1.698 13.132a.25.25 0 0 0 .22.368h12.164a.25.25 0 0 0 .22-.368Zm.53 3.996v2.5a.75.75 0 0 1-1.5 0v-2.5a.75.75 0 0 1 1.5 0ZM9 11a1 1 0 1 1-2 0 1 1 0 0 1 2 0Z"></path></svg>Warning</p>
@@ -746,17 +649,19 @@ Since negative numbers are not <a href="expressions/literal-expr.html">literals<
 <div class="rule" id="r-patterns.ident.syntax"><a class="rule-link" href="#r-patterns.ident.syntax" title="patterns.ident.syntax"><span>[patterns<wbr>.ident<wbr>.syntax]</span/></a>
 </div>
 <div class="grammar-container">
-<button class="grammar-toggle" type="button" title="Toggle grammar display"onclick="toggle_grammar()">Toggle Railroad</button>
-<p><strong><sup>Syntax</sup></strong></p>
-<div class="grammar-content grammar-text">
-<p><span class="grammar-text grammar-production" id="grammar-IdentifierPattern">IdentifierPattern</span> → <span class="grammar-literal">ref</span><sup>?</sup> <span class="grammar-literal">mut</span><sup>?</sup> <span class="grammar-text"><a href="identifiers.html">IDENTIFIER</a></span> ( <span class="grammar-literal">@</span> <span class="grammar-text"><a href="patterns.html#grammar-PatternNoTopAlt">PatternNoTopAlt</a></span> )<sup>?</sup></p>
+<p><strong><sup>Syntax</sup></strong>
+<br>
+<span class="grammar-text grammar-production" id="grammar-IdentifierPattern" onclick="show_railroad()"><a href="patterns.html#railroad-IdentifierPattern">IdentifierPattern</a></span> → <span class="grammar-literal">ref</span><sup>?</sup> <span class="grammar-literal">mut</span><sup>?</sup> <span class="grammar-text"><a href="identifiers.html#grammar-IDENTIFIER">IDENTIFIER</a></span> ( <span class="grammar-literal">@</span> <span class="grammar-text"><a href="patterns.html#grammar-PatternNoTopAlt">PatternNoTopAlt</a></span> )<sup>?</sup></p>
+<p><button class="grammar-toggle-railroad" type="button" title="Toggle railroad display" onclick="toggle_railroad()">Show Railroad</button></p>
 </div>
-<div class="grammar-content grammar-railroad grammar-hidden">
-<div style="width: 610px; height: auto; max-width: 100%; max-height: 100%"><svg class="railroad" viewBox="0 0 610 87" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<div class="grammar-railroad grammar-hidden">
+<div style="width: 610px; height: auto; max-width: 100%; max-height: 100%" class="railroad-production" id="railroad-IdentifierPattern"><svg class="railroad" viewBox="0 0 610 87" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 <rect class="railroad_canvas" height="100%" width="100%"/>
 <g class="verticalgrid">
+<a class="link" xlink:href="patterns.html#grammar-IdentifierPattern">
 <text class="comment" x="74" y="25">
 IdentifierPattern</text>
+</a>
 <g class="sequence">
 <path d=" M 10 66 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5 m 10 0 h 5"/>
 <g class="sequence">
@@ -776,11 +681,13 @@ ref</text>
 mut</text>
 </g>
 </g>
+<a class="link" xlink:href="identifiers.html#railroad-IDENTIFIER">
 <g class="nonterminal">
 <rect height="22" width="100" x="239" y="55"/>
 <text x="289" y="71">
 IDENTIFIER</text>
 </g>
+</a>
 <g class="optional">
 <path d=" M 349 66 h 24 m -24 0 a 12 12 0 0 0 12 -12 v 0 a 12 12 0 0 1 12 -12 h 178 m -86 0 l -5 -5 m 0 10 l 5 -5 m 86 0 a 12 12 0 0 1 12 12 v 0 a 12 12 0 0 0 12 12 h -24"/>
 <g class="sequence">
@@ -789,11 +696,13 @@ IDENTIFIER</text>
 <text x="387" y="71">
 @</text>
 </g>
+<a class="link" xlink:href="patterns.html#railroad-PatternNoTopAlt">
 <g class="nonterminal">
 <rect height="22" width="140" x="411" y="55"/>
 <text x="481" y="71">
 PatternNoTopAlt</text>
 </g>
+</a>
 <path d=" M 401 66 h 10"/>
 </g>
 </g>
@@ -809,15 +718,9 @@ PatternNoTopAlt</text>
 </svg>
 </div>
 </div>
-</div>
-<blockquote>
-<p><strong><sup>Syntax</sup></strong><br />
-<em>IdentifierPattern</em> :<br />
-      <code>ref</code><sup>?</sup> <code>mut</code><sup>?</sup> <a href="identifiers.html">IDENTIFIER</a> (<code>@</code> <a href="#patterns"><em>PatternNoTopAlt</em></a> ) <sup>?</sup></p>
-</blockquote>
 <div class="rule" id="r-patterns.ident.intro"><a class="rule-link" href="#r-patterns.ident.intro" title="patterns.ident.intro"><span>[patterns<wbr>.ident<wbr>.intro]</span/></a>
 </div>
-<p>Identifier patterns bind the value they match to a variable in the <a href="names/namespaces.html">value namespace</a>.</p>
+<p>Identifier patterns bind the value they match to a variable in the <a href="names/namespaces.html#r-names.namespaces.kinds">value namespace</a>.</p>
 <div class="rule" id="r-patterns.ident.unique"><a class="rule-link" href="#r-patterns.ident.unique" title="patterns.ident.unique"><span>[patterns<wbr>.ident<wbr>.unique]</span/></a>
 </div>
 <p>The identifier must be unique within the pattern.</p>
@@ -999,17 +902,19 @@ let Person { name, ref age } = person;
 <div class="rule" id="r-patterns.wildcard.syntax"><a class="rule-link" href="#r-patterns.wildcard.syntax" title="patterns.wildcard.syntax"><span>[patterns<wbr>.wildcard<wbr>.syntax]</span/></a>
 </div>
 <div class="grammar-container">
-<button class="grammar-toggle" type="button" title="Toggle grammar display"onclick="toggle_grammar()">Toggle Railroad</button>
-<p><strong><sup>Syntax</sup></strong></p>
-<div class="grammar-content grammar-text">
-<p><span class="grammar-text grammar-production" id="grammar-WildcardPattern">WildcardPattern</span> → <span class="grammar-literal">_</span></p>
+<p><strong><sup>Syntax</sup></strong>
+<br>
+<span class="grammar-text grammar-production" id="grammar-WildcardPattern" onclick="show_railroad()"><a href="patterns.html#railroad-WildcardPattern">WildcardPattern</a></span> → <span class="grammar-literal">_</span></p>
+<p><button class="grammar-toggle-railroad" type="button" title="Toggle railroad display" onclick="toggle_railroad()">Show Railroad</button></p>
 </div>
-<div class="grammar-content grammar-railroad grammar-hidden">
-<div style="width: 135px; height: auto; max-width: 100%; max-height: 100%"><svg class="railroad" viewBox="0 0 135 74" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<div class="grammar-railroad grammar-hidden">
+<div style="width: 135px; height: auto; max-width: 100%; max-height: 100%" class="railroad-production" id="railroad-WildcardPattern"><svg class="railroad" viewBox="0 0 135 74" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 <rect class="railroad_canvas" height="100%" width="100%"/>
 <g class="verticalgrid">
+<a class="link" xlink:href="patterns.html#grammar-WildcardPattern">
 <text class="comment" x="67" y="25">
 WildcardPattern</text>
+</a>
 <g class="sequence">
 <path d=" M 10 53 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5 m 10 0 h 5"/>
 <g class="terminal">
@@ -1025,12 +930,6 @@ _</text>
 </svg>
 </div>
 </div>
-</div>
-<blockquote>
-<p><strong><sup>Syntax</sup></strong><br />
-<em>WildcardPattern</em> :<br />
-   <code>_</code></p>
-</blockquote>
 <div class="rule" id="r-patterns.wildcard.intro"><a class="rule-link" href="#r-patterns.wildcard.intro" title="patterns.wildcard.intro"><span>[patterns<wbr>.wildcard<wbr>.intro]</span/></a>
 </div>
 <p>The <em>wildcard pattern</em> (an underscore symbol) matches any value.
@@ -1077,17 +976,19 @@ let real_part = |a: f64, _: f64| { a };
 <div class="rule" id="r-patterns.rest.syntax"><a class="rule-link" href="#r-patterns.rest.syntax" title="patterns.rest.syntax"><span>[patterns<wbr>.rest<wbr>.syntax]</span/></a>
 </div>
 <div class="grammar-container">
-<button class="grammar-toggle" type="button" title="Toggle grammar display"onclick="toggle_grammar()">Toggle Railroad</button>
-<p><strong><sup>Syntax</sup></strong></p>
-<div class="grammar-content grammar-text">
-<p><span class="grammar-text grammar-production" id="grammar-RestPattern">RestPattern</span> → <span class="grammar-literal">..</span></p>
+<p><strong><sup>Syntax</sup></strong>
+<br>
+<span class="grammar-text grammar-production" id="grammar-RestPattern" onclick="show_railroad()"><a href="patterns.html#railroad-RestPattern">RestPattern</a></span> → <span class="grammar-literal">..</span></p>
+<p><button class="grammar-toggle-railroad" type="button" title="Toggle railroad display" onclick="toggle_railroad()">Show Railroad</button></p>
 </div>
-<div class="grammar-content grammar-railroad grammar-hidden">
-<div style="width: 107px; height: auto; max-width: 100%; max-height: 100%"><svg class="railroad" viewBox="0 0 107 74" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<div class="grammar-railroad grammar-hidden">
+<div style="width: 107px; height: auto; max-width: 100%; max-height: 100%" class="railroad-production" id="railroad-RestPattern"><svg class="railroad" viewBox="0 0 107 74" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 <rect class="railroad_canvas" height="100%" width="100%"/>
 <g class="verticalgrid">
+<a class="link" xlink:href="patterns.html#grammar-RestPattern">
 <text class="comment" x="53" y="25">
 RestPattern</text>
+</a>
 <g class="sequence">
 <path d=" M 10 53 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5 m 10 0 h 5"/>
 <g class="terminal">
@@ -1103,12 +1004,6 @@ RestPattern</text>
 </svg>
 </div>
 </div>
-</div>
-<blockquote>
-<p><strong><sup>Syntax</sup></strong><br />
-<em>RestPattern</em> :<br />
-   <code>..</code></p>
-</blockquote>
 <div class="rule" id="r-patterns.rest.intro"><a class="rule-link" href="#r-patterns.rest.intro" title="patterns.rest.intro"><span>[patterns<wbr>.rest<wbr>.intro]</span/></a>
 </div>
 <p>The <em>rest pattern</em> (the <code>..</code> token) acts as a variable-length pattern which matches zero or more elements that haven’t been matched already before and after.</p>
@@ -1164,51 +1059,52 @@ match tuple {
 <div class="rule" id="r-patterns.range.syntax"><a class="rule-link" href="#r-patterns.range.syntax" title="patterns.range.syntax"><span>[patterns<wbr>.range<wbr>.syntax]</span/></a>
 </div>
 <div class="grammar-container">
-<button class="grammar-toggle" type="button" title="Toggle grammar display"onclick="toggle_grammar()">Toggle Railroad</button>
-<p><strong><sup>Syntax</sup></strong></p>
-<div class="grammar-content grammar-text">
-<p><span class="grammar-text grammar-production" id="grammar-RangePattern">RangePattern</span> → <br />
+<p><strong><sup>Syntax</sup></strong>
+<br>
+<span class="grammar-text grammar-production" id="grammar-RangePattern" onclick="show_railroad()"><a href="patterns.html#railroad-RangePattern">RangePattern</a></span> → <br />
       <span class="grammar-text"><a href="patterns.html#grammar-RangeExclusivePattern">RangeExclusivePattern</a></span> <br />
     | <span class="grammar-text"><a href="patterns.html#grammar-RangeInclusivePattern">RangeInclusivePattern</a></span> <br />
     | <span class="grammar-text"><a href="patterns.html#grammar-RangeFromPattern">RangeFromPattern</a></span> <br />
     | <span class="grammar-text"><a href="patterns.html#grammar-RangeToExclusivePattern">RangeToExclusivePattern</a></span> <br />
     | <span class="grammar-text"><a href="patterns.html#grammar-RangeToInclusivePattern">RangeToInclusivePattern</a></span> <br />
     | <span class="grammar-text"><a href="patterns.html#grammar-ObsoleteRangePattern">ObsoleteRangePattern</a></span>​<sup class="footnote-reference" id="fr-obsolete-range-edition-1"><a href="#footnote-obsolete-range-edition">1</a></sup></p>
-<p><span class="grammar-text grammar-production" id="grammar-RangeExclusivePattern">RangeExclusivePattern</span> → <br />
+<p><span class="grammar-text grammar-production" id="grammar-RangeExclusivePattern" onclick="show_railroad()"><a href="patterns.html#railroad-RangeExclusivePattern">RangeExclusivePattern</a></span> → <br />
       <span class="grammar-text"><a href="patterns.html#grammar-RangePatternBound">RangePatternBound</a></span> <span class="grammar-literal">..</span> <span class="grammar-text"><a href="patterns.html#grammar-RangePatternBound">RangePatternBound</a></span></p>
-<p><span class="grammar-text grammar-production" id="grammar-RangeInclusivePattern">RangeInclusivePattern</span> → <br />
+<p><span class="grammar-text grammar-production" id="grammar-RangeInclusivePattern" onclick="show_railroad()"><a href="patterns.html#railroad-RangeInclusivePattern">RangeInclusivePattern</a></span> → <br />
       <span class="grammar-text"><a href="patterns.html#grammar-RangePatternBound">RangePatternBound</a></span> <span class="grammar-literal">..=</span> <span class="grammar-text"><a href="patterns.html#grammar-RangePatternBound">RangePatternBound</a></span></p>
-<p><span class="grammar-text grammar-production" id="grammar-RangeFromPattern">RangeFromPattern</span> → <br />
+<p><span class="grammar-text grammar-production" id="grammar-RangeFromPattern" onclick="show_railroad()"><a href="patterns.html#railroad-RangeFromPattern">RangeFromPattern</a></span> → <br />
       <span class="grammar-text"><a href="patterns.html#grammar-RangePatternBound">RangePatternBound</a></span> <span class="grammar-literal">..</span></p>
-<p><span class="grammar-text grammar-production" id="grammar-RangeToExclusivePattern">RangeToExclusivePattern</span> → <br />
+<p><span class="grammar-text grammar-production" id="grammar-RangeToExclusivePattern" onclick="show_railroad()"><a href="patterns.html#railroad-RangeToExclusivePattern">RangeToExclusivePattern</a></span> → <br />
       <span class="grammar-literal">..</span> <span class="grammar-text"><a href="patterns.html#grammar-RangePatternBound">RangePatternBound</a></span></p>
-<p><span class="grammar-text grammar-production" id="grammar-RangeToInclusivePattern">RangeToInclusivePattern</span> → <br />
+<p><span class="grammar-text grammar-production" id="grammar-RangeToInclusivePattern" onclick="show_railroad()"><a href="patterns.html#railroad-RangeToInclusivePattern">RangeToInclusivePattern</a></span> → <br />
       <span class="grammar-literal">..=</span> <span class="grammar-text"><a href="patterns.html#grammar-RangePatternBound">RangePatternBound</a></span></p>
-<p><span class="grammar-text grammar-production" id="grammar-ObsoleteRangePattern">ObsoleteRangePattern</span> → <br />
-    <span class="grammar-text"><a href="patterns.html#grammar-RangePatternBound">RangePatternBound</a></span> <span class="grammar-literal">…</span> <span class="grammar-text"><a href="patterns.html#grammar-RangePatternBound">RangePatternBound</a></span></p>
-<p><span class="grammar-text grammar-production" id="grammar-RangePatternBound">RangePatternBound</span> → <br />
-      <span class="grammar-text"><a href="tokens.html#character-literals">CHAR_LITERAL</a></span> <br />
-    | <span class="grammar-text"><a href="tokens.html#byte-literals">BYTE_LITERAL</a></span> <br />
-    | <span class="grammar-literal">-</span><sup>?</sup> <span class="grammar-text"><a href="tokens.html#integer-literals">INTEGER_LITERAL</a></span> <br />
-    | <span class="grammar-literal">-</span><sup>?</sup> <span class="grammar-text"><a href="tokens.html#floating-point-literals">FLOAT_LITERAL</a></span> <br />
+<p><span class="grammar-text grammar-production" id="grammar-ObsoleteRangePattern" onclick="show_railroad()"><a href="patterns.html#railroad-ObsoleteRangePattern">ObsoleteRangePattern</a></span> → <br />
+    <span class="grammar-text"><a href="patterns.html#grammar-RangePatternBound">RangePatternBound</a></span> <span class="grammar-literal">...</span> <span class="grammar-text"><a href="patterns.html#grammar-RangePatternBound">RangePatternBound</a></span></p>
+<p><span class="grammar-text grammar-production" id="grammar-RangePatternBound" onclick="show_railroad()"><a href="patterns.html#railroad-RangePatternBound">RangePatternBound</a></span> → <br />
+      <span class="grammar-text"><a href="patterns.html#grammar-LiteralPattern">LiteralPattern</a></span> <br />
     | <span class="grammar-text"><a href="expressions/path-expr.html#grammar-PathExpression">PathExpression</a></span></p>
+<p><button class="grammar-toggle-railroad" type="button" title="Toggle railroad display" onclick="toggle_railroad()">Show Railroad</button></p>
 </div>
-<div class="grammar-content grammar-railroad grammar-hidden">
-<div style="width: 330px; height: auto; max-width: 100%; max-height: 100%"><svg class="railroad" viewBox="0 0 330 239" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<div class="grammar-railroad grammar-hidden">
+<div style="width: 330px; height: auto; max-width: 100%; max-height: 100%" class="railroad-production" id="railroad-RangePattern"><svg class="railroad" viewBox="0 0 330 239" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 <rect class="railroad_canvas" height="100%" width="100%"/>
 <g class="verticalgrid">
+<a class="link" xlink:href="patterns.html#grammar-RangePattern">
 <text class="comment" x="57" y="25">
 RangePattern</text>
+</a>
 <g class="sequence">
 <path d=" M 10 53 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5 m 10 0 h 5"/>
 <g class="choice">
 <path d=" M 35 53 h 24 m 196 0 h 40"/>
 <g class="sequence">
+<a class="link" xlink:href="patterns.html#railroad-RangeExclusivePattern">
 <g class="nonterminal">
 <rect height="22" width="196" x="59" y="42"/>
 <text x="157" y="58">
 RangeExclusivePattern</text>
 </g>
+</a>
 </g>
 <path d=" M 35 53 a 12 12 0 0 1 12 12 v 9 m 236 0 v -9 a 12 12 0 0 1 12 -12"/>
 <path d=" M 47 74 v 33 m 236 0 v -33"/>
@@ -1217,42 +1113,52 @@ RangeExclusivePattern</text>
 <path d=" M 47 173 v 33 m 236 0 v -33"/>
 <path d=" M 47 74 v 0 a 12 12 0 0 0 12 12 m 196 0 h 16 a 12 12 0 0 0 12 -12 v 0"/>
 <g class="sequence">
+<a class="link" xlink:href="patterns.html#railroad-RangeInclusivePattern">
 <g class="nonterminal">
 <rect height="22" width="196" x="59" y="75"/>
 <text x="157" y="91">
 RangeInclusivePattern</text>
 </g>
+</a>
 </g>
 <path d=" M 47 107 v 0 a 12 12 0 0 0 12 12 m 148 0 h 64 m -29 0 l -5 -5 m 0 10 l 5 -5 m 29 0 a 12 12 0 0 0 12 -12 v 0"/>
 <g class="sequence">
+<a class="link" xlink:href="patterns.html#railroad-RangeFromPattern">
 <g class="nonterminal">
 <rect height="22" width="148" x="59" y="108"/>
 <text x="133" y="124">
 RangeFromPattern</text>
 </g>
+</a>
 </g>
 <path d=" M 47 140 v 0 a 12 12 0 0 0 12 12 m 212 0 h 0 a 12 12 0 0 0 12 -12 v 0"/>
 <g class="sequence">
+<a class="link" xlink:href="patterns.html#railroad-RangeToExclusivePattern">
 <g class="nonterminal">
 <rect height="22" width="212" x="59" y="141"/>
 <text x="165" y="157">
 RangeToExclusivePattern</text>
 </g>
+</a>
 </g>
 <path d=" M 47 173 v 0 a 12 12 0 0 0 12 12 m 212 0 h 0 a 12 12 0 0 0 12 -12 v 0"/>
 <g class="sequence">
+<a class="link" xlink:href="patterns.html#railroad-RangeToInclusivePattern">
 <g class="nonterminal">
 <rect height="22" width="212" x="59" y="174"/>
 <text x="165" y="190">
 RangeToInclusivePattern</text>
 </g>
+</a>
 </g>
 <path d=" M 47 206 v 0 a 12 12 0 0 0 12 12 m 188 0 h 24 a 12 12 0 0 0 12 -12 v 0"/>
+<a class="link" xlink:href="patterns.html#railroad-ObsoleteRangePattern">
 <g class="nonterminal">
 <rect height="22" width="188" x="59" y="207"/>
 <text x="153" y="223">
 ObsoleteRangePattern</text>
 </g>
+</a>
 </g>
 <path d=" M 305 53 h 5 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5"/>
 <path d=" M 25 53 h 10"/>
@@ -1261,29 +1167,35 @@ ObsoleteRangePattern</text>
 </g>
 </svg>
 </div>
-<div style="width: 438px; height: auto; max-width: 100%; max-height: 100%"><svg class="railroad" viewBox="0 0 438 74" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<div style="width: 438px; height: auto; max-width: 100%; max-height: 100%" class="railroad-production" id="railroad-RangeExclusivePattern"><svg class="railroad" viewBox="0 0 438 74" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 <rect class="railroad_canvas" height="100%" width="100%"/>
 <g class="verticalgrid">
+<a class="link" xlink:href="patterns.html#grammar-RangeExclusivePattern">
 <text class="comment" x="92" y="25">
 RangeExclusivePattern</text>
+</a>
 <g class="sequence">
 <path d=" M 10 53 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5 m 10 0 h 5"/>
 <g class="sequence">
+<a class="link" xlink:href="patterns.html#railroad-RangePatternBound">
 <g class="nonterminal">
 <rect height="22" width="156" x="35" y="42"/>
 <text x="113" y="58">
 RangePatternBound</text>
 </g>
+</a>
 <g class="terminal">
 <rect height="22" rx="10" ry="10" width="36" x="201" y="42"/>
 <text x="219" y="58">
 ..</text>
 </g>
+<a class="link" xlink:href="patterns.html#railroad-RangePatternBound">
 <g class="nonterminal">
 <rect height="22" width="156" x="247" y="42"/>
 <text x="325" y="58">
 RangePatternBound</text>
 </g>
+</a>
 <path d=" M 191 53 h 10"/>
 <path d=" M 237 53 h 10"/>
 </g>
@@ -1294,29 +1206,35 @@ RangePatternBound</text>
 </g>
 </svg>
 </div>
-<div style="width: 446px; height: auto; max-width: 100%; max-height: 100%"><svg class="railroad" viewBox="0 0 446 74" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<div style="width: 446px; height: auto; max-width: 100%; max-height: 100%" class="railroad-production" id="railroad-RangeInclusivePattern"><svg class="railroad" viewBox="0 0 446 74" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 <rect class="railroad_canvas" height="100%" width="100%"/>
 <g class="verticalgrid">
+<a class="link" xlink:href="patterns.html#grammar-RangeInclusivePattern">
 <text class="comment" x="92" y="25">
 RangeInclusivePattern</text>
+</a>
 <g class="sequence">
 <path d=" M 10 53 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5 m 10 0 h 5"/>
 <g class="sequence">
+<a class="link" xlink:href="patterns.html#railroad-RangePatternBound">
 <g class="nonterminal">
 <rect height="22" width="156" x="35" y="42"/>
 <text x="113" y="58">
 RangePatternBound</text>
 </g>
+</a>
 <g class="terminal">
 <rect height="22" rx="10" ry="10" width="44" x="201" y="42"/>
 <text x="223" y="58">
 ..=</text>
 </g>
+<a class="link" xlink:href="patterns.html#railroad-RangePatternBound">
 <g class="nonterminal">
 <rect height="22" width="156" x="255" y="42"/>
 <text x="333" y="58">
 RangePatternBound</text>
 </g>
+</a>
 <path d=" M 191 53 h 10"/>
 <path d=" M 245 53 h 10"/>
 </g>
@@ -1327,19 +1245,23 @@ RangePatternBound</text>
 </g>
 </svg>
 </div>
-<div style="width: 272px; height: auto; max-width: 100%; max-height: 100%"><svg class="railroad" viewBox="0 0 272 74" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<div style="width: 272px; height: auto; max-width: 100%; max-height: 100%" class="railroad-production" id="railroad-RangeFromPattern"><svg class="railroad" viewBox="0 0 272 74" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 <rect class="railroad_canvas" height="100%" width="100%"/>
 <g class="verticalgrid">
+<a class="link" xlink:href="patterns.html#grammar-RangeFromPattern">
 <text class="comment" x="71" y="25">
 RangeFromPattern</text>
+</a>
 <g class="sequence">
 <path d=" M 10 53 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5 m 10 0 h 5"/>
 <g class="sequence">
+<a class="link" xlink:href="patterns.html#railroad-RangePatternBound">
 <g class="nonterminal">
 <rect height="22" width="156" x="35" y="42"/>
 <text x="113" y="58">
 RangePatternBound</text>
 </g>
+</a>
 <g class="terminal">
 <rect height="22" rx="10" ry="10" width="36" x="201" y="42"/>
 <text x="219" y="58">
@@ -1354,11 +1276,13 @@ RangePatternBound</text>
 </g>
 </svg>
 </div>
-<div style="width: 272px; height: auto; max-width: 100%; max-height: 100%"><svg class="railroad" viewBox="0 0 272 74" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<div style="width: 272px; height: auto; max-width: 100%; max-height: 100%" class="railroad-production" id="railroad-RangeToExclusivePattern"><svg class="railroad" viewBox="0 0 272 74" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 <rect class="railroad_canvas" height="100%" width="100%"/>
 <g class="verticalgrid">
+<a class="link" xlink:href="patterns.html#grammar-RangeToExclusivePattern">
 <text class="comment" x="99" y="25">
 RangeToExclusivePattern</text>
+</a>
 <g class="sequence">
 <path d=" M 10 53 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5 m 10 0 h 5"/>
 <g class="sequence">
@@ -1367,11 +1291,13 @@ RangeToExclusivePattern</text>
 <text x="53" y="58">
 ..</text>
 </g>
+<a class="link" xlink:href="patterns.html#railroad-RangePatternBound">
 <g class="nonterminal">
 <rect height="22" width="156" x="81" y="42"/>
 <text x="159" y="58">
 RangePatternBound</text>
 </g>
+</a>
 <path d=" M 71 53 h 10"/>
 </g>
 <path d=" M 247 53 h 5 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5"/>
@@ -1381,11 +1307,13 @@ RangePatternBound</text>
 </g>
 </svg>
 </div>
-<div style="width: 280px; height: auto; max-width: 100%; max-height: 100%"><svg class="railroad" viewBox="0 0 280 74" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<div style="width: 280px; height: auto; max-width: 100%; max-height: 100%" class="railroad-production" id="railroad-RangeToInclusivePattern"><svg class="railroad" viewBox="0 0 280 74" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 <rect class="railroad_canvas" height="100%" width="100%"/>
 <g class="verticalgrid">
+<a class="link" xlink:href="patterns.html#grammar-RangeToInclusivePattern">
 <text class="comment" x="99" y="25">
 RangeToInclusivePattern</text>
+</a>
 <g class="sequence">
 <path d=" M 10 53 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5 m 10 0 h 5"/>
 <g class="sequence">
@@ -1394,11 +1322,13 @@ RangeToInclusivePattern</text>
 <text x="57" y="58">
 ..=</text>
 </g>
+<a class="link" xlink:href="patterns.html#railroad-RangePatternBound">
 <g class="nonterminal">
 <rect height="22" width="156" x="89" y="42"/>
 <text x="167" y="58">
 RangePatternBound</text>
 </g>
+</a>
 <path d=" M 79 53 h 10"/>
 </g>
 <path d=" M 255 53 h 5 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5"/>
@@ -1408,29 +1338,35 @@ RangePatternBound</text>
 </g>
 </svg>
 </div>
-<div style="width: 446px; height: auto; max-width: 100%; max-height: 100%"><svg class="railroad" viewBox="0 0 446 74" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<div style="width: 446px; height: auto; max-width: 100%; max-height: 100%" class="railroad-production" id="railroad-ObsoleteRangePattern"><svg class="railroad" viewBox="0 0 446 74" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 <rect class="railroad_canvas" height="100%" width="100%"/>
 <g class="verticalgrid">
+<a class="link" xlink:href="patterns.html#grammar-ObsoleteRangePattern">
 <text class="comment" x="88" y="25">
 ObsoleteRangePattern</text>
+</a>
 <g class="sequence">
 <path d=" M 10 53 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5 m 10 0 h 5"/>
 <g class="sequence">
+<a class="link" xlink:href="patterns.html#railroad-RangePatternBound">
 <g class="nonterminal">
 <rect height="22" width="156" x="35" y="42"/>
 <text x="113" y="58">
 RangePatternBound</text>
 </g>
+</a>
 <g class="terminal">
 <rect height="22" rx="10" ry="10" width="44" x="201" y="42"/>
 <text x="223" y="58">
 ...</text>
 </g>
+<a class="link" xlink:href="patterns.html#railroad-RangePatternBound">
 <g class="nonterminal">
 <rect height="22" width="156" x="255" y="42"/>
 <text x="333" y="58">
 RangePatternBound</text>
 </g>
+</a>
 <path d=" M 191 53 h 10"/>
 <path d=" M 245 53 h 10"/>
 </g>
@@ -1441,112 +1377,44 @@ RangePatternBound</text>
 </g>
 </svg>
 </div>
-<div style="width: 344px; height: auto; max-width: 100%; max-height: 100%"><svg class="railroad" viewBox="0 0 344 230" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<div style="width: 250px; height: auto; max-width: 100%; max-height: 100%" class="railroad-production" id="railroad-RangePatternBound"><svg class="railroad" viewBox="0 0 250 107" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 <rect class="railroad_canvas" height="100%" width="100%"/>
 <g class="verticalgrid">
+<a class="link" xlink:href="patterns.html#grammar-RangePatternBound">
 <text class="comment" x="74" y="25">
 RangePatternBound</text>
+</a>
 <g class="sequence">
 <path d=" M 10 53 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5 m 10 0 h 5"/>
 <g class="choice">
-<path d=" M 35 53 h 24 m 116 0 h 134 m -64 0 l -5 -5 m 0 10 l 5 -5 m 64 0"/>
+<path d=" M 35 53 h 24 m 132 0 h 24"/>
 <g class="sequence">
+<a class="link" xlink:href="patterns.html#railroad-LiteralPattern">
 <g class="nonterminal">
-<rect height="22" width="116" x="59" y="42"/>
-<text x="117" y="58">
-CHAR_LITERAL</text>
+<rect height="22" width="132" x="59" y="42"/>
+<text x="125" y="58">
+LiteralPattern</text>
 </g>
+</a>
 </g>
-<path d=" M 35 53 a 12 12 0 0 1 12 12 v 9 m 250 0 v -9 a 12 12 0 0 1 12 -12"/>
-<path d=" M 47 74 v 33 m 250 0 v -33"/>
-<path d=" M 47 119 v 33 m 250 0 v -33"/>
-<path d=" M 47 164 v 33 m 250 0 v -33"/>
-<path d=" M 47 74 v 0 a 12 12 0 0 0 12 12 m 116 0 h 110 m -52 0 l -5 -5 m 0 10 l 5 -5 m 52 0 a 12 12 0 0 0 12 -12 v 0"/>
-<g class="sequence">
+<path d=" M 35 53 a 12 12 0 0 1 12 12 v 9 m 156 0 v -9 a 12 12 0 0 1 12 -12"/>
+<path d=" M 47 74 v 0 a 12 12 0 0 0 12 12 m 132 0 h 0 a 12 12 0 0 0 12 -12 v 0"/>
+<a class="link" xlink:href="expressions/path-expr.html#railroad-PathExpression">
 <g class="nonterminal">
-<rect height="22" width="116" x="59" y="75"/>
-<text x="117" y="91">
-BYTE_LITERAL</text>
-</g>
-</g>
-<path d=" M 47 107 v 12 a 12 12 0 0 0 12 12 m 226 0 h 0 a 12 12 0 0 0 12 -12 v -12"/>
-<g class="sequence">
-<g class="optional">
-<path d=" M 59 131 h 24 m -24 0 a 12 12 0 0 0 12 -12 v 0 a 12 12 0 0 1 12 -12 h 28 a 12 12 0 0 1 12 12 v 0 a 12 12 0 0 0 12 12 h -24"/>
-<g class="terminal">
-<rect height="22" rx="10" ry="10" width="28" x="83" y="120"/>
-<text x="97" y="136">
--</text>
-</g>
-</g>
-<g class="nonterminal">
-<rect height="22" width="140" x="145" y="120"/>
-<text x="215" y="136">
-INTEGER_LITERAL</text>
-</g>
-<path d=" M 135 131 h 10"/>
-</g>
-<path d=" M 47 152 v 12 a 12 12 0 0 0 12 12 m 210 0 h 16 a 12 12 0 0 0 12 -12 v -12"/>
-<g class="sequence">
-<g class="optional">
-<path d=" M 59 176 h 24 m -24 0 a 12 12 0 0 0 12 -12 v 0 a 12 12 0 0 1 12 -12 h 28 a 12 12 0 0 1 12 12 v 0 a 12 12 0 0 0 12 12 h -24"/>
-<g class="terminal">
-<rect height="22" rx="10" ry="10" width="28" x="83" y="165"/>
-<text x="97" y="181">
--</text>
-</g>
-</g>
-<g class="nonterminal">
-<rect height="22" width="124" x="145" y="165"/>
-<text x="207" y="181">
-FLOAT_LITERAL</text>
-</g>
-<path d=" M 135 176 h 10"/>
-</g>
-<path d=" M 47 197 v 0 a 12 12 0 0 0 12 12 m 132 0 h 94 m -44 0 l -5 -5 m 0 10 l 5 -5 m 44 0 a 12 12 0 0 0 12 -12 v 0"/>
-<g class="nonterminal">
-<rect height="22" width="132" x="59" y="198"/>
-<text x="125" y="214">
+<rect height="22" width="132" x="59" y="75"/>
+<text x="125" y="91">
 PathExpression</text>
 </g>
+</a>
 </g>
-<path d=" M 319 53 h 5 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5"/>
+<path d=" M 225 53 h 5 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5"/>
 <path d=" M 25 53 h 10"/>
-<path d=" M 309 53 h 10"/>
+<path d=" M 215 53 h 10"/>
 </g>
 </g>
 </svg>
 </div>
 </div>
-</div>
-<blockquote>
-<p><strong><sup>Syntax</sup></strong><br />
-<em>RangePattern</em> :<br />
-      <em>RangeExclusivePattern</em><br />
-   | <em>RangeInclusivePattern</em><br />
-   | <em>RangeFromPattern</em><br />
-   | <em>RangeToExclusivePattern</em><br />
-   | <em>RangeToInclusivePattern</em><br />
-   | <em>ObsoleteRangePattern</em><sup class="footnote-reference" id="fr-obsolete-range-edition-2"><a href="#footnote-obsolete-range-edition">1</a></sup></p>
-<p><em>RangeExclusivePattern</em> :<br />
-      <em>RangePatternBound</em> <code>..</code> <em>RangePatternBound</em></p>
-<p><em>RangeInclusivePattern</em> :<br />
-      <em>RangePatternBound</em> <code>..=</code> <em>RangePatternBound</em></p>
-<p><em>RangeFromPattern</em> :<br />
-      <em>RangePatternBound</em> <code>..</code></p>
-<p><em>RangeToExclusivePattern</em> :<br />
-      <code>..</code> <em>RangePatternBound</em></p>
-<p><em>RangeToInclusivePattern</em> :<br />
-      <code>..=</code> <em>RangePatternBound</em></p>
-<p><em>ObsoleteRangePattern</em> :<br />
-   <em>RangePatternBound</em> <code>...</code> <em>RangePatternBound</em></p>
-<p><em>RangePatternBound</em> :<br />
-      <a href="tokens.html#character-literals">CHAR_LITERAL</a><br />
-   | <a href="tokens.html#byte-literals">BYTE_LITERAL</a><br />
-   | <code>-</code><sup>?</sup> <a href="tokens.html#integer-literals">INTEGER_LITERAL</a><br />
-   | <code>-</code><sup>?</sup> <a href="tokens.html#floating-point-literals">FLOAT_LITERAL</a><br />
-   | <a href="expressions/path-expr.html"><em>PathExpression</em></a></p>
-</blockquote>
 <div class="rule" id="r-patterns.range.intro"><a class="rule-link" href="#r-patterns.range.intro" title="patterns.range.intro"><span>[patterns<wbr>.range<wbr>.intro]</span/></a>
 </div>
 <p><em>Range patterns</em> match scalar values within the range defined by their bounds.
@@ -1589,8 +1457,14 @@ For example, it is an error to have a range pattern <code>10..=0</code>.</p>
 <ul>
 <li>A character, byte, integer, or float literal.</li>
 <li>A <code>-</code> followed by an integer or float literal.</li>
-<li>A <a href="expressions/path-expr.html">path</a></li>
+<li>A <a href="expressions/path-expr.html">path</a>.</li>
 </ul>
+<div class="alert alert-note">
+<blockquote>
+<p class="alert-title"><svg viewBox="0 0 16 16" width="18" height="18"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"></path></svg>Note</p>
+<p>We syntactically accept more than this for a <em><a href="patterns.html#grammar-RangePatternBound">RangePatternBound</a></em>. We later reject the other things semantically.</p>
+</blockquote>
+</div>
 <div class="rule" id="r-patterns.range.constraint-bound-path"><a class="rule-link" href="#r-patterns.range.constraint-bound-path" title="patterns.range.constraint-bound-path"><span>[patterns<wbr>.range<wbr>.constraint-bound-path]</span/></a>
 </div>
 <p>If a bound is written as a path, after macro resolution, the path must resolve to a constant item of the type <code>char</code>, an integer type, or a float type.</p>
@@ -1695,7 +1569,7 @@ For example, <code>0u8..=255u8</code> is irrefutable.</p>
 <p>The range of values for a <code>char</code> type are precisely those ranges containing all Unicode Scalar Values: <code>'\u{0000}'..='\u{D7FF}'</code> and <code>'\u{E000}'..='\u{10FFFF}'</code>.</p>
 <div class="rule" id="r-patterns.range.constraint-slice"><a class="rule-link" href="#r-patterns.range.constraint-slice" title="patterns.range.constraint-slice"><span>[patterns<wbr>.range<wbr>.constraint-slice]</span/></a>
 </div>
-<p><em>RangeFromPattern</em> cannot be used as a top-level pattern for subpatterns in <a href="#slice-patterns">slice patterns</a>.
+<p><a href="patterns.html#grammar-RangeFromPattern">RangeFromPattern</a> cannot be used as a top-level pattern for subpatterns in <a href="#slice-patterns">slice patterns</a>.
 For example, the pattern <code>[1.., _]</code> is not a valid pattern.</p>
 <div class="rule" id="r-patterns.range.edition2021"><a class="rule-link" href="#r-patterns.range.edition2021" title="patterns.range.edition2021"><span>[patterns<wbr>.range<wbr>.edition2021]</span/></a>
 </div>
@@ -1711,17 +1585,19 @@ For example, the pattern <code>[1.., _]</code> is not a valid pattern.</p>
 <div class="rule" id="r-patterns.ref.syntax"><a class="rule-link" href="#r-patterns.ref.syntax" title="patterns.ref.syntax"><span>[patterns<wbr>.ref<wbr>.syntax]</span/></a>
 </div>
 <div class="grammar-container">
-<button class="grammar-toggle" type="button" title="Toggle grammar display"onclick="toggle_grammar()">Toggle Railroad</button>
-<p><strong><sup>Syntax</sup></strong></p>
-<div class="grammar-content grammar-text">
-<p><span class="grammar-text grammar-production" id="grammar-ReferencePattern">ReferencePattern</span> → ( <span class="grammar-literal">&amp;</span> | <span class="grammar-literal">&amp;&amp;</span> ) <span class="grammar-literal">mut</span><sup>?</sup> <span class="grammar-text"><a href="patterns.html#grammar-PatternWithoutRange">PatternWithoutRange</a></span></p>
+<p><strong><sup>Syntax</sup></strong>
+<br>
+<span class="grammar-text grammar-production" id="grammar-ReferencePattern" onclick="show_railroad()"><a href="patterns.html#railroad-ReferencePattern">ReferencePattern</a></span> → ( <span class="grammar-literal">&amp;</span> | <span class="grammar-literal">&amp;&amp;</span> ) <span class="grammar-literal">mut</span><sup>?</sup> <span class="grammar-text"><a href="patterns.html#grammar-PatternWithoutRange">PatternWithoutRange</a></span></p>
+<p><button class="grammar-toggle-railroad" type="button" title="Toggle railroad display" onclick="toggle_railroad()">Show Railroad</button></p>
 </div>
-<div class="grammar-content grammar-railroad grammar-hidden">
-<div style="width: 438px; height: auto; max-width: 100%; max-height: 100%"><svg class="railroad" viewBox="0 0 438 120" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<div class="grammar-railroad grammar-hidden">
+<div style="width: 438px; height: auto; max-width: 100%; max-height: 100%" class="railroad-production" id="railroad-ReferencePattern"><svg class="railroad" viewBox="0 0 438 120" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 <rect class="railroad_canvas" height="100%" width="100%"/>
 <g class="verticalgrid">
+<a class="link" xlink:href="patterns.html#grammar-ReferencePattern">
 <text class="comment" x="71" y="25">
 ReferencePattern</text>
+</a>
 <g class="sequence">
 <path d=" M 10 66 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5 m 10 0 h 5"/>
 <g class="sequence">
@@ -1748,11 +1624,13 @@ ReferencePattern</text>
 mut</text>
 </g>
 </g>
+<a class="link" xlink:href="patterns.html#railroad-PatternWithoutRange">
 <g class="nonterminal">
 <rect height="22" width="172" x="231" y="55"/>
 <text x="317" y="71">
 PatternWithoutRange</text>
 </g>
+</a>
 <path d=" M 119 66 h 10"/>
 <path d=" M 221 66 h 10"/>
 </g>
@@ -1764,12 +1642,6 @@ PatternWithoutRange</text>
 </svg>
 </div>
 </div>
-</div>
-<blockquote>
-<p><strong><sup>Syntax</sup></strong><br />
-<em>ReferencePattern</em> :<br />
-   (<code>&amp;</code>|<code>&amp;&amp;</code>) <code>mut</code><sup>?</sup> <a href="#patterns"><em>PatternWithoutRange</em></a></p>
-</blockquote>
 <div class="rule" id="r-patterns.ref.intro"><a class="rule-link" href="#r-patterns.ref.intro" title="patterns.ref.intro"><span>[patterns<wbr>.ref<wbr>.intro]</span/></a>
 </div>
 <p>Reference patterns dereference the pointers that are being matched and, thus, borrow them.</p>
@@ -1798,41 +1670,45 @@ assert_eq!(a, b);
 <div class="rule" id="r-patterns.struct.syntax"><a class="rule-link" href="#r-patterns.struct.syntax" title="patterns.struct.syntax"><span>[patterns<wbr>.struct<wbr>.syntax]</span/></a>
 </div>
 <div class="grammar-container">
-<button class="grammar-toggle" type="button" title="Toggle grammar display"onclick="toggle_grammar()">Toggle Railroad</button>
-<p><strong><sup>Syntax</sup></strong></p>
-<div class="grammar-content grammar-text">
-<p><span class="grammar-text grammar-production" id="grammar-StructPattern">StructPattern</span> → <br />
+<p><strong><sup>Syntax</sup></strong>
+<br>
+<span class="grammar-text grammar-production" id="grammar-StructPattern" onclick="show_railroad()"><a href="patterns.html#railroad-StructPattern">StructPattern</a></span> → <br />
     <span class="grammar-text"><a href="paths.html#grammar-PathInExpression">PathInExpression</a></span> <span class="grammar-literal">{</span> <br />
         <span class="grammar-text"><a href="patterns.html#grammar-StructPatternElements">StructPatternElements</a></span><sup>?</sup> <br />
     <span class="grammar-literal">}</span></p>
-<p><span class="grammar-text grammar-production" id="grammar-StructPatternElements">StructPatternElements</span> → <br />
+<p><span class="grammar-text grammar-production" id="grammar-StructPatternElements" onclick="show_railroad()"><a href="patterns.html#railroad-StructPatternElements">StructPatternElements</a></span> → <br />
       <span class="grammar-text"><a href="patterns.html#grammar-StructPatternFields">StructPatternFields</a></span> ( <span class="grammar-literal">,</span> | <span class="grammar-literal">,</span> <span class="grammar-text"><a href="patterns.html#grammar-StructPatternEtCetera">StructPatternEtCetera</a></span> )<sup>?</sup> <br />
     | <span class="grammar-text"><a href="patterns.html#grammar-StructPatternEtCetera">StructPatternEtCetera</a></span></p>
-<p><span class="grammar-text grammar-production" id="grammar-StructPatternFields">StructPatternFields</span> → <br />
+<p><span class="grammar-text grammar-production" id="grammar-StructPatternFields" onclick="show_railroad()"><a href="patterns.html#railroad-StructPatternFields">StructPatternFields</a></span> → <br />
     <span class="grammar-text"><a href="patterns.html#grammar-StructPatternField">StructPatternField</a></span> ( <span class="grammar-literal">,</span> <span class="grammar-text"><a href="patterns.html#grammar-StructPatternField">StructPatternField</a></span> )<sup>*</sup></p>
-<p><span class="grammar-text grammar-production" id="grammar-StructPatternField">StructPatternField</span> → <br />
+<p><span class="grammar-text grammar-production" id="grammar-StructPatternField" onclick="show_railroad()"><a href="patterns.html#railroad-StructPatternField">StructPatternField</a></span> → <br />
     <span class="grammar-text"><a href="attributes.html#grammar-OuterAttribute">OuterAttribute</a></span><sup>*</sup> <br />
     ( <br />
-        <span class="grammar-text"><a href="tokens.html#tuple-index">TUPLE_INDEX</a></span> <span class="grammar-literal">:</span> <span class="grammar-text"><a href="patterns.html#grammar-Pattern">Pattern</a></span> <br />
-      | <span class="grammar-text"><a href="identifiers.html">IDENTIFIER</a></span> <span class="grammar-literal">:</span> <span class="grammar-text"><a href="patterns.html#grammar-Pattern">Pattern</a></span> <br />
-      | <span class="grammar-literal">ref</span><sup>?</sup> <span class="grammar-literal">mut</span><sup>?</sup> <span class="grammar-text"><a href="identifiers.html">IDENTIFIER</a></span> <br />
+        <span class="grammar-text"><a href="tokens.html#grammar-TUPLE_INDEX">TUPLE_INDEX</a></span> <span class="grammar-literal">:</span> <span class="grammar-text"><a href="patterns.html#grammar-Pattern">Pattern</a></span> <br />
+      | <span class="grammar-text"><a href="identifiers.html#grammar-IDENTIFIER">IDENTIFIER</a></span> <span class="grammar-literal">:</span> <span class="grammar-text"><a href="patterns.html#grammar-Pattern">Pattern</a></span> <br />
+      | <span class="grammar-literal">ref</span><sup>?</sup> <span class="grammar-literal">mut</span><sup>?</sup> <span class="grammar-text"><a href="identifiers.html#grammar-IDENTIFIER">IDENTIFIER</a></span> <br />
     )</p>
-<p><span class="grammar-text grammar-production" id="grammar-StructPatternEtCetera">StructPatternEtCetera</span> → <span class="grammar-literal">..</span></p>
+<p><span class="grammar-text grammar-production" id="grammar-StructPatternEtCetera" onclick="show_railroad()"><a href="patterns.html#railroad-StructPatternEtCetera">StructPatternEtCetera</a></span> → <span class="grammar-literal">..</span></p>
+<p><button class="grammar-toggle-railroad" type="button" title="Toggle railroad display" onclick="toggle_railroad()">Show Railroad</button></p>
 </div>
-<div class="grammar-content grammar-railroad grammar-hidden">
-<div style="width: 548px; height: auto; max-width: 100%; max-height: 100%"><svg class="railroad" viewBox="0 0 548 87" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<div class="grammar-railroad grammar-hidden">
+<div style="width: 548px; height: auto; max-width: 100%; max-height: 100%" class="railroad-production" id="railroad-StructPattern"><svg class="railroad" viewBox="0 0 548 87" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 <rect class="railroad_canvas" height="100%" width="100%"/>
 <g class="verticalgrid">
+<a class="link" xlink:href="patterns.html#grammar-StructPattern">
 <text class="comment" x="60" y="25">
 StructPattern</text>
+</a>
 <g class="sequence">
 <path d=" M 10 66 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5 m 10 0 h 5"/>
 <g class="sequence">
+<a class="link" xlink:href="paths.html#railroad-PathInExpression">
 <g class="nonterminal">
 <rect height="22" width="148" x="35" y="55"/>
 <text x="109" y="71">
 PathInExpression</text>
 </g>
+</a>
 <g class="terminal">
 <rect height="22" rx="10" ry="10" width="28" x="193" y="55"/>
 <text x="207" y="71">
@@ -1840,11 +1716,13 @@ PathInExpression</text>
 </g>
 <g class="optional">
 <path d=" M 231 66 h 24 m -24 0 a 12 12 0 0 0 12 -12 v 0 a 12 12 0 0 1 12 -12 h 196 m -95 0 l -5 -5 m 0 10 l 5 -5 m 95 0 a 12 12 0 0 1 12 12 v 0 a 12 12 0 0 0 12 12 h -24"/>
+<a class="link" xlink:href="patterns.html#railroad-StructPatternElements">
 <g class="nonterminal">
 <rect height="22" width="196" x="255" y="55"/>
 <text x="353" y="71">
 StructPatternElements</text>
 </g>
+</a>
 </g>
 <g class="terminal">
 <rect height="22" rx="10" ry="10" width="28" x="485" y="55"/>
@@ -1862,21 +1740,25 @@ StructPatternElements</text>
 </g>
 </svg>
 </div>
-<div style="width: 630px; height: auto; max-width: 100%; max-height: 100%"><svg class="railroad" viewBox="0 0 630 153" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<div style="width: 630px; height: auto; max-width: 100%; max-height: 100%" class="railroad-production" id="railroad-StructPatternElements"><svg class="railroad" viewBox="0 0 630 153" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 <rect class="railroad_canvas" height="100%" width="100%"/>
 <g class="verticalgrid">
+<a class="link" xlink:href="patterns.html#grammar-StructPatternElements">
 <text class="comment" x="92" y="25">
 StructPatternElements</text>
+</a>
 <g class="sequence">
 <path d=" M 10 66 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5 m 10 0 h 5"/>
 <g class="choice">
 <path d=" M 35 66 h 24 m 512 0 h 24"/>
 <g class="sequence">
+<a class="link" xlink:href="patterns.html#railroad-StructPatternFields">
 <g class="nonterminal">
 <rect height="22" width="172" x="59" y="55"/>
 <text x="145" y="71">
 StructPatternFields</text>
 </g>
+</a>
 <g class="optional">
 <path d=" M 241 66 h 24 m -24 0 a 12 12 0 0 0 12 -12 v 0 a 12 12 0 0 1 12 -12 h 282 m -138 0 l -5 -5 m 0 10 l 5 -5 m 138 0 a 12 12 0 0 1 12 12 v 0 a 12 12 0 0 0 12 12 h -24"/>
 <g class="choice">
@@ -1894,11 +1776,13 @@ StructPatternFields</text>
 <text x="303" y="104">
 ,</text>
 </g>
+<a class="link" xlink:href="patterns.html#railroad-StructPatternEtCetera">
 <g class="nonterminal">
 <rect height="22" width="196" x="327" y="88"/>
 <text x="425" y="104">
 StructPatternEtCetera</text>
 </g>
+</a>
 <path d=" M 317 99 h 10"/>
 </g>
 </g>
@@ -1907,11 +1791,13 @@ StructPatternEtCetera</text>
 </g>
 <path d=" M 35 66 a 12 12 0 0 1 12 12 v 42 m 536 0 v -42 a 12 12 0 0 1 12 -12"/>
 <path d=" M 47 120 v 0 a 12 12 0 0 0 12 12 m 196 0 h 316 m -155 0 l -5 -5 m 0 10 l 5 -5 m 155 0 a 12 12 0 0 0 12 -12 v 0"/>
+<a class="link" xlink:href="patterns.html#railroad-StructPatternEtCetera">
 <g class="nonterminal">
 <rect height="22" width="196" x="59" y="121"/>
 <text x="157" y="137">
 StructPatternEtCetera</text>
 </g>
+</a>
 </g>
 <path d=" M 605 66 h 5 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5"/>
 <path d=" M 25 66 h 10"/>
@@ -1920,146 +1806,174 @@ StructPatternEtCetera</text>
 </g>
 </svg>
 </div>
-<div style="width: 470px; height: auto; max-width: 100%; max-height: 100%"><svg class="railroad" viewBox="0 0 470 87" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<div style="width: 518px; height: auto; max-width: 100%; max-height: 100%" class="railroad-production" id="railroad-StructPatternFields"><svg class="railroad" viewBox="0 0 518 100" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 <rect class="railroad_canvas" height="100%" width="100%"/>
 <g class="verticalgrid">
+<a class="link" xlink:href="patterns.html#grammar-StructPatternFields">
 <text class="comment" x="81" y="25">
 StructPatternFields</text>
+</a>
 <g class="sequence">
-<path d=" M 10 53 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5 m 10 0 h 5"/>
+<path d=" M 10 66 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5 m 10 0 h 5"/>
 <g class="sequence">
+<a class="link" xlink:href="patterns.html#railroad-StructPatternField">
 <g class="nonterminal">
-<rect height="22" width="164" x="35" y="42"/>
-<text x="117" y="58">
+<rect height="22" width="164" x="35" y="55"/>
+<text x="117" y="71">
 StructPatternField</text>
 </g>
+</a>
+<g class="optional">
+<path d=" M 209 66 h 24 m -24 0 a 12 12 0 0 0 12 -12 v 0 a 12 12 0 0 1 12 -12 h 226 m -110 0 l -5 -5 m 0 10 l 5 -5 m 110 0 a 12 12 0 0 1 12 12 v 0 a 12 12 0 0 0 12 12 h -24"/>
 <g class="repeat">
-<path d=" M 209 53 h 12 m 202 0 h 12 m -12 0 a 12 12 0 0 1 12 12 v 0 a 12 12 0 0 1 -12 12 m 0 0 h -202 m 104 0 l 5 -5 m 0 10 l -5 -5 m -104 0 a 12 12 0 0 1 -12 -12 v 0 a 12 12 0 0 1 12 -12"/>
+<path d=" M 233 66 h 12 m 202 0 h 12 m -12 0 a 12 12 0 0 1 12 12 v 0 a 12 12 0 0 1 -12 12 m 0 0 h -202 m 104 0 l 5 -5 m 0 10 l -5 -5 m -104 0 a 12 12 0 0 1 -12 -12 v 0 a 12 12 0 0 1 12 -12"/>
 <g/>
 <g class="sequence">
 <g class="terminal">
-<rect height="22" rx="10" ry="10" width="28" x="221" y="42"/>
-<text x="235" y="58">
+<rect height="22" rx="10" ry="10" width="28" x="245" y="55"/>
+<text x="259" y="71">
 ,</text>
 </g>
+<a class="link" xlink:href="patterns.html#railroad-StructPatternField">
 <g class="nonterminal">
-<rect height="22" width="164" x="259" y="42"/>
-<text x="341" y="58">
+<rect height="22" width="164" x="283" y="55"/>
+<text x="365" y="71">
 StructPatternField</text>
 </g>
-<path d=" M 249 53 h 10"/>
+</a>
+<path d=" M 273 66 h 10"/>
 </g>
 </g>
-<path d=" M 199 53 h 10"/>
 </g>
-<path d=" M 445 53 h 5 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5"/>
-<path d=" M 25 53 h 10"/>
-<path d=" M 435 53 h 10"/>
+<path d=" M 199 66 h 10"/>
+</g>
+<path d=" M 493 66 h 5 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5"/>
+<path d=" M 25 66 h 10"/>
+<path d=" M 483 66 h 10"/>
 </g>
 </g>
 </svg>
 </div>
-<div style="width: 588px; height: auto; max-width: 100%; max-height: 100%"><svg class="railroad" viewBox="0 0 588 152" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<div style="width: 636px; height: auto; max-width: 100%; max-height: 100%" class="railroad-production" id="railroad-StructPatternField"><svg class="railroad" viewBox="0 0 636 165" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 <rect class="railroad_canvas" height="100%" width="100%"/>
 <g class="verticalgrid">
+<a class="link" xlink:href="patterns.html#grammar-StructPatternField">
 <text class="comment" x="78" y="25">
 StructPatternField</text>
+</a>
 <g class="sequence">
-<path d=" M 10 53 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5 m 10 0 h 5"/>
+<path d=" M 10 66 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5 m 10 0 h 5"/>
 <g class="sequence">
+<g class="optional">
+<path d=" M 35 66 h 24 m -24 0 a 12 12 0 0 0 12 -12 v 0 a 12 12 0 0 1 12 -12 h 156 m -75 0 l -5 -5 m 0 10 l 5 -5 m 75 0 a 12 12 0 0 1 12 12 v 0 a 12 12 0 0 0 12 12 h -24"/>
 <g class="repeat">
-<path d=" M 35 53 h 12 m 132 0 h 12 m -12 0 a 12 12 0 0 1 12 12 v 0 a 12 12 0 0 1 -12 12 m 0 0 h -132 m 69 0 l 5 -5 m 0 10 l -5 -5 m -69 0 a 12 12 0 0 1 -12 -12 v 0 a 12 12 0 0 1 12 -12"/>
+<path d=" M 59 66 h 12 m 132 0 h 12 m -12 0 a 12 12 0 0 1 12 12 v 0 a 12 12 0 0 1 -12 12 m 0 0 h -132 m 69 0 l 5 -5 m 0 10 l -5 -5 m -69 0 a 12 12 0 0 1 -12 -12 v 0 a 12 12 0 0 1 12 -12"/>
 <g/>
+<a class="link" xlink:href="attributes.html#railroad-OuterAttribute">
 <g class="nonterminal">
-<rect height="22" width="132" x="47" y="42"/>
-<text x="113" y="58">
+<rect height="22" width="132" x="71" y="55"/>
+<text x="137" y="71">
 OuterAttribute</text>
+</g>
+</a>
 </g>
 </g>
 <g class="choice">
-<path d=" M 201 53 h 24 m 232 0 h 96 m -45 0 l -5 -5 m 0 10 l 5 -5 m 45 0"/>
+<path d=" M 249 66 h 24 m 232 0 h 96 m -45 0 l -5 -5 m 0 10 l 5 -5 m 45 0"/>
 <g class="sequence">
+<a class="link" xlink:href="tokens.html#railroad-TUPLE_INDEX">
 <g class="nonterminal">
-<rect height="22" width="108" x="225" y="42"/>
-<text x="279" y="58">
+<rect height="22" width="108" x="273" y="55"/>
+<text x="327" y="71">
 TUPLE_INDEX</text>
 </g>
+</a>
 <g class="terminal">
-<rect height="22" rx="10" ry="10" width="28" x="343" y="42"/>
-<text x="357" y="58">
+<rect height="22" rx="10" ry="10" width="28" x="391" y="55"/>
+<text x="405" y="71">
 :</text>
 </g>
+<a class="link" xlink:href="patterns.html#railroad-Pattern">
 <g class="nonterminal">
-<rect height="22" width="76" x="381" y="42"/>
-<text x="419" y="58">
+<rect height="22" width="76" x="429" y="55"/>
+<text x="467" y="71">
 Pattern</text>
 </g>
-<path d=" M 333 53 h 10"/>
-<path d=" M 371 53 h 10"/>
+</a>
+<path d=" M 381 66 h 10"/>
+<path d=" M 419 66 h 10"/>
 </g>
-<path d=" M 201 53 a 12 12 0 0 1 12 12 v 9 m 328 0 v -9 a 12 12 0 0 1 12 -12"/>
-<path d=" M 213 74 v 33 m 328 0 v -33"/>
-<path d=" M 213 74 v 0 a 12 12 0 0 0 12 12 m 224 0 h 80 m -37 0 l -5 -5 m 0 10 l 5 -5 m 37 0 a 12 12 0 0 0 12 -12 v 0"/>
+<path d=" M 249 66 a 12 12 0 0 1 12 12 v 9 m 328 0 v -9 a 12 12 0 0 1 12 -12"/>
+<path d=" M 261 87 v 33 m 328 0 v -33"/>
+<path d=" M 261 87 v 0 a 12 12 0 0 0 12 12 m 224 0 h 80 m -37 0 l -5 -5 m 0 10 l 5 -5 m 37 0 a 12 12 0 0 0 12 -12 v 0"/>
 <g class="sequence">
+<a class="link" xlink:href="identifiers.html#railroad-IDENTIFIER">
 <g class="nonterminal">
-<rect height="22" width="100" x="225" y="75"/>
-<text x="275" y="91">
+<rect height="22" width="100" x="273" y="88"/>
+<text x="323" y="104">
 IDENTIFIER</text>
 </g>
+</a>
 <g class="terminal">
-<rect height="22" rx="10" ry="10" width="28" x="335" y="75"/>
-<text x="349" y="91">
+<rect height="22" rx="10" ry="10" width="28" x="383" y="88"/>
+<text x="397" y="104">
 :</text>
 </g>
+<a class="link" xlink:href="patterns.html#railroad-Pattern">
 <g class="nonterminal">
-<rect height="22" width="76" x="373" y="75"/>
-<text x="411" y="91">
+<rect height="22" width="76" x="421" y="88"/>
+<text x="459" y="104">
 Pattern</text>
 </g>
-<path d=" M 325 86 h 10"/>
-<path d=" M 363 86 h 10"/>
+</a>
+<path d=" M 373 99 h 10"/>
+<path d=" M 411 99 h 10"/>
 </g>
-<path d=" M 213 107 v 12 a 12 12 0 0 0 12 12 m 304 0 h 0 a 12 12 0 0 0 12 -12 v -12"/>
+<path d=" M 261 120 v 12 a 12 12 0 0 0 12 12 m 304 0 h 0 a 12 12 0 0 0 12 -12 v -12"/>
 <g class="sequence">
 <g class="optional">
-<path d=" M 225 131 h 24 m -24 0 a 12 12 0 0 0 12 -12 v 0 a 12 12 0 0 1 12 -12 h 44 a 12 12 0 0 1 12 12 v 0 a 12 12 0 0 0 12 12 h -24"/>
+<path d=" M 273 144 h 24 m -24 0 a 12 12 0 0 0 12 -12 v 0 a 12 12 0 0 1 12 -12 h 44 a 12 12 0 0 1 12 12 v 0 a 12 12 0 0 0 12 12 h -24"/>
 <g class="terminal">
-<rect height="22" rx="10" ry="10" width="44" x="249" y="120"/>
-<text x="271" y="136">
+<rect height="22" rx="10" ry="10" width="44" x="297" y="133"/>
+<text x="319" y="149">
 ref</text>
 </g>
 </g>
 <g class="optional">
-<path d=" M 327 131 h 24 m -24 0 a 12 12 0 0 0 12 -12 v 0 a 12 12 0 0 1 12 -12 h 44 a 12 12 0 0 1 12 12 v 0 a 12 12 0 0 0 12 12 h -24"/>
+<path d=" M 375 144 h 24 m -24 0 a 12 12 0 0 0 12 -12 v 0 a 12 12 0 0 1 12 -12 h 44 a 12 12 0 0 1 12 12 v 0 a 12 12 0 0 0 12 12 h -24"/>
 <g class="terminal">
-<rect height="22" rx="10" ry="10" width="44" x="351" y="120"/>
-<text x="373" y="136">
+<rect height="22" rx="10" ry="10" width="44" x="399" y="133"/>
+<text x="421" y="149">
 mut</text>
 </g>
 </g>
+<a class="link" xlink:href="identifiers.html#railroad-IDENTIFIER">
 <g class="nonterminal">
-<rect height="22" width="100" x="429" y="120"/>
-<text x="479" y="136">
+<rect height="22" width="100" x="477" y="133"/>
+<text x="527" y="149">
 IDENTIFIER</text>
 </g>
-<path d=" M 317 131 h 10"/>
-<path d=" M 419 131 h 10"/>
+</a>
+<path d=" M 365 144 h 10"/>
+<path d=" M 467 144 h 10"/>
 </g>
 </g>
-<path d=" M 191 53 h 10"/>
+<path d=" M 239 66 h 10"/>
 </g>
-<path d=" M 563 53 h 5 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5"/>
-<path d=" M 25 53 h 10"/>
-<path d=" M 553 53 h 10"/>
+<path d=" M 611 66 h 5 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5"/>
+<path d=" M 25 66 h 10"/>
+<path d=" M 601 66 h 10"/>
 </g>
 </g>
 </svg>
 </div>
-<div style="width: 184px; height: auto; max-width: 100%; max-height: 100%"><svg class="railroad" viewBox="0 0 184 74" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<div style="width: 184px; height: auto; max-width: 100%; max-height: 100%" class="railroad-production" id="railroad-StructPatternEtCetera"><svg class="railroad" viewBox="0 0 184 74" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 <rect class="railroad_canvas" height="100%" width="100%"/>
 <g class="verticalgrid">
+<a class="link" xlink:href="patterns.html#grammar-StructPatternEtCetera">
 <text class="comment" x="92" y="25">
 StructPatternEtCetera</text>
+</a>
 <g class="sequence">
 <path d=" M 10 53 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5 m 10 0 h 5"/>
 <g class="terminal">
@@ -2075,28 +1989,6 @@ StructPatternEtCetera</text>
 </svg>
 </div>
 </div>
-</div>
-<blockquote>
-<p><strong><sup>Syntax</sup></strong><br />
-<em>StructPattern</em> :<br />
-   <a href="paths.html#paths-in-expressions"><em>PathInExpression</em></a> <code>{</code><br />
-      <em>StructPatternElements</em> <sup>?</sup><br />
-   <code>}</code></p>
-<p><em>StructPatternElements</em> :<br />
-      <em>StructPatternFields</em> (<code>,</code> | <code>,</code> <em>StructPatternEtCetera</em>)<sup>?</sup><br />
-   | <em>StructPatternEtCetera</em></p>
-<p><em>StructPatternFields</em> :<br />
-   <em>StructPatternField</em> (<code>,</code> <em>StructPatternField</em>) <sup>*</sup></p>
-<p><em>StructPatternField</em> :<br />
-   <a href="attributes.html"><em>OuterAttribute</em></a> <sup>*</sup><br />
-   (<br />
-         <a href="tokens.html#tuple-index">TUPLE_INDEX</a> <code>:</code> <a href="#patterns"><em>Pattern</em></a><br />
-      | <a href="identifiers.html">IDENTIFIER</a> <code>:</code> <a href="#patterns"><em>Pattern</em></a><br />
-      | <code>ref</code><sup>?</sup> <code>mut</code><sup>?</sup> <a href="identifiers.html">IDENTIFIER</a><br />
-   )</p>
-<p><em>StructPatternEtCetera</em> :<br />
-   <code>..</code></p>
-</blockquote>
 <div class="rule" id="r-patterns.struct.intro"><a class="rule-link" href="#r-patterns.struct.intro" title="patterns.struct.intro"><span>[patterns<wbr>.struct<wbr>.intro]</span/></a>
 </div>
 <p>Struct patterns match struct, enum, and union values that match all criteria defined by its subpatterns.
@@ -2169,7 +2061,7 @@ They are also used to <a href="#destructuring">destructure</a> a struct, enum, o
 <p>A struct pattern used to match a union must specify exactly one field (see <a href="items/unions.html#pattern-matching-on-unions">Pattern matching on unions</a>).</p>
 <div class="rule" id="r-patterns.struct.binding-shorthand"><a class="rule-link" href="#r-patterns.struct.binding-shorthand" title="patterns.struct.binding-shorthand"><span>[patterns<wbr>.struct<wbr>.binding-shorthand]</span/></a>
 </div>
-<p>The <code>ref</code> and/or <code>mut</code> <em>IDENTIFIER</em> syntax matches any value and binds it to a variable with the same name as the given field.</p>
+<p>The <code>ref</code> and/or <code>mut</code> <a href="identifiers.html#grammar-IDENTIFIER">IDENTIFIER</a> syntax matches any value and binds it to a variable with the same name as the given field.</p>
 <pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span><span class="boring">struct Struct {
@@ -2183,33 +2075,40 @@ They are also used to <a href="#destructuring">destructure</a> a struct, enum, o
 <span class="boring">}</span></code></pre></pre>
 <div class="rule" id="r-patterns.struct.refutable"><a class="rule-link" href="#r-patterns.struct.refutable" title="patterns.struct.refutable"><span>[patterns<wbr>.struct<wbr>.refutable]</span/></a>
 </div>
-<p>A struct pattern is refutable if the <em>PathInExpression</em> resolves to a constructor of an enum with more than one variant, or one of its subpatterns is refutable.</p>
+<p>A struct pattern is refutable if the <a href="paths.html#grammar-PathInExpression">PathInExpression</a> resolves to a constructor of an enum with more than one variant, or one of its subpatterns is refutable.</p>
+<div class="rule" id="r-patterns.struct.namespace"><a class="rule-link" href="#r-patterns.struct.namespace" title="patterns.struct.namespace"><span>[patterns<wbr>.struct<wbr>.namespace]</span/></a>
+</div>
+<p>A struct pattern matches against the struct, union, or enum variant whose constructor is resolved from <a href="paths.html#grammar-PathInExpression">PathInExpression</a> in the <a href="names/namespaces.html#r-names.namespaces.kinds">type namespace</a>. See <a href="patterns.html#r-patterns.tuple-struct.namespace">patterns.tuple-struct.namespace</a> for more details.</p>
 <div class="rule" id="r-patterns.tuple-struct"><a class="rule-link" href="#r-patterns.tuple-struct" title="patterns.tuple-struct"><span>[patterns<wbr>.tuple-struct]</span/></a>
 </div>
 <h2 id="tuple-struct-patterns"><a class="header" href="#tuple-struct-patterns">Tuple struct patterns</a></h2>
 <div class="rule" id="r-patterns.tuple-struct.syntax"><a class="rule-link" href="#r-patterns.tuple-struct.syntax" title="patterns.tuple-struct.syntax"><span>[patterns<wbr>.tuple-struct<wbr>.syntax]</span/></a>
 </div>
 <div class="grammar-container">
-<button class="grammar-toggle" type="button" title="Toggle grammar display"onclick="toggle_grammar()">Toggle Railroad</button>
-<p><strong><sup>Syntax</sup></strong></p>
-<div class="grammar-content grammar-text">
-<p><span class="grammar-text grammar-production" id="grammar-TupleStructPattern">TupleStructPattern</span> → <span class="grammar-text"><a href="paths.html#grammar-PathInExpression">PathInExpression</a></span> <span class="grammar-literal">(</span> <span class="grammar-text"><a href="patterns.html#grammar-TupleStructItems">TupleStructItems</a></span><sup>?</sup> <span class="grammar-literal">)</span></p>
-<p><span class="grammar-text grammar-production" id="grammar-TupleStructItems">TupleStructItems</span> → <span class="grammar-text"><a href="patterns.html#grammar-Pattern">Pattern</a></span> ( <span class="grammar-literal">,</span> <span class="grammar-text"><a href="patterns.html#grammar-Pattern">Pattern</a></span> )<sup>*</sup> <span class="grammar-literal">,</span><sup>?</sup></p>
+<p><strong><sup>Syntax</sup></strong>
+<br>
+<span class="grammar-text grammar-production" id="grammar-TupleStructPattern" onclick="show_railroad()"><a href="patterns.html#railroad-TupleStructPattern">TupleStructPattern</a></span> → <span class="grammar-text"><a href="paths.html#grammar-PathInExpression">PathInExpression</a></span> <span class="grammar-literal">(</span> <span class="grammar-text"><a href="patterns.html#grammar-TupleStructItems">TupleStructItems</a></span><sup>?</sup> <span class="grammar-literal">)</span></p>
+<p><span class="grammar-text grammar-production" id="grammar-TupleStructItems" onclick="show_railroad()"><a href="patterns.html#railroad-TupleStructItems">TupleStructItems</a></span> → <span class="grammar-text"><a href="patterns.html#grammar-Pattern">Pattern</a></span> ( <span class="grammar-literal">,</span> <span class="grammar-text"><a href="patterns.html#grammar-Pattern">Pattern</a></span> )<sup>*</sup> <span class="grammar-literal">,</span><sup>?</sup></p>
+<p><button class="grammar-toggle-railroad" type="button" title="Toggle railroad display" onclick="toggle_railroad()">Show Railroad</button></p>
 </div>
-<div class="grammar-content grammar-railroad grammar-hidden">
-<div style="width: 500px; height: auto; max-width: 100%; max-height: 100%"><svg class="railroad" viewBox="0 0 500 87" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<div class="grammar-railroad grammar-hidden">
+<div style="width: 500px; height: auto; max-width: 100%; max-height: 100%" class="railroad-production" id="railroad-TupleStructPattern"><svg class="railroad" viewBox="0 0 500 87" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 <rect class="railroad_canvas" height="100%" width="100%"/>
 <g class="verticalgrid">
+<a class="link" xlink:href="patterns.html#grammar-TupleStructPattern">
 <text class="comment" x="78" y="25">
 TupleStructPattern</text>
+</a>
 <g class="sequence">
 <path d=" M 10 66 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5 m 10 0 h 5"/>
 <g class="sequence">
+<a class="link" xlink:href="paths.html#railroad-PathInExpression">
 <g class="nonterminal">
 <rect height="22" width="148" x="35" y="55"/>
 <text x="109" y="71">
 PathInExpression</text>
 </g>
+</a>
 <g class="terminal">
 <rect height="22" rx="10" ry="10" width="28" x="193" y="55"/>
 <text x="207" y="71">
@@ -2217,11 +2116,13 @@ PathInExpression</text>
 </g>
 <g class="optional">
 <path d=" M 231 66 h 24 m -24 0 a 12 12 0 0 0 12 -12 v 0 a 12 12 0 0 1 12 -12 h 148 m -71 0 l -5 -5 m 0 10 l 5 -5 m 71 0 a 12 12 0 0 1 12 12 v 0 a 12 12 0 0 0 12 12 h -24"/>
+<a class="link" xlink:href="patterns.html#railroad-TupleStructItems">
 <g class="nonterminal">
 <rect height="22" width="148" x="255" y="55"/>
 <text x="329" y="71">
 TupleStructItems</text>
 </g>
+</a>
 </g>
 <g class="terminal">
 <rect height="22" rx="10" ry="10" width="28" x="437" y="55"/>
@@ -2239,91 +2140,133 @@ TupleStructItems</text>
 </g>
 </svg>
 </div>
-<div style="width: 380px; height: auto; max-width: 100%; max-height: 100%"><svg class="railroad" viewBox="0 0 380 100" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<div style="width: 428px; height: auto; max-width: 100%; max-height: 100%" class="railroad-production" id="railroad-TupleStructItems"><svg class="railroad" viewBox="0 0 428 100" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 <rect class="railroad_canvas" height="100%" width="100%"/>
 <g class="verticalgrid">
+<a class="link" xlink:href="patterns.html#grammar-TupleStructItems">
 <text class="comment" x="71" y="25">
 TupleStructItems</text>
+</a>
 <g class="sequence">
 <path d=" M 10 66 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5 m 10 0 h 5"/>
 <g class="sequence">
+<a class="link" xlink:href="patterns.html#railroad-Pattern">
 <g class="nonterminal">
 <rect height="22" width="76" x="35" y="55"/>
 <text x="73" y="71">
 Pattern</text>
 </g>
+</a>
+<g class="optional">
+<path d=" M 121 66 h 24 m -24 0 a 12 12 0 0 0 12 -12 v 0 a 12 12 0 0 1 12 -12 h 138 m -66 0 l -5 -5 m 0 10 l 5 -5 m 66 0 a 12 12 0 0 1 12 12 v 0 a 12 12 0 0 0 12 12 h -24"/>
 <g class="repeat">
-<path d=" M 121 66 h 12 m 114 0 h 12 m -12 0 a 12 12 0 0 1 12 12 v 0 a 12 12 0 0 1 -12 12 m 0 0 h -114 m 60 0 l 5 -5 m 0 10 l -5 -5 m -60 0 a 12 12 0 0 1 -12 -12 v 0 a 12 12 0 0 1 12 -12"/>
+<path d=" M 145 66 h 12 m 114 0 h 12 m -12 0 a 12 12 0 0 1 12 12 v 0 a 12 12 0 0 1 -12 12 m 0 0 h -114 m 60 0 l 5 -5 m 0 10 l -5 -5 m -60 0 a 12 12 0 0 1 -12 -12 v 0 a 12 12 0 0 1 12 -12"/>
 <g/>
 <g class="sequence">
 <g class="terminal">
-<rect height="22" rx="10" ry="10" width="28" x="133" y="55"/>
-<text x="147" y="71">
+<rect height="22" rx="10" ry="10" width="28" x="157" y="55"/>
+<text x="171" y="71">
 ,</text>
 </g>
+<a class="link" xlink:href="patterns.html#railroad-Pattern">
 <g class="nonterminal">
-<rect height="22" width="76" x="171" y="55"/>
-<text x="209" y="71">
+<rect height="22" width="76" x="195" y="55"/>
+<text x="233" y="71">
 Pattern</text>
 </g>
-<path d=" M 161 66 h 10"/>
+</a>
+<path d=" M 185 66 h 10"/>
+</g>
 </g>
 </g>
 <g class="optional">
-<path d=" M 269 66 h 24 m -24 0 a 12 12 0 0 0 12 -12 v 0 a 12 12 0 0 1 12 -12 h 28 a 12 12 0 0 1 12 12 v 0 a 12 12 0 0 0 12 12 h -24"/>
+<path d=" M 317 66 h 24 m -24 0 a 12 12 0 0 0 12 -12 v 0 a 12 12 0 0 1 12 -12 h 28 a 12 12 0 0 1 12 12 v 0 a 12 12 0 0 0 12 12 h -24"/>
 <g class="terminal">
-<rect height="22" rx="10" ry="10" width="28" x="293" y="55"/>
-<text x="307" y="71">
+<rect height="22" rx="10" ry="10" width="28" x="341" y="55"/>
+<text x="355" y="71">
 ,</text>
 </g>
 </g>
 <path d=" M 111 66 h 10"/>
-<path d=" M 259 66 h 10"/>
+<path d=" M 307 66 h 10"/>
 </g>
-<path d=" M 355 66 h 5 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5"/>
+<path d=" M 403 66 h 5 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5"/>
 <path d=" M 25 66 h 10"/>
-<path d=" M 345 66 h 10"/>
+<path d=" M 393 66 h 10"/>
 </g>
 </g>
 </svg>
 </div>
 </div>
-</div>
-<blockquote>
-<p><strong><sup>Syntax</sup></strong><br />
-<em>TupleStructPattern</em> :<br />
-   <a href="paths.html#paths-in-expressions"><em>PathInExpression</em></a> <code>(</code> <em>TupleStructItems</em><sup>?</sup> <code>)</code></p>
-<p><em>TupleStructItems</em> :<br />
-   <a href="#patterns"><em>Pattern</em></a> ( <code>,</code> <a href="#patterns"><em>Pattern</em></a> )<sup>*</sup> <code>,</code><sup>?</sup></p>
-</blockquote>
 <div class="rule" id="r-patterns.tuple-struct.intro"><a class="rule-link" href="#r-patterns.tuple-struct.intro" title="patterns.tuple-struct.intro"><span>[patterns<wbr>.tuple-struct<wbr>.intro]</span/></a>
 </div>
 <p>Tuple struct patterns match tuple struct and enum values that match all criteria defined by its subpatterns.
 They are also used to <a href="#destructuring">destructure</a> a tuple struct or enum value.</p>
 <div class="rule" id="r-patterns.tuple-struct.refutable"><a class="rule-link" href="#r-patterns.tuple-struct.refutable" title="patterns.tuple-struct.refutable"><span>[patterns<wbr>.tuple-struct<wbr>.refutable]</span/></a>
 </div>
-<p>A tuple struct pattern is refutable if the <em>PathInExpression</em> resolves to a constructor of an enum with more than one variant, or one of its subpatterns is refutable.</p>
+<p>A tuple struct pattern is refutable if the <a href="paths.html#grammar-PathInExpression">PathInExpression</a> resolves to a constructor of an enum with more than one variant, or one of its subpatterns is refutable.</p>
+<div class="rule" id="r-patterns.tuple-struct.namespace"><a class="rule-link" href="#r-patterns.tuple-struct.namespace" title="patterns.tuple-struct.namespace"><span>[patterns<wbr>.tuple-struct<wbr>.namespace]</span/></a>
+</div>
+<p>A tuple struct pattern matches against the tuple struct or <a href="items/enumerations.html#r-items.enum.tuple-expr">tuple-like enum variant</a> whose constructor is resolved from <a href="paths.html#grammar-PathInExpression">PathInExpression</a> in the <a href="names/namespaces.html#r-names.namespaces.kinds">value namespace</a>.</p>
+<div class="alert alert-note">
+<blockquote>
+<p class="alert-title"><svg viewBox="0 0 16 16" width="18" height="18"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"></path></svg>Note</p>
+<p>Conversely, a struct pattern for a tuple struct or <a href="items/enumerations.html#r-items.enum.tuple-expr">tuple-like enum variant</a>, e.g. <code>S { 0: _ }</code>, matches against the tuple struct or variant whose constructor is resolved in the <a href="names/namespaces.html#r-names.namespaces.kinds">type namespace</a>.</p>
+<pre><pre class="playground"><code class="language-rust no_run edition2024">enum E1 { V(u16) }
+enum E2 { V(u32) }
+
+// Import `E1::V` from the type namespace only.
+mod _0 {
+    const V: () = (); // For namespace masking.
+    pub(super) use super::E1::*;
+}
+use _0::*;
+
+// Import `E2::V` from the value namespace only.
+mod _1 {
+    struct V {} // For namespace masking.
+    pub(super) use super::E2::*;
+}
+use _1::*;
+
+fn f() {
+    // This struct pattern matches against the tuple-like
+    // enum variant whose constructor was found in the type
+    // namespace.
+    let V { 0: ..=u16::MAX } = (loop {}) else { loop {} };
+    // This tuple struct pattern matches against the tuple-like
+    // enum variant whose constructor was found in the value
+    // namespace.
+    let V(..=u32::MAX) = (loop {}) else { loop {} };
+}
+<span class="boring">// Required due to the odd behavior of `super` within functions.
+</span><span class="boring">fn main() {}</span></code></pre></pre>
+<p>The Lang team has made certain decisions, such as in <a href="https://github.com/rust-lang/rust/pull/138458">PR #138458</a>, that raise questions about the desirability of using the value namespace in this way for patterns, as described in <a href="https://github.com/rust-lang/rust/pull/140593#issuecomment-2972338457">PR #140593</a>. It might be prudent to not intentionally rely on this nuance in your code.</p>
+</blockquote>
+</div>
 <div class="rule" id="r-patterns.tuple"><a class="rule-link" href="#r-patterns.tuple" title="patterns.tuple"><span>[patterns<wbr>.tuple]</span/></a>
 </div>
 <h2 id="tuple-patterns"><a class="header" href="#tuple-patterns">Tuple patterns</a></h2>
 <div class="rule" id="r-patterns.tuple.syntax"><a class="rule-link" href="#r-patterns.tuple.syntax" title="patterns.tuple.syntax"><span>[patterns<wbr>.tuple<wbr>.syntax]</span/></a>
 </div>
 <div class="grammar-container">
-<button class="grammar-toggle" type="button" title="Toggle grammar display"onclick="toggle_grammar()">Toggle Railroad</button>
-<p><strong><sup>Syntax</sup></strong></p>
-<div class="grammar-content grammar-text">
-<p><span class="grammar-text grammar-production" id="grammar-TuplePattern">TuplePattern</span> → <span class="grammar-literal">(</span> <span class="grammar-text"><a href="patterns.html#grammar-TuplePatternItems">TuplePatternItems</a></span><sup>?</sup> <span class="grammar-literal">)</span></p>
-<p><span class="grammar-text grammar-production" id="grammar-TuplePatternItems">TuplePatternItems</span> → <br />
+<p><strong><sup>Syntax</sup></strong>
+<br>
+<span class="grammar-text grammar-production" id="grammar-TuplePattern" onclick="show_railroad()"><a href="patterns.html#railroad-TuplePattern">TuplePattern</a></span> → <span class="grammar-literal">(</span> <span class="grammar-text"><a href="patterns.html#grammar-TuplePatternItems">TuplePatternItems</a></span><sup>?</sup> <span class="grammar-literal">)</span></p>
+<p><span class="grammar-text grammar-production" id="grammar-TuplePatternItems" onclick="show_railroad()"><a href="patterns.html#railroad-TuplePatternItems">TuplePatternItems</a></span> → <br />
       <span class="grammar-text"><a href="patterns.html#grammar-Pattern">Pattern</a></span> <span class="grammar-literal">,</span> <br />
     | <span class="grammar-text"><a href="patterns.html#grammar-RestPattern">RestPattern</a></span> <br />
     | <span class="grammar-text"><a href="patterns.html#grammar-Pattern">Pattern</a></span> ( <span class="grammar-literal">,</span> <span class="grammar-text"><a href="patterns.html#grammar-Pattern">Pattern</a></span> )<sup>+</sup> <span class="grammar-literal">,</span><sup>?</sup></p>
+<p><button class="grammar-toggle-railroad" type="button" title="Toggle railroad display" onclick="toggle_railroad()">Show Railroad</button></p>
 </div>
-<div class="grammar-content grammar-railroad grammar-hidden">
-<div style="width: 350px; height: auto; max-width: 100%; max-height: 100%"><svg class="railroad" viewBox="0 0 350 87" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<div class="grammar-railroad grammar-hidden">
+<div style="width: 350px; height: auto; max-width: 100%; max-height: 100%" class="railroad-production" id="railroad-TuplePattern"><svg class="railroad" viewBox="0 0 350 87" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 <rect class="railroad_canvas" height="100%" width="100%"/>
 <g class="verticalgrid">
+<a class="link" xlink:href="patterns.html#grammar-TuplePattern">
 <text class="comment" x="57" y="25">
 TuplePattern</text>
+</a>
 <g class="sequence">
 <path d=" M 10 66 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5 m 10 0 h 5"/>
 <g class="sequence">
@@ -2334,11 +2277,13 @@ TuplePattern</text>
 </g>
 <g class="optional">
 <path d=" M 73 66 h 24 m -24 0 a 12 12 0 0 0 12 -12 v 0 a 12 12 0 0 1 12 -12 h 156 m -75 0 l -5 -5 m 0 10 l 5 -5 m 75 0 a 12 12 0 0 1 12 12 v 0 a 12 12 0 0 0 12 12 h -24"/>
+<a class="link" xlink:href="patterns.html#railroad-TuplePatternItems">
 <g class="nonterminal">
 <rect height="22" width="156" x="97" y="55"/>
 <text x="175" y="71">
 TuplePatternItems</text>
 </g>
+</a>
 </g>
 <g class="terminal">
 <rect height="22" rx="10" ry="10" width="28" x="287" y="55"/>
@@ -2355,21 +2300,25 @@ TuplePatternItems</text>
 </g>
 </svg>
 </div>
-<div style="width: 552px; height: auto; max-width: 100%; max-height: 100%"><svg class="railroad" viewBox="0 0 552 165" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<div style="width: 428px; height: auto; max-width: 100%; max-height: 100%" class="railroad-production" id="railroad-TuplePatternItems"><svg class="railroad" viewBox="0 0 428 165" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 <rect class="railroad_canvas" height="100%" width="100%"/>
 <g class="verticalgrid">
+<a class="link" xlink:href="patterns.html#grammar-TuplePatternItems">
 <text class="comment" x="74" y="25">
 TuplePatternItems</text>
+</a>
 <g class="sequence">
 <path d=" M 10 53 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5 m 10 0 h 5"/>
 <g class="choice">
-<path d=" M 35 53 h 24 m 114 0 h 344 m -169 0 l -5 -5 m 0 10 l 5 -5 m 169 0"/>
+<path d=" M 35 53 h 24 m 114 0 h 220 m -107 0 l -5 -5 m 0 10 l 5 -5 m 107 0"/>
 <g class="sequence">
+<a class="link" xlink:href="patterns.html#railroad-Pattern">
 <g class="nonterminal">
 <rect height="22" width="76" x="59" y="42"/>
 <text x="97" y="58">
 Pattern</text>
 </g>
+</a>
 <g class="terminal">
 <rect height="22" rx="10" ry="10" width="28" x="145" y="42"/>
 <text x="159" y="58">
@@ -2377,93 +2326,73 @@ Pattern</text>
 </g>
 <path d=" M 135 53 h 10"/>
 </g>
-<path d=" M 35 53 a 12 12 0 0 1 12 12 v 9 m 458 0 v -9 a 12 12 0 0 1 12 -12"/>
-<path d=" M 47 74 v 33 m 458 0 v -33"/>
-<path d=" M 47 74 v 0 a 12 12 0 0 0 12 12 m 108 0 h 326 m -160 0 l -5 -5 m 0 10 l 5 -5 m 160 0 a 12 12 0 0 0 12 -12 v 0"/>
+<path d=" M 35 53 a 12 12 0 0 1 12 12 v 9 m 334 0 v -9 a 12 12 0 0 1 12 -12"/>
+<path d=" M 47 74 v 33 m 334 0 v -33"/>
+<path d=" M 47 74 v 0 a 12 12 0 0 0 12 12 m 108 0 h 202 m -98 0 l -5 -5 m 0 10 l 5 -5 m 98 0 a 12 12 0 0 0 12 -12 v 0"/>
 <g class="sequence">
+<a class="link" xlink:href="patterns.html#railroad-RestPattern">
 <g class="nonterminal">
 <rect height="22" width="108" x="59" y="75"/>
 <text x="113" y="91">
 RestPattern</text>
 </g>
+</a>
 </g>
-<path d=" M 47 107 v 12 a 12 12 0 0 0 12 12 m 434 0 h 0 a 12 12 0 0 0 12 -12 v -12"/>
+<path d=" M 47 107 v 12 a 12 12 0 0 0 12 12 m 310 0 h 0 a 12 12 0 0 0 12 -12 v -12"/>
 <g class="sequence">
+<a class="link" xlink:href="patterns.html#railroad-Pattern">
 <g class="nonterminal">
 <rect height="22" width="76" x="59" y="120"/>
 <text x="97" y="136">
 Pattern</text>
 </g>
-<g class="sequence">
-<g class="sequence">
-<g class="terminal">
-<rect height="22" rx="10" ry="10" width="28" x="145" y="120"/>
-<text x="159" y="136">
-,</text>
-</g>
-<g class="nonterminal">
-<rect height="22" width="76" x="183" y="120"/>
-<text x="221" y="136">
-Pattern</text>
-</g>
-<path d=" M 173 131 h 10"/>
-</g>
+</a>
 <g class="repeat">
-<path d=" M 269 131 h 12 m 114 0 h 12 m -12 0 a 12 12 0 0 1 12 12 v 0 a 12 12 0 0 1 -12 12 m 0 0 h -114 m 60 0 l 5 -5 m 0 10 l -5 -5 m -60 0 a 12 12 0 0 1 -12 -12 v 0 a 12 12 0 0 1 12 -12"/>
+<path d=" M 145 131 h 12 m 114 0 h 12 m -12 0 a 12 12 0 0 1 12 12 v 0 a 12 12 0 0 1 -12 12 m 0 0 h -114 m 60 0 l 5 -5 m 0 10 l -5 -5 m -60 0 a 12 12 0 0 1 -12 -12 v 0 a 12 12 0 0 1 12 -12"/>
 <g/>
 <g class="sequence">
 <g class="terminal">
-<rect height="22" rx="10" ry="10" width="28" x="281" y="120"/>
-<text x="295" y="136">
+<rect height="22" rx="10" ry="10" width="28" x="157" y="120"/>
+<text x="171" y="136">
 ,</text>
 </g>
+<a class="link" xlink:href="patterns.html#railroad-Pattern">
 <g class="nonterminal">
-<rect height="22" width="76" x="319" y="120"/>
-<text x="357" y="136">
+<rect height="22" width="76" x="195" y="120"/>
+<text x="233" y="136">
 Pattern</text>
 </g>
-<path d=" M 309 131 h 10"/>
+</a>
+<path d=" M 185 131 h 10"/>
 </g>
-</g>
-<path d=" M 259 131 h 10"/>
 </g>
 <g class="optional">
-<path d=" M 417 131 h 24 m -24 0 a 12 12 0 0 0 12 -12 v 0 a 12 12 0 0 1 12 -12 h 28 a 12 12 0 0 1 12 12 v 0 a 12 12 0 0 0 12 12 h -24"/>
+<path d=" M 293 131 h 24 m -24 0 a 12 12 0 0 0 12 -12 v 0 a 12 12 0 0 1 12 -12 h 28 a 12 12 0 0 1 12 12 v 0 a 12 12 0 0 0 12 12 h -24"/>
 <g class="terminal">
-<rect height="22" rx="10" ry="10" width="28" x="441" y="120"/>
-<text x="455" y="136">
+<rect height="22" rx="10" ry="10" width="28" x="317" y="120"/>
+<text x="331" y="136">
 ,</text>
 </g>
 </g>
 <path d=" M 135 131 h 10"/>
-<path d=" M 407 131 h 10"/>
+<path d=" M 283 131 h 10"/>
 </g>
 </g>
-<path d=" M 527 53 h 5 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5"/>
+<path d=" M 403 53 h 5 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5"/>
 <path d=" M 25 53 h 10"/>
-<path d=" M 517 53 h 10"/>
+<path d=" M 393 53 h 10"/>
 </g>
 </g>
 </svg>
 </div>
 </div>
-</div>
-<blockquote>
-<p><strong><sup>Syntax</sup></strong><br />
-<em>TuplePattern</em> :<br />
-   <code>(</code> <em>TuplePatternItems</em><sup>?</sup> <code>)</code></p>
-<p><em>TuplePatternItems</em> :<br />
-      <a href="#patterns"><em>Pattern</em></a> <code>,</code><br />
-   | <a href="#rest-patterns"><em>RestPattern</em></a><br />
-   | <a href="#patterns"><em>Pattern</em></a> (<code>,</code> <a href="#patterns"><em>Pattern</em></a>)<sup>+</sup> <code>,</code><sup>?</sup></p>
-</blockquote>
 <div class="rule" id="r-patterns.tuple.intro"><a class="rule-link" href="#r-patterns.tuple.intro" title="patterns.tuple.intro"><span>[patterns<wbr>.tuple<wbr>.intro]</span/></a>
 </div>
 <p>Tuple patterns match tuple values that match all criteria defined by its subpatterns.
 They are also used to <a href="#destructuring">destructure</a> a tuple.</p>
 <div class="rule" id="r-patterns.tuple.rest-syntax"><a class="rule-link" href="#r-patterns.tuple.rest-syntax" title="patterns.tuple.rest-syntax"><span>[patterns<wbr>.tuple<wbr>.rest-syntax]</span/></a>
 </div>
-<p>The form <code>(..)</code> with a single <a href="#rest-patterns"><em>RestPattern</em></a> is a special form that does not require a comma, and matches a tuple of any size.</p>
+<p>The form <code>(..)</code> with a single <a href="patterns.html#grammar-RestPattern">RestPattern</a> is a special form that does not require a comma, and matches a tuple of any size.</p>
 <div class="rule" id="r-patterns.tuple.refutable"><a class="rule-link" href="#r-patterns.tuple.refutable" title="patterns.tuple.refutable"><span>[patterns<wbr>.tuple<wbr>.refutable]</span/></a>
 </div>
 <p>The tuple pattern is refutable when one of its subpatterns is refutable.</p>
@@ -2482,17 +2411,19 @@ assert_eq!(b, "ten");
 <div class="rule" id="r-patterns.paren.syntax"><a class="rule-link" href="#r-patterns.paren.syntax" title="patterns.paren.syntax"><span>[patterns<wbr>.paren<wbr>.syntax]</span/></a>
 </div>
 <div class="grammar-container">
-<button class="grammar-toggle" type="button" title="Toggle grammar display"onclick="toggle_grammar()">Toggle Railroad</button>
-<p><strong><sup>Syntax</sup></strong></p>
-<div class="grammar-content grammar-text">
-<p><span class="grammar-text grammar-production" id="grammar-GroupedPattern">GroupedPattern</span> → <span class="grammar-literal">(</span> <span class="grammar-text"><a href="patterns.html#grammar-Pattern">Pattern</a></span> <span class="grammar-literal">)</span></p>
+<p><strong><sup>Syntax</sup></strong>
+<br>
+<span class="grammar-text grammar-production" id="grammar-GroupedPattern" onclick="show_railroad()"><a href="patterns.html#railroad-GroupedPattern">GroupedPattern</a></span> → <span class="grammar-literal">(</span> <span class="grammar-text"><a href="patterns.html#grammar-Pattern">Pattern</a></span> <span class="grammar-literal">)</span></p>
+<p><button class="grammar-toggle-railroad" type="button" title="Toggle railroad display" onclick="toggle_railroad()">Show Railroad</button></p>
 </div>
-<div class="grammar-content grammar-railroad grammar-hidden">
-<div style="width: 222px; height: auto; max-width: 100%; max-height: 100%"><svg class="railroad" viewBox="0 0 222 74" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<div class="grammar-railroad grammar-hidden">
+<div style="width: 222px; height: auto; max-width: 100%; max-height: 100%" class="railroad-production" id="railroad-GroupedPattern"><svg class="railroad" viewBox="0 0 222 74" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 <rect class="railroad_canvas" height="100%" width="100%"/>
 <g class="verticalgrid">
+<a class="link" xlink:href="patterns.html#grammar-GroupedPattern">
 <text class="comment" x="64" y="25">
 GroupedPattern</text>
+</a>
 <g class="sequence">
 <path d=" M 10 53 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5 m 10 0 h 5"/>
 <g class="sequence">
@@ -2501,11 +2432,13 @@ GroupedPattern</text>
 <text x="49" y="58">
 (</text>
 </g>
+<a class="link" xlink:href="patterns.html#railroad-Pattern">
 <g class="nonterminal">
 <rect height="22" width="76" x="73" y="42"/>
 <text x="111" y="58">
 Pattern</text>
 </g>
+</a>
 <g class="terminal">
 <rect height="22" rx="10" ry="10" width="28" x="159" y="42"/>
 <text x="173" y="58">
@@ -2522,12 +2455,6 @@ Pattern</text>
 </svg>
 </div>
 </div>
-</div>
-<blockquote>
-<p><strong><sup>Syntax</sup></strong><br />
-<em>GroupedPattern</em> :<br />
-   <code>(</code> <a href="#patterns"><em>Pattern</em></a> <code>)</code></p>
-</blockquote>
 <div class="rule" id="r-patterns.paren.intro"><a class="rule-link" href="#r-patterns.paren.intro" title="patterns.paren.intro"><span>[patterns<wbr>.paren<wbr>.intro]</span/></a>
 </div>
 <p>Enclosing a pattern in parentheses can be used to explicitly control the precedence of compound patterns.
@@ -2546,18 +2473,20 @@ match int_reference {
 <div class="rule" id="r-patterns.slice.syntax"><a class="rule-link" href="#r-patterns.slice.syntax" title="patterns.slice.syntax"><span>[patterns<wbr>.slice<wbr>.syntax]</span/></a>
 </div>
 <div class="grammar-container">
-<button class="grammar-toggle" type="button" title="Toggle grammar display"onclick="toggle_grammar()">Toggle Railroad</button>
-<p><strong><sup>Syntax</sup></strong></p>
-<div class="grammar-content grammar-text">
-<p><span class="grammar-text grammar-production" id="grammar-SlicePattern">SlicePattern</span> → <span class="grammar-literal">[</span> <span class="grammar-text"><a href="patterns.html#grammar-SlicePatternItems">SlicePatternItems</a></span><sup>?</sup> <span class="grammar-literal">]</span></p>
-<p><span class="grammar-text grammar-production" id="grammar-SlicePatternItems">SlicePatternItems</span> → <span class="grammar-text"><a href="patterns.html#grammar-Pattern">Pattern</a></span> ( <span class="grammar-literal">,</span> <span class="grammar-text"><a href="patterns.html#grammar-Pattern">Pattern</a></span> )<sup>*</sup> <span class="grammar-literal">,</span><sup>?</sup></p>
+<p><strong><sup>Syntax</sup></strong>
+<br>
+<span class="grammar-text grammar-production" id="grammar-SlicePattern" onclick="show_railroad()"><a href="patterns.html#railroad-SlicePattern">SlicePattern</a></span> → <span class="grammar-literal">[</span> <span class="grammar-text"><a href="patterns.html#grammar-SlicePatternItems">SlicePatternItems</a></span><sup>?</sup> <span class="grammar-literal">]</span></p>
+<p><span class="grammar-text grammar-production" id="grammar-SlicePatternItems" onclick="show_railroad()"><a href="patterns.html#railroad-SlicePatternItems">SlicePatternItems</a></span> → <span class="grammar-text"><a href="patterns.html#grammar-Pattern">Pattern</a></span> ( <span class="grammar-literal">,</span> <span class="grammar-text"><a href="patterns.html#grammar-Pattern">Pattern</a></span> )<sup>*</sup> <span class="grammar-literal">,</span><sup>?</sup></p>
+<p><button class="grammar-toggle-railroad" type="button" title="Toggle railroad display" onclick="toggle_railroad()">Show Railroad</button></p>
 </div>
-<div class="grammar-content grammar-railroad grammar-hidden">
-<div style="width: 350px; height: auto; max-width: 100%; max-height: 100%"><svg class="railroad" viewBox="0 0 350 87" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<div class="grammar-railroad grammar-hidden">
+<div style="width: 350px; height: auto; max-width: 100%; max-height: 100%" class="railroad-production" id="railroad-SlicePattern"><svg class="railroad" viewBox="0 0 350 87" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 <rect class="railroad_canvas" height="100%" width="100%"/>
 <g class="verticalgrid">
+<a class="link" xlink:href="patterns.html#grammar-SlicePattern">
 <text class="comment" x="57" y="25">
 SlicePattern</text>
+</a>
 <g class="sequence">
 <path d=" M 10 66 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5 m 10 0 h 5"/>
 <g class="sequence">
@@ -2568,11 +2497,13 @@ SlicePattern</text>
 </g>
 <g class="optional">
 <path d=" M 73 66 h 24 m -24 0 a 12 12 0 0 0 12 -12 v 0 a 12 12 0 0 1 12 -12 h 156 m -75 0 l -5 -5 m 0 10 l 5 -5 m 75 0 a 12 12 0 0 1 12 12 v 0 a 12 12 0 0 0 12 12 h -24"/>
+<a class="link" xlink:href="patterns.html#railroad-SlicePatternItems">
 <g class="nonterminal">
 <rect height="22" width="156" x="97" y="55"/>
 <text x="175" y="71">
 SlicePatternItems</text>
 </g>
+</a>
 </g>
 <g class="terminal">
 <rect height="22" rx="10" ry="10" width="28" x="287" y="55"/>
@@ -2589,63 +2520,64 @@ SlicePatternItems</text>
 </g>
 </svg>
 </div>
-<div style="width: 380px; height: auto; max-width: 100%; max-height: 100%"><svg class="railroad" viewBox="0 0 380 100" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<div style="width: 428px; height: auto; max-width: 100%; max-height: 100%" class="railroad-production" id="railroad-SlicePatternItems"><svg class="railroad" viewBox="0 0 428 100" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 <rect class="railroad_canvas" height="100%" width="100%"/>
 <g class="verticalgrid">
+<a class="link" xlink:href="patterns.html#grammar-SlicePatternItems">
 <text class="comment" x="74" y="25">
 SlicePatternItems</text>
+</a>
 <g class="sequence">
 <path d=" M 10 66 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5 m 10 0 h 5"/>
 <g class="sequence">
+<a class="link" xlink:href="patterns.html#railroad-Pattern">
 <g class="nonterminal">
 <rect height="22" width="76" x="35" y="55"/>
 <text x="73" y="71">
 Pattern</text>
 </g>
+</a>
+<g class="optional">
+<path d=" M 121 66 h 24 m -24 0 a 12 12 0 0 0 12 -12 v 0 a 12 12 0 0 1 12 -12 h 138 m -66 0 l -5 -5 m 0 10 l 5 -5 m 66 0 a 12 12 0 0 1 12 12 v 0 a 12 12 0 0 0 12 12 h -24"/>
 <g class="repeat">
-<path d=" M 121 66 h 12 m 114 0 h 12 m -12 0 a 12 12 0 0 1 12 12 v 0 a 12 12 0 0 1 -12 12 m 0 0 h -114 m 60 0 l 5 -5 m 0 10 l -5 -5 m -60 0 a 12 12 0 0 1 -12 -12 v 0 a 12 12 0 0 1 12 -12"/>
+<path d=" M 145 66 h 12 m 114 0 h 12 m -12 0 a 12 12 0 0 1 12 12 v 0 a 12 12 0 0 1 -12 12 m 0 0 h -114 m 60 0 l 5 -5 m 0 10 l -5 -5 m -60 0 a 12 12 0 0 1 -12 -12 v 0 a 12 12 0 0 1 12 -12"/>
 <g/>
 <g class="sequence">
 <g class="terminal">
-<rect height="22" rx="10" ry="10" width="28" x="133" y="55"/>
-<text x="147" y="71">
+<rect height="22" rx="10" ry="10" width="28" x="157" y="55"/>
+<text x="171" y="71">
 ,</text>
 </g>
+<a class="link" xlink:href="patterns.html#railroad-Pattern">
 <g class="nonterminal">
-<rect height="22" width="76" x="171" y="55"/>
-<text x="209" y="71">
+<rect height="22" width="76" x="195" y="55"/>
+<text x="233" y="71">
 Pattern</text>
 </g>
-<path d=" M 161 66 h 10"/>
+</a>
+<path d=" M 185 66 h 10"/>
+</g>
 </g>
 </g>
 <g class="optional">
-<path d=" M 269 66 h 24 m -24 0 a 12 12 0 0 0 12 -12 v 0 a 12 12 0 0 1 12 -12 h 28 a 12 12 0 0 1 12 12 v 0 a 12 12 0 0 0 12 12 h -24"/>
+<path d=" M 317 66 h 24 m -24 0 a 12 12 0 0 0 12 -12 v 0 a 12 12 0 0 1 12 -12 h 28 a 12 12 0 0 1 12 12 v 0 a 12 12 0 0 0 12 12 h -24"/>
 <g class="terminal">
-<rect height="22" rx="10" ry="10" width="28" x="293" y="55"/>
-<text x="307" y="71">
+<rect height="22" rx="10" ry="10" width="28" x="341" y="55"/>
+<text x="355" y="71">
 ,</text>
 </g>
 </g>
 <path d=" M 111 66 h 10"/>
-<path d=" M 259 66 h 10"/>
+<path d=" M 307 66 h 10"/>
 </g>
-<path d=" M 355 66 h 5 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5"/>
+<path d=" M 403 66 h 5 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5"/>
 <path d=" M 25 66 h 10"/>
-<path d=" M 345 66 h 10"/>
+<path d=" M 393 66 h 10"/>
 </g>
 </g>
 </svg>
 </div>
 </div>
-</div>
-<blockquote>
-<p><strong><sup>Syntax</sup></strong><br />
-<em>SlicePattern</em> :<br />
-   <code>[</code> <em>SlicePatternItems</em><sup>?</sup> <code>]</code></p>
-<p><em>SlicePatternItems</em> :<br />
-   <a href="#patterns"><em>Pattern</em></a> (<code>,</code> <a href="#patterns"><em>Pattern</em></a>)<sup>*</sup> <code>,</code><sup>?</sup></p>
-</blockquote>
 <div class="rule" id="r-patterns.slice.intro"><a class="rule-link" href="#r-patterns.slice.intro" title="patterns.slice.intro"><span>[patterns<wbr>.slice<wbr>.intro]</span/></a>
 </div>
 <p>Slice patterns can match both arrays of fixed size and slices of dynamic size.</p>
@@ -2684,24 +2616,28 @@ A range pattern with both lower and upper bound, like <code>a..=b</code>, is not
 <div class="rule" id="r-patterns.path.syntax"><a class="rule-link" href="#r-patterns.path.syntax" title="patterns.path.syntax"><span>[patterns<wbr>.path<wbr>.syntax]</span/></a>
 </div>
 <div class="grammar-container">
-<button class="grammar-toggle" type="button" title="Toggle grammar display"onclick="toggle_grammar()">Toggle Railroad</button>
-<p><strong><sup>Syntax</sup></strong></p>
-<div class="grammar-content grammar-text">
-<p><span class="grammar-text grammar-production" id="grammar-PathPattern">PathPattern</span> → <span class="grammar-text"><a href="expressions/path-expr.html#grammar-PathExpression">PathExpression</a></span></p>
+<p><strong><sup>Syntax</sup></strong>
+<br>
+<span class="grammar-text grammar-production" id="grammar-PathPattern" onclick="show_railroad()"><a href="patterns.html#railroad-PathPattern">PathPattern</a></span> → <span class="grammar-text"><a href="expressions/path-expr.html#grammar-PathExpression">PathExpression</a></span></p>
+<p><button class="grammar-toggle-railroad" type="button" title="Toggle railroad display" onclick="toggle_railroad()">Show Railroad</button></p>
 </div>
-<div class="grammar-content grammar-railroad grammar-hidden">
-<div style="width: 202px; height: auto; max-width: 100%; max-height: 100%"><svg class="railroad" viewBox="0 0 202 74" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<div class="grammar-railroad grammar-hidden">
+<div style="width: 202px; height: auto; max-width: 100%; max-height: 100%" class="railroad-production" id="railroad-PathPattern"><svg class="railroad" viewBox="0 0 202 74" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 <rect class="railroad_canvas" height="100%" width="100%"/>
 <g class="verticalgrid">
+<a class="link" xlink:href="patterns.html#grammar-PathPattern">
 <text class="comment" x="53" y="25">
 PathPattern</text>
+</a>
 <g class="sequence">
 <path d=" M 10 53 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5 m 10 0 h 5"/>
+<a class="link" xlink:href="expressions/path-expr.html#railroad-PathExpression">
 <g class="nonterminal">
 <rect height="22" width="132" x="35" y="42"/>
 <text x="101" y="58">
 PathExpression</text>
 </g>
+</a>
 <path d=" M 177 53 h 5 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5"/>
 <path d=" M 25 53 h 10"/>
 <path d=" M 167 53 h 10"/>
@@ -2710,12 +2646,6 @@ PathExpression</text>
 </svg>
 </div>
 </div>
-</div>
-<blockquote>
-<p><strong><sup>Syntax</sup></strong><br />
-<em>PathPattern</em> :<br />
-      <a href="expressions/path-expr.html"><em>PathExpression</em></a></p>
-</blockquote>
 <div class="rule" id="r-patterns.path.intro"><a class="rule-link" href="#r-patterns.path.intro" title="patterns.path.intro"><span>[patterns<wbr>.path<wbr>.intro]</span/></a>
 </div>
 <p><em>Path patterns</em> are patterns that refer either to constant values or
@@ -2786,6 +2716,9 @@ and all fields (for enums: of the active variant) have structural equality.</li>
 </div>
 <p>In particular, the value of <code>C</code> must be known at pattern-building time (which is pre-monomorphization).
 This means that associated consts that involve generic parameters cannot be used as patterns.</p>
+<div class="rule" id="r-patterns.const.immutable"><a class="rule-link" href="#r-patterns.const.immutable" title="patterns.const.immutable"><span>[patterns<wbr>.const<wbr>.immutable]</span/></a>
+</div>
+<p>The value of <code>C</code> must not contain any references to mutable statics (<code>static mut</code> items or interior mutable <code>static</code> items) or <code>extern</code> statics.</p>
 <div class="rule" id="r-patterns.const.translation"><a class="rule-link" href="#r-patterns.const.translation" title="patterns.const.translation"><span>[patterns<wbr>.const<wbr>.translation]</span/></a>
 </div>
 <p>After ensuring all conditions are met, the constant value is translated into a pattern, and now behaves exactly as-if that pattern had been written directly.
@@ -2796,7 +2729,7 @@ In particular, it fully participates in exhaustiveness checking.
 <h2 id="or-patterns"><a class="header" href="#or-patterns">Or-patterns</a></h2>
 <p><em>Or-patterns</em> are patterns that match on one of two or more sub-patterns (for example <code>A | B | C</code>).
 They can nest arbitrarily.
-Syntactically, or-patterns are allowed in any of the places where other patterns are allowed (represented by the <em>Pattern</em> production), with the exceptions of <code>let</code>-bindings and function and closure arguments (represented by the <em>PatternNoTopAlt</em> production).</p>
+Syntactically, or-patterns are allowed in any of the places where other patterns are allowed (represented by the <a href="patterns.html#grammar-Pattern">Pattern</a> production), with the exceptions of <code>let</code>-bindings and function and closure arguments (represented by the <a href="patterns.html#grammar-PatternNoTopAlt">PatternNoTopAlt</a> production).</p>
 <div class="rule" id="r-patterns.constraints"><a class="rule-link" href="#r-patterns.constraints" title="patterns.constraints"><span>[patterns<wbr>.constraints]</span/></a>
 </div>
 <h3 id="static-semantics"><a class="header" href="#static-semantics">Static semantics</a></h3>
@@ -2854,7 +2787,7 @@ For example, <code>x @ A(..) | B(..)</code> will result in an error that <code>x
 <code>&amp;A(x) | B(x)</code> will result in a type mismatch between <code>x</code> in the different subpatterns.</p>
 <hr>
 <ol class="footnote-definition"><li id="footnote-obsolete-range-edition">
-<p>The <em>ObsoleteRangePattern</em> syntax has been removed in the 2021 edition. <a href="#fr-obsolete-range-edition-1">↩</a> <a href="#fr-obsolete-range-edition-2">↩2</a></p>
+<p>The <a href="patterns.html#grammar-ObsoleteRangePattern">ObsoleteRangePattern</a> syntax has been removed in the 2021 edition. <a href="#fr-obsolete-range-edition-1">↩</a></p>
 </li>
 </ol>
                     </main>
@@ -2862,11 +2795,10 @@ For example, <code>x @ A(..) | B(..)</code> will result in an error that <code>x
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
                             <a rel="prev" href="expressions/underscore-expr.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
-                                <i class="fa fa-angle-left"></i>
-                            </a>
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
 
                             <a rel="next prefetch" href="type-system.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
-                                <i class="fa fa-angle-right"></i>
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
                             </a>
 
                         <div style="clear: both"></div>
@@ -2876,16 +2808,21 @@ For example, <code>x @ A(..) | B(..)</code> will result in an error that <code>x
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
                     <a rel="prev" href="expressions/underscore-expr.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
-                        <i class="fa fa-angle-left"></i>
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
                     </a>
 
                     <a rel="next prefetch" href="type-system.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
-                        <i class="fa fa-angle-right"></i>
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
                     </a>
             </nav>
 
         </div>
 
+        <template id=fa-eye><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM432 256c0 79.5-64.5 144-144 144s-144-64.5-144-144s64.5-144 144-144s144 64.5 144 144zM288 192c0 35.3-28.7 64-64 64c-11.5 0-22.3-3-31.6-8.4c-.2 2.8-.4 5.5-.4 8.4c0 53 43 96 96 96s96-43 96-96s-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6z"/></svg></span></template>
+        <template id=fa-eye-slash><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M38.8 5.1C28.4-3.1 13.3-1.2 5.1 9.2S-1.2 34.7 9.2 42.9l592 464c10.4 8.2 25.5 6.3 33.7-4.1s6.3-25.5-4.1-33.7L525.6 386.7c39.6-40.6 66.4-86.1 79.9-118.4c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C465.5 68.8 400.8 32 320 32c-68.2 0-125 26.3-169.3 60.8L38.8 5.1zM223.1 149.5C248.6 126.2 282.7 112 320 112c79.5 0 144 64.5 144 144c0 24.9-6.3 48.3-17.4 68.7L408 294.5c5.2-11.8 8-24.8 8-38.5c0-53-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6c0 10.2-2.4 19.8-6.6 28.3l-90.3-70.8zm223.1 298L373 389.9c-16.4 6.5-34.3 10.1-53 10.1c-79.5 0-144-64.5-144-144c0-6.9 .5-13.6 1.4-20.2L83.1 161.5C60.3 191.2 44 220.8 34.5 243.7c-3.3 7.9-3.3 16.7 0 24.6c14.9 35.7 46.2 87.7 93 131.1C174.5 443.2 239.2 480 320 480c47.8 0 89.9-12.9 126.2-32.5z"/></svg></span></template>
+        <template id=fa-copy><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M502.6 70.63l-61.25-61.25C435.4 3.371 427.2 0 418.7 0H255.1c-35.35 0-64 28.66-64 64l.0195 256C192 355.4 220.7 384 256 384h192c35.2 0 64-28.8 64-64V93.25C512 84.77 508.6 76.63 502.6 70.63zM464 320c0 8.836-7.164 16-16 16H255.1c-8.838 0-16-7.164-16-16L239.1 64.13c0-8.836 7.164-16 16-16h128L384 96c0 17.67 14.33 32 32 32h47.1V320zM272 448c0 8.836-7.164 16-16 16H63.1c-8.838 0-16-7.164-16-16L47.98 192.1c0-8.836 7.164-16 16-16H160V128H63.99c-35.35 0-64 28.65-64 64l.0098 256C.002 483.3 28.66 512 64 512h192c35.2 0 64-28.8 64-64v-32h-47.1L272 448z"/></svg></span></template>
+        <template id=fa-play><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/></svg></span></template>
+        <template id=fa-clock-rotate-left><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M75 75L41 41C25.9 25.9 0 36.6 0 57.9V168c0 13.3 10.7 24 24 24H134.1c21.4 0 32.1-25.9 17-41l-30.8-30.8C155 85.5 203 64 256 64c106 0 192 86 192 192s-86 192-192 192c-40.8 0-78.6-12.7-109.7-34.4c-14.5-10.1-34.4-6.6-44.6 7.9s-6.6 34.4 7.9 44.6C151.2 495 201.7 512 256 512c141.4 0 256-114.6 256-256S397.4 0 256 0C185.3 0 121.3 28.7 75 75zm181 53c-13.3 0-24 10.7-24 24V256c0 6.4 2.5 12.5 7 17l72 72c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-65-65V152c0-13.3-10.7-24-24-24z"/></svg></span></template>
 
 
 
@@ -2894,16 +2831,17 @@ For example, <code>x @ A(..) | B(..)</code> will result in an error that <code>x
         </script>
 
 
-        <script src="elasticlunr.min.js"></script>
-        <script src="mark.min.js"></script>
-        <script src="searcher.js"></script>
+        <script src="elasticlunr-ef4e11c1.min.js"></script>
+        <script src="mark-09e88c2c.min.js"></script>
+        <script src="searcher-c2a407aa.js"></script>
 
-        <script src="clipboard.min.js"></script>
-        <script src="highlight.js"></script>
-        <script src="book.js"></script>
+        <script src="clipboard-1626706a.min.js"></script>
+        <script src="highlight-abc7f01d.js"></script>
+        <script src="book-81fc5345.js"></script>
 
         <!-- Custom JS scripts -->
-        <script src="theme/reference.js"></script>
+        <script src="theme/reference-cfed9ca5.js"></script>
+
 
 
     </div>

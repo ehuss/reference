@@ -12,24 +12,23 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff">
 
-        <link rel="icon" href="favicon.svg">
-        <link rel="shortcut icon" href="favicon.png">
-        <link rel="stylesheet" href="css/variables.css">
-        <link rel="stylesheet" href="css/general.css">
-        <link rel="stylesheet" href="css/chrome.css">
-        <link rel="stylesheet" href="css/print.css" media="print">
+        <link rel="icon" href="favicon-de23e50b.svg">
+        <link rel="shortcut icon" href="favicon-8114d1fc.png">
+        <link rel="stylesheet" href="css/variables-3865ffda.css">
+        <link rel="stylesheet" href="css/general-d297d479.css">
+        <link rel="stylesheet" href="css/chrome-03ed7f09.css">
+        <link rel="stylesheet" href="css/print-9e4910d8.css" media="print">
 
         <!-- Fonts -->
-        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
-        <link rel="stylesheet" href="fonts/fonts.css">
+        <link rel="stylesheet" href="fonts/fonts-9644e21d.css">
 
         <!-- Highlight.js Stylesheets -->
-        <link rel="stylesheet" id="highlight-css" href="highlight.css">
-        <link rel="stylesheet" id="tomorrow-night-css" href="tomorrow-night.css">
-        <link rel="stylesheet" id="ayu-highlight-css" href="ayu-highlight.css">
+        <link rel="stylesheet" id="mdbook-highlight-css" href="highlight-493f70e1.css">
+        <link rel="stylesheet" id="mdbook-tomorrow-night-css" href="tomorrow-night-4c0ae647.css">
+        <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="ayu-highlight-56612340.css">
 
         <!-- Custom theme stylesheets -->
-        <link rel="stylesheet" href="theme/reference.css">
+        <link rel="stylesheet" href="theme/reference-94a8e8ad.css">
 
 
         <!-- Provide site root and default themes to javascript -->
@@ -37,12 +36,24 @@
             const path_to_root = "";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "searchindex-54e4028f.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="toc.js"></script>
+        <script src="toc-cb7fc751.js"></script>
     </head>
     <body>
-    <div id="body-container">
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="mdbook-body-container">
         <!-- Work around some values being stored in localStorage wrapped in quotes -->
         <script>
             try {
@@ -71,56 +82,59 @@
             html.classList.add("js");
         </script>
 
-        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+        <input type="checkbox" id="mdbook-sidebar-toggle-anchor" class="hidden">
 
         <!-- Hide / unhide sidebar before it is displayed -->
         <script>
             let sidebar = null;
-            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            const sidebar_toggle = document.getElementById("mdbook-sidebar-toggle-anchor");
             if (document.body.clientWidth >= 1080) {
                 try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
                 sidebar = sidebar || 'visible';
             } else {
                 sidebar = 'hidden';
+                sidebar_toggle.checked = false;
             }
-            sidebar_toggle.checked = sidebar === 'visible';
-            html.classList.remove('sidebar-visible');
-            html.classList.add("sidebar-" + sidebar);
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
         </script>
 
-        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+        <nav id="mdbook-sidebar" class="sidebar" aria-label="Table of contents">
             <!-- populated by js -->
             <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
             <noscript>
                 <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
             </noscript>
-            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+            <div id="mdbook-sidebar-resize-handle" class="sidebar-resize-handle">
                 <div class="sidebar-resize-indicator"></div>
             </div>
         </nav>
 
-        <div id="page-wrapper" class="page-wrapper">
+        <div id="mdbook-page-wrapper" class="page-wrapper">
 
             <div class="page">
-                <div id="menu-bar-hover-placeholder"></div>
-                <div id="menu-bar" class="menu-bar sticky">
+                <div id="mdbook-menu-bar-hover-placeholder"></div>
+                <div id="mdbook-menu-bar" class="menu-bar sticky">
                     <div class="left-buttons">
-                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
-                            <i class="fa fa-bars"></i>
+                        <label id="mdbook-sidebar-toggle" class="icon-button" for="mdbook-sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="mdbook-sidebar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"/></svg></span>
                         </label>
-                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
-                            <i class="fa fa-paint-brush"></i>
+                        <button id="mdbook-theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="mdbook-theme-list">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M371.3 367.1c27.3-3.9 51.9-19.4 67.2-42.9L600.2 74.1c12.6-19.5 9.4-45.3-7.6-61.2S549.7-4.4 531.1 9.6L294.4 187.2c-24 18-38.2 46.1-38.4 76.1L371.3 367.1zm-19.6 25.4l-116-104.4C175.9 290.3 128 339.6 128 400c0 3.9 .2 7.8 .6 11.6c1.8 17.5-10.2 36.4-27.8 36.4H96c-17.7 0-32 14.3-32 32s14.3 32 32 32H240c61.9 0 112-50.1 112-112c0-2.5-.1-5-.2-7.5z"/></svg></span>
                         </button>
-                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
-                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
-                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
-                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
-                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
-                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
-                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        <ul id="mdbook-theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-ayu">Ayu</button></li>
                         </ul>
-                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
-                            <i class="fa fa-search"></i>
+                        <button id="mdbook-search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="mdbook-searchbar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352c79.5 0 144-64.5 144-144s-64.5-144-144-144S64 128.5 64 208s64.5 144 144 144z"/></svg></span>
                         </button>
                     </div>
 
@@ -128,39 +142,44 @@
 
                     <div class="right-buttons">
                         <a href="print.html" title="Print this book" aria-label="Print this book">
-                            <i id="print-button" class="fa fa-print"></i>
+                            <span class=fa-svg id="print-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M128 0C92.7 0 64 28.7 64 64v96h64V64H354.7L384 93.3V160h64V93.3c0-17-6.7-33.3-18.7-45.3L400 18.7C388 6.7 371.7 0 354.7 0H128zM384 352v32 64H128V384 368 352H384zm64 32h32c17.7 0 32-14.3 32-32V256c0-35.3-28.7-64-64-64H64c-35.3 0-64 28.7-64 64v96c0 17.7 14.3 32 32 32H64v64c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V384zm-16-88c-13.3 0-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24s-10.7 24-24 24z"/></svg></span>
                         </a>
                         <a href="https://github.com/rust-lang/reference/" title="Git repository" aria-label="Git repository">
-                            <i id="git-repository-button" class="fa fa-github"></i>
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg></span>
                         </a>
-                        <a href="https://github.com/rust-lang/reference/edit/master/src/test-summary.md" title="Suggest an edit" aria-label="Suggest an edit">
-                            <i id="git-edit-button" class="fa fa-edit"></i>
+                        <a href="https://github.com/rust-lang/reference/edit/master/src/test-summary.md" title="Suggest an edit" aria-label="Suggest an edit" rel="edit">
+                            <span class=fa-svg id="git-edit-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M421.7 220.3l-11.3 11.3-22.6 22.6-205 205c-6.6 6.6-14.8 11.5-23.8 14.1L30.8 511c-8.4 2.5-17.5 .2-23.7-6.1S-1.5 489.7 1 481.2L38.7 353.1c2.6-9 7.5-17.2 14.1-23.8l205-205 22.6-22.6 11.3-11.3 33.9 33.9 62.1 62.1 33.9 33.9zM96 353.9l-9.3 9.3c-.9 .9-1.6 2.1-2 3.4l-25.3 86 86-25.3c1.3-.4 2.5-1.1 3.4-2l9.3-9.3H112c-8.8 0-16-7.2-16-16V353.9zM453.3 19.3l39.4 39.4c25 25 25 65.5 0 90.5l-14.5 14.5-22.6 22.6-11.3 11.3-33.9-33.9-62.1-62.1L314.3 67.7l11.3-11.3 22.6-22.6 14.5-14.5c25-25 65.5-25 90.5 0z"/></svg></span>
                         </a>
 
                     </div>
                 </div>
 
-                <div id="search-wrapper" class="hidden">
-                    <form id="searchbar-outer" class="searchbar-outer">
-                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                <div id="mdbook-search-wrapper" class="hidden">
+                    <form id="mdbook-searchbar-outer" class="searchbar-outer">
+                        <div class="search-wrapper">
+                            <input type="search" id="mdbook-searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="mdbook-searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <span class=fa-svg id="fa-spin"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M304 48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zm0 416c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM48 304c26.5 0 48-21.5 48-48s-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48zm464-48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM142.9 437c18.7-18.7 18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zm0-294.2c18.7-18.7 18.7-49.1 0-67.9S93.7 56.2 75 75s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zM369.1 437c18.7 18.7 49.1 18.7 67.9 0s18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9z"/></svg></span>
+                            </div>
+                        </div>
                     </form>
-                    <div id="searchresults-outer" class="searchresults-outer hidden">
-                        <div id="searchresults-header" class="searchresults-header"></div>
-                        <ul id="searchresults">
+                    <div id="mdbook-searchresults-outer" class="searchresults-outer hidden">
+                        <div id="mdbook-searchresults-header" class="searchresults-header"></div>
+                        <ul id="mdbook-searchresults">
                         </ul>
                     </div>
                 </div>
 
                 <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
                 <script>
-                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
-                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
-                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                    document.getElementById('mdbook-sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('mdbook-sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#mdbook-sidebar a')).forEach(function(link) {
                         link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
                     });
                 </script>
 
-                <div id="content" class="content">
+                <div id="mdbook-content" class="content">
                     <main>
                         <h1 id="test-summary"><a class="header" href="#test-summary">Test summary</a></h1>
 <p>The following is a summary of the total tests that are linked to individual rule identifiers within the reference.</p>
@@ -186,10 +205,15 @@ Uncovered rules
 </tr>
 <tr>
 <td><a href="notation.html">1. Notation</a></td>
+<td>1</td>
 <td>0</td>
-<td></td>
-<td></td>
-<td></td>
+<td><div class="popup-container">
+<a href="javascript:void(0)" onclick="spec_toggle_uncovered(1);">1</a>
+<div id="uncovered-1" class="uncovered-rules-popup popup-hidden">
+Uncovered rules
+                        <ul><li><a href="notation.html#r-input.syntax">input.syntax</a></li>
+</ul></div></div></td>
+<td>0.0%</td>
 </tr>
 <tr>
 <td><a href="lexical-structure.html">2. Lexical structure</a></td>
@@ -200,20 +224,25 @@ Uncovered rules
 </tr>
 <tr>
 <td><a href="input-format.html">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2.1. Input format</a></td>
-<td>12</td>
-<td>21</td>
+<td>11</td>
+<td>0</td>
 <td><div class="popup-container">
-<a href="javascript:void(0)" onclick="spec_toggle_uncovered(3);">6</a>
+<a href="javascript:void(0)" onclick="spec_toggle_uncovered(3);">11</a>
 <div id="uncovered-3" class="uncovered-rules-popup popup-hidden">
 Uncovered rules
                         <ul><li><a href="input-format.html#r-input">input</a></li>
+<li><a href="input-format.html#r-input.byte-order-mark">input.byte-order-mark</a></li>
+<li><a href="input-format.html#r-input.crlf">input.crlf</a></li>
 <li><a href="input-format.html#r-input.encoding">input.encoding</a></li>
+<li><a href="input-format.html#r-input.encoding.invalid">input.encoding.invalid</a></li>
+<li><a href="input-format.html#r-input.encoding.utf8">input.encoding.utf8</a></li>
 <li><a href="input-format.html#r-input.intro">input.intro</a></li>
+<li><a href="input-format.html#r-input.shebang">input.shebang</a></li>
+<li><a href="input-format.html#r-input.shebang.inner-attribute">input.shebang.inner-attribute</a></li>
 <li><a href="input-format.html#r-input.shebang.intro">input.shebang.intro</a></li>
-<li><a href="input-format.html#r-input.syntax">input.syntax</a></li>
 <li><a href="input-format.html#r-input.tokenization">input.tokenization</a></li>
 </ul></div></div></td>
-<td>50.0%</td>
+<td>0.0%</td>
 </tr>
 <tr>
 <td><a href="keywords.html">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2.2. Keywords</a></td>
@@ -247,23 +276,25 @@ Uncovered rules
 <tr>
 <td><a href="identifiers.html">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2.3. Identifiers</a></td>
 <td>12</td>
-<td>2</td>
+<td>0</td>
 <td><div class="popup-container">
-<a href="javascript:void(0)" onclick="spec_toggle_uncovered(5);">10</a>
+<a href="javascript:void(0)" onclick="spec_toggle_uncovered(5);">12</a>
 <div id="uncovered-5" class="uncovered-rules-popup popup-hidden">
 Uncovered rules
                         <ul><li><a href="identifiers.html#r-ident">ident</a></li>
 <li><a href="identifiers.html#r-ident.ascii-limitations">ident.ascii-limitations</a></li>
 <li><a href="identifiers.html#r-ident.keyword">ident.keyword</a></li>
+<li><a href="identifiers.html#r-ident.normalization">ident.normalization</a></li>
 <li><a href="identifiers.html#r-ident.profile">ident.profile</a></li>
 <li><a href="identifiers.html#r-ident.raw">ident.raw</a></li>
 <li><a href="identifiers.html#r-ident.raw.allowed">ident.raw.allowed</a></li>
 <li><a href="identifiers.html#r-ident.raw.intro">ident.raw.intro</a></li>
 <li><a href="identifiers.html#r-ident.raw.reserved">ident.raw.reserved</a></li>
 <li><a href="identifiers.html#r-ident.syntax">ident.syntax</a></li>
+<li><a href="identifiers.html#r-ident.unicode">ident.unicode</a></li>
 <li><a href="identifiers.html#r-ident.zero-width-chars">ident.zero-width-chars</a></li>
 </ul></div></div></td>
-<td>16.7%</td>
+<td>0.0%</td>
 </tr>
 <tr>
 <td><a href="comments.html">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2.4. Comments</a></td>
@@ -303,10 +334,10 @@ Uncovered rules
 </tr>
 <tr>
 <td><a href="tokens.html">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2.6. Tokens</a></td>
-<td>113</td>
+<td>116</td>
 <td>0</td>
 <td><div class="popup-container">
-<a href="javascript:void(0)" onclick="spec_toggle_uncovered(8);">113</a>
+<a href="javascript:void(0)" onclick="spec_toggle_uncovered(8);">116</a>
 <div id="uncovered-8" class="uncovered-rules-popup popup-hidden">
 Uncovered rules
                         <ul><li><a href="tokens.html#r-lex.token">lex.token</a></li>
@@ -376,6 +407,7 @@ Uncovered rules
 <li><a href="tokens.html#r-lex.token.punct">lex.token.punct</a></li>
 <li><a href="tokens.html#r-lex.token.punct.intro">lex.token.punct.intro</a></li>
 <li><a href="tokens.html#r-lex.token.punct.syntax">lex.token.punct.syntax</a></li>
+<li><a href="tokens.html#r-lex.token.reserved">lex.token.reserved</a></li>
 <li><a href="tokens.html#r-lex.token.reserved-guards">lex.token.reserved-guards</a></li>
 <li><a href="tokens.html#r-lex.token.reserved-guards.edition2024">lex.token.reserved-guards.edition2024</a></li>
 <li><a href="tokens.html#r-lex.token.reserved-guards.intro">lex.token.reserved-guards.intro</a></li>
@@ -390,6 +422,8 @@ Uncovered rules
 <li><a href="tokens.html#r-lex.token.reserved-prefix.raw-token">lex.token.reserved-prefix.raw-token</a></li>
 <li><a href="tokens.html#r-lex.token.reserved-prefix.strings">lex.token.reserved-prefix.strings</a></li>
 <li><a href="tokens.html#r-lex.token.reserved-prefix.syntax">lex.token.reserved-prefix.syntax</a></li>
+<li><a href="tokens.html#r-lex.token.reserved.intro">lex.token.reserved.intro</a></li>
+<li><a href="tokens.html#r-lex.token.reserved.syntax">lex.token.reserved.syntax</a></li>
 <li><a href="tokens.html#r-lex.token.str-byte">lex.token.str-byte</a></li>
 <li><a href="tokens.html#r-lex.token.str-byte-raw">lex.token.str-byte-raw</a></li>
 <li><a href="tokens.html#r-lex.token.str-byte-raw.body">lex.token.str-byte-raw.body</a></li>
@@ -511,10 +545,10 @@ Uncovered rules
 </tr>
 <tr>
 <td><a href="procedural-macros.html">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3.2. Procedural Macros</a></td>
-<td>35</td>
+<td>37</td>
 <td>0</td>
 <td><div class="popup-container">
-<a href="javascript:void(0)" onclick="spec_toggle_uncovered(11);">35</a>
+<a href="javascript:void(0)" onclick="spec_toggle_uncovered(11);">37</a>
 <div id="uncovered-11" class="uncovered-rules-popup popup-hidden">
 Uncovered rules
                         <ul><li><a href="procedural-macros.html#r-macro.proc">macro.proc</a></li>
@@ -524,13 +558,15 @@ Uncovered rules
 <li><a href="procedural-macros.html#r-macro.proc.attribute.namespace">macro.proc.attribute.namespace</a></li>
 <li><a href="procedural-macros.html#r-macro.proc.def">macro.proc.def</a></li>
 <li><a href="procedural-macros.html#r-macro.proc.derive">macro.proc.derive</a></li>
+<li><a href="procedural-macros.html#r-macro.proc.derive.allowed-positions">macro.proc.derive.allowed-positions</a></li>
 <li><a href="procedural-macros.html#r-macro.proc.derive.attributes">macro.proc.derive.attributes</a></li>
-<li><a href="procedural-macros.html#r-macro.proc.derive.attributes.def">macro.proc.derive.attributes.def</a></li>
+<li><a href="procedural-macros.html#r-macro.proc.derive.attributes.decl">macro.proc.derive.attributes.decl</a></li>
 <li><a href="procedural-macros.html#r-macro.proc.derive.attributes.intro">macro.proc.derive.attributes.intro</a></li>
-<li><a href="procedural-macros.html#r-macro.proc.derive.def">macro.proc.derive.def</a></li>
+<li><a href="procedural-macros.html#r-macro.proc.derive.duplicates">macro.proc.derive.duplicates</a></li>
 <li><a href="procedural-macros.html#r-macro.proc.derive.intro">macro.proc.derive.intro</a></li>
 <li><a href="procedural-macros.html#r-macro.proc.derive.namespace">macro.proc.derive.namespace</a></li>
 <li><a href="procedural-macros.html#r-macro.proc.derive.output">macro.proc.derive.output</a></li>
+<li><a href="procedural-macros.html#r-macro.proc.derive.syntax">macro.proc.derive.syntax</a></li>
 <li><a href="procedural-macros.html#r-macro.proc.error">macro.proc.error</a></li>
 <li><a href="procedural-macros.html#r-macro.proc.function">macro.proc.function</a></li>
 <li><a href="procedural-macros.html#r-macro.proc.function.def">macro.proc.function.def</a></li>
@@ -587,26 +623,28 @@ Uncovered rules
 </tr>
 <tr>
 <td><a href="conditional-compilation.html">5. Conditional compilation</a></td>
-<td>72</td>
+<td>75</td>
 <td>0</td>
 <td><div class="popup-container">
-<a href="javascript:void(0)" onclick="spec_toggle_uncovered(13);">72</a>
+<a href="javascript:void(0)" onclick="spec_toggle_uncovered(13);">75</a>
 <div id="uncovered-13" class="uncovered-rules-popup popup-hidden">
 Uncovered rules
                         <ul><li><a href="conditional-compilation.html#r-cfg">cfg</a></li>
 <li><a href="conditional-compilation.html#r-cfg.attr">cfg.attr</a></li>
+<li><a href="conditional-compilation.html#r-cfg.attr.allowed-positions">cfg.attr.allowed-positions</a></li>
 <li><a href="conditional-compilation.html#r-cfg.attr.crate-level-attrs">cfg.attr.crate-level-attrs</a></li>
+<li><a href="conditional-compilation.html#r-cfg.attr.duplicates">cfg.attr.duplicates</a></li>
 <li><a href="conditional-compilation.html#r-cfg.attr.effect">cfg.attr.effect</a></li>
-<li><a href="conditional-compilation.html#r-cfg.attr.general">cfg.attr.general</a></li>
-<li><a href="conditional-compilation.html#r-cfg.attr.restriction">cfg.attr.restriction</a></li>
+<li><a href="conditional-compilation.html#r-cfg.attr.intro">cfg.attr.intro</a></li>
 <li><a href="conditional-compilation.html#r-cfg.attr.syntax">cfg.attr.syntax</a></li>
-<li><a href="conditional-compilation.html#r-cfg.attr.syntax-explanation">cfg.attr.syntax-explanation</a></li>
 <li><a href="conditional-compilation.html#r-cfg.attributes-macro">cfg.attributes-macro</a></li>
 <li><a href="conditional-compilation.html#r-cfg.cfg_attr">cfg.cfg_attr</a></li>
+<li><a href="conditional-compilation.html#r-cfg.cfg_attr.allowed-positions">cfg.cfg_attr.allowed-positions</a></li>
+<li><a href="conditional-compilation.html#r-cfg.cfg_attr.attr-restriction">cfg.cfg_attr.attr-restriction</a></li>
 <li><a href="conditional-compilation.html#r-cfg.cfg_attr.attribute-list">cfg.cfg_attr.attribute-list</a></li>
-<li><a href="conditional-compilation.html#r-cfg.cfg_attr.behaviour">cfg.cfg_attr.behaviour</a></li>
-<li><a href="conditional-compilation.html#r-cfg.cfg_attr.general">cfg.cfg_attr.general</a></li>
-<li><a href="conditional-compilation.html#r-cfg.cfg_attr.restriction">cfg.cfg_attr.restriction</a></li>
+<li><a href="conditional-compilation.html#r-cfg.cfg_attr.behavior">cfg.cfg_attr.behavior</a></li>
+<li><a href="conditional-compilation.html#r-cfg.cfg_attr.duplicates">cfg.cfg_attr.duplicates</a></li>
+<li><a href="conditional-compilation.html#r-cfg.cfg_attr.intro">cfg.cfg_attr.intro</a></li>
 <li><a href="conditional-compilation.html#r-cfg.cfg_attr.syntax">cfg.cfg_attr.syntax</a></li>
 <li><a href="conditional-compilation.html#r-cfg.conditional">cfg.conditional</a></li>
 <li><a href="conditional-compilation.html#r-cfg.debug_assertions">cfg.debug_assertions</a></li>
@@ -627,6 +665,7 @@ Uncovered rules
 <li><a href="conditional-compilation.html#r-cfg.predicate">cfg.predicate</a></li>
 <li><a href="conditional-compilation.html#r-cfg.predicate.all">cfg.predicate.all</a></li>
 <li><a href="conditional-compilation.html#r-cfg.predicate.any">cfg.predicate.any</a></li>
+<li><a href="conditional-compilation.html#r-cfg.predicate.literal">cfg.predicate.literal</a></li>
 <li><a href="conditional-compilation.html#r-cfg.predicate.not">cfg.predicate.not</a></li>
 <li><a href="conditional-compilation.html#r-cfg.predicate.option">cfg.predicate.option</a></li>
 <li><a href="conditional-compilation.html#r-cfg.proc_macro">cfg.proc_macro</a></li>
@@ -721,10 +760,10 @@ Uncovered rules
 </tr>
 <tr>
 <td><a href="items/extern-crates.html">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;6.2. Extern crates</a></td>
-<td>13</td>
+<td>17</td>
 <td>0</td>
 <td><div class="popup-container">
-<a href="javascript:void(0)" onclick="spec_toggle_uncovered(16);">13</a>
+<a href="javascript:void(0)" onclick="spec_toggle_uncovered(16);">17</a>
 <div id="uncovered-16" class="uncovered-rules-popup popup-hidden">
 Uncovered rules
                         <ul><li><a href="items/extern-crates.html#r-items.extern-crate">items.extern-crate</a></li>
@@ -735,6 +774,10 @@ Uncovered rules
 <li><a href="items/extern-crates.html#r-items.extern-crate.name-restrictions">items.extern-crate.name-restrictions</a></li>
 <li><a href="items/extern-crates.html#r-items.extern-crate.namespace">items.extern-crate.namespace</a></li>
 <li><a href="items/extern-crates.html#r-items.extern-crate.no_link">items.extern-crate.no_link</a></li>
+<li><a href="items/extern-crates.html#r-items.extern-crate.no_link.allowed-positions">items.extern-crate.no_link.allowed-positions</a></li>
+<li><a href="items/extern-crates.html#r-items.extern-crate.no_link.duplicates">items.extern-crate.no_link.duplicates</a></li>
+<li><a href="items/extern-crates.html#r-items.extern-crate.no_link.intro">items.extern-crate.no_link.intro</a></li>
+<li><a href="items/extern-crates.html#r-items.extern-crate.no_link.syntax">items.extern-crate.no_link.syntax</a></li>
 <li><a href="items/extern-crates.html#r-items.extern-crate.self">items.extern-crate.self</a></li>
 <li><a href="items/extern-crates.html#r-items.extern-crate.syntax">items.extern-crate.syntax</a></li>
 <li><a href="items/extern-crates.html#r-items.extern-crate.underscore">items.extern-crate.underscore</a></li>
@@ -997,9 +1040,9 @@ Uncovered rules
 <li><a href="items/constant-items.html#r-items.const.destructor">items.const.destructor</a></li>
 <li><a href="items/constant-items.html#r-items.const.eval">items.const.eval</a></li>
 <li><a href="items/constant-items.html#r-items.const.expr-omission">items.const.expr-omission</a></li>
-<li><a href="items/constant-items.html#r-items.const.final-value-immutable">items.const.final-value-immutable</a></li>
 <li><a href="items/constant-items.html#r-items.const.intro">items.const.intro</a></li>
 <li><a href="items/constant-items.html#r-items.const.namespace">items.const.namespace</a></li>
+<li><a href="items/constant-items.html#r-items.const.no-mut-refs">items.const.no-mut-refs</a></li>
 <li><a href="items/constant-items.html#r-items.const.static">items.const.static</a></li>
 <li><a href="items/constant-items.html#r-items.const.static-temporary">items.const.static-temporary</a></li>
 <li><a href="items/constant-items.html#r-items.const.syntax">items.const.syntax</a></li>
@@ -1084,10 +1127,10 @@ Uncovered rules
 </tr>
 <tr>
 <td><a href="items/implementations.html">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;6.12. Implementations</a></td>
-<td>30</td>
+<td>31</td>
 <td>0</td>
 <td><div class="popup-container">
-<a href="javascript:void(0)" onclick="spec_toggle_uncovered(26);">30</a>
+<a href="javascript:void(0)" onclick="spec_toggle_uncovered(26);">31</a>
 <div id="uncovered-26" class="uncovered-rules-popup popup-hidden">
 Uncovered rules
                         <ul><li><a href="items/implementations.html#r-items.impl">items.impl</a></li>
@@ -1118,6 +1161,7 @@ Uncovered rules
 <li><a href="items/implementations.html#r-items.impl.trait.intro">items.impl.trait.intro</a></li>
 <li><a href="items/implementations.html#r-items.impl.trait.orphan-rule">items.impl.trait.orphan-rule</a></li>
 <li><a href="items/implementations.html#r-items.impl.trait.orphan-rule.general">items.impl.trait.orphan-rule.general</a></li>
+<li><a href="items/implementations.html#r-items.impl.trait.orphan-rule.intro">items.impl.trait.orphan-rule.intro</a></li>
 <li><a href="items/implementations.html#r-items.impl.trait.safety">items.impl.trait.safety</a></li>
 <li><a href="items/implementations.html#r-items.impl.trait.uncovered-param">items.impl.trait.uncovered-param</a></li>
 </ul></div></div></td>
@@ -1125,10 +1169,10 @@ Uncovered rules
 </tr>
 <tr>
 <td><a href="items/external-blocks.html">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;6.13. External blocks</a></td>
-<td>87</td>
+<td>89</td>
 <td>0</td>
 <td><div class="popup-container">
-<a href="javascript:void(0)" onclick="spec_toggle_uncovered(27);">87</a>
+<a href="javascript:void(0)" onclick="spec_toggle_uncovered(27);">89</a>
 <div id="uncovered-27" class="uncovered-rules-popup popup-hidden">
 Uncovered rules
                         <ul><li><a href="items/external-blocks.html#r-items.extern">items.extern</a></li>
@@ -1192,8 +1236,10 @@ Uncovered rules
 <li><a href="items/external-blocks.html#r-items.extern.attributes.link.syntax">items.extern.attributes.link.syntax</a></li>
 <li><a href="items/external-blocks.html#r-items.extern.attributes.link.wasm_import_module">items.extern.attributes.link.wasm_import_module</a></li>
 <li><a href="items/external-blocks.html#r-items.extern.attributes.link_name">items.extern.attributes.link_name</a></li>
-<li><a href="items/external-blocks.html#r-items.extern.attributes.link_name.exclusive">items.extern.attributes.link_name.exclusive</a></li>
+<li><a href="items/external-blocks.html#r-items.extern.attributes.link_name.allowed-positions">items.extern.attributes.link_name.allowed-positions</a></li>
+<li><a href="items/external-blocks.html#r-items.extern.attributes.link_name.duplicates">items.extern.attributes.link_name.duplicates</a></li>
 <li><a href="items/external-blocks.html#r-items.extern.attributes.link_name.intro">items.extern.attributes.link_name.intro</a></li>
+<li><a href="items/external-blocks.html#r-items.extern.attributes.link_name.link_ordinal">items.extern.attributes.link_name.link_ordinal</a></li>
 <li><a href="items/external-blocks.html#r-items.extern.attributes.link_name.syntax">items.extern.attributes.link_name.syntax</a></li>
 <li><a href="items/external-blocks.html#r-items.extern.attributes.link_ordinal">items.extern.attributes.link_ordinal</a></li>
 <li><a href="items/external-blocks.html#r-items.extern.attributes.link_ordinal.allowed-kinds">items.extern.attributes.link_ordinal.allowed-kinds</a></li>
@@ -1201,7 +1247,6 @@ Uncovered rules
 <li><a href="items/external-blocks.html#r-items.extern.attributes.link_ordinal.intro">items.extern.attributes.link_ordinal.intro</a></li>
 <li><a href="items/external-blocks.html#r-items.extern.edition2024">items.extern.edition2024</a></li>
 <li><a href="items/external-blocks.html#r-items.extern.fn">items.extern.fn</a></li>
-<li><a href="items/external-blocks.html#r-items.extern.fn-safety">items.extern.fn-safety</a></li>
 <li><a href="items/external-blocks.html#r-items.extern.fn.body">items.extern.fn.body</a></li>
 <li><a href="items/external-blocks.html#r-items.extern.fn.fn-ptr">items.extern.fn.fn-ptr</a></li>
 <li><a href="items/external-blocks.html#r-items.extern.fn.foreign-abi">items.extern.fn.foreign-abi</a></li>
@@ -1210,6 +1255,7 @@ Uncovered rules
 <li><a href="items/external-blocks.html#r-items.extern.fn.safety">items.extern.fn.safety</a></li>
 <li><a href="items/external-blocks.html#r-items.extern.intro">items.extern.intro</a></li>
 <li><a href="items/external-blocks.html#r-items.extern.namespace">items.extern.namespace</a></li>
+<li><a href="items/external-blocks.html#r-items.extern.safety">items.extern.safety</a></li>
 <li><a href="items/external-blocks.html#r-items.extern.static">items.extern.static</a></li>
 <li><a href="items/external-blocks.html#r-items.extern.static.intro">items.extern.static.intro</a></li>
 <li><a href="items/external-blocks.html#r-items.extern.static.mut">items.extern.static.mut</a></li>
@@ -1223,10 +1269,10 @@ Uncovered rules
 </tr>
 <tr>
 <td><a href="items/generics.html">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;6.14. Generic parameters</a></td>
-<td>24</td>
+<td>26</td>
 <td>0</td>
 <td><div class="popup-container">
-<a href="javascript:void(0)" onclick="spec_toggle_uncovered(28);">24</a>
+<a href="javascript:void(0)" onclick="spec_toggle_uncovered(28);">26</a>
 <div id="uncovered-28" class="uncovered-rules-popup popup-hidden">
 Uncovered rules
                         <ul><li><a href="items/generics.html#r-items.generics">items.generics</a></li>
@@ -1237,6 +1283,8 @@ Uncovered rules
 <li><a href="items/generics.html#r-items.generics.const.argument">items.generics.const.argument</a></li>
 <li><a href="items/generics.html#r-items.generics.const.argument.const-expr">items.generics.const.argument.const-expr</a></li>
 <li><a href="items/generics.html#r-items.generics.const.exhaustiveness">items.generics.const.exhaustiveness</a></li>
+<li><a href="items/generics.html#r-items.generics.const.inferred">items.generics.const.inferred</a></li>
+<li><a href="items/generics.html#r-items.generics.const.inferred.constraint">items.generics.const.inferred.constraint</a></li>
 <li><a href="items/generics.html#r-items.generics.const.intro">items.generics.const.intro</a></li>
 <li><a href="items/generics.html#r-items.generics.const.namespace">items.generics.const.namespace</a></li>
 <li><a href="items/generics.html#r-items.generics.const.standalone">items.generics.const.standalone</a></li>
@@ -1314,13 +1362,14 @@ Uncovered rules
 </tr>
 <tr>
 <td><a href="attributes.html">7. Attributes</a></td>
-<td>21</td>
+<td>23</td>
 <td>0</td>
 <td><div class="popup-container">
-<a href="javascript:void(0)" onclick="spec_toggle_uncovered(30);">21</a>
+<a href="javascript:void(0)" onclick="spec_toggle_uncovered(30);">23</a>
 <div id="uncovered-30" class="uncovered-rules-popup popup-hidden">
 Uncovered rules
-                        <ul><li><a href="attributes.html#r-attributes.activity">attributes.activity</a></li>
+                        <ul><li><a href="attributes.html#r-attributes">attributes</a></li>
+<li><a href="attributes.html#r-attributes.activity">attributes.activity</a></li>
 <li><a href="attributes.html#r-attributes.activity.intro">attributes.activity.intro</a></li>
 <li><a href="attributes.html#r-attributes.allowed-position">attributes.allowed-position</a></li>
 <li><a href="attributes.html#r-attributes.builtin">attributes.builtin</a></li>
@@ -1330,6 +1379,7 @@ Uncovered rules
 <li><a href="attributes.html#r-attributes.kind">attributes.kind</a></li>
 <li><a href="attributes.html#r-attributes.meta">attributes.meta</a></li>
 <li><a href="attributes.html#r-attributes.meta.builtin">attributes.meta.builtin</a></li>
+<li><a href="attributes.html#r-attributes.meta.builtin.syntax">attributes.meta.builtin.syntax</a></li>
 <li><a href="attributes.html#r-attributes.meta.intro">attributes.meta.intro</a></li>
 <li><a href="attributes.html#r-attributes.meta.literal-expr">attributes.meta.literal-expr</a></li>
 <li><a href="attributes.html#r-attributes.meta.order">attributes.meta.order</a></li>
@@ -1346,40 +1396,60 @@ Uncovered rules
 </tr>
 <tr>
 <td><a href="attributes/testing.html">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;7.1. Testing</a></td>
-<td>13</td>
+<td>23</td>
 <td>0</td>
 <td><div class="popup-container">
-<a href="javascript:void(0)" onclick="spec_toggle_uncovered(31);">13</a>
+<a href="javascript:void(0)" onclick="spec_toggle_uncovered(31);">23</a>
 <div id="uncovered-31" class="uncovered-rules-popup popup-hidden">
 Uncovered rules
                         <ul><li><a href="attributes/testing.html#r-attributes.testing">attributes.testing</a></li>
 <li><a href="attributes/testing.html#r-attributes.testing.ignore">attributes.testing.ignore</a></li>
+<li><a href="attributes/testing.html#r-attributes.testing.ignore.allowed-positions">attributes.testing.ignore.allowed-positions</a></li>
+<li><a href="attributes/testing.html#r-attributes.testing.ignore.behavior">attributes.testing.ignore.behavior</a></li>
+<li><a href="attributes/testing.html#r-attributes.testing.ignore.duplicates">attributes.testing.ignore.duplicates</a></li>
 <li><a href="attributes/testing.html#r-attributes.testing.ignore.intro">attributes.testing.ignore.intro</a></li>
+<li><a href="attributes/testing.html#r-attributes.testing.ignore.reason">attributes.testing.ignore.reason</a></li>
 <li><a href="attributes/testing.html#r-attributes.testing.ignore.syntax">attributes.testing.ignore.syntax</a></li>
 <li><a href="attributes/testing.html#r-attributes.testing.should_panic">attributes.testing.should_panic</a></li>
-<li><a href="attributes/testing.html#r-attributes.testing.should_panic.behavior">attributes.testing.should_panic.behavior</a></li>
+<li><a href="attributes/testing.html#r-attributes.testing.should_panic.allowed-positions">attributes.testing.should_panic.allowed-positions</a></li>
+<li><a href="attributes/testing.html#r-attributes.testing.should_panic.duplicates">attributes.testing.should_panic.duplicates</a></li>
+<li><a href="attributes/testing.html#r-attributes.testing.should_panic.expected">attributes.testing.should_panic.expected</a></li>
 <li><a href="attributes/testing.html#r-attributes.testing.should_panic.intro">attributes.testing.should_panic.intro</a></li>
+<li><a href="attributes/testing.html#r-attributes.testing.should_panic.return">attributes.testing.should_panic.return</a></li>
 <li><a href="attributes/testing.html#r-attributes.testing.should_panic.syntax">attributes.testing.should_panic.syntax</a></li>
 <li><a href="attributes/testing.html#r-attributes.testing.test">attributes.testing.test</a></li>
 <li><a href="attributes/testing.html#r-attributes.testing.test.allowed-positions">attributes.testing.test.allowed-positions</a></li>
+<li><a href="attributes/testing.html#r-attributes.testing.test.duplicates">attributes.testing.test.duplicates</a></li>
 <li><a href="attributes/testing.html#r-attributes.testing.test.enabled">attributes.testing.test.enabled</a></li>
 <li><a href="attributes/testing.html#r-attributes.testing.test.intro">attributes.testing.test.intro</a></li>
+<li><a href="attributes/testing.html#r-attributes.testing.test.stdlib">attributes.testing.test.stdlib</a></li>
 <li><a href="attributes/testing.html#r-attributes.testing.test.success">attributes.testing.test.success</a></li>
+<li><a href="attributes/testing.html#r-attributes.testing.test.syntax">attributes.testing.test.syntax</a></li>
 </ul></div></div></td>
 <td>0.0%</td>
 </tr>
 <tr>
 <td><a href="attributes/derive.html">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;7.2. Derive</a></td>
-<td>5</td>
+<td>15</td>
 <td>0</td>
 <td><div class="popup-container">
-<a href="javascript:void(0)" onclick="spec_toggle_uncovered(32);">5</a>
+<a href="javascript:void(0)" onclick="spec_toggle_uncovered(32);">15</a>
 <div id="uncovered-32" class="uncovered-rules-popup popup-hidden">
 Uncovered rules
                         <ul><li><a href="attributes/derive.html#r-attributes.derive">attributes.derive</a></li>
+<li><a href="attributes/derive.html#r-attributes.derive.allowed-positions">attributes.derive.allowed-positions</a></li>
 <li><a href="attributes/derive.html#r-attributes.derive.automatically_derived">attributes.derive.automatically_derived</a></li>
+<li><a href="attributes/derive.html#r-attributes.derive.automatically_derived.allowed-positions">attributes.derive.automatically_derived.allowed-positions</a></li>
+<li><a href="attributes/derive.html#r-attributes.derive.automatically_derived.behavior">attributes.derive.automatically_derived.behavior</a></li>
+<li><a href="attributes/derive.html#r-attributes.derive.automatically_derived.duplicates">attributes.derive.automatically_derived.duplicates</a></li>
+<li><a href="attributes/derive.html#r-attributes.derive.automatically_derived.intro">attributes.derive.automatically_derived.intro</a></li>
+<li><a href="attributes/derive.html#r-attributes.derive.automatically_derived.syntax">attributes.derive.automatically_derived.syntax</a></li>
+<li><a href="attributes/derive.html#r-attributes.derive.behavior">attributes.derive.behavior</a></li>
+<li><a href="attributes/derive.html#r-attributes.derive.built-in">attributes.derive.built-in</a></li>
+<li><a href="attributes/derive.html#r-attributes.derive.built-in-automatically_derived">attributes.derive.built-in-automatically_derived</a></li>
+<li><a href="attributes/derive.html#r-attributes.derive.duplicates">attributes.derive.duplicates</a></li>
 <li><a href="attributes/derive.html#r-attributes.derive.intro">attributes.derive.intro</a></li>
-<li><a href="attributes/derive.html#r-attributes.derive.proc-macro">attributes.derive.proc-macro</a></li>
+<li><a href="attributes/derive.html#r-attributes.derive.stdlib">attributes.derive.stdlib</a></li>
 <li><a href="attributes/derive.html#r-attributes.derive.syntax">attributes.derive.syntax</a></li>
 </ul></div></div></td>
 <td>0.0%</td>
@@ -1387,18 +1457,31 @@ Uncovered rules
 <tr>
 <td><a href="attributes/diagnostics.html">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;7.3. Diagnostics</a></td>
 <td>51</td>
-<td>30</td>
+<td>0</td>
 <td><div class="popup-container">
-<a href="javascript:void(0)" onclick="spec_toggle_uncovered(33);">38</a>
+<a href="javascript:void(0)" onclick="spec_toggle_uncovered(33);">51</a>
 <div id="uncovered-33" class="uncovered-rules-popup popup-hidden">
 Uncovered rules
                         <ul><li><a href="attributes/diagnostics.html#r-attributes.diagnostic.deprecated.allowed-positions">attributes.diagnostic.deprecated.allowed-positions</a></li>
 <li><a href="attributes/diagnostics.html#r-attributes.diagnostic.do_not_recommend">attributes.diagnostic.do_not_recommend</a></li>
+<li><a href="attributes/diagnostics.html#r-attributes.diagnostic.do_not_recommend.allowed-positions">attributes.diagnostic.do_not_recommend.allowed-positions</a></li>
+<li><a href="attributes/diagnostics.html#r-attributes.diagnostic.do_not_recommend.intro">attributes.diagnostic.do_not_recommend.intro</a></li>
+<li><a href="attributes/diagnostics.html#r-attributes.diagnostic.do_not_recommend.syntax">attributes.diagnostic.do_not_recommend.syntax</a></li>
 <li><a href="attributes/diagnostics.html#r-attributes.diagnostic.namespace">attributes.diagnostic.namespace</a></li>
 <li><a href="attributes/diagnostics.html#r-attributes.diagnostic.namespace.intro">attributes.diagnostic.namespace.intro</a></li>
+<li><a href="attributes/diagnostics.html#r-attributes.diagnostic.namespace.unknown-invalid-syntax">attributes.diagnostic.namespace.unknown-invalid-syntax</a></li>
 <li><a href="attributes/diagnostics.html#r-attributes.diagnostic.on_unimplemented">attributes.diagnostic.on_unimplemented</a></li>
 <li><a href="attributes/diagnostics.html#r-attributes.diagnostic.on_unimplemented.allowed-positions">attributes.diagnostic.on_unimplemented.allowed-positions</a></li>
+<li><a href="attributes/diagnostics.html#r-attributes.diagnostic.on_unimplemented.format-parameters">attributes.diagnostic.on_unimplemented.format-parameters</a></li>
 <li><a href="attributes/diagnostics.html#r-attributes.diagnostic.on_unimplemented.format-string">attributes.diagnostic.on_unimplemented.format-string</a></li>
+<li><a href="attributes/diagnostics.html#r-attributes.diagnostic.on_unimplemented.intro">attributes.diagnostic.on_unimplemented.intro</a></li>
+<li><a href="attributes/diagnostics.html#r-attributes.diagnostic.on_unimplemented.invalid-formats">attributes.diagnostic.on_unimplemented.invalid-formats</a></li>
+<li><a href="attributes/diagnostics.html#r-attributes.diagnostic.on_unimplemented.invalid-string">attributes.diagnostic.on_unimplemented.invalid-string</a></li>
+<li><a href="attributes/diagnostics.html#r-attributes.diagnostic.on_unimplemented.keys">attributes.diagnostic.on_unimplemented.keys</a></li>
+<li><a href="attributes/diagnostics.html#r-attributes.diagnostic.on_unimplemented.note-repetition">attributes.diagnostic.on_unimplemented.note-repetition</a></li>
+<li><a href="attributes/diagnostics.html#r-attributes.diagnostic.on_unimplemented.repetition">attributes.diagnostic.on_unimplemented.repetition</a></li>
+<li><a href="attributes/diagnostics.html#r-attributes.diagnostic.on_unimplemented.syntax">attributes.diagnostic.on_unimplemented.syntax</a></li>
+<li><a href="attributes/diagnostics.html#r-attributes.diagnostic.on_unimplemented.unknown-keys">attributes.diagnostic.on_unimplemented.unknown-keys</a></li>
 <li><a href="attributes/diagnostics.html#r-attributes.diagnostics">attributes.diagnostics</a></li>
 <li><a href="attributes/diagnostics.html#r-attributes.diagnostics.deprecated">attributes.diagnostics.deprecated</a></li>
 <li><a href="attributes/diagnostics.html#r-attributes.diagnostics.deprecated.intro">attributes.diagnostics.deprecated.intro</a></li>
@@ -1431,14 +1514,14 @@ Uncovered rules
 <li><a href="attributes/diagnostics.html#r-attributes.diagnostics.must_use.trait-impl-function">attributes.diagnostics.must_use.trait-impl-function</a></li>
 <li><a href="attributes/diagnostics.html#r-attributes.diagnostics.must_use.type">attributes.diagnostics.must_use.type</a></li>
 </ul></div></div></td>
-<td>25.5%</td>
+<td>0.0%</td>
 </tr>
 <tr>
 <td><a href="attributes/codegen.html">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;7.4. Code generation</a></td>
-<td>40</td>
+<td>58</td>
 <td>0</td>
 <td><div class="popup-container">
-<a href="javascript:void(0)" onclick="spec_toggle_uncovered(34);">40</a>
+<a href="javascript:void(0)" onclick="spec_toggle_uncovered(34);">58</a>
 <div id="uncovered-34" class="uncovered-rules-popup popup-hidden">
 Uncovered rules
                         <ul><li><a href="attributes/codegen.html#r-attributes.codegen">attributes.codegen</a></li>
@@ -1452,10 +1535,27 @@ Uncovered rules
 <li><a href="attributes/codegen.html#r-attributes.codegen.instruction_set">attributes.codegen.instruction_set</a></li>
 <li><a href="attributes/codegen.html#r-attributes.codegen.instruction_set.allowed-positions">attributes.codegen.instruction_set.allowed-positions</a></li>
 <li><a href="attributes/codegen.html#r-attributes.codegen.instruction_set.arm">attributes.codegen.instruction_set.arm</a></li>
-<li><a href="attributes/codegen.html#r-attributes.codegen.instruction_set.behavior">attributes.codegen.instruction_set.behavior</a></li>
+<li><a href="attributes/codegen.html#r-attributes.codegen.instruction_set.duplicates">attributes.codegen.instruction_set.duplicates</a></li>
+<li><a href="attributes/codegen.html#r-attributes.codegen.instruction_set.inline-asm">attributes.codegen.instruction_set.inline-asm</a></li>
+<li><a href="attributes/codegen.html#r-attributes.codegen.instruction_set.intro">attributes.codegen.instruction_set.intro</a></li>
 <li><a href="attributes/codegen.html#r-attributes.codegen.instruction_set.syntax">attributes.codegen.instruction_set.syntax</a></li>
 <li><a href="attributes/codegen.html#r-attributes.codegen.instruction_set.target-limits">attributes.codegen.instruction_set.target-limits</a></li>
+<li><a href="attributes/codegen.html#r-attributes.codegen.naked">attributes.codegen.naked</a></li>
+<li><a href="attributes/codegen.html#r-attributes.codegen.naked.body">attributes.codegen.naked.body</a></li>
+<li><a href="attributes/codegen.html#r-attributes.codegen.naked.call-stack">attributes.codegen.naked.call-stack</a></li>
+<li><a href="attributes/codegen.html#r-attributes.codegen.naked.inline">attributes.codegen.naked.inline</a></li>
+<li><a href="attributes/codegen.html#r-attributes.codegen.naked.intro">attributes.codegen.naked.intro</a></li>
+<li><a href="attributes/codegen.html#r-attributes.codegen.naked.no-duplication">attributes.codegen.naked.no-duplication</a></li>
+<li><a href="attributes/codegen.html#r-attributes.codegen.naked.prologue-epilogue">attributes.codegen.naked.prologue-epilogue</a></li>
+<li><a href="attributes/codegen.html#r-attributes.codegen.naked.testing">attributes.codegen.naked.testing</a></li>
+<li><a href="attributes/codegen.html#r-attributes.codegen.naked.track_caller">attributes.codegen.naked.track_caller</a></li>
+<li><a href="attributes/codegen.html#r-attributes.codegen.naked.unsafe-attribute">attributes.codegen.naked.unsafe-attribute</a></li>
+<li><a href="attributes/codegen.html#r-attributes.codegen.naked.unused-variables">attributes.codegen.naked.unused-variables</a></li>
 <li><a href="attributes/codegen.html#r-attributes.codegen.no_builtins">attributes.codegen.no_builtins</a></li>
+<li><a href="attributes/codegen.html#r-attributes.codegen.no_builtins.allowed-positions">attributes.codegen.no_builtins.allowed-positions</a></li>
+<li><a href="attributes/codegen.html#r-attributes.codegen.no_builtins.duplicates">attributes.codegen.no_builtins.duplicates</a></li>
+<li><a href="attributes/codegen.html#r-attributes.codegen.no_builtins.intro">attributes.codegen.no_builtins.intro</a></li>
+<li><a href="attributes/codegen.html#r-attributes.codegen.no_builtins.syntax">attributes.codegen.no_builtins.syntax</a></li>
 <li><a href="attributes/codegen.html#r-attributes.codegen.target_feature">attributes.codegen.target_feature</a></li>
 <li><a href="attributes/codegen.html#r-attributes.codegen.target_feature.aarch64">attributes.codegen.target_feature.aarch64</a></li>
 <li><a href="attributes/codegen.html#r-attributes.codegen.target_feature.allowed-positions">attributes.codegen.target_feature.allowed-positions</a></li>
@@ -1466,6 +1566,7 @@ Uncovered rules
 <li><a href="attributes/codegen.html#r-attributes.codegen.target_feature.info">attributes.codegen.target_feature.info</a></li>
 <li><a href="attributes/codegen.html#r-attributes.codegen.target_feature.inline">attributes.codegen.target_feature.inline</a></li>
 <li><a href="attributes/codegen.html#r-attributes.codegen.target_feature.intro">attributes.codegen.target_feature.intro</a></li>
+<li><a href="attributes/codegen.html#r-attributes.codegen.target_feature.loongarch">attributes.codegen.target_feature.loongarch</a></li>
 <li><a href="attributes/codegen.html#r-attributes.codegen.target_feature.remark-cfg">attributes.codegen.target_feature.remark-cfg</a></li>
 <li><a href="attributes/codegen.html#r-attributes.codegen.target_feature.remark-rt">attributes.codegen.target_feature.remark-rt</a></li>
 <li><a href="attributes/codegen.html#r-attributes.codegen.target_feature.riscv">attributes.codegen.target_feature.riscv</a></li>
@@ -1486,10 +1587,10 @@ Uncovered rules
 </tr>
 <tr>
 <td><a href="attributes/limits.html">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;7.5. Limits</a></td>
-<td>7</td>
+<td>9</td>
 <td>0</td>
 <td><div class="popup-container">
-<a href="javascript:void(0)" onclick="spec_toggle_uncovered(35);">7</a>
+<a href="javascript:void(0)" onclick="spec_toggle_uncovered(35);">9</a>
 <div id="uncovered-35" class="uncovered-rules-popup popup-hidden">
 Uncovered rules
                         <ul><li><a href="attributes/limits.html#r-attributes.limits">attributes.limits</a></li>
@@ -1497,6 +1598,8 @@ Uncovered rules
 <li><a href="attributes/limits.html#r-attributes.limits.recursion_limit.intro">attributes.limits.recursion_limit.intro</a></li>
 <li><a href="attributes/limits.html#r-attributes.limits.recursion_limit.syntax">attributes.limits.recursion_limit.syntax</a></li>
 <li><a href="attributes/limits.html#r-attributes.limits.type_length_limit">attributes.limits.type_length_limit</a></li>
+<li><a href="attributes/limits.html#r-attributes.limits.type_length_limit.allowed-positions">attributes.limits.type_length_limit.allowed-positions</a></li>
+<li><a href="attributes/limits.html#r-attributes.limits.type_length_limit.duplicates">attributes.limits.type_length_limit.duplicates</a></li>
 <li><a href="attributes/limits.html#r-attributes.limits.type_length_limit.intro">attributes.limits.type_length_limit.intro</a></li>
 <li><a href="attributes/limits.html#r-attributes.limits.type_length_limit.syntax">attributes.limits.type_length_limit.syntax</a></li>
 </ul></div></div></td>
@@ -1524,19 +1627,23 @@ Uncovered rules
 </tr>
 <tr>
 <td><a href="attributes/debugger.html">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;7.7. Debugger</a></td>
-<td>16</td>
+<td>20</td>
 <td>0</td>
 <td><div class="popup-container">
-<a href="javascript:void(0)" onclick="spec_toggle_uncovered(37);">16</a>
+<a href="javascript:void(0)" onclick="spec_toggle_uncovered(37);">20</a>
 <div id="uncovered-37" class="uncovered-rules-popup popup-hidden">
 Uncovered rules
                         <ul><li><a href="attributes/debugger.html#r-attributes.debugger">attributes.debugger</a></li>
 <li><a href="attributes/debugger.html#r-attributes.debugger.collapse_debuginfo">attributes.debugger.collapse_debuginfo</a></li>
+<li><a href="attributes/debugger.html#r-attributes.debugger.collapse_debuginfo.allowed-positions">attributes.debugger.collapse_debuginfo.allowed-positions</a></li>
 <li><a href="attributes/debugger.html#r-attributes.debugger.collapse_debuginfo.default">attributes.debugger.collapse_debuginfo.default</a></li>
+<li><a href="attributes/debugger.html#r-attributes.debugger.collapse_debuginfo.duplicates">attributes.debugger.collapse_debuginfo.duplicates</a></li>
 <li><a href="attributes/debugger.html#r-attributes.debugger.collapse_debuginfo.intro">attributes.debugger.collapse_debuginfo.intro</a></li>
 <li><a href="attributes/debugger.html#r-attributes.debugger.collapse_debuginfo.options">attributes.debugger.collapse_debuginfo.options</a></li>
 <li><a href="attributes/debugger.html#r-attributes.debugger.collapse_debuginfo.syntax">attributes.debugger.collapse_debuginfo.syntax</a></li>
 <li><a href="attributes/debugger.html#r-attributes.debugger.debugger_visualizer">attributes.debugger.debugger_visualizer</a></li>
+<li><a href="attributes/debugger.html#r-attributes.debugger.debugger_visualizer.allowed-positions">attributes.debugger.debugger_visualizer.allowed-positions</a></li>
+<li><a href="attributes/debugger.html#r-attributes.debugger.debugger_visualizer.duplicates">attributes.debugger.debugger_visualizer.duplicates</a></li>
 <li><a href="attributes/debugger.html#r-attributes.debugger.debugger_visualizer.gdb">attributes.debugger.debugger_visualizer.gdb</a></li>
 <li><a href="attributes/debugger.html#r-attributes.debugger.debugger_visualizer.gdb.path">attributes.debugger.debugger_visualizer.gdb.path</a></li>
 <li><a href="attributes/debugger.html#r-attributes.debugger.debugger_visualizer.gdb.pretty">attributes.debugger.debugger_visualizer.gdb.pretty</a></li>
@@ -1796,7 +1903,7 @@ Uncovered rules
 <li><a href="expressions/block-expr.html#r-expr.block.inner-attributes">expr.block.inner-attributes</a></li>
 <li><a href="expressions/block-expr.html#r-expr.block.intro">expr.block.intro</a></li>
 <li><a href="expressions/block-expr.html#r-expr.block.label">expr.block.label</a></li>
-<li><a href="expressions/block-expr.html#r-expr.block.namepsace">expr.block.namepsace</a></li>
+<li><a href="expressions/block-expr.html#r-expr.block.namespace">expr.block.namespace</a></li>
 <li><a href="expressions/block-expr.html#r-expr.block.null-statement">expr.block.null-statement</a></li>
 <li><a href="expressions/block-expr.html#r-expr.block.result">expr.block.result</a></li>
 <li><a href="expressions/block-expr.html#r-expr.block.sequential-evaluation">expr.block.sequential-evaluation</a></li>
@@ -1812,10 +1919,10 @@ Uncovered rules
 </tr>
 <tr>
 <td><a href="expressions/operator-expr.html">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;8.2.4. Operator expressions</a></td>
-<td>112</td>
+<td>106</td>
 <td>0</td>
 <td><div class="popup-container">
-<a href="javascript:void(0)" onclick="spec_toggle_uncovered(44);">112</a>
+<a href="javascript:void(0)" onclick="spec_toggle_uncovered(44);">106</a>
 <div id="uncovered-44" class="uncovered-rules-popup popup-hidden">
 Uncovered rules
                         <ul><li><a href="expressions/operator-expr.html#r-expr.arith-logic">expr.arith-logic</a></li>
@@ -1852,8 +1959,7 @@ Uncovered rules
 <li><a href="expressions/operator-expr.html#r-expr.assign.basic">expr.assign.basic</a></li>
 <li><a href="expressions/operator-expr.html#r-expr.assign.behavior">expr.assign.behavior</a></li>
 <li><a href="expressions/operator-expr.html#r-expr.assign.behavior-basic">expr.assign.behavior-basic</a></li>
-<li><a href="expressions/operator-expr.html#r-expr.assign.behavior-destructring">expr.assign.behavior-destructring</a></li>
-<li><a href="expressions/operator-expr.html#r-expr.assign.destructring-order">expr.assign.destructring-order</a></li>
+<li><a href="expressions/operator-expr.html#r-expr.assign.behavior-destructuring">expr.assign.behavior-destructuring</a></li>
 <li><a href="expressions/operator-expr.html#r-expr.assign.destructure">expr.assign.destructure</a></li>
 <li><a href="expressions/operator-expr.html#r-expr.assign.destructure.assignee">expr.assign.destructure.assignee</a></li>
 <li><a href="expressions/operator-expr.html#r-expr.assign.destructure.default-binding">expr.assign.destructure.default-binding</a></li>
@@ -1861,6 +1967,7 @@ Uncovered rules
 <li><a href="expressions/operator-expr.html#r-expr.assign.destructure.intro">expr.assign.destructure.intro</a></li>
 <li><a href="expressions/operator-expr.html#r-expr.assign.destructure.irrefutable">expr.assign.destructure.irrefutable</a></li>
 <li><a href="expressions/operator-expr.html#r-expr.assign.destructure.repeat-ident">expr.assign.destructure.repeat-ident</a></li>
+<li><a href="expressions/operator-expr.html#r-expr.assign.destructuring-order">expr.assign.destructuring-order</a></li>
 <li><a href="expressions/operator-expr.html#r-expr.assign.drop-target">expr.assign.drop-target</a></li>
 <li><a href="expressions/operator-expr.html#r-expr.assign.evaluation-order">expr.assign.evaluation-order</a></li>
 <li><a href="expressions/operator-expr.html#r-expr.assign.intro">expr.assign.intro</a></li>
@@ -1888,7 +1995,7 @@ Uncovered rules
 <li><a href="expressions/operator-expr.html#r-expr.compound-assign.no-value">expr.compound-assign.no-value</a></li>
 <li><a href="expressions/operator-expr.html#r-expr.compound-assign.operand-order">expr.compound-assign.operand-order</a></li>
 <li><a href="expressions/operator-expr.html#r-expr.compound-assign.place">expr.compound-assign.place</a></li>
-<li><a href="expressions/operator-expr.html#r-expr.compound-assign.primitive-order">expr.compound-assign.primitive-order</a></li>
+<li><a href="expressions/operator-expr.html#r-expr.compound-assign.primitives">expr.compound-assign.primitives</a></li>
 <li><a href="expressions/operator-expr.html#r-expr.compound-assign.result">expr.compound-assign.result</a></li>
 <li><a href="expressions/operator-expr.html#r-expr.compound-assign.syntax">expr.compound-assign.syntax</a></li>
 <li><a href="expressions/operator-expr.html#r-expr.compound-assign.trait">expr.compound-assign.trait</a></li>
@@ -1909,6 +2016,7 @@ Uncovered rules
 <li><a href="expressions/operator-expr.html#r-expr.operator.borrow.lifetime">expr.operator.borrow.lifetime</a></li>
 <li><a href="expressions/operator-expr.html#r-expr.operator.borrow.mut">expr.operator.borrow.mut</a></li>
 <li><a href="expressions/operator-expr.html#r-expr.operator.borrow.result">expr.operator.borrow.result</a></li>
+<li><a href="expressions/operator-expr.html#r-expr.operator.borrow.syntax">expr.operator.borrow.syntax</a></li>
 <li><a href="expressions/operator-expr.html#r-expr.operator.borrow.temporary">expr.operator.borrow.temporary</a></li>
 <li><a href="expressions/operator-expr.html#r-expr.operator.int-overflow">expr.operator.int-overflow</a></li>
 <li><a href="expressions/operator-expr.html#r-expr.operator.int-overflow.binary-arith">expr.operator.int-overflow.binary-arith</a></li>
@@ -1920,16 +2028,9 @@ Uncovered rules
 <li><a href="expressions/operator-expr.html#r-expr.operator.syntax">expr.operator.syntax</a></li>
 <li><a href="expressions/operator-expr.html#r-expr.operator.trait">expr.operator.trait</a></li>
 <li><a href="expressions/operator-expr.html#r-expr.try">expr.try</a></li>
-<li><a href="expressions/operator-expr.html#r-expr.try.behavior-std-option">expr.try.behavior-std-option</a></li>
-<li><a href="expressions/operator-expr.html#r-expr.try.behavior-std-result">expr.try.behavior-std-result</a></li>
-<li><a href="expressions/operator-expr.html#r-expr.try.effects-err">expr.try.effects-err</a></li>
-<li><a href="expressions/operator-expr.html#r-expr.try.effects-none">expr.try.effects-none</a></li>
 <li><a href="expressions/operator-expr.html#r-expr.try.intro">expr.try.intro</a></li>
 <li><a href="expressions/operator-expr.html#r-expr.try.restricted-types">expr.try.restricted-types</a></li>
-<li><a href="expressions/operator-expr.html#r-expr.try.result-ok">expr.try.result-ok</a></li>
-<li><a href="expressions/operator-expr.html#r-expr.try.result-some">expr.try.result-some</a></li>
 <li><a href="expressions/operator-expr.html#r-expr.try.syntax">expr.try.syntax</a></li>
-<li><a href="expressions/operator-expr.html#r-expr.try.trait">expr.try.trait</a></li>
 </ul></div></div></td>
 <td>0.0%</td>
 </tr>
@@ -2012,10 +2113,10 @@ Uncovered rules
 </tr>
 <tr>
 <td><a href="expressions/struct-expr.html">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;8.2.8. Struct expressions</a></td>
-<td>16</td>
+<td>14</td>
 <td>0</td>
 <td><div class="popup-container">
-<a href="javascript:void(0)" onclick="spec_toggle_uncovered(48);">16</a>
+<a href="javascript:void(0)" onclick="spec_toggle_uncovered(48);">14</a>
 <div id="uncovered-48" class="uncovered-rules-popup popup-hidden">
 Uncovered rules
                         <ul><li><a href="expressions/struct-expr.html#r-expr.struct">expr.struct</a></li>
@@ -2026,9 +2127,7 @@ Uncovered rules
 <li><a href="expressions/struct-expr.html#r-expr.struct.field.union-constraint">expr.struct.field.union-constraint</a></li>
 <li><a href="expressions/struct-expr.html#r-expr.struct.intro">expr.struct.intro</a></li>
 <li><a href="expressions/struct-expr.html#r-expr.struct.syntax">expr.struct.syntax</a></li>
-<li><a href="expressions/struct-expr.html#r-expr.struct.tuple">expr.struct.tuple</a></li>
 <li><a href="expressions/struct-expr.html#r-expr.struct.tuple-field">expr.struct.tuple-field</a></li>
-<li><a href="expressions/struct-expr.html#r-expr.struct.unit">expr.struct.unit</a></li>
 <li><a href="expressions/struct-expr.html#r-expr.struct.update">expr.struct.update</a></li>
 <li><a href="expressions/struct-expr.html#r-expr.struct.update.base-same-type">expr.struct.update.base-same-type</a></li>
 <li><a href="expressions/struct-expr.html#r-expr.struct.update.fields">expr.struct.update.fields</a></li>
@@ -2131,10 +2230,10 @@ Uncovered rules
 </tr>
 <tr>
 <td><a href="expressions/loop-expr.html">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;8.2.13. Loop expressions</a></td>
-<td>53</td>
+<td>56</td>
 <td>0</td>
 <td><div class="popup-container">
-<a href="javascript:void(0)" onclick="spec_toggle_uncovered(53);">53</a>
+<a href="javascript:void(0)" onclick="spec_toggle_uncovered(53);">56</a>
 <div id="uncovered-53" class="uncovered-rules-popup popup-hidden">
 Uncovered rules
                         <ul><li><a href="expressions/loop-expr.html#r-expr.loop">expr.loop</a></li>
@@ -2180,15 +2279,18 @@ Uncovered rules
 <li><a href="expressions/loop-expr.html#r-expr.loop.label.syntax">expr.loop.label.syntax</a></li>
 <li><a href="expressions/loop-expr.html#r-expr.loop.syntax">expr.loop.syntax</a></li>
 <li><a href="expressions/loop-expr.html#r-expr.loop.while">expr.loop.while</a></li>
+<li><a href="expressions/loop-expr.html#r-expr.loop.while.chains">expr.loop.while.chains</a></li>
+<li><a href="expressions/loop-expr.html#r-expr.loop.while.chains.intro">expr.loop.while.chains.intro</a></li>
 <li><a href="expressions/loop-expr.html#r-expr.loop.while.condition">expr.loop.while.condition</a></li>
+<li><a href="expressions/loop-expr.html#r-expr.loop.while.eval">expr.loop.while.eval</a></li>
+<li><a href="expressions/loop-expr.html#r-expr.loop.while.exit">expr.loop.while.exit</a></li>
+<li><a href="expressions/loop-expr.html#r-expr.loop.while.grammar">expr.loop.while.grammar</a></li>
 <li><a href="expressions/loop-expr.html#r-expr.loop.while.intro">expr.loop.while.intro</a></li>
 <li><a href="expressions/loop-expr.html#r-expr.loop.while.let">expr.loop.while.let</a></li>
-<li><a href="expressions/loop-expr.html#r-expr.loop.while.let.condition">expr.loop.while.let.condition</a></li>
 <li><a href="expressions/loop-expr.html#r-expr.loop.while.let.desugar">expr.loop.while.let.desugar</a></li>
 <li><a href="expressions/loop-expr.html#r-expr.loop.while.let.intro">expr.loop.while.let.intro</a></li>
-<li><a href="expressions/loop-expr.html#r-expr.loop.while.let.lazy-bool">expr.loop.while.let.lazy-bool</a></li>
 <li><a href="expressions/loop-expr.html#r-expr.loop.while.let.or-pattern">expr.loop.while.let.or-pattern</a></li>
-<li><a href="expressions/loop-expr.html#r-expr.loop.while.let.syntax">expr.loop.while.let.syntax</a></li>
+<li><a href="expressions/loop-expr.html#r-expr.loop.while.repeat">expr.loop.while.repeat</a></li>
 <li><a href="expressions/loop-expr.html#r-expr.loop.while.syntax">expr.loop.while.syntax</a></li>
 </ul></div></div></td>
 <td>0.0%</td>
@@ -2210,29 +2312,28 @@ Uncovered rules
 <td>0.0%</td>
 </tr>
 <tr>
-<td><a href="expressions/if-expr.html">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;8.2.15. If and if let expressions</a></td>
-<td>19</td>
+<td><a href="expressions/if-expr.html">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;8.2.15. If expressions</a></td>
+<td>18</td>
 <td>0</td>
 <td><div class="popup-container">
-<a href="javascript:void(0)" onclick="spec_toggle_uncovered(55);">19</a>
+<a href="javascript:void(0)" onclick="spec_toggle_uncovered(55);">18</a>
 <div id="uncovered-55" class="uncovered-rules-popup popup-hidden">
 Uncovered rules
                         <ul><li><a href="expressions/if-expr.html#r-expr.if">expr.if</a></li>
-<li><a href="expressions/if-expr.html#r-expr.if.condition-bool">expr.if.condition-bool</a></li>
+<li><a href="expressions/if-expr.html#r-expr.if.chains">expr.if.chains</a></li>
+<li><a href="expressions/if-expr.html#r-expr.if.chains.bindings">expr.if.chains.bindings</a></li>
+<li><a href="expressions/if-expr.html#r-expr.if.chains.intro">expr.if.chains.intro</a></li>
+<li><a href="expressions/if-expr.html#r-expr.if.chains.or">expr.if.chains.or</a></li>
+<li><a href="expressions/if-expr.html#r-expr.if.chains.order">expr.if.chains.order</a></li>
+<li><a href="expressions/if-expr.html#r-expr.if.condition">expr.if.condition</a></li>
 <li><a href="expressions/if-expr.html#r-expr.if.condition-true">expr.if.condition-true</a></li>
+<li><a href="expressions/if-expr.html#r-expr.if.edition2024">expr.if.edition2024</a></li>
 <li><a href="expressions/if-expr.html#r-expr.if.else">expr.if.else</a></li>
 <li><a href="expressions/if-expr.html#r-expr.if.else-if">expr.if.else-if</a></li>
 <li><a href="expressions/if-expr.html#r-expr.if.intro">expr.if.intro</a></li>
 <li><a href="expressions/if-expr.html#r-expr.if.let">expr.if.let</a></li>
-<li><a href="expressions/if-expr.html#r-expr.if.let.desugaring">expr.if.let.desugaring</a></li>
-<li><a href="expressions/if-expr.html#r-expr.if.let.else">expr.if.let.else</a></li>
-<li><a href="expressions/if-expr.html#r-expr.if.let.else-if">expr.if.let.else-if</a></li>
 <li><a href="expressions/if-expr.html#r-expr.if.let.intro">expr.if.let.intro</a></li>
-<li><a href="expressions/if-expr.html#r-expr.if.let.lazy-bool">expr.if.let.lazy-bool</a></li>
 <li><a href="expressions/if-expr.html#r-expr.if.let.or-pattern">expr.if.let.or-pattern</a></li>
-<li><a href="expressions/if-expr.html#r-expr.if.let.pattern">expr.if.let.pattern</a></li>
-<li><a href="expressions/if-expr.html#r-expr.if.let.result">expr.if.let.result</a></li>
-<li><a href="expressions/if-expr.html#r-expr.if.let.syntax">expr.if.let.syntax</a></li>
 <li><a href="expressions/if-expr.html#r-expr.if.result">expr.if.result</a></li>
 <li><a href="expressions/if-expr.html#r-expr.if.syntax">expr.if.syntax</a></li>
 <li><a href="expressions/if-expr.html#r-expr.if.type">expr.if.type</a></li>
@@ -2328,10 +2429,10 @@ Uncovered rules
 </tr>
 <tr>
 <td><a href="patterns.html">9. Patterns</a></td>
-<td>137</td>
+<td>140</td>
 <td>0</td>
 <td><div class="popup-container">
-<a href="javascript:void(0)" onclick="spec_toggle_uncovered(60);">137</a>
+<a href="javascript:void(0)" onclick="spec_toggle_uncovered(60);">140</a>
 <div id="uncovered-60" class="uncovered-rules-popup popup-hidden">
 Uncovered rules
                         <ul><li><a href="patterns.html#r-patterns">patterns</a></li>
@@ -2343,6 +2444,7 @@ Uncovered rules
 <li><a href="patterns.html#r-patterns.const.exhaustive">patterns.const.exhaustive</a></li>
 <li><a href="patterns.html#r-patterns.const.float">patterns.const.float</a></li>
 <li><a href="patterns.html#r-patterns.const.generic">patterns.const.generic</a></li>
+<li><a href="patterns.html#r-patterns.const.immutable">patterns.const.immutable</a></li>
 <li><a href="patterns.html#r-patterns.const.partial-eq">patterns.const.partial-eq</a></li>
 <li><a href="patterns.html#r-patterns.const.pointer">patterns.const.pointer</a></li>
 <li><a href="patterns.html#r-patterns.const.primitive">patterns.const.primitive</a></li>
@@ -2356,7 +2458,7 @@ Uncovered rules
 <li><a href="patterns.html#r-patterns.destructure">patterns.destructure</a></li>
 <li><a href="patterns.html#r-patterns.destructure.intro">patterns.destructure.intro</a></li>
 <li><a href="patterns.html#r-patterns.destructure.named-field-shorthand">patterns.destructure.named-field-shorthand</a></li>
-<li><a href="patterns.html#r-patterns.destructure.placeholder">patterns.destructure.placeholder</a></li>
+<li><a href="patterns.html#r-patterns.destructure.wildcard">patterns.destructure.wildcard</a></li>
 <li><a href="patterns.html#r-patterns.for">patterns.for</a></li>
 <li><a href="patterns.html#r-patterns.ident">patterns.ident</a></li>
 <li><a href="patterns.html#r-patterns.ident.bare">patterns.ident.bare</a></li>
@@ -2451,12 +2553,14 @@ Uncovered rules
 <li><a href="patterns.html#r-patterns.struct.constraint-union">patterns.struct.constraint-union</a></li>
 <li><a href="patterns.html#r-patterns.struct.ignore-rest">patterns.struct.ignore-rest</a></li>
 <li><a href="patterns.html#r-patterns.struct.intro">patterns.struct.intro</a></li>
+<li><a href="patterns.html#r-patterns.struct.namespace">patterns.struct.namespace</a></li>
 <li><a href="patterns.html#r-patterns.struct.refutable">patterns.struct.refutable</a></li>
 <li><a href="patterns.html#r-patterns.struct.syntax">patterns.struct.syntax</a></li>
 <li><a href="patterns.html#r-patterns.syntax">patterns.syntax</a></li>
 <li><a href="patterns.html#r-patterns.tuple">patterns.tuple</a></li>
 <li><a href="patterns.html#r-patterns.tuple-struct">patterns.tuple-struct</a></li>
 <li><a href="patterns.html#r-patterns.tuple-struct.intro">patterns.tuple-struct.intro</a></li>
+<li><a href="patterns.html#r-patterns.tuple-struct.namespace">patterns.tuple-struct.namespace</a></li>
 <li><a href="patterns.html#r-patterns.tuple-struct.refutable">patterns.tuple-struct.refutable</a></li>
 <li><a href="patterns.html#r-patterns.tuple-struct.syntax">patterns.tuple-struct.syntax</a></li>
 <li><a href="patterns.html#r-patterns.tuple.intro">patterns.tuple.intro</a></li>
@@ -3143,13 +3247,14 @@ Uncovered rules
 </tr>
 <tr>
 <td><a href="destructors.html">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;10.8. Destructors</a></td>
-<td>44</td>
+<td>46</td>
 <td>0</td>
 <td><div class="popup-container">
-<a href="javascript:void(0)" onclick="spec_toggle_uncovered(87);">44</a>
+<a href="javascript:void(0)" onclick="spec_toggle_uncovered(87);">46</a>
 <div id="uncovered-87" class="uncovered-rules-popup popup-hidden">
 Uncovered rules
-                        <ul><li><a href="destructors.html#r-destructors.drop_in_place">destructors.drop_in_place</a></li>
+                        <ul><li><a href="destructors.html#r-destructors">destructors</a></li>
+<li><a href="destructors.html#r-destructors.drop_in_place">destructors.drop_in_place</a></li>
 <li><a href="destructors.html#r-destructors.forget">destructors.forget</a></li>
 <li><a href="destructors.html#r-destructors.intro">destructors.intro</a></li>
 <li><a href="destructors.html#r-destructors.manually-suppressing">destructors.manually-suppressing</a></li>
@@ -3158,7 +3263,8 @@ Uncovered rules
 <li><a href="destructors.html#r-destructors.scope">destructors.scope</a></li>
 <li><a href="destructors.html#r-destructors.scope.bindings">destructors.scope.bindings</a></li>
 <li><a href="destructors.html#r-destructors.scope.bindings.intro">destructors.scope.bindings.intro</a></li>
-<li><a href="destructors.html#r-destructors.scope.bindings.match-pattern-order">destructors.scope.bindings.match-pattern-order</a></li>
+<li><a href="destructors.html#r-destructors.scope.bindings.or-patterns">destructors.scope.bindings.or-patterns</a></li>
+<li><a href="destructors.html#r-destructors.scope.bindings.patterns">destructors.scope.bindings.patterns</a></li>
 <li><a href="destructors.html#r-destructors.scope.block">destructors.scope.block</a></li>
 <li><a href="destructors.html#r-destructors.scope.const-promotion">destructors.scope.const-promotion</a></li>
 <li><a href="destructors.html#r-destructors.scope.desugaring">destructors.scope.desugaring</a></li>
@@ -3397,9 +3503,9 @@ Uncovered rules
 <li><a href="names/scopes.html#r-names.scopes.macro_rules">names.scopes.macro_rules</a></li>
 <li><a href="names/scopes.html#r-names.scopes.pattern-bindings">names.scopes.pattern-bindings</a></li>
 <li><a href="names/scopes.html#r-names.scopes.pattern-bindings.closure">names.scopes.pattern-bindings.closure</a></li>
-<li><a href="names/scopes.html#r-names.scopes.pattern-bindings.if-let">names.scopes.pattern-bindings.if-let</a></li>
 <li><a href="names/scopes.html#r-names.scopes.pattern-bindings.items">names.scopes.pattern-bindings.items</a></li>
 <li><a href="names/scopes.html#r-names.scopes.pattern-bindings.let">names.scopes.pattern-bindings.let</a></li>
+<li><a href="names/scopes.html#r-names.scopes.pattern-bindings.let-chains">names.scopes.pattern-bindings.let-chains</a></li>
 <li><a href="names/scopes.html#r-names.scopes.pattern-bindings.loop">names.scopes.pattern-bindings.loop</a></li>
 <li><a href="names/scopes.html#r-names.scopes.pattern-bindings.match-arm">names.scopes.pattern-bindings.match-arm</a></li>
 <li><a href="names/scopes.html#r-names.scopes.pattern-bindings.parameter">names.scopes.pattern-bindings.parameter</a></li>
@@ -3675,10 +3781,10 @@ Uncovered rules
 </tr>
 <tr>
 <td><a href="inline-assembly.html">16. Inline assembly</a></td>
-<td>104</td>
+<td>117</td>
 <td>0</td>
 <td><div class="popup-container">
-<a href="javascript:void(0)" onclick="spec_toggle_uncovered(102);">104</a>
+<a href="javascript:void(0)" onclick="spec_toggle_uncovered(102);">117</a>
 <div id="uncovered-102" class="uncovered-rules-popup popup-hidden">
 Uncovered rules
                         <ul><li><a href="inline-assembly.html#r-asm">asm</a></li>
@@ -3694,10 +3800,21 @@ Uncovered rules
 <li><a href="inline-assembly.html#r-asm.directives.supported-directives">asm.directives.supported-directives</a></li>
 <li><a href="inline-assembly.html#r-asm.example">asm.example</a></li>
 <li><a href="inline-assembly.html#r-asm.intro">asm.intro</a></li>
+<li><a href="inline-assembly.html#r-asm.naked-rules">asm.naked-rules</a></li>
+<li><a href="inline-assembly.html#r-asm.naked-rules.black-box">asm.naked-rules.black-box</a></li>
+<li><a href="inline-assembly.html#r-asm.naked-rules.callee-saved-registers">asm.naked-rules.callee-saved-registers</a></li>
+<li><a href="inline-assembly.html#r-asm.naked-rules.caller-saved-registers">asm.naked-rules.caller-saved-registers</a></li>
+<li><a href="inline-assembly.html#r-asm.naked-rules.intro">asm.naked-rules.intro</a></li>
+<li><a href="inline-assembly.html#r-asm.naked-rules.mem-same-as-ffi">asm.naked-rules.mem-same-as-ffi</a></li>
+<li><a href="inline-assembly.html#r-asm.naked-rules.noreturn">asm.naked-rules.noreturn</a></li>
+<li><a href="inline-assembly.html#r-asm.naked-rules.reg-not-input">asm.naked-rules.reg-not-input</a></li>
+<li><a href="inline-assembly.html#r-asm.naked-rules.unwind">asm.naked-rules.unwind</a></li>
 <li><a href="inline-assembly.html#r-asm.operand-type">asm.operand-type</a></li>
 <li><a href="inline-assembly.html#r-asm.operand-type.global_asm-restriction">asm.operand-type.global_asm-restriction</a></li>
 <li><a href="inline-assembly.html#r-asm.operand-type.left-to-right">asm.operand-type.left-to-right</a></li>
+<li><a href="inline-assembly.html#r-asm.operand-type.naked_asm-restriction">asm.operand-type.naked_asm-restriction</a></li>
 <li><a href="inline-assembly.html#r-asm.operand-type.supported-operands">asm.operand-type.supported-operands</a></li>
+<li><a href="inline-assembly.html#r-asm.operand-type.supported-operands.const">asm.operand-type.supported-operands.const</a></li>
 <li><a href="inline-assembly.html#r-asm.operand-type.supported-operands.in">asm.operand-type.supported-operands.in</a></li>
 <li><a href="inline-assembly.html#r-asm.operand-type.supported-operands.inlateout">asm.operand-type.supported-operands.inlateout</a></li>
 <li><a href="inline-assembly.html#r-asm.operand-type.supported-operands.inout">asm.operand-type.supported-operands.inout</a></li>
@@ -3713,6 +3830,7 @@ Uncovered rules
 <li><a href="inline-assembly.html#r-asm.options.checks.noreturn">asm.options.checks.noreturn</a></li>
 <li><a href="inline-assembly.html#r-asm.options.checks.pure">asm.options.checks.pure</a></li>
 <li><a href="inline-assembly.html#r-asm.options.global_asm-restriction">asm.options.global_asm-restriction</a></li>
+<li><a href="inline-assembly.html#r-asm.options.naked_asm-restriction">asm.options.naked_asm-restriction</a></li>
 <li><a href="inline-assembly.html#r-asm.options.supported-options">asm.options.supported-options</a></li>
 <li><a href="inline-assembly.html#r-asm.options.supported-options.att_syntax">asm.options.supported-options.att_syntax</a></li>
 <li><a href="inline-assembly.html#r-asm.options.supported-options.nomem">asm.options.supported-options.nomem</a></li>
@@ -3759,6 +3877,7 @@ Uncovered rules
 <li><a href="inline-assembly.html#r-asm.scope.asm">asm.scope.asm</a></li>
 <li><a href="inline-assembly.html#r-asm.scope.global_asm">asm.scope.global_asm</a></li>
 <li><a href="inline-assembly.html#r-asm.scope.intro">asm.scope.intro</a></li>
+<li><a href="inline-assembly.html#r-asm.scope.naked_asm">asm.scope.naked_asm</a></li>
 <li><a href="inline-assembly.html#r-asm.stable-targets">asm.stable-targets</a></li>
 <li><a href="inline-assembly.html#r-asm.syntax">asm.syntax</a></li>
 <li><a href="inline-assembly.html#r-asm.target-specific-directives">asm.target-specific-directives</a></li>
@@ -3812,10 +3931,10 @@ Uncovered rules
 </tr>
 <tr>
 <td><a href="unsafe-keyword.html">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;17.1. The unsafe keyword</a></td>
-<td>15</td>
+<td>16</td>
 <td>0</td>
 <td><div class="popup-container">
-<a href="javascript:void(0)" onclick="spec_toggle_uncovered(104);">15</a>
+<a href="javascript:void(0)" onclick="spec_toggle_uncovered(104);">16</a>
 <div id="uncovered-104" class="uncovered-rules-popup popup-hidden">
 Uncovered rules
                         <ul><li><a href="unsafe-keyword.html#r-unsafe">unsafe</a></li>
@@ -3830,6 +3949,7 @@ Uncovered rules
 <li><a href="unsafe-keyword.html#r-unsafe.fn.safety">unsafe.fn.safety</a></li>
 <li><a href="unsafe-keyword.html#r-unsafe.impl">unsafe.impl</a></li>
 <li><a href="unsafe-keyword.html#r-unsafe.intro">unsafe.intro</a></li>
+<li><a href="unsafe-keyword.html#r-unsafe.positions">unsafe.positions</a></li>
 <li><a href="unsafe-keyword.html#r-unsafe.trait">unsafe.trait</a></li>
 <li><a href="unsafe-keyword.html#r-unsafe.trait.intro">unsafe.trait.intro</a></li>
 <li><a href="unsafe-keyword.html#r-unsafe.trait.safety">unsafe.trait.safety</a></li>
@@ -3898,10 +4018,10 @@ Uncovered rules
 </tr>
 <tr>
 <td><a href="const_eval.html">18. Constant Evaluation</a></td>
-<td>39</td>
+<td>40</td>
 <td>0</td>
 <td><div class="popup-container">
-<a href="javascript:void(0)" onclick="spec_toggle_uncovered(107);">39</a>
+<a href="javascript:void(0)" onclick="spec_toggle_uncovered(107);">40</a>
 <div id="uncovered-107" class="uncovered-rules-popup popup-hidden">
 Uncovered rules
                         <ul><li><a href="const_eval.html#r-const-eval">const-eval</a></li>
@@ -3911,6 +4031,7 @@ Uncovered rules
 <li><a href="const_eval.html#r-const-eval.const-context.general">const-eval.const-context.general</a></li>
 <li><a href="const_eval.html#r-const-eval.const-context.generic">const-eval.const-context.generic</a></li>
 <li><a href="const_eval.html#r-const-eval.const-context.init">const-eval.const-context.init</a></li>
+<li><a href="const_eval.html#r-const-eval.const-context.outer-generics">const-eval.const-context.outer-generics</a></li>
 <li><a href="const_eval.html#r-const-eval.const-context.repeat-length">const-eval.const-context.repeat-length</a></li>
 <li><a href="const_eval.html#r-const-eval.const-expr">const-eval.const-expr</a></li>
 <li><a href="const_eval.html#r-const-eval.const-expr.array">const-eval.const-expr.array</a></li>
@@ -3948,23 +4069,54 @@ Uncovered rules
 </tr>
 <tr>
 <td><a href="abi.html">19. Application Binary Interface</a></td>
+<td>19</td>
 <td>0</td>
-<td></td>
-<td></td>
-<td></td>
+<td><div class="popup-container">
+<a href="javascript:void(0)" onclick="spec_toggle_uncovered(108);">19</a>
+<div id="uncovered-108" class="uncovered-rules-popup popup-hidden">
+Uncovered rules
+                        <ul><li><a href="abi.html#r-abi">abi</a></li>
+<li><a href="abi.html#r-abi.export_name">abi.export_name</a></li>
+<li><a href="abi.html#r-abi.export_name.edition2024">abi.export_name.edition2024</a></li>
+<li><a href="abi.html#r-abi.export_name.intro">abi.export_name.intro</a></li>
+<li><a href="abi.html#r-abi.export_name.syntax">abi.export_name.syntax</a></li>
+<li><a href="abi.html#r-abi.export_name.unsafe">abi.export_name.unsafe</a></li>
+<li><a href="abi.html#r-abi.intro">abi.intro</a></li>
+<li><a href="abi.html#r-abi.link_section">abi.link_section</a></li>
+<li><a href="abi.html#r-abi.link_section.edition2024">abi.link_section.edition2024</a></li>
+<li><a href="abi.html#r-abi.link_section.intro">abi.link_section.intro</a></li>
+<li><a href="abi.html#r-abi.link_section.syntax">abi.link_section.syntax</a></li>
+<li><a href="abi.html#r-abi.link_section.unsafe">abi.link_section.unsafe</a></li>
+<li><a href="abi.html#r-abi.no_mangle">abi.no_mangle</a></li>
+<li><a href="abi.html#r-abi.no_mangle.edition2024">abi.no_mangle.edition2024</a></li>
+<li><a href="abi.html#r-abi.no_mangle.intro">abi.no_mangle.intro</a></li>
+<li><a href="abi.html#r-abi.no_mangle.publicly-exported">abi.no_mangle.publicly-exported</a></li>
+<li><a href="abi.html#r-abi.no_mangle.unsafe">abi.no_mangle.unsafe</a></li>
+<li><a href="abi.html#r-abi.used">abi.used</a></li>
+<li><a href="abi.html#r-abi.used.intro">abi.used.intro</a></li>
+</ul></div></div></td>
+<td>0.0%</td>
 </tr>
 <tr>
 <td><a href="runtime.html">20. The Rust runtime</a></td>
-<td>8</td>
+<td>16</td>
 <td>0</td>
 <td><div class="popup-container">
-<a href="javascript:void(0)" onclick="spec_toggle_uncovered(109);">8</a>
+<a href="javascript:void(0)" onclick="spec_toggle_uncovered(109);">16</a>
 <div id="uncovered-109" class="uncovered-rules-popup popup-hidden">
 Uncovered rules
                         <ul><li><a href="runtime.html#r-runtime">runtime</a></li>
 <li><a href="runtime.html#r-runtime.global_allocator">runtime.global_allocator</a></li>
+<li><a href="runtime.html#r-runtime.global_allocator.allowed-positions">runtime.global_allocator.allowed-positions</a></li>
+<li><a href="runtime.html#r-runtime.global_allocator.duplicates">runtime.global_allocator.duplicates</a></li>
+<li><a href="runtime.html#r-runtime.global_allocator.intro">runtime.global_allocator.intro</a></li>
+<li><a href="runtime.html#r-runtime.global_allocator.single">runtime.global_allocator.single</a></li>
+<li><a href="runtime.html#r-runtime.global_allocator.stdlib">runtime.global_allocator.stdlib</a></li>
+<li><a href="runtime.html#r-runtime.global_allocator.syntax">runtime.global_allocator.syntax</a></li>
 <li><a href="runtime.html#r-runtime.windows_subsystem">runtime.windows_subsystem</a></li>
+<li><a href="runtime.html#r-runtime.windows_subsystem.allowed-positions">runtime.windows_subsystem.allowed-positions</a></li>
 <li><a href="runtime.html#r-runtime.windows_subsystem.console">runtime.windows_subsystem.console</a></li>
+<li><a href="runtime.html#r-runtime.windows_subsystem.duplicates">runtime.windows_subsystem.duplicates</a></li>
 <li><a href="runtime.html#r-runtime.windows_subsystem.ignored">runtime.windows_subsystem.ignored</a></li>
 <li><a href="runtime.html#r-runtime.windows_subsystem.intro">runtime.windows_subsystem.intro</a></li>
 <li><a href="runtime.html#r-runtime.windows_subsystem.syntax">runtime.windows_subsystem.syntax</a></li>
@@ -3980,12 +4132,19 @@ Uncovered rules
 <td></td>
 </tr>
 <tr>
-<td><a href="macro-ambiguity.html">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;21.1. Macro Follow-Set Ambiguity Formal Specification</a></td>
+<td><a href="grammar.html">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;21.1. Grammar summary</a></td>
+<td>0</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="macro-ambiguity.html">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;21.2. Macro Follow-Set Ambiguity Formal Specification</a></td>
 <td>45</td>
 <td>0</td>
 <td><div class="popup-container">
-<a href="javascript:void(0)" onclick="spec_toggle_uncovered(111);">45</a>
-<div id="uncovered-111" class="uncovered-rules-popup popup-hidden">
+<a href="javascript:void(0)" onclick="spec_toggle_uncovered(112);">45</a>
+<div id="uncovered-112" class="uncovered-rules-popup popup-hidden">
 Uncovered rules
                         <ul><li><a href="macro-ambiguity.html#r-macro.ambiguity">macro.ambiguity</a></li>
 <li><a href="macro-ambiguity.html#r-macro.ambiguity.convention">macro.ambiguity.convention</a></li>
@@ -4036,21 +4195,21 @@ Uncovered rules
 <td>0.0%</td>
 </tr>
 <tr>
-<td><a href="influences.html">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;21.2. Influences</a></td>
+<td><a href="influences.html">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;21.3. Influences</a></td>
 <td>0</td>
 <td></td>
 <td></td>
 <td></td>
 </tr>
 <tr>
-<td><a href="test-summary.html">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;21.3. Test summary</a></td>
+<td><a href="test-summary.html">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;21.4. Test summary</a></td>
 <td>0</td>
 <td></td>
 <td></td>
 <td></td>
 </tr>
 <tr>
-<td><a href="glossary.html">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;21.4. Glossary</a></td>
+<td><a href="glossary.html">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;21.5. Glossary</a></td>
 <td>0</td>
 <td></td>
 <td></td>
@@ -4058,10 +4217,10 @@ Uncovered rules
 </tr>
 <tr>
 <td><b>Total:</b></td>
-<td>2680</td>
-<td>53</td>
-<td>2659</td>
-<td>0.8%</td>
+<td>2784</td>
+<td>0</td>
+<td>2784</td>
+<td>0.0%</td>
 </tr>
 </table>
 
@@ -4070,11 +4229,10 @@ Uncovered rules
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
                             <a rel="prev" href="influences.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
-                                <i class="fa fa-angle-left"></i>
-                            </a>
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
 
                             <a rel="next prefetch" href="glossary.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
-                                <i class="fa fa-angle-right"></i>
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
                             </a>
 
                         <div style="clear: both"></div>
@@ -4084,16 +4242,21 @@ Uncovered rules
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
                     <a rel="prev" href="influences.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
-                        <i class="fa fa-angle-left"></i>
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
                     </a>
 
                     <a rel="next prefetch" href="glossary.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
-                        <i class="fa fa-angle-right"></i>
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
                     </a>
             </nav>
 
         </div>
 
+        <template id=fa-eye><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM432 256c0 79.5-64.5 144-144 144s-144-64.5-144-144s64.5-144 144-144s144 64.5 144 144zM288 192c0 35.3-28.7 64-64 64c-11.5 0-22.3-3-31.6-8.4c-.2 2.8-.4 5.5-.4 8.4c0 53 43 96 96 96s96-43 96-96s-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6z"/></svg></span></template>
+        <template id=fa-eye-slash><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M38.8 5.1C28.4-3.1 13.3-1.2 5.1 9.2S-1.2 34.7 9.2 42.9l592 464c10.4 8.2 25.5 6.3 33.7-4.1s6.3-25.5-4.1-33.7L525.6 386.7c39.6-40.6 66.4-86.1 79.9-118.4c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C465.5 68.8 400.8 32 320 32c-68.2 0-125 26.3-169.3 60.8L38.8 5.1zM223.1 149.5C248.6 126.2 282.7 112 320 112c79.5 0 144 64.5 144 144c0 24.9-6.3 48.3-17.4 68.7L408 294.5c5.2-11.8 8-24.8 8-38.5c0-53-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6c0 10.2-2.4 19.8-6.6 28.3l-90.3-70.8zm223.1 298L373 389.9c-16.4 6.5-34.3 10.1-53 10.1c-79.5 0-144-64.5-144-144c0-6.9 .5-13.6 1.4-20.2L83.1 161.5C60.3 191.2 44 220.8 34.5 243.7c-3.3 7.9-3.3 16.7 0 24.6c14.9 35.7 46.2 87.7 93 131.1C174.5 443.2 239.2 480 320 480c47.8 0 89.9-12.9 126.2-32.5z"/></svg></span></template>
+        <template id=fa-copy><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M502.6 70.63l-61.25-61.25C435.4 3.371 427.2 0 418.7 0H255.1c-35.35 0-64 28.66-64 64l.0195 256C192 355.4 220.7 384 256 384h192c35.2 0 64-28.8 64-64V93.25C512 84.77 508.6 76.63 502.6 70.63zM464 320c0 8.836-7.164 16-16 16H255.1c-8.838 0-16-7.164-16-16L239.1 64.13c0-8.836 7.164-16 16-16h128L384 96c0 17.67 14.33 32 32 32h47.1V320zM272 448c0 8.836-7.164 16-16 16H63.1c-8.838 0-16-7.164-16-16L47.98 192.1c0-8.836 7.164-16 16-16H160V128H63.99c-35.35 0-64 28.65-64 64l.0098 256C.002 483.3 28.66 512 64 512h192c35.2 0 64-28.8 64-64v-32h-47.1L272 448z"/></svg></span></template>
+        <template id=fa-play><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/></svg></span></template>
+        <template id=fa-clock-rotate-left><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M75 75L41 41C25.9 25.9 0 36.6 0 57.9V168c0 13.3 10.7 24 24 24H134.1c21.4 0 32.1-25.9 17-41l-30.8-30.8C155 85.5 203 64 256 64c106 0 192 86 192 192s-86 192-192 192c-40.8 0-78.6-12.7-109.7-34.4c-14.5-10.1-34.4-6.6-44.6 7.9s-6.6 34.4 7.9 44.6C151.2 495 201.7 512 256 512c141.4 0 256-114.6 256-256S397.4 0 256 0C185.3 0 121.3 28.7 75 75zm181 53c-13.3 0-24 10.7-24 24V256c0 6.4 2.5 12.5 7 17l72 72c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-65-65V152c0-13.3-10.7-24-24-24z"/></svg></span></template>
 
 
 
@@ -4102,16 +4265,17 @@ Uncovered rules
         </script>
 
 
-        <script src="elasticlunr.min.js"></script>
-        <script src="mark.min.js"></script>
-        <script src="searcher.js"></script>
+        <script src="elasticlunr-ef4e11c1.min.js"></script>
+        <script src="mark-09e88c2c.min.js"></script>
+        <script src="searcher-c2a407aa.js"></script>
 
-        <script src="clipboard.min.js"></script>
-        <script src="highlight.js"></script>
-        <script src="book.js"></script>
+        <script src="clipboard-1626706a.min.js"></script>
+        <script src="highlight-abc7f01d.js"></script>
+        <script src="book-81fc5345.js"></script>
 
         <!-- Custom JS scripts -->
-        <script src="theme/reference.js"></script>
+        <script src="theme/reference-cfed9ca5.js"></script>
+
 
 
     </div>

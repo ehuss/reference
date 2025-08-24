@@ -12,24 +12,23 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff">
 
-        <link rel="icon" href="favicon.svg">
-        <link rel="shortcut icon" href="favicon.png">
-        <link rel="stylesheet" href="css/variables.css">
-        <link rel="stylesheet" href="css/general.css">
-        <link rel="stylesheet" href="css/chrome.css">
-        <link rel="stylesheet" href="css/print.css" media="print">
+        <link rel="icon" href="favicon-de23e50b.svg">
+        <link rel="shortcut icon" href="favicon-8114d1fc.png">
+        <link rel="stylesheet" href="css/variables-3865ffda.css">
+        <link rel="stylesheet" href="css/general-d297d479.css">
+        <link rel="stylesheet" href="css/chrome-03ed7f09.css">
+        <link rel="stylesheet" href="css/print-9e4910d8.css" media="print">
 
         <!-- Fonts -->
-        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
-        <link rel="stylesheet" href="fonts/fonts.css">
+        <link rel="stylesheet" href="fonts/fonts-9644e21d.css">
 
         <!-- Highlight.js Stylesheets -->
-        <link rel="stylesheet" id="highlight-css" href="highlight.css">
-        <link rel="stylesheet" id="tomorrow-night-css" href="tomorrow-night.css">
-        <link rel="stylesheet" id="ayu-highlight-css" href="ayu-highlight.css">
+        <link rel="stylesheet" id="mdbook-highlight-css" href="highlight-493f70e1.css">
+        <link rel="stylesheet" id="mdbook-tomorrow-night-css" href="tomorrow-night-4c0ae647.css">
+        <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="ayu-highlight-56612340.css">
 
         <!-- Custom theme stylesheets -->
-        <link rel="stylesheet" href="theme/reference.css">
+        <link rel="stylesheet" href="theme/reference-94a8e8ad.css">
 
 
         <!-- Provide site root and default themes to javascript -->
@@ -37,12 +36,24 @@
             const path_to_root = "";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "searchindex-54e4028f.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="toc.js"></script>
+        <script src="toc-cb7fc751.js"></script>
     </head>
     <body>
-    <div id="body-container">
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="mdbook-body-container">
         <!-- Work around some values being stored in localStorage wrapped in quotes -->
         <script>
             try {
@@ -71,56 +82,59 @@
             html.classList.add("js");
         </script>
 
-        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+        <input type="checkbox" id="mdbook-sidebar-toggle-anchor" class="hidden">
 
         <!-- Hide / unhide sidebar before it is displayed -->
         <script>
             let sidebar = null;
-            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            const sidebar_toggle = document.getElementById("mdbook-sidebar-toggle-anchor");
             if (document.body.clientWidth >= 1080) {
                 try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
                 sidebar = sidebar || 'visible';
             } else {
                 sidebar = 'hidden';
+                sidebar_toggle.checked = false;
             }
-            sidebar_toggle.checked = sidebar === 'visible';
-            html.classList.remove('sidebar-visible');
-            html.classList.add("sidebar-" + sidebar);
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
         </script>
 
-        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+        <nav id="mdbook-sidebar" class="sidebar" aria-label="Table of contents">
             <!-- populated by js -->
             <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
             <noscript>
                 <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
             </noscript>
-            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+            <div id="mdbook-sidebar-resize-handle" class="sidebar-resize-handle">
                 <div class="sidebar-resize-indicator"></div>
             </div>
         </nav>
 
-        <div id="page-wrapper" class="page-wrapper">
+        <div id="mdbook-page-wrapper" class="page-wrapper">
 
             <div class="page">
-                <div id="menu-bar-hover-placeholder"></div>
-                <div id="menu-bar" class="menu-bar sticky">
+                <div id="mdbook-menu-bar-hover-placeholder"></div>
+                <div id="mdbook-menu-bar" class="menu-bar sticky">
                     <div class="left-buttons">
-                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
-                            <i class="fa fa-bars"></i>
+                        <label id="mdbook-sidebar-toggle" class="icon-button" for="mdbook-sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="mdbook-sidebar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"/></svg></span>
                         </label>
-                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
-                            <i class="fa fa-paint-brush"></i>
+                        <button id="mdbook-theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="mdbook-theme-list">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M371.3 367.1c27.3-3.9 51.9-19.4 67.2-42.9L600.2 74.1c12.6-19.5 9.4-45.3-7.6-61.2S549.7-4.4 531.1 9.6L294.4 187.2c-24 18-38.2 46.1-38.4 76.1L371.3 367.1zm-19.6 25.4l-116-104.4C175.9 290.3 128 339.6 128 400c0 3.9 .2 7.8 .6 11.6c1.8 17.5-10.2 36.4-27.8 36.4H96c-17.7 0-32 14.3-32 32s14.3 32 32 32H240c61.9 0 112-50.1 112-112c0-2.5-.1-5-.2-7.5z"/></svg></span>
                         </button>
-                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
-                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
-                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
-                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
-                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
-                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
-                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        <ul id="mdbook-theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-ayu">Ayu</button></li>
                         </ul>
-                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
-                            <i class="fa fa-search"></i>
+                        <button id="mdbook-search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="mdbook-searchbar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352c79.5 0 144-64.5 144-144s-64.5-144-144-144S64 128.5 64 208s64.5 144 144 144z"/></svg></span>
                         </button>
                     </div>
 
@@ -128,46 +142,51 @@
 
                     <div class="right-buttons">
                         <a href="print.html" title="Print this book" aria-label="Print this book">
-                            <i id="print-button" class="fa fa-print"></i>
+                            <span class=fa-svg id="print-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M128 0C92.7 0 64 28.7 64 64v96h64V64H354.7L384 93.3V160h64V93.3c0-17-6.7-33.3-18.7-45.3L400 18.7C388 6.7 371.7 0 354.7 0H128zM384 352v32 64H128V384 368 352H384zm64 32h32c17.7 0 32-14.3 32-32V256c0-35.3-28.7-64-64-64H64c-35.3 0-64 28.7-64 64v96c0 17.7 14.3 32 32 32H64v64c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V384zm-16-88c-13.3 0-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24s-10.7 24-24 24z"/></svg></span>
                         </a>
                         <a href="https://github.com/rust-lang/reference/" title="Git repository" aria-label="Git repository">
-                            <i id="git-repository-button" class="fa fa-github"></i>
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg></span>
                         </a>
-                        <a href="https://github.com/rust-lang/reference/edit/master/src/inline-assembly.md" title="Suggest an edit" aria-label="Suggest an edit">
-                            <i id="git-edit-button" class="fa fa-edit"></i>
+                        <a href="https://github.com/rust-lang/reference/edit/master/src/inline-assembly.md" title="Suggest an edit" aria-label="Suggest an edit" rel="edit">
+                            <span class=fa-svg id="git-edit-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M421.7 220.3l-11.3 11.3-22.6 22.6-205 205c-6.6 6.6-14.8 11.5-23.8 14.1L30.8 511c-8.4 2.5-17.5 .2-23.7-6.1S-1.5 489.7 1 481.2L38.7 353.1c2.6-9 7.5-17.2 14.1-23.8l205-205 22.6-22.6 11.3-11.3 33.9 33.9 62.1 62.1 33.9 33.9zM96 353.9l-9.3 9.3c-.9 .9-1.6 2.1-2 3.4l-25.3 86 86-25.3c1.3-.4 2.5-1.1 3.4-2l9.3-9.3H112c-8.8 0-16-7.2-16-16V353.9zM453.3 19.3l39.4 39.4c25 25 25 65.5 0 90.5l-14.5 14.5-22.6 22.6-11.3 11.3-33.9-33.9-62.1-62.1L314.3 67.7l11.3-11.3 22.6-22.6 14.5-14.5c25-25 65.5-25 90.5 0z"/></svg></span>
                         </a>
 
                     </div>
                 </div>
 
-                <div id="search-wrapper" class="hidden">
-                    <form id="searchbar-outer" class="searchbar-outer">
-                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                <div id="mdbook-search-wrapper" class="hidden">
+                    <form id="mdbook-searchbar-outer" class="searchbar-outer">
+                        <div class="search-wrapper">
+                            <input type="search" id="mdbook-searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="mdbook-searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <span class=fa-svg id="fa-spin"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M304 48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zm0 416c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM48 304c26.5 0 48-21.5 48-48s-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48zm464-48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM142.9 437c18.7-18.7 18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zm0-294.2c18.7-18.7 18.7-49.1 0-67.9S93.7 56.2 75 75s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zM369.1 437c18.7 18.7 49.1 18.7 67.9 0s18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9z"/></svg></span>
+                            </div>
+                        </div>
                     </form>
-                    <div id="searchresults-outer" class="searchresults-outer hidden">
-                        <div id="searchresults-header" class="searchresults-header"></div>
-                        <ul id="searchresults">
+                    <div id="mdbook-searchresults-outer" class="searchresults-outer hidden">
+                        <div id="mdbook-searchresults-header" class="searchresults-header"></div>
+                        <ul id="mdbook-searchresults">
                         </ul>
                     </div>
                 </div>
 
                 <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
                 <script>
-                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
-                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
-                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                    document.getElementById('mdbook-sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('mdbook-sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#mdbook-sidebar a')).forEach(function(link) {
                         link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
                     });
                 </script>
 
-                <div id="content" class="content">
+                <div id="mdbook-content" class="content">
                     <main>
                         <div class="rule" id="r-asm"><a class="rule-link" href="#r-asm" title="asm"><span>[asm]</span/></a>
 </div>
 <h1 id="inline-assembly"><a class="header" href="#inline-assembly">Inline assembly</a></h1>
 <div class="rule" id="r-asm.intro"><a class="rule-link" href="#r-asm.intro" title="asm.intro"><span>[asm<wbr>.intro]</span/></a>
 </div>
-<p>Support for inline assembly is provided via the <a href="https://doc.rust-lang.org/nightly/core/arch/macro.asm.html"><code>asm!</code></a> and <a href="https://doc.rust-lang.org/nightly/core/arch/macro.global_asm.html"><code>global_asm!</code></a> macros.
+<p>Support for inline assembly is provided via the <a href="../core/arch/macro.asm.html"><code>asm!</code></a>, <a href="../core/arch/macro.naked_asm.html"><code>naked_asm!</code></a>, and <a href="../core/arch/macro.global_asm.html"><code>global_asm!</code></a> macros.
 It can be used to embed handwritten assembly in the assembly output generated by the compiler.</p>
 <div class="rule" id="r-asm.stable-targets"><a class="rule-link" href="#r-asm.stable-targets" title="asm.stable-targets"><span>[asm<wbr>.stable-targets]</span/></a>
 </div>
@@ -180,7 +199,7 @@ It can be used to embed handwritten assembly in the assembly output generated by
 <li>LoongArch</li>
 <li>s390x</li>
 </ul>
-<p>The compiler will emit an error if <code>asm!</code> is used on an unsupported target.</p>
+<p>The compiler will emit an error if an assembly macro is used on an unsupported target.</p>
 <div class="rule" id="r-asm.example"><a class="rule-link" href="#r-asm.example" title="asm.example"><span>[asm<wbr>.example]</span/></a>
 </div>
 <h2 id="example"><a class="header" href="#example">Example</a></h2>
@@ -207,25 +226,900 @@ assert_eq!(x, 4 * 6);
 <div class="rule" id="r-asm.syntax"><a class="rule-link" href="#r-asm.syntax" title="asm.syntax"><span>[asm<wbr>.syntax]</span/></a>
 </div>
 <h2 id="syntax"><a class="header" href="#syntax">Syntax</a></h2>
-<p>The following ABNF specifies the general syntax:</p>
-<pre><code class="language-text">format_string := STRING_LITERAL / RAW_STRING_LITERAL
-dir_spec := "in" / "out" / "lateout" / "inout" / "inlateout"
-reg_spec := &lt;register class&gt; / "\"" &lt;explicit register&gt; "\""
-operand_expr := expr / "_" / expr "=&gt;" expr / expr "=&gt;" "_"
-reg_operand := [ident "="] dir_spec "(" reg_spec ")" operand_expr / sym &lt;path&gt; / const &lt;expr&gt; / label &lt;block&gt;
-clobber_abi := "clobber_abi(" &lt;abi&gt; *("," &lt;abi&gt;) [","] ")"
-option := "pure" / "nomem" / "readonly" / "preserves_flags" / "noreturn" / "nostack" / "att_syntax" / "raw"
-options := "options(" option *("," option) [","] ")"
-operand := reg_operand / clobber_abi / options
-asm := "asm!(" format_string *("," format_string) *("," operand) [","] ")"
-global_asm := "global_asm!(" format_string *("," format_string) *("," operand) [","] ")"
-</code></pre>
+<p>The following grammar specifies the arguments that can be passed to the <code>asm!</code>, <code>global_asm!</code> and <code>naked_asm!</code> macros.</p>
+<div class="grammar-container">
+<p><strong><sup>Syntax</sup></strong>
+<br>
+<span class="grammar-text grammar-production" id="grammar-AsmArgs" onclick="show_railroad()"><a href="inline-assembly.html#railroad-AsmArgs">AsmArgs</a></span> → <span class="grammar-text"><a href="inline-assembly.html#grammar-FormatString">FormatString</a></span> ( <span class="grammar-literal">,</span> <span class="grammar-text"><a href="inline-assembly.html#grammar-FormatString">FormatString</a></span> )<sup>*</sup> ( <span class="grammar-literal">,</span> <span class="grammar-text"><a href="inline-assembly.html#grammar-AsmOperand">AsmOperand</a></span> )<sup>*</sup> <span class="grammar-literal">,</span><sup>?</sup></p>
+<p><span class="grammar-text grammar-production" id="grammar-FormatString" onclick="show_railroad()"><a href="inline-assembly.html#railroad-FormatString">FormatString</a></span> → <span class="grammar-text"><a href="tokens.html#grammar-STRING_LITERAL">STRING_LITERAL</a></span> | <span class="grammar-text"><a href="tokens.html#grammar-RAW_STRING_LITERAL">RAW_STRING_LITERAL</a></span> | <span class="grammar-text"><a href="macros.html#grammar-MacroInvocation">MacroInvocation</a></span></p>
+<p><span class="grammar-text grammar-production" id="grammar-AsmOperand" onclick="show_railroad()"><a href="inline-assembly.html#railroad-AsmOperand">AsmOperand</a></span> → <br />
+      <span class="grammar-text"><a href="inline-assembly.html#grammar-ClobberAbi">ClobberAbi</a></span> <br />
+    | <span class="grammar-text"><a href="inline-assembly.html#grammar-AsmOptions">AsmOptions</a></span> <br />
+    | <span class="grammar-text"><a href="inline-assembly.html#grammar-RegOperand">RegOperand</a></span></p>
+<p><span class="grammar-text grammar-production" id="grammar-ClobberAbi" onclick="show_railroad()"><a href="inline-assembly.html#railroad-ClobberAbi">ClobberAbi</a></span> → <span class="grammar-literal">clobber_abi</span> <span class="grammar-literal">(</span> <span class="grammar-text"><a href="items/functions.html#grammar-Abi">Abi</a></span> ( <span class="grammar-literal">,</span> <span class="grammar-text"><a href="items/functions.html#grammar-Abi">Abi</a></span> )<sup>*</sup> <span class="grammar-literal">,</span><sup>?</sup> <span class="grammar-literal">)</span></p>
+<p><span class="grammar-text grammar-production" id="grammar-AsmOptions" onclick="show_railroad()"><a href="inline-assembly.html#railroad-AsmOptions">AsmOptions</a></span> → <br />
+    <span class="grammar-literal">options</span> <span class="grammar-literal">(</span> ( <span class="grammar-text"><a href="inline-assembly.html#grammar-AsmOption">AsmOption</a></span> ( <span class="grammar-literal">,</span> <span class="grammar-text"><a href="inline-assembly.html#grammar-AsmOption">AsmOption</a></span> )<sup>*</sup> <span class="grammar-literal">,</span><sup>?</sup> )<sup>?</sup> <span class="grammar-literal">)</span></p>
+<p><span class="grammar-text grammar-production" id="grammar-AsmOption" onclick="show_railroad()"><a href="inline-assembly.html#railroad-AsmOption">AsmOption</a></span> → <br />
+      <span class="grammar-literal">pure</span> <br />
+    | <span class="grammar-literal">nomem</span> <br />
+    | <span class="grammar-literal">readonly</span> <br />
+    | <span class="grammar-literal">preserves_flags</span> <br />
+    | <span class="grammar-literal">noreturn</span> <br />
+    | <span class="grammar-literal">nostack</span> <br />
+    | <span class="grammar-literal">att_syntax</span> <br />
+    | <span class="grammar-literal">raw</span></p>
+<p><span class="grammar-text grammar-production" id="grammar-RegOperand" onclick="show_railroad()"><a href="inline-assembly.html#railroad-RegOperand">RegOperand</a></span> → ( <span class="grammar-text"><a href="inline-assembly.html#grammar-ParamName">ParamName</a></span> <span class="grammar-literal">=</span> )<sup>?</sup> <br />
+    ( <br />
+          <span class="grammar-text"><a href="inline-assembly.html#grammar-DirSpec">DirSpec</a></span> <span class="grammar-literal">(</span> <span class="grammar-text"><a href="inline-assembly.html#grammar-RegSpec">RegSpec</a></span> <span class="grammar-literal">)</span> <span class="grammar-text"><a href="expressions.html#grammar-Expression">Expression</a></span> <br />
+        | <span class="grammar-text"><a href="inline-assembly.html#grammar-DualDirSpec">DualDirSpec</a></span> <span class="grammar-literal">(</span> <span class="grammar-text"><a href="inline-assembly.html#grammar-RegSpec">RegSpec</a></span> <span class="grammar-literal">)</span> <span class="grammar-text"><a href="inline-assembly.html#grammar-DualDirSpecExpression">DualDirSpecExpression</a></span> <br />
+        | <span class="grammar-literal">sym</span> <span class="grammar-text"><a href="expressions/path-expr.html#grammar-PathExpression">PathExpression</a></span> <br />
+        | <span class="grammar-literal">const</span> <span class="grammar-text"><a href="expressions.html#grammar-Expression">Expression</a></span> <br />
+        | <span class="grammar-literal">label</span> <span class="grammar-literal">{</span> <span class="grammar-text"><a href="expressions/block-expr.html#grammar-Statements">Statements</a></span><sup>?</sup> <span class="grammar-literal">}</span> <br />
+    )</p>
+<p><span class="grammar-text grammar-production" id="grammar-ParamName" onclick="show_railroad()"><a href="inline-assembly.html#railroad-ParamName">ParamName</a></span> → <span class="grammar-text"><a href="identifiers.html#grammar-IDENTIFIER_OR_KEYWORD">IDENTIFIER_OR_KEYWORD</a></span> | <span class="grammar-text"><a href="identifiers.html#grammar-RAW_IDENTIFIER">RAW_IDENTIFIER</a></span></p>
+<p><span class="grammar-text grammar-production" id="grammar-DualDirSpecExpression" onclick="show_railroad()"><a href="inline-assembly.html#railroad-DualDirSpecExpression">DualDirSpecExpression</a></span> → <br />
+      <span class="grammar-text"><a href="expressions.html#grammar-Expression">Expression</a></span> <br />
+    | <span class="grammar-text"><a href="expressions.html#grammar-Expression">Expression</a></span> <span class="grammar-literal">=&gt;</span> <span class="grammar-text"><a href="expressions.html#grammar-Expression">Expression</a></span></p>
+<p><span class="grammar-text grammar-production" id="grammar-RegSpec" onclick="show_railroad()"><a href="inline-assembly.html#railroad-RegSpec">RegSpec</a></span> → <span class="grammar-text"><a href="inline-assembly.html#grammar-RegisterClass">RegisterClass</a></span> | <span class="grammar-text"><a href="inline-assembly.html#grammar-ExplicitRegister">ExplicitRegister</a></span></p>
+<p><span class="grammar-text grammar-production" id="grammar-RegisterClass" onclick="show_railroad()"><a href="inline-assembly.html#railroad-RegisterClass">RegisterClass</a></span> → <span class="grammar-text"><a href="identifiers.html#grammar-IDENTIFIER_OR_KEYWORD">IDENTIFIER_OR_KEYWORD</a></span></p>
+<p><span class="grammar-text grammar-production" id="grammar-ExplicitRegister" onclick="show_railroad()"><a href="inline-assembly.html#railroad-ExplicitRegister">ExplicitRegister</a></span> → <span class="grammar-text"><a href="tokens.html#grammar-STRING_LITERAL">STRING_LITERAL</a></span></p>
+<p><span class="grammar-text grammar-production" id="grammar-DirSpec" onclick="show_railroad()"><a href="inline-assembly.html#railroad-DirSpec">DirSpec</a></span> → <br />
+      <span class="grammar-literal">in</span> <br />
+    | <span class="grammar-literal">out</span> <br />
+    | <span class="grammar-literal">lateout</span></p>
+<p><span class="grammar-text grammar-production" id="grammar-DualDirSpec" onclick="show_railroad()"><a href="inline-assembly.html#railroad-DualDirSpec">DualDirSpec</a></span> → <br />
+      <span class="grammar-literal">inout</span> <br />
+    | <span class="grammar-literal">inlateout</span></p>
+<p><button class="grammar-toggle-railroad" type="button" title="Toggle railroad display" onclick="toggle_railroad()">Show Railroad</button></p>
+</div>
+<div class="grammar-railroad grammar-hidden">
+<div style="width: 728px; height: auto; max-width: 100%; max-height: 100%" class="railroad-production" id="railroad-AsmArgs"><svg class="railroad" viewBox="0 0 728 100" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<rect class="railroad_canvas" height="100%" width="100%"/>
+<g class="verticalgrid">
+<a class="link" xlink:href="inline-assembly.html#grammar-AsmArgs">
+<text class="comment" x="39" y="25">
+AsmArgs</text>
+</a>
+<g class="sequence">
+<path d=" M 10 66 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5 m 10 0 h 5"/>
+<g class="sequence">
+<a class="link" xlink:href="inline-assembly.html#railroad-FormatString">
+<g class="nonterminal">
+<rect height="22" width="116" x="35" y="55"/>
+<text x="93" y="71">
+FormatString</text>
+</g>
+</a>
+<g class="optional">
+<path d=" M 161 66 h 24 m -24 0 a 12 12 0 0 0 12 -12 v 0 a 12 12 0 0 1 12 -12 h 178 m -86 0 l -5 -5 m 0 10 l 5 -5 m 86 0 a 12 12 0 0 1 12 12 v 0 a 12 12 0 0 0 12 12 h -24"/>
+<g class="repeat">
+<path d=" M 185 66 h 12 m 154 0 h 12 m -12 0 a 12 12 0 0 1 12 12 v 0 a 12 12 0 0 1 -12 12 m 0 0 h -154 m 80 0 l 5 -5 m 0 10 l -5 -5 m -80 0 a 12 12 0 0 1 -12 -12 v 0 a 12 12 0 0 1 12 -12"/>
+<g/>
+<g class="sequence">
+<g class="terminal">
+<rect height="22" rx="10" ry="10" width="28" x="197" y="55"/>
+<text x="211" y="71">
+,</text>
+</g>
+<a class="link" xlink:href="inline-assembly.html#railroad-FormatString">
+<g class="nonterminal">
+<rect height="22" width="116" x="235" y="55"/>
+<text x="293" y="71">
+FormatString</text>
+</g>
+</a>
+<path d=" M 225 66 h 10"/>
+</g>
+</g>
+</g>
+<g class="optional">
+<path d=" M 397 66 h 24 m -24 0 a 12 12 0 0 0 12 -12 v 0 a 12 12 0 0 1 12 -12 h 162 m -78 0 l -5 -5 m 0 10 l 5 -5 m 78 0 a 12 12 0 0 1 12 12 v 0 a 12 12 0 0 0 12 12 h -24"/>
+<g class="repeat">
+<path d=" M 421 66 h 12 m 138 0 h 12 m -12 0 a 12 12 0 0 1 12 12 v 0 a 12 12 0 0 1 -12 12 m 0 0 h -138 m 72 0 l 5 -5 m 0 10 l -5 -5 m -72 0 a 12 12 0 0 1 -12 -12 v 0 a 12 12 0 0 1 12 -12"/>
+<g/>
+<g class="sequence">
+<g class="terminal">
+<rect height="22" rx="10" ry="10" width="28" x="433" y="55"/>
+<text x="447" y="71">
+,</text>
+</g>
+<a class="link" xlink:href="inline-assembly.html#railroad-AsmOperand">
+<g class="nonterminal">
+<rect height="22" width="100" x="471" y="55"/>
+<text x="521" y="71">
+AsmOperand</text>
+</g>
+</a>
+<path d=" M 461 66 h 10"/>
+</g>
+</g>
+</g>
+<g class="optional">
+<path d=" M 617 66 h 24 m -24 0 a 12 12 0 0 0 12 -12 v 0 a 12 12 0 0 1 12 -12 h 28 a 12 12 0 0 1 12 12 v 0 a 12 12 0 0 0 12 12 h -24"/>
+<g class="terminal">
+<rect height="22" rx="10" ry="10" width="28" x="641" y="55"/>
+<text x="655" y="71">
+,</text>
+</g>
+</g>
+<path d=" M 151 66 h 10"/>
+<path d=" M 387 66 h 10"/>
+<path d=" M 607 66 h 10"/>
+</g>
+<path d=" M 703 66 h 5 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5"/>
+<path d=" M 25 66 h 10"/>
+<path d=" M 693 66 h 10"/>
+</g>
+</g>
+</svg>
+</div>
+<div style="width: 282px; height: auto; max-width: 100%; max-height: 100%" class="railroad-production" id="railroad-FormatString"><svg class="railroad" viewBox="0 0 282 140" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<rect class="railroad_canvas" height="100%" width="100%"/>
+<g class="verticalgrid">
+<a class="link" xlink:href="inline-assembly.html#grammar-FormatString">
+<text class="comment" x="57" y="25">
+FormatString</text>
+</a>
+<g class="sequence">
+<path d=" M 10 53 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5 m 10 0 h 5"/>
+<g class="choice">
+<path d=" M 35 53 h 24 m 132 0 h 56 m -25 0 l -5 -5 m 0 10 l 5 -5 m 25 0"/>
+<a class="link" xlink:href="tokens.html#railroad-STRING_LITERAL">
+<g class="nonterminal">
+<rect height="22" width="132" x="59" y="42"/>
+<text x="125" y="58">
+STRING_LITERAL</text>
+</g>
+</a>
+<path d=" M 35 53 a 12 12 0 0 1 12 12 v 9 m 188 0 v -9 a 12 12 0 0 1 12 -12"/>
+<path d=" M 47 74 v 33 m 188 0 v -33"/>
+<path d=" M 47 74 v 0 a 12 12 0 0 0 12 12 m 164 0 h 0 a 12 12 0 0 0 12 -12 v 0"/>
+<a class="link" xlink:href="tokens.html#railroad-RAW_STRING_LITERAL">
+<g class="nonterminal">
+<rect height="22" width="164" x="59" y="75"/>
+<text x="141" y="91">
+RAW_STRING_LITERAL</text>
+</g>
+</a>
+<path d=" M 47 107 v 0 a 12 12 0 0 0 12 12 m 140 0 h 24 a 12 12 0 0 0 12 -12 v 0"/>
+<a class="link" xlink:href="macros.html#railroad-MacroInvocation">
+<g class="nonterminal">
+<rect height="22" width="140" x="59" y="108"/>
+<text x="129" y="124">
+MacroInvocation</text>
+</g>
+</a>
+</g>
+<path d=" M 257 53 h 5 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5"/>
+<path d=" M 25 53 h 10"/>
+<path d=" M 247 53 h 10"/>
+</g>
+</g>
+</svg>
+</div>
+<div style="width: 218px; height: auto; max-width: 100%; max-height: 100%" class="railroad-production" id="railroad-AsmOperand"><svg class="railroad" viewBox="0 0 218 140" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<rect class="railroad_canvas" height="100%" width="100%"/>
+<g class="verticalgrid">
+<a class="link" xlink:href="inline-assembly.html#grammar-AsmOperand">
+<text class="comment" x="50" y="25">
+AsmOperand</text>
+</a>
+<g class="sequence">
+<path d=" M 10 53 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5 m 10 0 h 5"/>
+<g class="choice">
+<path d=" M 35 53 h 24 m 100 0 h 24"/>
+<g class="sequence">
+<a class="link" xlink:href="inline-assembly.html#railroad-ClobberAbi">
+<g class="nonterminal">
+<rect height="22" width="100" x="59" y="42"/>
+<text x="109" y="58">
+ClobberAbi</text>
+</g>
+</a>
+</g>
+<path d=" M 35 53 a 12 12 0 0 1 12 12 v 9 m 124 0 v -9 a 12 12 0 0 1 12 -12"/>
+<path d=" M 47 74 v 33 m 124 0 v -33"/>
+<path d=" M 47 74 v 0 a 12 12 0 0 0 12 12 m 100 0 h 0 a 12 12 0 0 0 12 -12 v 0"/>
+<g class="sequence">
+<a class="link" xlink:href="inline-assembly.html#railroad-AsmOptions">
+<g class="nonterminal">
+<rect height="22" width="100" x="59" y="75"/>
+<text x="109" y="91">
+AsmOptions</text>
+</g>
+</a>
+</g>
+<path d=" M 47 107 v 0 a 12 12 0 0 0 12 12 m 100 0 h 0 a 12 12 0 0 0 12 -12 v 0"/>
+<a class="link" xlink:href="inline-assembly.html#railroad-RegOperand">
+<g class="nonterminal">
+<rect height="22" width="100" x="59" y="108"/>
+<text x="109" y="124">
+RegOperand</text>
+</g>
+</a>
+</g>
+<path d=" M 193 53 h 5 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5"/>
+<path d=" M 25 53 h 10"/>
+<path d=" M 183 53 h 10"/>
+</g>
+</g>
+</svg>
+</div>
+<div style="width: 558px; height: auto; max-width: 100%; max-height: 100%" class="railroad-production" id="railroad-ClobberAbi"><svg class="railroad" viewBox="0 0 558 100" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<rect class="railroad_canvas" height="100%" width="100%"/>
+<g class="verticalgrid">
+<a class="link" xlink:href="inline-assembly.html#grammar-ClobberAbi">
+<text class="comment" x="50" y="25">
+ClobberAbi</text>
+</a>
+<g class="sequence">
+<path d=" M 10 66 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5 m 10 0 h 5"/>
+<g class="sequence">
+<g class="terminal">
+<rect height="22" rx="10" ry="10" width="108" x="35" y="55"/>
+<text x="89" y="71">
+clobber_abi</text>
+</g>
+<g class="terminal">
+<rect height="22" rx="10" ry="10" width="28" x="153" y="55"/>
+<text x="167" y="71">
+(</text>
+</g>
+<a class="link" xlink:href="items/functions.html#railroad-Abi">
+<g class="nonterminal">
+<rect height="22" width="44" x="191" y="55"/>
+<text x="213" y="71">
+Abi</text>
+</g>
+</a>
+<g class="optional">
+<path d=" M 245 66 h 24 m -24 0 a 12 12 0 0 0 12 -12 v 0 a 12 12 0 0 1 12 -12 h 106 m -50 0 l -5 -5 m 0 10 l 5 -5 m 50 0 a 12 12 0 0 1 12 12 v 0 a 12 12 0 0 0 12 12 h -24"/>
+<g class="repeat">
+<path d=" M 269 66 h 12 m 82 0 h 12 m -12 0 a 12 12 0 0 1 12 12 v 0 a 12 12 0 0 1 -12 12 m 0 0 h -82 m 44 0 l 5 -5 m 0 10 l -5 -5 m -44 0 a 12 12 0 0 1 -12 -12 v 0 a 12 12 0 0 1 12 -12"/>
+<g/>
+<g class="sequence">
+<g class="terminal">
+<rect height="22" rx="10" ry="10" width="28" x="281" y="55"/>
+<text x="295" y="71">
+,</text>
+</g>
+<a class="link" xlink:href="items/functions.html#railroad-Abi">
+<g class="nonterminal">
+<rect height="22" width="44" x="319" y="55"/>
+<text x="341" y="71">
+Abi</text>
+</g>
+</a>
+<path d=" M 309 66 h 10"/>
+</g>
+</g>
+</g>
+<g class="optional">
+<path d=" M 409 66 h 24 m -24 0 a 12 12 0 0 0 12 -12 v 0 a 12 12 0 0 1 12 -12 h 28 a 12 12 0 0 1 12 12 v 0 a 12 12 0 0 0 12 12 h -24"/>
+<g class="terminal">
+<rect height="22" rx="10" ry="10" width="28" x="433" y="55"/>
+<text x="447" y="71">
+,</text>
+</g>
+</g>
+<g class="terminal">
+<rect height="22" rx="10" ry="10" width="28" x="495" y="55"/>
+<text x="509" y="71">
+)</text>
+</g>
+<path d=" M 143 66 h 10"/>
+<path d=" M 181 66 h 10"/>
+<path d=" M 235 66 h 10"/>
+<path d=" M 399 66 h 10"/>
+<path d=" M 485 66 h 10"/>
+</g>
+<path d=" M 533 66 h 5 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5"/>
+<path d=" M 25 66 h 10"/>
+<path d=" M 523 66 h 10"/>
+</g>
+</g>
+</svg>
+</div>
+<div style="width: 670px; height: auto; max-width: 100%; max-height: 100%" class="railroad-production" id="railroad-AsmOptions"><svg class="railroad" viewBox="0 0 670 112" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<rect class="railroad_canvas" height="100%" width="100%"/>
+<g class="verticalgrid">
+<a class="link" xlink:href="inline-assembly.html#grammar-AsmOptions">
+<text class="comment" x="50" y="25">
+AsmOptions</text>
+</a>
+<g class="sequence">
+<path d=" M 10 78 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5 m 10 0 h 5"/>
+<g class="sequence">
+<g class="terminal">
+<rect height="22" rx="10" ry="10" width="76" x="35" y="67"/>
+<text x="73" y="83">
+options</text>
+</g>
+<g class="terminal">
+<rect height="22" rx="10" ry="10" width="28" x="121" y="67"/>
+<text x="135" y="83">
+(</text>
+</g>
+<g class="optional">
+<path d=" M 159 78 h 24 m -24 0 a 12 12 0 0 0 12 -12 v -12 a 12 12 0 0 1 12 -12 h 390 m -192 0 l -5 -5 m 0 10 l 5 -5 m 192 0 a 12 12 0 0 1 12 12 v 12 a 12 12 0 0 0 12 12 h -24"/>
+<g class="sequence">
+<a class="link" xlink:href="inline-assembly.html#railroad-AsmOption">
+<g class="nonterminal">
+<rect height="22" width="92" x="183" y="67"/>
+<text x="229" y="83">
+AsmOption</text>
+</g>
+</a>
+<g class="optional">
+<path d=" M 285 78 h 24 m -24 0 a 12 12 0 0 0 12 -12 v 0 a 12 12 0 0 1 12 -12 h 154 m -74 0 l -5 -5 m 0 10 l 5 -5 m 74 0 a 12 12 0 0 1 12 12 v 0 a 12 12 0 0 0 12 12 h -24"/>
+<g class="repeat">
+<path d=" M 309 78 h 12 m 130 0 h 12 m -12 0 a 12 12 0 0 1 12 12 v 0 a 12 12 0 0 1 -12 12 m 0 0 h -130 m 68 0 l 5 -5 m 0 10 l -5 -5 m -68 0 a 12 12 0 0 1 -12 -12 v 0 a 12 12 0 0 1 12 -12"/>
+<g/>
+<g class="sequence">
+<g class="terminal">
+<rect height="22" rx="10" ry="10" width="28" x="321" y="67"/>
+<text x="335" y="83">
+,</text>
+</g>
+<a class="link" xlink:href="inline-assembly.html#railroad-AsmOption">
+<g class="nonterminal">
+<rect height="22" width="92" x="359" y="67"/>
+<text x="405" y="83">
+AsmOption</text>
+</g>
+</a>
+<path d=" M 349 78 h 10"/>
+</g>
+</g>
+</g>
+<g class="optional">
+<path d=" M 497 78 h 24 m -24 0 a 12 12 0 0 0 12 -12 v 0 a 12 12 0 0 1 12 -12 h 28 a 12 12 0 0 1 12 12 v 0 a 12 12 0 0 0 12 12 h -24"/>
+<g class="terminal">
+<rect height="22" rx="10" ry="10" width="28" x="521" y="67"/>
+<text x="535" y="83">
+,</text>
+</g>
+</g>
+<path d=" M 275 78 h 10"/>
+<path d=" M 487 78 h 10"/>
+</g>
+</g>
+<g class="terminal">
+<rect height="22" rx="10" ry="10" width="28" x="607" y="67"/>
+<text x="621" y="83">
+)</text>
+</g>
+<path d=" M 111 78 h 10"/>
+<path d=" M 149 78 h 10"/>
+<path d=" M 597 78 h 10"/>
+</g>
+<path d=" M 645 78 h 5 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5"/>
+<path d=" M 25 78 h 10"/>
+<path d=" M 635 78 h 10"/>
+</g>
+</g>
+</svg>
+</div>
+<div style="width: 258px; height: auto; max-width: 100%; max-height: 100%" class="railroad-production" id="railroad-AsmOption"><svg class="railroad" viewBox="0 0 258 305" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<rect class="railroad_canvas" height="100%" width="100%"/>
+<g class="verticalgrid">
+<a class="link" xlink:href="inline-assembly.html#grammar-AsmOption">
+<text class="comment" x="46" y="25">
+AsmOption</text>
+</a>
+<g class="sequence">
+<path d=" M 10 53 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5 m 10 0 h 5"/>
+<g class="choice">
+<path d=" M 35 53 h 24 m 52 0 h 112 m -53 0 l -5 -5 m 0 10 l 5 -5 m 53 0"/>
+<g class="sequence">
+<g class="terminal">
+<rect height="22" rx="10" ry="10" width="52" x="59" y="42"/>
+<text x="85" y="58">
+pure</text>
+</g>
+</g>
+<path d=" M 35 53 a 12 12 0 0 1 12 12 v 9 m 164 0 v -9 a 12 12 0 0 1 12 -12"/>
+<path d=" M 47 74 v 33 m 164 0 v -33"/>
+<path d=" M 47 107 v 33 m 164 0 v -33"/>
+<path d=" M 47 140 v 33 m 164 0 v -33"/>
+<path d=" M 47 173 v 33 m 164 0 v -33"/>
+<path d=" M 47 206 v 33 m 164 0 v -33"/>
+<path d=" M 47 239 v 33 m 164 0 v -33"/>
+<path d=" M 47 74 v 0 a 12 12 0 0 0 12 12 m 60 0 h 80 m -37 0 l -5 -5 m 0 10 l 5 -5 m 37 0 a 12 12 0 0 0 12 -12 v 0"/>
+<g class="sequence">
+<g class="terminal">
+<rect height="22" rx="10" ry="10" width="60" x="59" y="75"/>
+<text x="89" y="91">
+nomem</text>
+</g>
+</g>
+<path d=" M 47 107 v 0 a 12 12 0 0 0 12 12 m 84 0 h 56 m -25 0 l -5 -5 m 0 10 l 5 -5 m 25 0 a 12 12 0 0 0 12 -12 v 0"/>
+<g class="sequence">
+<g class="terminal">
+<rect height="22" rx="10" ry="10" width="84" x="59" y="108"/>
+<text x="101" y="124">
+readonly</text>
+</g>
+</g>
+<path d=" M 47 140 v 0 a 12 12 0 0 0 12 12 m 140 0 h 0 a 12 12 0 0 0 12 -12 v 0"/>
+<g class="sequence">
+<g class="terminal">
+<rect height="22" rx="10" ry="10" width="140" x="59" y="141"/>
+<text x="129" y="157">
+preserves_flags</text>
+</g>
+</g>
+<path d=" M 47 173 v 0 a 12 12 0 0 0 12 12 m 84 0 h 56 m -25 0 l -5 -5 m 0 10 l 5 -5 m 25 0 a 12 12 0 0 0 12 -12 v 0"/>
+<g class="sequence">
+<g class="terminal">
+<rect height="22" rx="10" ry="10" width="84" x="59" y="174"/>
+<text x="101" y="190">
+noreturn</text>
+</g>
+</g>
+<path d=" M 47 206 v 0 a 12 12 0 0 0 12 12 m 76 0 h 64 m -29 0 l -5 -5 m 0 10 l 5 -5 m 29 0 a 12 12 0 0 0 12 -12 v 0"/>
+<g class="sequence">
+<g class="terminal">
+<rect height="22" rx="10" ry="10" width="76" x="59" y="207"/>
+<text x="97" y="223">
+nostack</text>
+</g>
+</g>
+<path d=" M 47 239 v 0 a 12 12 0 0 0 12 12 m 100 0 h 40 a 12 12 0 0 0 12 -12 v 0"/>
+<g class="sequence">
+<g class="terminal">
+<rect height="22" rx="10" ry="10" width="100" x="59" y="240"/>
+<text x="109" y="256">
+att_syntax</text>
+</g>
+</g>
+<path d=" M 47 272 v 0 a 12 12 0 0 0 12 12 m 44 0 h 96 m -45 0 l -5 -5 m 0 10 l 5 -5 m 45 0 a 12 12 0 0 0 12 -12 v 0"/>
+<g class="terminal">
+<rect height="22" rx="10" ry="10" width="44" x="59" y="273"/>
+<text x="81" y="289">
+raw</text>
+</g>
+</g>
+<path d=" M 233 53 h 5 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5"/>
+<path d=" M 25 53 h 10"/>
+<path d=" M 223 53 h 10"/>
+</g>
+</g>
+</svg>
+</div>
+<div style="width: 782px; height: auto; max-width: 100%; max-height: 100%" class="railroad-production" id="railroad-RegOperand"><svg class="railroad" viewBox="0 0 782 231" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<rect class="railroad_canvas" height="100%" width="100%"/>
+<g class="verticalgrid">
+<a class="link" xlink:href="inline-assembly.html#grammar-RegOperand">
+<text class="comment" x="50" y="25">
+RegOperand</text>
+</a>
+<g class="sequence">
+<path d=" M 10 66 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5 m 10 0 h 5"/>
+<g class="sequence">
+<g class="optional">
+<path d=" M 35 66 h 24 m -24 0 a 12 12 0 0 0 12 -12 v 0 a 12 12 0 0 1 12 -12 h 130 m -62 0 l -5 -5 m 0 10 l 5 -5 m 62 0 a 12 12 0 0 1 12 12 v 0 a 12 12 0 0 0 12 12 h -24"/>
+<g class="sequence">
+<a class="link" xlink:href="inline-assembly.html#railroad-ParamName">
+<g class="nonterminal">
+<rect height="22" width="92" x="59" y="55"/>
+<text x="105" y="71">
+ParamName</text>
+</g>
+</a>
+<g class="terminal">
+<rect height="22" rx="10" ry="10" width="28" x="161" y="55"/>
+<text x="175" y="71">
+=</text>
+</g>
+<path d=" M 151 66 h 10"/>
+</g>
+</g>
+<g class="choice">
+<path d=" M 223 66 h 24 m 348 0 h 152 m -73 0 l -5 -5 m 0 10 l 5 -5 m 73 0"/>
+<g class="sequence">
+<a class="link" xlink:href="inline-assembly.html#railroad-DirSpec">
+<g class="nonterminal">
+<rect height="22" width="76" x="247" y="55"/>
+<text x="285" y="71">
+DirSpec</text>
+</g>
+</a>
+<g class="terminal">
+<rect height="22" rx="10" ry="10" width="28" x="333" y="55"/>
+<text x="347" y="71">
+(</text>
+</g>
+<a class="link" xlink:href="inline-assembly.html#railroad-RegSpec">
+<g class="nonterminal">
+<rect height="22" width="76" x="371" y="55"/>
+<text x="409" y="71">
+RegSpec</text>
+</g>
+</a>
+<g class="terminal">
+<rect height="22" rx="10" ry="10" width="28" x="457" y="55"/>
+<text x="471" y="71">
+)</text>
+</g>
+<a class="link" xlink:href="expressions.html#railroad-Expression">
+<g class="nonterminal">
+<rect height="22" width="100" x="495" y="55"/>
+<text x="545" y="71">
+Expression</text>
+</g>
+</a>
+<path d=" M 323 66 h 10"/>
+<path d=" M 361 66 h 10"/>
+<path d=" M 447 66 h 10"/>
+<path d=" M 485 66 h 10"/>
+</g>
+<path d=" M 223 66 a 12 12 0 0 1 12 12 v 9 m 500 0 v -9 a 12 12 0 0 1 12 -12"/>
+<path d=" M 235 87 v 33 m 500 0 v -33"/>
+<path d=" M 235 120 v 33 m 500 0 v -33"/>
+<path d=" M 235 153 v 33 m 500 0 v -33"/>
+<path d=" M 235 87 v 0 a 12 12 0 0 0 12 12 m 476 0 h 0 a 12 12 0 0 0 12 -12 v 0"/>
+<g class="sequence">
+<a class="link" xlink:href="inline-assembly.html#railroad-DualDirSpec">
+<g class="nonterminal">
+<rect height="22" width="108" x="247" y="88"/>
+<text x="301" y="104">
+DualDirSpec</text>
+</g>
+</a>
+<g class="terminal">
+<rect height="22" rx="10" ry="10" width="28" x="365" y="88"/>
+<text x="379" y="104">
+(</text>
+</g>
+<a class="link" xlink:href="inline-assembly.html#railroad-RegSpec">
+<g class="nonterminal">
+<rect height="22" width="76" x="403" y="88"/>
+<text x="441" y="104">
+RegSpec</text>
+</g>
+</a>
+<g class="terminal">
+<rect height="22" rx="10" ry="10" width="28" x="489" y="88"/>
+<text x="503" y="104">
+)</text>
+</g>
+<a class="link" xlink:href="inline-assembly.html#railroad-DualDirSpecExpression">
+<g class="nonterminal">
+<rect height="22" width="196" x="527" y="88"/>
+<text x="625" y="104">
+DualDirSpecExpression</text>
+</g>
+</a>
+<path d=" M 355 99 h 10"/>
+<path d=" M 393 99 h 10"/>
+<path d=" M 479 99 h 10"/>
+<path d=" M 517 99 h 10"/>
+</g>
+<path d=" M 235 120 v 0 a 12 12 0 0 0 12 12 m 186 0 h 290 m -142 0 l -5 -5 m 0 10 l 5 -5 m 142 0 a 12 12 0 0 0 12 -12 v 0"/>
+<g class="sequence">
+<g class="terminal">
+<rect height="22" rx="10" ry="10" width="44" x="247" y="121"/>
+<text x="269" y="137">
+sym</text>
+</g>
+<a class="link" xlink:href="expressions/path-expr.html#railroad-PathExpression">
+<g class="nonterminal">
+<rect height="22" width="132" x="301" y="121"/>
+<text x="367" y="137">
+PathExpression</text>
+</g>
+</a>
+<path d=" M 291 132 h 10"/>
+</g>
+<path d=" M 235 153 v 0 a 12 12 0 0 0 12 12 m 170 0 h 306 m -150 0 l -5 -5 m 0 10 l 5 -5 m 150 0 a 12 12 0 0 0 12 -12 v 0"/>
+<g class="sequence">
+<g class="terminal">
+<rect height="22" rx="10" ry="10" width="60" x="247" y="154"/>
+<text x="277" y="170">
+const</text>
+</g>
+<a class="link" xlink:href="expressions.html#railroad-Expression">
+<g class="nonterminal">
+<rect height="22" width="100" x="317" y="154"/>
+<text x="367" y="170">
+Expression</text>
+</g>
+</a>
+<path d=" M 307 165 h 10"/>
+</g>
+<path d=" M 235 186 v 12 a 12 12 0 0 0 12 12 m 294 0 h 182 m -88 0 l -5 -5 m 0 10 l 5 -5 m 88 0 a 12 12 0 0 0 12 -12 v -12"/>
+<g class="sequence">
+<g class="terminal">
+<rect height="22" rx="10" ry="10" width="60" x="247" y="199"/>
+<text x="277" y="215">
+label</text>
+</g>
+<g class="terminal">
+<rect height="22" rx="10" ry="10" width="28" x="317" y="199"/>
+<text x="331" y="215">
+{</text>
+</g>
+<g class="optional">
+<path d=" M 355 210 h 24 m -24 0 a 12 12 0 0 0 12 -12 v 0 a 12 12 0 0 1 12 -12 h 100 m -47 0 l -5 -5 m 0 10 l 5 -5 m 47 0 a 12 12 0 0 1 12 12 v 0 a 12 12 0 0 0 12 12 h -24"/>
+<a class="link" xlink:href="expressions/block-expr.html#railroad-Statements">
+<g class="nonterminal">
+<rect height="22" width="100" x="379" y="199"/>
+<text x="429" y="215">
+Statements</text>
+</g>
+</a>
+</g>
+<g class="terminal">
+<rect height="22" rx="10" ry="10" width="28" x="513" y="199"/>
+<text x="527" y="215">
+}</text>
+</g>
+<path d=" M 307 210 h 10"/>
+<path d=" M 345 210 h 10"/>
+<path d=" M 503 210 h 10"/>
+</g>
+</g>
+<path d=" M 213 66 h 10"/>
+</g>
+<path d=" M 757 66 h 5 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5"/>
+<path d=" M 25 66 h 10"/>
+<path d=" M 747 66 h 10"/>
+</g>
+</g>
+</svg>
+</div>
+<div style="width: 314px; height: auto; max-width: 100%; max-height: 100%" class="railroad-production" id="railroad-ParamName"><svg class="railroad" viewBox="0 0 314 107" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<rect class="railroad_canvas" height="100%" width="100%"/>
+<g class="verticalgrid">
+<a class="link" xlink:href="inline-assembly.html#grammar-ParamName">
+<text class="comment" x="46" y="25">
+ParamName</text>
+</a>
+<g class="sequence">
+<path d=" M 10 53 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5 m 10 0 h 5"/>
+<g class="choice">
+<path d=" M 35 53 h 24 m 196 0 h 24"/>
+<a class="link" xlink:href="identifiers.html#railroad-IDENTIFIER_OR_KEYWORD">
+<g class="nonterminal">
+<rect height="22" width="196" x="59" y="42"/>
+<text x="157" y="58">
+IDENTIFIER_OR_KEYWORD</text>
+</g>
+</a>
+<path d=" M 35 53 a 12 12 0 0 1 12 12 v 9 m 220 0 v -9 a 12 12 0 0 1 12 -12"/>
+<path d=" M 47 74 v 0 a 12 12 0 0 0 12 12 m 132 0 h 64 m -29 0 l -5 -5 m 0 10 l 5 -5 m 29 0 a 12 12 0 0 0 12 -12 v 0"/>
+<a class="link" xlink:href="identifiers.html#railroad-RAW_IDENTIFIER">
+<g class="nonterminal">
+<rect height="22" width="132" x="59" y="75"/>
+<text x="125" y="91">
+RAW_IDENTIFIER</text>
+</g>
+</a>
+</g>
+<path d=" M 289 53 h 5 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5"/>
+<path d=" M 25 53 h 10"/>
+<path d=" M 279 53 h 10"/>
+</g>
+</g>
+</svg>
+</div>
+<div style="width: 374px; height: auto; max-width: 100%; max-height: 100%" class="railroad-production" id="railroad-DualDirSpecExpression"><svg class="railroad" viewBox="0 0 374 107" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<rect class="railroad_canvas" height="100%" width="100%"/>
+<g class="verticalgrid">
+<a class="link" xlink:href="inline-assembly.html#grammar-DualDirSpecExpression">
+<text class="comment" x="92" y="25">
+DualDirSpecExpression</text>
+</a>
+<g class="sequence">
+<path d=" M 10 53 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5 m 10 0 h 5"/>
+<g class="choice">
+<path d=" M 35 53 h 24 m 100 0 h 180 m -87 0 l -5 -5 m 0 10 l 5 -5 m 87 0"/>
+<g class="sequence">
+<a class="link" xlink:href="expressions.html#railroad-Expression">
+<g class="nonterminal">
+<rect height="22" width="100" x="59" y="42"/>
+<text x="109" y="58">
+Expression</text>
+</g>
+</a>
+</g>
+<path d=" M 35 53 a 12 12 0 0 1 12 12 v 9 m 280 0 v -9 a 12 12 0 0 1 12 -12"/>
+<path d=" M 47 74 v 0 a 12 12 0 0 0 12 12 m 256 0 h 0 a 12 12 0 0 0 12 -12 v 0"/>
+<g class="sequence">
+<a class="link" xlink:href="expressions.html#railroad-Expression">
+<g class="nonterminal">
+<rect height="22" width="100" x="59" y="75"/>
+<text x="109" y="91">
+Expression</text>
+</g>
+</a>
+<g class="terminal">
+<rect height="22" rx="10" ry="10" width="36" x="169" y="75"/>
+<text x="187" y="91">
+=&gt;</text>
+</g>
+<a class="link" xlink:href="expressions.html#railroad-Expression">
+<g class="nonterminal">
+<rect height="22" width="100" x="215" y="75"/>
+<text x="265" y="91">
+Expression</text>
+</g>
+</a>
+<path d=" M 159 86 h 10"/>
+<path d=" M 205 86 h 10"/>
+</g>
+</g>
+<path d=" M 349 53 h 5 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5"/>
+<path d=" M 25 53 h 10"/>
+<path d=" M 339 53 h 10"/>
+</g>
+</g>
+</svg>
+</div>
+<div style="width: 266px; height: auto; max-width: 100%; max-height: 100%" class="railroad-production" id="railroad-RegSpec"><svg class="railroad" viewBox="0 0 266 107" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<rect class="railroad_canvas" height="100%" width="100%"/>
+<g class="verticalgrid">
+<a class="link" xlink:href="inline-assembly.html#grammar-RegSpec">
+<text class="comment" x="39" y="25">
+RegSpec</text>
+</a>
+<g class="sequence">
+<path d=" M 10 53 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5 m 10 0 h 5"/>
+<g class="choice">
+<path d=" M 35 53 h 24 m 124 0 h 48"/>
+<a class="link" xlink:href="inline-assembly.html#railroad-RegisterClass">
+<g class="nonterminal">
+<rect height="22" width="124" x="59" y="42"/>
+<text x="121" y="58">
+RegisterClass</text>
+</g>
+</a>
+<path d=" M 35 53 a 12 12 0 0 1 12 12 v 9 m 172 0 v -9 a 12 12 0 0 1 12 -12"/>
+<path d=" M 47 74 v 0 a 12 12 0 0 0 12 12 m 148 0 h 0 a 12 12 0 0 0 12 -12 v 0"/>
+<a class="link" xlink:href="inline-assembly.html#railroad-ExplicitRegister">
+<g class="nonterminal">
+<rect height="22" width="148" x="59" y="75"/>
+<text x="133" y="91">
+ExplicitRegister</text>
+</g>
+</a>
+</g>
+<path d=" M 241 53 h 5 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5"/>
+<path d=" M 25 53 h 10"/>
+<path d=" M 231 53 h 10"/>
+</g>
+</g>
+</svg>
+</div>
+<div style="width: 266px; height: auto; max-width: 100%; max-height: 100%" class="railroad-production" id="railroad-RegisterClass"><svg class="railroad" viewBox="0 0 266 74" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<rect class="railroad_canvas" height="100%" width="100%"/>
+<g class="verticalgrid">
+<a class="link" xlink:href="inline-assembly.html#grammar-RegisterClass">
+<text class="comment" x="60" y="25">
+RegisterClass</text>
+</a>
+<g class="sequence">
+<path d=" M 10 53 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5 m 10 0 h 5"/>
+<a class="link" xlink:href="identifiers.html#railroad-IDENTIFIER_OR_KEYWORD">
+<g class="nonterminal">
+<rect height="22" width="196" x="35" y="42"/>
+<text x="133" y="58">
+IDENTIFIER_OR_KEYWORD</text>
+</g>
+</a>
+<path d=" M 241 53 h 5 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5"/>
+<path d=" M 25 53 h 10"/>
+<path d=" M 231 53 h 10"/>
+</g>
+</g>
+</svg>
+</div>
+<div style="width: 202px; height: auto; max-width: 100%; max-height: 100%" class="railroad-production" id="railroad-ExplicitRegister"><svg class="railroad" viewBox="0 0 202 74" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<rect class="railroad_canvas" height="100%" width="100%"/>
+<g class="verticalgrid">
+<a class="link" xlink:href="inline-assembly.html#grammar-ExplicitRegister">
+<text class="comment" x="71" y="25">
+ExplicitRegister</text>
+</a>
+<g class="sequence">
+<path d=" M 10 53 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5 m 10 0 h 5"/>
+<a class="link" xlink:href="tokens.html#railroad-STRING_LITERAL">
+<g class="nonterminal">
+<rect height="22" width="132" x="35" y="42"/>
+<text x="101" y="58">
+STRING_LITERAL</text>
+</g>
+</a>
+<path d=" M 177 53 h 5 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5"/>
+<path d=" M 25 53 h 10"/>
+<path d=" M 167 53 h 10"/>
+</g>
+</g>
+</svg>
+</div>
+<div style="width: 194px; height: auto; max-width: 100%; max-height: 100%" class="railroad-production" id="railroad-DirSpec"><svg class="railroad" viewBox="0 0 194 140" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<rect class="railroad_canvas" height="100%" width="100%"/>
+<g class="verticalgrid">
+<a class="link" xlink:href="inline-assembly.html#grammar-DirSpec">
+<text class="comment" x="39" y="25">
+DirSpec</text>
+</a>
+<g class="sequence">
+<path d=" M 10 53 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5 m 10 0 h 5"/>
+<g class="choice">
+<path d=" M 35 53 h 24 m 36 0 h 64 m -29 0 l -5 -5 m 0 10 l 5 -5 m 29 0"/>
+<g class="sequence">
+<g class="terminal">
+<rect height="22" rx="10" ry="10" width="36" x="59" y="42"/>
+<text x="77" y="58">
+in</text>
+</g>
+</g>
+<path d=" M 35 53 a 12 12 0 0 1 12 12 v 9 m 100 0 v -9 a 12 12 0 0 1 12 -12"/>
+<path d=" M 47 74 v 33 m 100 0 v -33"/>
+<path d=" M 47 74 v 0 a 12 12 0 0 0 12 12 m 44 0 h 32 a 12 12 0 0 0 12 -12 v 0"/>
+<g class="sequence">
+<g class="terminal">
+<rect height="22" rx="10" ry="10" width="44" x="59" y="75"/>
+<text x="81" y="91">
+out</text>
+</g>
+</g>
+<path d=" M 47 107 v 0 a 12 12 0 0 0 12 12 m 76 0 h 0 a 12 12 0 0 0 12 -12 v 0"/>
+<g class="terminal">
+<rect height="22" rx="10" ry="10" width="76" x="59" y="108"/>
+<text x="97" y="124">
+lateout</text>
+</g>
+</g>
+<path d=" M 169 53 h 5 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5"/>
+<path d=" M 25 53 h 10"/>
+<path d=" M 159 53 h 10"/>
+</g>
+</g>
+</svg>
+</div>
+<div style="width: 210px; height: auto; max-width: 100%; max-height: 100%" class="railroad-production" id="railroad-DualDirSpec"><svg class="railroad" viewBox="0 0 210 107" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<rect class="railroad_canvas" height="100%" width="100%"/>
+<g class="verticalgrid">
+<a class="link" xlink:href="inline-assembly.html#grammar-DualDirSpec">
+<text class="comment" x="53" y="25">
+DualDirSpec</text>
+</a>
+<g class="sequence">
+<path d=" M 10 53 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5 m 10 0 h 5"/>
+<g class="choice">
+<path d=" M 35 53 h 24 m 60 0 h 56 m -25 0 l -5 -5 m 0 10 l 5 -5 m 25 0"/>
+<g class="sequence">
+<g class="terminal">
+<rect height="22" rx="10" ry="10" width="60" x="59" y="42"/>
+<text x="89" y="58">
+inout</text>
+</g>
+</g>
+<path d=" M 35 53 a 12 12 0 0 1 12 12 v 9 m 116 0 v -9 a 12 12 0 0 1 12 -12"/>
+<path d=" M 47 74 v 0 a 12 12 0 0 0 12 12 m 92 0 h 0 a 12 12 0 0 0 12 -12 v 0"/>
+<g class="terminal">
+<rect height="22" rx="10" ry="10" width="92" x="59" y="75"/>
+<text x="105" y="91">
+inlateout</text>
+</g>
+</g>
+<path d=" M 185 53 h 5 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5"/>
+<path d=" M 25 53 h 10"/>
+<path d=" M 175 53 h 10"/>
+</g>
+</g>
+</svg>
+</div>
+</div>
 <div class="rule" id="r-asm.scope"><a class="rule-link" href="#r-asm.scope" title="asm.scope"><span>[asm<wbr>.scope]</span/></a>
 </div>
 <h2 id="scope"><a class="header" href="#scope">Scope</a></h2>
 <div class="rule" id="r-asm.scope.intro"><a class="rule-link" href="#r-asm.scope.intro" title="asm.scope.intro"><span>[asm<wbr>.scope<wbr>.intro]</span/></a>
 </div>
-<p>Inline assembly can be used in one of two ways.</p>
+<p>Inline assembly can be used in one of three ways.</p>
 <div class="rule" id="r-asm.scope.asm"><a class="rule-link" href="#r-asm.scope.asm" title="asm.scope.asm"><span>[asm<wbr>.scope<wbr>.asm]</span/></a>
 </div>
 <p>With the <code>asm!</code> macro, the assembly code is emitted in a function scope and integrated into the compiler-generated assembly code of a function.
@@ -236,6 +1130,18 @@ Note that in some cases the compiler may choose to emit the assembly code as a s
 </span><span class="boring">#[cfg(target_arch = "x86_64")] {
 </span>unsafe { core::arch::asm!("/* {} */", in(reg) 0); }
 <span class="boring">}
+</span><span class="boring">}</span></code></pre></pre>
+<div class="rule" id="r-asm.scope.naked_asm"><a class="rule-link" href="#r-asm.scope.naked_asm" title="asm.scope.naked_asm"><span>[asm<wbr>.scope<wbr>.naked_asm]</span/></a>
+</div>
+<p>With the <code>naked_asm!</code> macro, the assembly code is emitted in a function scope and constitutes the full assembly code of a function. The <code>naked_asm!</code> macro is only allowed in <a href="attributes/codegen.html#the-naked-attribute">naked functions</a>.</p>
+<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span><span class="boring">#[cfg(target_arch = "x86_64")] {
+</span><span class="boring">#[unsafe(naked)]
+</span><span class="boring">extern "C" fn wrapper() {
+</span>core::arch::naked_asm!("/* {} */", const 0);
+<span class="boring">}
+</span><span class="boring">}
 </span><span class="boring">}</span></code></pre></pre>
 <div class="rule" id="r-asm.scope.global_asm"><a class="rule-link" href="#r-asm.scope.global_asm" title="asm.scope.global_asm"><span>[asm<wbr>.scope<wbr>.global_asm]</span/></a>
 </div>
@@ -249,7 +1155,7 @@ This can be used to hand-write entire functions using assembly code, and general
 <h2 id="template-string-arguments"><a class="header" href="#template-string-arguments">Template string arguments</a></h2>
 <div class="rule" id="r-asm.ts-args.syntax"><a class="rule-link" href="#r-asm.ts-args.syntax" title="asm.ts-args.syntax"><span>[asm<wbr>.ts-args<wbr>.syntax]</span/></a>
 </div>
-<p>The assembler template uses the same syntax as <a href="https://doc.rust-lang.org/nightly/alloc/fmt/index.html#syntax">format strings</a> (i.e. placeholders are specified by curly braces).</p>
+<p>The assembler template uses the same syntax as <a href="../alloc/fmt/index.html#syntax">format strings</a> (i.e. placeholders are specified by curly braces).</p>
 <div class="rule" id="r-asm.ts-args.order"><a class="rule-link" href="#r-asm.ts-args.order" title="asm.ts-args.order"><span>[asm<wbr>.ts-args<wbr>.order]</span/></a>
 </div>
 <p>The corresponding arguments are accessed in order, by index, or by name.</p>
@@ -314,8 +1220,7 @@ unsafe { core::arch::asm!("/* {x} */", x = const 5, "ud2"); } // ERROR: unexpect
 <pre><pre class="playground"><code class="language-rust compile_fail edition2024"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span><span class="boring">#[cfg(target_arch = "x86_64")] {
-</span>let x = 5;
-// Named operands need to come after positional ones
+</span>// Named operands need to come after positional ones
 unsafe { core::arch::asm!("/* {x} {} */", x = const 5, in(reg) 5); }
 // ERROR: positional arguments cannot follow named arguments or explicit register arguments
 <span class="boring">}
@@ -324,8 +1229,7 @@ unsafe { core::arch::asm!("/* {x} {} */", x = const 5, in(reg) 5); }
 <pre><pre class="playground"><code class="language-rust compile_fail edition2024"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span><span class="boring">#[cfg(target_arch = "x86_64")] {
-</span>let x = 5;
-// We also can't put explicit registers before positional operands
+</span>// We also can't put explicit registers before positional operands
 unsafe { core::arch::asm!("/* {} */", in("eax") 0, in(reg) 5); }
 // ERROR: positional arguments cannot follow named arguments or explicit register arguments
 <span class="boring">}
@@ -337,8 +1241,7 @@ unsafe { core::arch::asm!("/* {} */", in("eax") 0, in(reg) 5); }
 <pre><pre class="playground"><code class="language-rust compile_fail edition2024"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span><span class="boring">#[cfg(target_arch = "x86_64")] {
-</span>let x = 5;
-// Explicit register operands don't get substituted, use `eax` explicitly in the string
+</span>// Explicit register operands don't get substituted, use `eax` explicitly in the string
 unsafe { core::arch::asm!("/* {} */", in("eax") 5); }
 // ERROR: invalid reference to argument at index 0
 <span class="boring">}
@@ -350,8 +1253,7 @@ unsafe { core::arch::asm!("/* {} */", in("eax") 5); }
 <pre><pre class="playground"><code class="language-rust compile_fail edition2024"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span><span class="boring">#[cfg(target_arch = "x86_64")] {
-</span>let x = 5;
-// We have to name all of the operands in the format string
+</span>// We have to name all of the operands in the format string
 unsafe { core::arch::asm!("", in(reg) 5, x = const 5); }
 // ERROR: multiple unused asm arguments
 <span class="boring">}
@@ -519,6 +1421,8 @@ assert_eq!(x, 5);
 unsafe { core::arch::asm!("call {}", sym foo, clobber_abi("C")); }
 <span class="boring">}
 </span><span class="boring">}</span></code></pre></pre>
+<div class="rule" id="r-asm.operand-type.supported-operands.const"><a class="rule-link" href="#r-asm.operand-type.supported-operands.const" title="asm.operand-type.supported-operands.const"><span>[asm<wbr>.operand-type<wbr>.supported-operands<wbr>.const]</span/></a>
+</div>
 <ul>
 <li><code>const &lt;expr&gt;</code>
 <ul>
@@ -552,6 +1456,7 @@ assert_eq!(y, [3, 2, 0, 1]);
 <li><code>label &lt;block&gt;</code>
 <ul>
 <li>The address of the block is substituted into the asm template string. The assembly code may jump to the substituted address.</li>
+<li>For targets that distinguish between direct jumps and indirect jumps (e.g. x86-64 with <code>cf-protection</code> enabled), the assembly code must not jump to the substituted address indirectly.</li>
 <li>After execution of the block, the <code>asm!</code> expression returns.</li>
 <li>The type of the block must be unit or <code>!</code> (never).</li>
 <li>The block starts a new safety context; unsafe operations within the <code>label</code> block must be wrapped in an inner <code>unsafe</code> block, even though the entire <code>asm!</code> expression is already wrapped in <code>unsafe</code>.</li>
@@ -581,12 +1486,14 @@ unsafe { core::arch::asm!("mov {}, 0", "mov {}, 1", out(reg) y, out(reg) y); }
 assert_eq!(y, 1);
 <span class="boring">}
 </span><span class="boring">}</span></code></pre></pre>
+<div class="rule" id="r-asm.operand-type.naked_asm-restriction"><a class="rule-link" href="#r-asm.operand-type.naked_asm-restriction" title="asm.operand-type.naked_asm-restriction"><span>[asm<wbr>.operand-type<wbr>.naked_asm-restriction]</span/></a>
+</div>
+<p>Because <code>naked_asm!</code> defines a whole function body and the compiler cannot emit any additional code to handle operands, it can only use <code>sym</code> and <code>const</code> operands.</p>
 <div class="rule" id="r-asm.operand-type.global_asm-restriction"><a class="rule-link" href="#r-asm.operand-type.global_asm-restriction" title="asm.operand-type.global_asm-restriction"><span>[asm<wbr>.operand-type<wbr>.global_asm-restriction]</span/></a>
 </div>
-<p>Since <code>global_asm!</code> exists outside a function, it can only use <code>sym</code> and <code>const</code> operands.</p>
+<p>Because <code>global_asm!</code> exists outside a function, it can only use <code>sym</code> and <code>const</code> operands.</p>
 <pre><pre class="playground"><code class="language-rust compile_fail edition2024"><span class="boring">fn main() {}
-</span>let x = 5;
-// register operands aren't allowed, since we aren't in a function
+</span>// register operands aren't allowed, since we aren't in a function
 <span class="boring">#[cfg(target_arch = "x86_64")]
 </span>core::arch::global_asm!("", in(reg) 5);
 // ERROR: the `in` operand cannot be used with `global_asm!`
@@ -644,8 +1551,7 @@ unsafe { core::arch::asm!("", in("ax") 5, in("rax") 4); }
 <pre><pre class="playground"><code class="language-rust compile_fail edition2024"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span><span class="boring">#[cfg(target_arch = "x86_64")] {
-</span>let x = 5;
-// al overlaps with ax, so we can't name both of them.
+</span>// al overlaps with ax, so we can't name both of them.
 unsafe { core::arch::asm!("", in("ax") 5, in("al") 4i8); }
 // ERROR: register `al` conflicts with register `ax`
 <span class="boring">}
@@ -784,9 +1690,10 @@ The availability of supported types for a particular register class may depend o
 <tr><td>RISC-V</td><td><code>freg</code></td><td><code>f</code></td><td><code>f32</code></td></tr>
 <tr><td>RISC-V</td><td><code>freg</code></td><td><code>d</code></td><td><code>f64</code></td></tr>
 <tr><td>RISC-V</td><td><code>vreg</code></td><td>N/A</td><td>Only clobbers</td></tr>
+<tr><td>LoongArch32</td><td><code>reg</code></td><td>None</td><td><code>i8</code>, <code>i16</code>, <code>i32</code>, <code>f32</code></td></tr>
 <tr><td>LoongArch64</td><td><code>reg</code></td><td>None</td><td><code>i8</code>, <code>i16</code>, <code>i32</code>, <code>i64</code>, <code>f32</code>, <code>f64</code></td></tr>
-<tr><td>LoongArch64</td><td><code>freg</code></td><td><code>f</code></td><td><code>f32</code></td></tr>
-<tr><td>LoongArch64</td><td><code>freg</code></td><td><code>d</code></td><td><code>f64</code></td></tr>
+<tr><td>LoongArch</td><td><code>freg</code></td><td><code>f</code></td><td><code>f32</code></td></tr>
+<tr><td>LoongArch</td><td><code>freg</code></td><td><code>d</code></td><td><code>f64</code></td></tr>
 <tr><td>s390x</td><td><code>reg</code>, <code>reg_addr</code></td><td>None</td><td><code>i8</code>, <code>i16</code>, <code>i32</code>, <code>i64</code></td></tr>
 <tr><td>s390x</td><td><code>freg</code></td><td>None</td><td><code>f32</code>, <code>f64</code></td></tr>
 <tr><td>s390x</td><td><code>vreg</code></td><td>N/A</td><td>Only clobbers</td></tr>
@@ -1417,11 +2324,6 @@ unsafe { core::arch::asm!("", options(pure)); }
 <ul>
 <li>It is a compile-time error to specify <code>noreturn</code> on an asm block with outputs and without labels.</li>
 </ul>
-<div class="rule" id="r-asm.options.checks.label-with-outputs"><a class="rule-link" href="#r-asm.options.checks.label-with-outputs" title="asm.options.checks.label-with-outputs"><span>[asm<wbr>.options<wbr>.checks<wbr>.label-with-outputs]</span/></a>
-</div>
-<ul>
-<li>It is a compile-time error to have any <code>label</code> blocks in an asm block with outputs.</li>
-</ul>
 <pre><pre class="playground"><code class="language-rust compile_fail edition2024"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span><span class="boring">#[cfg(target_arch = "x86_64")] {
@@ -1432,10 +2334,17 @@ unsafe { core::arch::asm!("mov {:e}, 1", out(reg) z, options(noreturn)); }
 <span class="boring">}
 </span><span class="boring">#[cfg(not(target_arch = "x86_64"))] core::compile_error!("Test not supported on this arch");
 </span><span class="boring">}</span></code></pre></pre>
+<div class="rule" id="r-asm.options.checks.label-with-outputs"><a class="rule-link" href="#r-asm.options.checks.label-with-outputs" title="asm.options.checks.label-with-outputs"><span>[asm<wbr>.options<wbr>.checks<wbr>.label-with-outputs]</span/></a>
+</div>
+<ul>
+<li>It is a compile-time error to have any <code>label</code> blocks in an asm block with outputs.</li>
+</ul>
+<div class="rule" id="r-asm.options.naked_asm-restriction"><a class="rule-link" href="#r-asm.options.naked_asm-restriction" title="asm.options.naked_asm-restriction"><span>[asm<wbr>.options<wbr>.naked_asm-restriction]</span/></a>
+</div>
+<p><code>naked_asm!</code> only supports the <code>att_syntax</code> and <code>raw</code> options. The remaining options are not meaningful because the inline assembly defines the whole function body.</p>
 <div class="rule" id="r-asm.options.global_asm-restriction"><a class="rule-link" href="#r-asm.options.global_asm-restriction" title="asm.options.global_asm-restriction"><span>[asm<wbr>.options<wbr>.global_asm-restriction]</span/></a>
 </div>
-<p><code>global_asm!</code> only supports the <code>att_syntax</code> and <code>raw</code> options.
-The remaining options are not meaningful for global-scope inline assembly</p>
+<p><code>global_asm!</code> only supports the <code>att_syntax</code> and <code>raw</code> options. The remaining options are not meaningful for global-scope inline assembly.</p>
 <pre><pre class="playground"><code class="language-rust compile_fail edition2024"><span class="boring">fn main() {}
 </span><span class="boring">#[cfg(target_arch = "x86_64")]
 </span>// nomem is useless on global_asm!
@@ -1483,7 +2392,6 @@ Code should not rely on this however since it depends on the results of register
 <ul>
 <li>The set of memory locations that assembly code is allowed to read and write are the same as those allowed for an FFI function.
 <ul>
-<li>Refer to the unsafe code guidelines for the exact rules.</li>
 <li>If the <code>readonly</code> option is set, then only memory reads are allowed.</li>
 <li>If the <code>nomem</code> option is set then no reads or writes to memory are allowed.</li>
 <li>These rules do not apply to memory which is private to the assembly code, such as stack space allocated within it.</li>
@@ -1675,6 +2583,138 @@ The compiler is allowed to instantiate multiple copies of the <code>asm!</code> 
 <p>As a general rule, the flags covered by <code>preserves_flags</code> are those which are <em>not</em> preserved when performing a function call.</p>
 </blockquote>
 </div>
+<div class="rule" id="r-asm.naked-rules"><a class="rule-link" href="#r-asm.naked-rules" title="asm.naked-rules"><span>[asm<wbr>.naked-rules]</span/></a>
+</div>
+<h2 id="rules-for-naked-inline-assembly"><a class="header" href="#rules-for-naked-inline-assembly">Rules for naked inline assembly</a></h2>
+<div class="rule" id="r-asm.naked-rules.intro"><a class="rule-link" href="#r-asm.naked-rules.intro" title="asm.naked-rules.intro"><span>[asm<wbr>.naked-rules<wbr>.intro]</span/></a>
+</div>
+<p>To avoid undefined behavior, these rules must be followed when using function-scope inline assembly in naked functions (<code>naked_asm!</code>):</p>
+<div class="rule" id="r-asm.naked-rules.reg-not-input"><a class="rule-link" href="#r-asm.naked-rules.reg-not-input" title="asm.naked-rules.reg-not-input"><span>[asm<wbr>.naked-rules<wbr>.reg-not-input]</span/></a>
+</div>
+<ul>
+<li>Any registers not used for function inputs according to the calling convention and function signature will contain an undefined value on entry to the <code>naked_asm!</code> block.
+<ul>
+<li>An “undefined value” in the context of inline assembly means that the register can (non-deterministically) have any one of the possible values allowed by the architecture. Notably it is not the same as an LLVM <code>undef</code> which can have a different value every time you read it (since such a concept does not exist in assembly code).</li>
+</ul>
+</li>
+</ul>
+<div class="rule" id="r-asm.naked-rules.callee-saved-registers"><a class="rule-link" href="#r-asm.naked-rules.callee-saved-registers" title="asm.naked-rules.callee-saved-registers"><span>[asm<wbr>.naked-rules<wbr>.callee-saved-registers]</span/></a>
+</div>
+<ul>
+<li>All callee-saved registers must have the same value upon return as they had on entry.</li>
+</ul>
+<div class="rule" id="r-asm.naked-rules.caller-saved-registers"><a class="rule-link" href="#r-asm.naked-rules.caller-saved-registers" title="asm.naked-rules.caller-saved-registers"><span>[asm<wbr>.naked-rules<wbr>.caller-saved-registers]</span/></a>
+</div>
+<ul>
+<li>Caller-saved registers may be used freely.</li>
+</ul>
+<div class="rule" id="r-asm.naked-rules.noreturn"><a class="rule-link" href="#r-asm.naked-rules.noreturn" title="asm.naked-rules.noreturn"><span>[asm<wbr>.naked-rules<wbr>.noreturn]</span/></a>
+</div>
+<ul>
+<li>Behavior is undefined if execution falls through past the end of the assembly code.
+<ul>
+<li>Every path through the assembly code is expected to terminate with a return instruction or to diverge.</li>
+</ul>
+</li>
+</ul>
+<div class="rule" id="r-asm.naked-rules.mem-same-as-ffi"><a class="rule-link" href="#r-asm.naked-rules.mem-same-as-ffi" title="asm.naked-rules.mem-same-as-ffi"><span>[asm<wbr>.naked-rules<wbr>.mem-same-as-ffi]</span/></a>
+</div>
+<ul>
+<li>The set of memory locations that assembly code is allowed to read and write are the same as those allowed for an FFI function.</li>
+</ul>
+<div class="rule" id="r-asm.naked-rules.black-box"><a class="rule-link" href="#r-asm.naked-rules.black-box" title="asm.naked-rules.black-box"><span>[asm<wbr>.naked-rules<wbr>.black-box]</span/></a>
+</div>
+<ul>
+<li>The compiler cannot assume that the instructions in the <code>naked_asm!</code> block are the ones that will actually be executed.
+<ul>
+<li>This effectively means that the compiler must treat the <code>naked_asm!</code> as a black box and only take the interface specification into account, not the instructions themselves.</li>
+<li>Runtime code patching is allowed, via target-specific mechanisms.</li>
+</ul>
+</li>
+</ul>
+<div class="rule" id="r-asm.naked-rules.unwind"><a class="rule-link" href="#r-asm.naked-rules.unwind" title="asm.naked-rules.unwind"><span>[asm<wbr>.naked-rules<wbr>.unwind]</span/></a>
+</div>
+<ul>
+<li>Unwinding out of a <code>naked_asm!</code> block is allowed.
+<ul>
+<li>For correct behavior, the appropriate assembler directives that emit unwinding metadata must be used.</li>
+</ul>
+</li>
+</ul>
+<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span><span class="boring">#[cfg(target_arch = "x86_64")] {
+</span>#[unsafe(naked)]
+extern "sysv64-unwind" fn unwinding_naked() {
+    core::arch::naked_asm!(
+        // "CFI" here stands for "call frame information".
+        ".cfi_startproc",
+        // The CFA (canonical frame address) is the value of `rsp`
+        // before the `call`, i.e. before the return address, `rip`,
+        // was pushed to `rsp`, so it's eight bytes higher in memory
+        // than `rsp` upon function entry (after `rip` has been
+        // pushed).
+        //
+        // This is the default, so we don't have to write it.
+        //".cfi_def_cfa rsp, 8",
+        //
+        // The traditional thing to do is to preserve the base
+        // pointer, so we'll do that.
+        "push rbp",
+        // Since we've now extended the stack downward by 8 bytes in
+        // memory, we need to adjust the offset to the CFA from `rsp`
+        // by another 8 bytes.
+        ".cfi_adjust_cfa_offset 8",
+        // We also then annotate where we've stored the caller's value
+        // of `rbp`, relative to the CFA, so that when unwinding into
+        // the caller we can find it, in case we need it to calculate
+        // the caller's CFA relative to it.
+        //
+        // Here, we've stored the caller's `rbp` starting 16 bytes
+        // below the CFA.  I.e., starting from the CFA, there's first
+        // the `rip` (which starts 8 bytes below the CFA and continues
+        // up to it), then there's the caller's `rbp` that we just
+        // pushed.
+        ".cfi_offset rbp, -16",
+        // As is traditional, we set the base pointer to the value of
+        // the stack pointer.  This way, the base pointer stays the
+        // same throughout the function body.
+        "mov rbp, rsp",
+        // We can now track the offset to the CFA from the base
+        // pointer.  This means we don't need to make any further
+        // adjustments until the end, as we don't change `rbp`.
+        ".cfi_def_cfa_register rbp",
+        // We can now call a function that may panic.
+        "call {f}",
+        // Upon return, we restore `rbp` in preparation for returning
+        // ourselves.
+        "pop rbp",
+        // Now that we've restored `rbp`, we must specify the offset
+        // to the CFA again in terms of `rsp`.
+        ".cfi_def_cfa rsp, 8",
+        // Now we can return.
+        "ret",
+        ".cfi_endproc",
+        f = sym may_panic,
+    )
+}
+
+extern "sysv64-unwind" fn may_panic() {
+    panic!("unwind");
+}
+<span class="boring">}
+</span><span class="boring">}</span></code></pre></pre>
+<div class="alert alert-note">
+<blockquote>
+<p class="alert-title"><svg viewBox="0 0 16 16" width="18" height="18"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"></path></svg>Note</p>
+<p>For more information on the <code>cfi</code> assembler directives above, see these resources:</p>
+<ul>
+<li><a href="https://sourceware.org/binutils/docs/as/CFI-directives.html">Using <code>as</code> - CFI directives</a></li>
+<li><a href="https://dwarfstd.org/doc/DWARF5.pdf">DWARF Debugging Information Format Version 5</a></li>
+<li><a href="https://www.imperialviolet.org/2017/01/18/cfi.html">ImperialViolet - CFI directives in assembly files</a></li>
+</ul>
+</blockquote>
+</div>
 <div class="rule" id="r-asm.validity"><a class="rule-link" href="#r-asm.validity" title="asm.validity"><span>[asm<wbr>.validity]</span/></a>
 </div>
 <h3 id="correctness-and-validity"><a class="header" href="#correctness-and-validity">Correctness and Validity</a></h3>
@@ -1860,11 +2900,10 @@ assert_eq!(s, "Hello World!");
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
                             <a rel="prev" href="linkage.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
-                                <i class="fa fa-angle-left"></i>
-                            </a>
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
 
                             <a rel="next prefetch" href="unsafety.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
-                                <i class="fa fa-angle-right"></i>
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
                             </a>
 
                         <div style="clear: both"></div>
@@ -1874,16 +2913,21 @@ assert_eq!(s, "Hello World!");
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
                     <a rel="prev" href="linkage.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
-                        <i class="fa fa-angle-left"></i>
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
                     </a>
 
                     <a rel="next prefetch" href="unsafety.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
-                        <i class="fa fa-angle-right"></i>
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
                     </a>
             </nav>
 
         </div>
 
+        <template id=fa-eye><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM432 256c0 79.5-64.5 144-144 144s-144-64.5-144-144s64.5-144 144-144s144 64.5 144 144zM288 192c0 35.3-28.7 64-64 64c-11.5 0-22.3-3-31.6-8.4c-.2 2.8-.4 5.5-.4 8.4c0 53 43 96 96 96s96-43 96-96s-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6z"/></svg></span></template>
+        <template id=fa-eye-slash><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M38.8 5.1C28.4-3.1 13.3-1.2 5.1 9.2S-1.2 34.7 9.2 42.9l592 464c10.4 8.2 25.5 6.3 33.7-4.1s6.3-25.5-4.1-33.7L525.6 386.7c39.6-40.6 66.4-86.1 79.9-118.4c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C465.5 68.8 400.8 32 320 32c-68.2 0-125 26.3-169.3 60.8L38.8 5.1zM223.1 149.5C248.6 126.2 282.7 112 320 112c79.5 0 144 64.5 144 144c0 24.9-6.3 48.3-17.4 68.7L408 294.5c5.2-11.8 8-24.8 8-38.5c0-53-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6c0 10.2-2.4 19.8-6.6 28.3l-90.3-70.8zm223.1 298L373 389.9c-16.4 6.5-34.3 10.1-53 10.1c-79.5 0-144-64.5-144-144c0-6.9 .5-13.6 1.4-20.2L83.1 161.5C60.3 191.2 44 220.8 34.5 243.7c-3.3 7.9-3.3 16.7 0 24.6c14.9 35.7 46.2 87.7 93 131.1C174.5 443.2 239.2 480 320 480c47.8 0 89.9-12.9 126.2-32.5z"/></svg></span></template>
+        <template id=fa-copy><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M502.6 70.63l-61.25-61.25C435.4 3.371 427.2 0 418.7 0H255.1c-35.35 0-64 28.66-64 64l.0195 256C192 355.4 220.7 384 256 384h192c35.2 0 64-28.8 64-64V93.25C512 84.77 508.6 76.63 502.6 70.63zM464 320c0 8.836-7.164 16-16 16H255.1c-8.838 0-16-7.164-16-16L239.1 64.13c0-8.836 7.164-16 16-16h128L384 96c0 17.67 14.33 32 32 32h47.1V320zM272 448c0 8.836-7.164 16-16 16H63.1c-8.838 0-16-7.164-16-16L47.98 192.1c0-8.836 7.164-16 16-16H160V128H63.99c-35.35 0-64 28.65-64 64l.0098 256C.002 483.3 28.66 512 64 512h192c35.2 0 64-28.8 64-64v-32h-47.1L272 448z"/></svg></span></template>
+        <template id=fa-play><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/></svg></span></template>
+        <template id=fa-clock-rotate-left><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M75 75L41 41C25.9 25.9 0 36.6 0 57.9V168c0 13.3 10.7 24 24 24H134.1c21.4 0 32.1-25.9 17-41l-30.8-30.8C155 85.5 203 64 256 64c106 0 192 86 192 192s-86 192-192 192c-40.8 0-78.6-12.7-109.7-34.4c-14.5-10.1-34.4-6.6-44.6 7.9s-6.6 34.4 7.9 44.6C151.2 495 201.7 512 256 512c141.4 0 256-114.6 256-256S397.4 0 256 0C185.3 0 121.3 28.7 75 75zm181 53c-13.3 0-24 10.7-24 24V256c0 6.4 2.5 12.5 7 17l72 72c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-65-65V152c0-13.3-10.7-24-24-24z"/></svg></span></template>
 
 
 
@@ -1892,16 +2936,17 @@ assert_eq!(s, "Hello World!");
         </script>
 
 
-        <script src="elasticlunr.min.js"></script>
-        <script src="mark.min.js"></script>
-        <script src="searcher.js"></script>
+        <script src="elasticlunr-ef4e11c1.min.js"></script>
+        <script src="mark-09e88c2c.min.js"></script>
+        <script src="searcher-c2a407aa.js"></script>
 
-        <script src="clipboard.min.js"></script>
-        <script src="highlight.js"></script>
-        <script src="book.js"></script>
+        <script src="clipboard-1626706a.min.js"></script>
+        <script src="highlight-abc7f01d.js"></script>
+        <script src="book-81fc5345.js"></script>
 
         <!-- Custom JS scripts -->
-        <script src="theme/reference.js"></script>
+        <script src="theme/reference-cfed9ca5.js"></script>
+
 
 
     </div>
