@@ -268,6 +268,9 @@ let mdbookThresholdDebug = false;
 
         // Build a tree of headers in the sidebar.
         const rootLi = document.createElement('li');
+        rootLi.classList.add('chapter-item');
+        rootLi.classList.add('header-item');
+        rootLi.classList.add('expanded');
         const rootOl = document.createElement('ol');
         rootOl.classList.add('section');
         rootLi.appendChild(rootOl);
@@ -289,6 +292,7 @@ let mdbookThresholdDebug = false;
             const li = document.createElement('li');
             li.classList.add('chapter-item');
             li.classList.add('header-item');
+            li.classList.add('expanded');
             if (level < foldLevel) {
                 li.classList.add('expanded');
             }

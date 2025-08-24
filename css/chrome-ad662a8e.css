@@ -745,5 +745,4 @@ html:not(.sidebar-resizing) .sidebar {
     height: 8px;
     background-color: var(--sidebar-active);
     border-radius: 50%;
-    /*box-shadow: 0 0 6px rgba(66, 133, 244, 0.4);*/
 }
