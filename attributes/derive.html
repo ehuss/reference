@@ -14,9 +14,9 @@
 
         <link rel="icon" href="../favicon-de23e50b.svg">
         <link rel="shortcut icon" href="../favicon-8114d1fc.png">
-        <link rel="stylesheet" href="../css/variables-3865ffda.css">
-        <link rel="stylesheet" href="../css/general-d297d479.css">
-        <link rel="stylesheet" href="../css/chrome-ad662a8e.css">
+        <link rel="stylesheet" href="../css/variables-8adf115d.css">
+        <link rel="stylesheet" href="../css/general-2459343d.css">
+        <link rel="stylesheet" href="../css/chrome-3111ccdb.css">
         <link rel="stylesheet" href="../css/print-9e4910d8.css" media="print">
 
         <!-- Fonts -->
@@ -28,7 +28,7 @@
         <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="../ayu-highlight-56612340.css">
 
         <!-- Custom theme stylesheets -->
-        <link rel="stylesheet" href="../theme/reference-94a8e8ad.css">
+        <link rel="stylesheet" href="../theme/reference-6200eb72.css">
 
 
         <!-- Provide site root and default themes to javascript -->
@@ -36,10 +36,10 @@
             const path_to_root = "../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../searchindex-54e4028f.js";
+            window.path_to_searchindex_js = "../searchindex-93e32808.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="../toc-1b51e6f3.js"></script>
+        <script src="../toc-8771841d.js"></script>
     </head>
     <body>
     <div id="mdbook-help-container">
@@ -182,26 +182,29 @@
                 <div id="mdbook-content" class="content">
                     <main>
                         <!-- template:attributes -->
-<div class="rule" id="r-attributes.derive"><a class="rule-link" href="#r-attributes.derive" title="attributes.derive"><span>[attributes<wbr>.derive]</span/></a>
+<div class="rule" id="r-attributes.derive"><a class="rule-link" href="#r-attributes.derive" title="attributes.derive"><span>[attributes<wbr>.derive]</span></a>
 </div>
+
 <h1 id="derive"><a class="header" href="#derive">Derive</a></h1>
-<div class="rule" id="r-attributes.derive.intro"><a class="rule-link" href="#r-attributes.derive.intro" title="attributes.derive.intro"><span>[attributes<wbr>.derive<wbr>.intro]</span/></a>
+<div class="rule" id="r-attributes.derive.intro"><a class="rule-link" href="#r-attributes.derive.intro" title="attributes.derive.intro"><span>[attributes<wbr>.derive<wbr>.intro]</span></a>
 </div>
+
 <p>The <em><code>derive</code> <a href="../attributes.html#r-attributes">attribute</a></em> invokes one or more <a href="../procedural-macros.html#r-macro.proc.derive">derive macros</a>, allowing new <a href="../items.html">items</a> to be automatically generated for data structures. You can create <code>derive</code> macros with <a href="../procedural-macros.html#r-macro.proc.derive">procedural macros</a>.</p>
 <div class="alert alert-example">
 <blockquote>
-<p class="alert-title"><svg viewBox="0 0 16 16" width="18" height="18"><path d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0ZM1.5 8a6.5 6.5 0 1 0 13 0 6.5 6.5 0 0 0-13 0Zm4.879-2.773 4.264 2.559a.25.25 0 0 1 0 .428l-4.264 2.559A.25.25 0 0 1 6 10.559V5.442a.25.25 0 0 1 .379-.215Z"></path></svg>Example</p>
+<p class="alert-title"><svg viewbox="0 0 16 16" width="18" height="18"><path d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0ZM1.5 8a6.5 6.5 0 1 0 13 0 6.5 6.5 0 0 0-13 0Zm4.879-2.773 4.264 2.559a.25.25 0 0 1 0 .428l-4.264 2.559A.25.25 0 0 1 6 10.559V5.442a.25.25 0 0 1 .379-.215Z"></path></svg>Example</p>
+
 <p>The <a href="../../core/cmp/derive.PartialEq.html"><code>PartialEq</code></a> derive macro emits an <a href="../items/implementations.html">implementation</a> of <a href="../../core/cmp/trait.PartialEq.html"><code>PartialEq</code></a> for <code>Foo&lt;T&gt; where T: PartialEq</code>. The <a href="../../core/clone/derive.Clone.html"><code>Clone</code></a> derive macro does likewise for <a href="../../core/clone/trait.Clone.html"><code>Clone</code></a>.</p>
-<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">#![allow(unused)]
+<pre class="playground"><code class="language-rust edition2024"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>#[derive(PartialEq, Clone)]
 struct Foo&lt;T&gt; {
     a: i32,
     b: T,
 }
-<span class="boring">}</span></code></pre></pre>
+<span class="boring">}</span></code></pre>
 <p>The generated <code>impl</code> items are equivalent to:</p>
-<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">#![allow(unused)]
+<pre class="playground"><code class="language-rust edition2024"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span><span class="boring">struct Foo&lt;T&gt; { a: i32, b: T }
 </span>impl&lt;T: PartialEq&gt; PartialEq for Foo&lt;T&gt; {
@@ -215,23 +218,29 @@ impl&lt;T: Clone&gt; Clone for Foo&lt;T&gt; {
         Foo { a: self.a.clone(), b: self.b.clone() }
     }
 }
-<span class="boring">}</span></code></pre></pre>
+<span class="boring">}</span></code></pre>
 </blockquote>
 </div>
-<div class="rule" id="r-attributes.derive.syntax"><a class="rule-link" href="#r-attributes.derive.syntax" title="attributes.derive.syntax"><span>[attributes<wbr>.derive<wbr>.syntax]</span/></a>
+
+<div class="rule" id="r-attributes.derive.syntax"><a class="rule-link" href="#r-attributes.derive.syntax" title="attributes.derive.syntax"><span>[attributes<wbr>.derive<wbr>.syntax]</span></a>
 </div>
+
 <p>The <code>derive</code> attribute uses the <a href="../attributes.html#grammar-MetaListPaths">MetaListPaths</a> syntax to specify a list of paths to <a href="../procedural-macros.html#r-macro.proc.derive">derive macros</a> to invoke.</p>
-<div class="rule" id="r-attributes.derive.allowed-positions"><a class="rule-link" href="#r-attributes.derive.allowed-positions" title="attributes.derive.allowed-positions"><span>[attributes<wbr>.derive<wbr>.allowed-positions]</span/></a>
+<div class="rule" id="r-attributes.derive.allowed-positions"><a class="rule-link" href="#r-attributes.derive.allowed-positions" title="attributes.derive.allowed-positions"><span>[attributes<wbr>.derive<wbr>.allowed-positions]</span></a>
 </div>
+
 <p>The <code>derive</code> attribute may only be applied to <a href="../items/structs.html#r-items.struct">structs</a>, <a href="../items/enumerations.html#r-items.enum">enums</a>, and <a href="../items/unions.html#r-items.union">unions</a>.</p>
-<div class="rule" id="r-attributes.derive.duplicates"><a class="rule-link" href="#r-attributes.derive.duplicates" title="attributes.derive.duplicates"><span>[attributes<wbr>.derive<wbr>.duplicates]</span/></a>
+<div class="rule" id="r-attributes.derive.duplicates"><a class="rule-link" href="#r-attributes.derive.duplicates" title="attributes.derive.duplicates"><span>[attributes<wbr>.derive<wbr>.duplicates]</span></a>
 </div>
+
 <p>The <code>derive</code> attribute may be used any number of times on an item. All derive macros listed in all attributes are invoked.</p>
-<div class="rule" id="r-attributes.derive.stdlib"><a class="rule-link" href="#r-attributes.derive.stdlib" title="attributes.derive.stdlib"><span>[attributes<wbr>.derive<wbr>.stdlib]</span/></a>
+<div class="rule" id="r-attributes.derive.stdlib"><a class="rule-link" href="#r-attributes.derive.stdlib" title="attributes.derive.stdlib"><span>[attributes<wbr>.derive<wbr>.stdlib]</span></a>
 </div>
+
 <p>The <code>derive</code> attribute is exported in the standard library prelude as <a href="../../core/macros/builtin/attr.derive.html"><code>core::prelude::v1::derive</code></a>.</p>
-<div class="rule" id="r-attributes.derive.built-in"><a class="rule-link" href="#r-attributes.derive.built-in" title="attributes.derive.built-in"><span>[attributes<wbr>.derive<wbr>.built-in]</span/></a>
+<div class="rule" id="r-attributes.derive.built-in"><a class="rule-link" href="#r-attributes.derive.built-in" title="attributes.derive.built-in"><span>[attributes<wbr>.derive<wbr>.built-in]</span></a>
 </div>
+
 <p>Built-in derives are defined in the <a href="../names/preludes.html#r-names.preludes.lang">language prelude</a>. The list of built-in derives are:</p>
 <ul>
 <li><a href="../../core/clone/trait.Clone.html"><code>Clone</code></a></li>
@@ -244,24 +253,29 @@ impl&lt;T: Clone&gt; Clone for Foo&lt;T&gt; {
 <li><a href="../../core/cmp/trait.PartialEq.html"><code>PartialEq</code></a></li>
 <li><a href="../../core/cmp/trait.PartialOrd.html"><code>PartialOrd</code></a></li>
 </ul>
-<div class="rule" id="r-attributes.derive.built-in-automatically_derived"><a class="rule-link" href="#r-attributes.derive.built-in-automatically_derived" title="attributes.derive.built-in-automatically_derived"><span>[attributes<wbr>.derive<wbr>.built-in-automatically_derived]</span/></a>
+<div class="rule" id="r-attributes.derive.built-in-automatically_derived"><a class="rule-link" href="#r-attributes.derive.built-in-automatically_derived" title="attributes.derive.built-in-automatically_derived"><span>[attributes<wbr>.derive<wbr>.built-in-automatically_derived]</span></a>
 </div>
+
 <p>The built-in derives include the <a href="derive.html#r-attributes.derive.automatically_derived"><code>automatically_derived</code> attribute</a> on the implementations they generate.</p>
-<div class="rule" id="r-attributes.derive.behavior"><a class="rule-link" href="#r-attributes.derive.behavior" title="attributes.derive.behavior"><span>[attributes<wbr>.derive<wbr>.behavior]</span/></a>
+<div class="rule" id="r-attributes.derive.behavior"><a class="rule-link" href="#r-attributes.derive.behavior" title="attributes.derive.behavior"><span>[attributes<wbr>.derive<wbr>.behavior]</span></a>
 </div>
+
 <p>During macro expansion, for each element in the list of derives, the corresponding derive macro expands to zero or more <a href="../items.html">items</a>.</p>
 <!-- template:attributes -->
-<div class="rule" id="r-attributes.derive.automatically_derived"><a class="rule-link" href="#r-attributes.derive.automatically_derived" title="attributes.derive.automatically_derived"><span>[attributes<wbr>.derive<wbr>.automatically_derived]</span/></a>
+<div class="rule" id="r-attributes.derive.automatically_derived"><a class="rule-link" href="#r-attributes.derive.automatically_derived" title="attributes.derive.automatically_derived"><span>[attributes<wbr>.derive<wbr>.automatically_derived]</span></a>
 </div>
+
 <h2 id="the-automatically_derived-attribute"><a class="header" href="#the-automatically_derived-attribute">The <code>automatically_derived</code> attribute</a></h2>
-<div class="rule" id="r-attributes.derive.automatically_derived.intro"><a class="rule-link" href="#r-attributes.derive.automatically_derived.intro" title="attributes.derive.automatically_derived.intro"><span>[attributes<wbr>.derive<wbr>.automatically_derived<wbr>.intro]</span/></a>
+<div class="rule" id="r-attributes.derive.automatically_derived.intro"><a class="rule-link" href="#r-attributes.derive.automatically_derived.intro" title="attributes.derive.automatically_derived.intro"><span>[attributes<wbr>.derive<wbr>.automatically_derived<wbr>.intro]</span></a>
 </div>
+
 <p>The <em><code>automatically_derived</code> <a href="../attributes.html#r-attributes">attribute</a></em> is used to annotate an <a href="../items/implementations.html">implementation</a> to indicate that it was automatically created by a <a href="../procedural-macros.html#r-macro.proc.derive">derive macro</a>. It has no direct effect, but it may be used by tools and diagnostic lints to detect these automatically generated implementations.</p>
 <div class="alert alert-example">
 <blockquote>
-<p class="alert-title"><svg viewBox="0 0 16 16" width="18" height="18"><path d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0ZM1.5 8a6.5 6.5 0 1 0 13 0 6.5 6.5 0 0 0-13 0Zm4.879-2.773 4.264 2.559a.25.25 0 0 1 0 .428l-4.264 2.559A.25.25 0 0 1 6 10.559V5.442a.25.25 0 0 1 .379-.215Z"></path></svg>Example</p>
+<p class="alert-title"><svg viewbox="0 0 16 16" width="18" height="18"><path d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0ZM1.5 8a6.5 6.5 0 1 0 13 0 6.5 6.5 0 0 0-13 0Zm4.879-2.773 4.264 2.559a.25.25 0 0 1 0 .428l-4.264 2.559A.25.25 0 0 1 6 10.559V5.442a.25.25 0 0 1 .379-.215Z"></path></svg>Example</p>
+
 <p>Given <a href="../../core/clone/derive.Clone.html"><code>#[derive(Clone)]</code></a> on <code>struct Example</code>, the <a href="../procedural-macros.html#r-macro.proc.derive">derive macro</a> may produce:</p>
-<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">#![allow(unused)]
+<pre class="playground"><code class="language-rust edition2024"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span><span class="boring">struct Example;
 </span>#[automatically_derived]
@@ -271,32 +285,41 @@ impl ::core::clone::Clone for Example {
         Example
     }
 }
-<span class="boring">}</span></code></pre></pre>
+<span class="boring">}</span></code></pre>
 </blockquote>
 </div>
-<div class="rule" id="r-attributes.derive.automatically_derived.syntax"><a class="rule-link" href="#r-attributes.derive.automatically_derived.syntax" title="attributes.derive.automatically_derived.syntax"><span>[attributes<wbr>.derive<wbr>.automatically_derived<wbr>.syntax]</span/></a>
+
+<div class="rule" id="r-attributes.derive.automatically_derived.syntax"><a class="rule-link" href="#r-attributes.derive.automatically_derived.syntax" title="attributes.derive.automatically_derived.syntax"><span>[attributes<wbr>.derive<wbr>.automatically_derived<wbr>.syntax]</span></a>
 </div>
+
 <p>The <code>automatically_derived</code> attribute uses the <a href="../attributes.html#grammar-MetaWord">MetaWord</a> syntax.</p>
-<div class="rule" id="r-attributes.derive.automatically_derived.allowed-positions"><a class="rule-link" href="#r-attributes.derive.automatically_derived.allowed-positions" title="attributes.derive.automatically_derived.allowed-positions"><span>[attributes<wbr>.derive<wbr>.automatically_derived<wbr>.allowed-positions]</span/></a>
+<div class="rule" id="r-attributes.derive.automatically_derived.allowed-positions"><a class="rule-link" href="#r-attributes.derive.automatically_derived.allowed-positions" title="attributes.derive.automatically_derived.allowed-positions"><span>[attributes<wbr>.derive<wbr>.automatically_derived<wbr>.allowed-positions]</span></a>
 </div>
+
 <p>The <code>automatically_derived</code> attribute may only be applied to an <a href="../items/implementations.html">implementation</a>.</p>
 <div class="alert alert-note">
 <blockquote>
-<p class="alert-title"><svg viewBox="0 0 16 16" width="18" height="18"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"></path></svg>Note</p>
+<p class="alert-title"><svg viewbox="0 0 16 16" width="18" height="18"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"></path></svg>Note</p>
+
 <p><code>rustc</code> ignores use in other positions but lints against it. This may become an error in the future.</p>
 </blockquote>
 </div>
-<div class="rule" id="r-attributes.derive.automatically_derived.duplicates"><a class="rule-link" href="#r-attributes.derive.automatically_derived.duplicates" title="attributes.derive.automatically_derived.duplicates"><span>[attributes<wbr>.derive<wbr>.automatically_derived<wbr>.duplicates]</span/></a>
+
+<div class="rule" id="r-attributes.derive.automatically_derived.duplicates"><a class="rule-link" href="#r-attributes.derive.automatically_derived.duplicates" title="attributes.derive.automatically_derived.duplicates"><span>[attributes<wbr>.derive<wbr>.automatically_derived<wbr>.duplicates]</span></a>
 </div>
+
 <p>Using <code>automatically_derived</code> more than once on an implementation has the same effect as using it once.</p>
 <div class="alert alert-note">
 <blockquote>
-<p class="alert-title"><svg viewBox="0 0 16 16" width="18" height="18"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"></path></svg>Note</p>
+<p class="alert-title"><svg viewbox="0 0 16 16" width="18" height="18"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"></path></svg>Note</p>
+
 <p><code>rustc</code> lints against any use following the first.</p>
 </blockquote>
 </div>
-<div class="rule" id="r-attributes.derive.automatically_derived.behavior"><a class="rule-link" href="#r-attributes.derive.automatically_derived.behavior" title="attributes.derive.automatically_derived.behavior"><span>[attributes<wbr>.derive<wbr>.automatically_derived<wbr>.behavior]</span/></a>
+
+<div class="rule" id="r-attributes.derive.automatically_derived.behavior"><a class="rule-link" href="#r-attributes.derive.automatically_derived.behavior" title="attributes.derive.automatically_derived.behavior"><span>[attributes<wbr>.derive<wbr>.automatically_derived<wbr>.behavior]</span></a>
 </div>
+
 <p>The <code>automatically_derived</code> attribute has no behavior.</p>
 
                     </main>
@@ -305,6 +328,7 @@ impl ::core::clone::Clone for Example {
                         <!-- Mobile navigation buttons -->
                             <a rel="prev" href="../attributes/testing.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                            </a>
 
                             <a rel="next prefetch" href="../attributes/diagnostics.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
@@ -346,10 +370,10 @@ impl ::core::clone::Clone for Example {
 
         <script src="../clipboard-1626706a.min.js"></script>
         <script src="../highlight-abc7f01d.js"></script>
-        <script src="../book-81fc5345.js"></script>
+        <script src="../book-a0b12cfe.js"></script>
 
         <!-- Custom JS scripts -->
-        <script src="../theme/reference-cfed9ca5.js"></script>
+        <script src="../theme/reference-da60281b.js"></script>
 
 
 

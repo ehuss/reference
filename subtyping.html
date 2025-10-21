@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Subtyping and Variance - The Rust Reference</title>
+        <title>Subtyping and variance - The Rust Reference</title>
 
 
         <!-- Custom HTML head -->
@@ -14,9 +14,9 @@
 
         <link rel="icon" href="favicon-de23e50b.svg">
         <link rel="shortcut icon" href="favicon-8114d1fc.png">
-        <link rel="stylesheet" href="css/variables-3865ffda.css">
-        <link rel="stylesheet" href="css/general-d297d479.css">
-        <link rel="stylesheet" href="css/chrome-ad662a8e.css">
+        <link rel="stylesheet" href="css/variables-8adf115d.css">
+        <link rel="stylesheet" href="css/general-2459343d.css">
+        <link rel="stylesheet" href="css/chrome-3111ccdb.css">
         <link rel="stylesheet" href="css/print-9e4910d8.css" media="print">
 
         <!-- Fonts -->
@@ -28,7 +28,7 @@
         <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="ayu-highlight-56612340.css">
 
         <!-- Custom theme stylesheets -->
-        <link rel="stylesheet" href="theme/reference-94a8e8ad.css">
+        <link rel="stylesheet" href="theme/reference-6200eb72.css">
 
 
         <!-- Provide site root and default themes to javascript -->
@@ -36,10 +36,10 @@
             const path_to_root = "";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "searchindex-54e4028f.js";
+            window.path_to_searchindex_js = "searchindex-93e32808.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="toc-1b51e6f3.js"></script>
+        <script src="toc-8771841d.js"></script>
     </head>
     <body>
     <div id="mdbook-help-container">
@@ -181,36 +181,40 @@
 
                 <div id="mdbook-content" class="content">
                     <main>
-                        <div class="rule" id="r-subtype"><a class="rule-link" href="#r-subtype" title="subtype"><span>[subtype]</span/></a>
+                        <div class="rule" id="r-subtype"><a class="rule-link" href="#r-subtype" title="subtype"><span>[subtype]</span></a>
 </div>
-<h1 id="subtyping-and-variance"><a class="header" href="#subtyping-and-variance">Subtyping and Variance</a></h1>
-<div class="rule" id="r-subtype.intro"><a class="rule-link" href="#r-subtype.intro" title="subtype.intro"><span>[subtype<wbr>.intro]</span/></a>
+
+<h1 id="subtyping-and-variance"><a class="header" href="#subtyping-and-variance">Subtyping and variance</a></h1>
+<div class="rule" id="r-subtype.intro"><a class="rule-link" href="#r-subtype.intro" title="subtype.intro"><span>[subtype<wbr>.intro]</span></a>
 </div>
+
 <p>Subtyping is implicit and can occur at any stage in type checking or
 inference.</p>
-<div class="rule" id="r-subtype.kinds"><a class="rule-link" href="#r-subtype.kinds" title="subtype.kinds"><span>[subtype<wbr>.kinds]</span/></a>
+<div class="rule" id="r-subtype.kinds"><a class="rule-link" href="#r-subtype.kinds" title="subtype.kinds"><span>[subtype<wbr>.kinds]</span></a>
 </div>
+
 <p>Subtyping is restricted to two cases:
 variance with respect to lifetimes and between types with higher ranked
 lifetimes. If we were to erase lifetimes from types, then the only subtyping
 would be due to type equality.</p>
 <p>Consider the following example: string literals always have <code>'static</code>
 lifetime. Nevertheless, we can assign <code>s</code> to <code>t</code>:</p>
-<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">#![allow(unused)]
+<pre class="playground"><code class="language-rust edition2024"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>fn bar&lt;'a&gt;() {
     let s: &amp;'static str = "hi";
     let t: &amp;'a str = s;
 }
-<span class="boring">}</span></code></pre></pre>
+<span class="boring">}</span></code></pre>
 <p>Since <code>'static</code> outlives the lifetime parameter <code>'a</code>, <code>&amp;'static str</code> is a
 subtype of <code>&amp;'a str</code>.</p>
-<div class="rule" id="r-subtype.higher-ranked"><a class="rule-link" href="#r-subtype.higher-ranked" title="subtype.higher-ranked"><span>[subtype<wbr>.higher-ranked]</span/></a>
+<div class="rule" id="r-subtype.higher-ranked"><a class="rule-link" href="#r-subtype.higher-ranked" title="subtype.higher-ranked"><span>[subtype<wbr>.higher-ranked]</span></a>
 </div>
+
 <p><a href="../nomicon/hrtb.html">Higher-ranked</a> <a href="types/function-pointer.html">function pointers</a> and <a href="types/trait-object.html">trait objects</a> have another
 subtype relation. They are subtypes of types that are given by substitutions of
 the higher-ranked lifetimes. Some examples:</p>
-<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">#![allow(unused)]
+<pre class="playground"><code class="language-rust edition2024"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>// Here 'a is substituted for 'static
 let subtype: &amp;(for&lt;'a&gt; fn(&amp;'a i32) -&gt; &amp;'a i32) = &amp;((|x| x) as fn(&amp;_) -&gt; &amp;_);
@@ -223,37 +227,48 @@ let supertype: &amp;(dyn Fn(&amp;'static i32) -&gt; &amp;'static i32) = subtype;
 // We can also substitute one higher-ranked lifetime for another
 let subtype: &amp;(for&lt;'a, 'b&gt; fn(&amp;'a i32, &amp;'b i32)) = &amp;((|x, y| {}) as fn(&amp;_, &amp;_));
 let supertype: &amp;for&lt;'c&gt; fn(&amp;'c i32, &amp;'c i32) = subtype;
-<span class="boring">}</span></code></pre></pre>
-<div class="rule" id="r-subtyping.variance"><a class="rule-link" href="#r-subtyping.variance" title="subtyping.variance"><span>[subtyping<wbr>.variance]</span/></a>
+<span class="boring">}</span></code></pre>
+<div class="rule" id="r-subtyping.variance"><a class="rule-link" href="#r-subtyping.variance" title="subtyping.variance"><span>[subtyping<wbr>.variance]</span></a>
 </div>
+
 <h2 id="variance"><a class="header" href="#variance">Variance</a></h2>
-<div class="rule" id="r-subtyping.variance.intro"><a class="rule-link" href="#r-subtyping.variance.intro" title="subtyping.variance.intro"><span>[subtyping<wbr>.variance<wbr>.intro]</span/></a>
+<div class="rule" id="r-subtyping.variance.intro"><a class="rule-link" href="#r-subtyping.variance.intro" title="subtyping.variance.intro"><span>[subtyping<wbr>.variance<wbr>.intro]</span></a>
 </div>
+
 <p>Variance is a property that generic types have with respect to their arguments.
 A generic type’s <em>variance</em> in a parameter is how the subtyping of the
 parameter affects the subtyping of the type.</p>
-<div class="rule" id="r-subtyping.variance.covariant"><a class="rule-link" href="#r-subtyping.variance.covariant" title="subtyping.variance.covariant"><span>[subtyping<wbr>.variance<wbr>.covariant]</span/></a>
+<div class="rule" id="r-subtyping.variance.covariant"><a class="rule-link" href="#r-subtyping.variance.covariant" title="subtyping.variance.covariant"><span>[subtyping<wbr>.variance<wbr>.covariant]</span></a>
 </div>
+
 <ul>
 <li><code>F&lt;T&gt;</code> is <em>covariant</em> over <code>T</code> if <code>T</code> being a subtype of <code>U</code> implies that
 <code>F&lt;T&gt;</code> is a subtype of <code>F&lt;U&gt;</code> (subtyping “passes through”)</li>
 </ul>
-<div class="rule" id="r-subtyping.variance.contravariant"><a class="rule-link" href="#r-subtyping.variance.contravariant" title="subtyping.variance.contravariant"><span>[subtyping<wbr>.variance<wbr>.contravariant]</span/></a>
+<div class="rule" id="r-subtyping.variance.contravariant"><a class="rule-link" href="#r-subtyping.variance.contravariant" title="subtyping.variance.contravariant"><span>[subtyping<wbr>.variance<wbr>.contravariant]</span></a>
 </div>
+
 <ul>
 <li><code>F&lt;T&gt;</code> is <em>contravariant</em> over <code>T</code> if <code>T</code> being a subtype of <code>U</code> implies that
 <code>F&lt;U&gt;</code> is a subtype of <code>F&lt;T&gt;</code></li>
 </ul>
-<div class="rule" id="r-subtyping.variance.invariant"><a class="rule-link" href="#r-subtyping.variance.invariant" title="subtyping.variance.invariant"><span>[subtyping<wbr>.variance<wbr>.invariant]</span/></a>
+<div class="rule" id="r-subtyping.variance.invariant"><a class="rule-link" href="#r-subtyping.variance.invariant" title="subtyping.variance.invariant"><span>[subtyping<wbr>.variance<wbr>.invariant]</span></a>
 </div>
+
 <ul>
 <li><code>F&lt;T&gt;</code> is <em>invariant</em> over <code>T</code> otherwise (no subtyping relation can be
 derived)</li>
 </ul>
-<div class="rule" id="r-subtyping.variance.builtin-types"><a class="rule-link" href="#r-subtyping.variance.builtin-types" title="subtyping.variance.builtin-types"><span>[subtyping<wbr>.variance<wbr>.builtin-types]</span/></a>
+<div class="rule" id="r-subtyping.variance.builtin-types"><a class="rule-link" href="#r-subtyping.variance.builtin-types" title="subtyping.variance.builtin-types"><span>[subtyping<wbr>.variance<wbr>.builtin-types]</span></a>
 </div>
+
 <p>Variance of types is automatically determined as follows</p>
-<div class="table-wrapper"><table><thead><tr><th>Type</th><th>Variance in <code>'a</code></th><th>Variance in <code>T</code></th></tr></thead><tbody>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Type</th><th>Variance in <code>'a</code></th><th>Variance in <code>T</code></th></tr>
+</thead>
+<tbody>
 <tr><td><code>&amp;'a T</code></td><td>covariant</td><td>covariant</td></tr>
 <tr><td><code>&amp;'a mut T</code></td><td>covariant</td><td>invariant</td></tr>
 <tr><td><code>*const T</code></td><td></td><td>covariant</td></tr>
@@ -264,15 +279,18 @@ derived)</li>
 <tr><td><code>std::cell::UnsafeCell&lt;T&gt;</code></td><td></td><td>invariant</td></tr>
 <tr><td><code>std::marker::PhantomData&lt;T&gt;</code></td><td></td><td>covariant</td></tr>
 <tr><td><code>dyn Trait&lt;T&gt; + 'a</code></td><td>covariant</td><td>invariant</td></tr>
-</tbody></table>
-</div><div class="rule" id="r-subtyping.variance.user-composite-types"><a class="rule-link" href="#r-subtyping.variance.user-composite-types" title="subtyping.variance.user-composite-types"><span>[subtyping<wbr>.variance<wbr>.user-composite-types]</span/></a>
+</tbody>
+</table>
 </div>
+<div class="rule" id="r-subtyping.variance.user-composite-types"><a class="rule-link" href="#r-subtyping.variance.user-composite-types" title="subtyping.variance.user-composite-types"><span>[subtyping<wbr>.variance<wbr>.user-composite-types]</span></a>
+</div>
+
 <p>The variance of other <code>struct</code>, <code>enum</code>, and <code>union</code> types is decided by
 looking at the variance of the types of their fields. If the parameter is used
 in positions with different variances then the parameter is invariant. For
 example the following struct is covariant in <code>'a</code> and <code>T</code> and invariant in <code>'b</code>, <code>'c</code>,
 and <code>U</code>.</p>
-<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">#![allow(unused)]
+<pre class="playground"><code class="language-rust edition2024"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use std::cell::UnsafeCell;
 struct Variance&lt;'a, 'b, 'c, T, U: 'a&gt; {
@@ -285,11 +303,12 @@ struct Variance&lt;'a, 'b, 'c, T, U: 'a&gt; {
     f: fn(&amp;'c ()) -&gt; &amp;'c () // Both co- and contravariant, makes 'c invariant
                             // in the struct.
 }
-<span class="boring">}</span></code></pre></pre>
-<div class="rule" id="r-subtyping.variance.builtin-composite-types"><a class="rule-link" href="#r-subtyping.variance.builtin-composite-types" title="subtyping.variance.builtin-composite-types"><span>[subtyping<wbr>.variance<wbr>.builtin-composite-types]</span/></a>
+<span class="boring">}</span></code></pre>
+<div class="rule" id="r-subtyping.variance.builtin-composite-types"><a class="rule-link" href="#r-subtyping.variance.builtin-composite-types" title="subtyping.variance.builtin-composite-types"><span>[subtyping<wbr>.variance<wbr>.builtin-composite-types]</span></a>
 </div>
+
 <p>When used outside of an <code>struct</code>, <code>enum</code>, or <code>union</code>, the variance for parameters is checked at each location separately.</p>
-<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">#![allow(unused)]
+<pre class="playground"><code class="language-rust edition2024"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span><span class="boring">use std::cell::UnsafeCell;
 </span>fn generic_tuple&lt;'short, 'long: 'short&gt;(
@@ -310,7 +329,7 @@ fn takes_fn_ptr&lt;'short, 'middle: 'short&gt;(
     // and extend it in the contravariant position.
     let _: fn(&amp;'static ()) -&gt; &amp;'short () = f;
 }
-<span class="boring">}</span></code></pre></pre>
+<span class="boring">}</span></code></pre>
 
                     </main>
 
@@ -318,6 +337,7 @@ fn takes_fn_ptr&lt;'short, 'middle: 'short&gt;(
                         <!-- Mobile navigation buttons -->
                             <a rel="prev" href="interior-mutability.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                            </a>
 
                             <a rel="next prefetch" href="trait-bounds.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
@@ -359,10 +379,10 @@ fn takes_fn_ptr&lt;'short, 'middle: 'short&gt;(
 
         <script src="clipboard-1626706a.min.js"></script>
         <script src="highlight-abc7f01d.js"></script>
-        <script src="book-81fc5345.js"></script>
+        <script src="book-a0b12cfe.js"></script>
 
         <!-- Custom JS scripts -->
-        <script src="theme/reference-cfed9ca5.js"></script>
+        <script src="theme/reference-da60281b.js"></script>
 
 
 

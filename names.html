@@ -14,9 +14,9 @@
 
         <link rel="icon" href="favicon-de23e50b.svg">
         <link rel="shortcut icon" href="favicon-8114d1fc.png">
-        <link rel="stylesheet" href="css/variables-3865ffda.css">
-        <link rel="stylesheet" href="css/general-d297d479.css">
-        <link rel="stylesheet" href="css/chrome-ad662a8e.css">
+        <link rel="stylesheet" href="css/variables-8adf115d.css">
+        <link rel="stylesheet" href="css/general-2459343d.css">
+        <link rel="stylesheet" href="css/chrome-3111ccdb.css">
         <link rel="stylesheet" href="css/print-9e4910d8.css" media="print">
 
         <!-- Fonts -->
@@ -28,7 +28,7 @@
         <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="ayu-highlight-56612340.css">
 
         <!-- Custom theme stylesheets -->
-        <link rel="stylesheet" href="theme/reference-94a8e8ad.css">
+        <link rel="stylesheet" href="theme/reference-6200eb72.css">
 
 
         <!-- Provide site root and default themes to javascript -->
@@ -36,10 +36,10 @@
             const path_to_root = "";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "searchindex-54e4028f.js";
+            window.path_to_searchindex_js = "searchindex-93e32808.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="toc-1b51e6f3.js"></script>
+        <script src="toc-8771841d.js"></script>
     </head>
     <body>
     <div id="mdbook-help-container">
@@ -181,51 +181,63 @@
 
                 <div id="mdbook-content" class="content">
                     <main>
-                        <div class="rule" id="r-names"><a class="rule-link" href="#r-names" title="names"><span>[names]</span/></a>
+                        <div class="rule" id="r-names"><a class="rule-link" href="#r-names" title="names"><span>[names]</span></a>
 </div>
+
 <h1 id="names"><a class="header" href="#names">Names</a></h1>
-<div class="rule" id="r-names.intro"><a class="rule-link" href="#r-names.intro" title="names.intro"><span>[names<wbr>.intro]</span/></a>
+<div class="rule" id="r-names.intro"><a class="rule-link" href="#r-names.intro" title="names.intro"><span>[names<wbr>.intro]</span></a>
 </div>
+
 <p>An <em>entity</em> is a language construct that can be referred to in some way within
 the source program, usually via a <a href="paths.html">path</a>. Entities include <a href="types.html">types</a>, <a href="items.html">items</a>,
 <a href="items/generics.html">generic parameters</a>, <a href="patterns.html">variable bindings</a>, <a href="expressions/loop-expr.html#loop-labels">loop labels</a>, <a href="tokens.html#lifetimes-and-loop-labels">lifetimes</a>,
 <a href="expressions/field-expr.html">fields</a>, <a href="attributes.html">attributes</a>, and <a href="attributes/diagnostics.html#lint-check-attributes">lints</a>.</p>
-<div class="rule" id="r-names.decl"><a class="rule-link" href="#r-names.decl" title="names.decl"><span>[names<wbr>.decl]</span/></a>
+<div class="rule" id="r-names.decl"><a class="rule-link" href="#r-names.decl" title="names.decl"><span>[names<wbr>.decl]</span></a>
 </div>
+
 <p>A <em>declaration</em> is a syntactical construct that can introduce a <em>name</em> to
 refer to an entity. Entity names are valid within a <a href="names/scopes.html"><em>scope</em></a> — a region of
 source text where that name may be referenced.</p>
-<div class="rule" id="r-names.explicit-decl"><a class="rule-link" href="#r-names.explicit-decl" title="names.explicit-decl"><span>[names<wbr>.explicit-decl]</span/></a>
+<div class="rule" id="r-names.explicit-decl"><a class="rule-link" href="#r-names.explicit-decl" title="names.explicit-decl"><span>[names<wbr>.explicit-decl]</span></a>
 </div>
+
 <p>Some entities are <a href="#explicitly-declared-entities">explicitly declared</a> in the
 source code, and some are <a href="#implicitly-declared-entities">implicitly declared</a>
 as part of the language or compiler extensions.</p>
-<div class="rule" id="r-names.path"><a class="rule-link" href="#r-names.path" title="names.path"><span>[names<wbr>.path]</span/></a>
+<div class="rule" id="r-names.path"><a class="rule-link" href="#r-names.path" title="names.path"><span>[names<wbr>.path]</span></a>
 </div>
+
 <p><a href="paths.html"><em>Paths</em></a> are used to refer to an entity, possibly in another module or type.</p>
-<div class="rule" id="r-names.lifetime"><a class="rule-link" href="#r-names.lifetime" title="names.lifetime"><span>[names<wbr>.lifetime]</span/></a>
+<div class="rule" id="r-names.lifetime"><a class="rule-link" href="#r-names.lifetime" title="names.lifetime"><span>[names<wbr>.lifetime]</span></a>
 </div>
+
 <p>Lifetimes and loop labels use a <a href="tokens.html#lifetimes-and-loop-labels">dedicated syntax</a> using a
 leading quote.</p>
-<div class="rule" id="r-names.namespace"><a class="rule-link" href="#r-names.namespace" title="names.namespace"><span>[names<wbr>.namespace]</span/></a>
+<div class="rule" id="r-names.namespace"><a class="rule-link" href="#r-names.namespace" title="names.namespace"><span>[names<wbr>.namespace]</span></a>
 </div>
+
 <p>Names are segregated into different <a href="names/namespaces.html"><em>namespaces</em></a>, allowing entities in
 different namespaces to share the same name without conflict.</p>
-<div class="rule" id="r-names.resolution"><a class="rule-link" href="#r-names.resolution" title="names.resolution"><span>[names<wbr>.resolution]</span/></a>
+<div class="rule" id="r-names.resolution"><a class="rule-link" href="#r-names.resolution" title="names.resolution"><span>[names<wbr>.resolution]</span></a>
 </div>
+
 <p><a href="names/name-resolution.html"><em>Name resolution</em></a> is the compile-time process of tying paths, identifiers,
 and labels to entity declarations.</p>
-<div class="rule" id="r-names.visibility"><a class="rule-link" href="#r-names.visibility" title="names.visibility"><span>[names<wbr>.visibility]</span/></a>
+<div class="rule" id="r-names.visibility"><a class="rule-link" href="#r-names.visibility" title="names.visibility"><span>[names<wbr>.visibility]</span></a>
 </div>
+
 <p>Access to certain names may be restricted based on their <a href="visibility-and-privacy.html"><em>visibility</em></a>.</p>
-<div class="rule" id="r-names.explicit"><a class="rule-link" href="#r-names.explicit" title="names.explicit"><span>[names<wbr>.explicit]</span/></a>
+<div class="rule" id="r-names.explicit"><a class="rule-link" href="#r-names.explicit" title="names.explicit"><span>[names<wbr>.explicit]</span></a>
 </div>
+
 <h2 id="explicitly-declared-entities"><a class="header" href="#explicitly-declared-entities">Explicitly declared entities</a></h2>
-<div class="rule" id="r-names.explicit.list"><a class="rule-link" href="#r-names.explicit.list" title="names.explicit.list"><span>[names<wbr>.explicit<wbr>.list]</span/></a>
+<div class="rule" id="r-names.explicit.list"><a class="rule-link" href="#r-names.explicit.list" title="names.explicit.list"><span>[names<wbr>.explicit<wbr>.list]</span></a>
 </div>
+
 <p>Entities that explicitly introduce a name in the source code are:</p>
-<div class="rule" id="r-names.explicit.item-decl"><a class="rule-link" href="#r-names.explicit.item-decl" title="names.explicit.item-decl"><span>[names<wbr>.explicit<wbr>.item-decl]</span/></a>
+<div class="rule" id="r-names.explicit.item-decl"><a class="rule-link" href="#r-names.explicit.item-decl" title="names.explicit.item-decl"><span>[names<wbr>.explicit<wbr>.item-decl]</span></a>
 </div>
+
 <ul>
 <li><a href="items.html">Items</a>:
 <ul>
@@ -245,8 +257,9 @@ fields</li>
 </ul>
 </li>
 </ul>
-<div class="rule" id="r-names.explicit.expr"><a class="rule-link" href="#r-names.explicit.expr" title="names.explicit.expr"><span>[names<wbr>.explicit<wbr>.expr]</span/></a>
+<div class="rule" id="r-names.explicit.expr"><a class="rule-link" href="#r-names.explicit.expr" title="names.explicit.expr"><span>[names<wbr>.explicit<wbr>.expr]</span></a>
 </div>
+
 <ul>
 <li><a href="expressions.html">Expressions</a>:
 <ul>
@@ -259,44 +272,53 @@ fields</li>
 </ul>
 </li>
 </ul>
-<div class="rule" id="r-names.explicit.generics"><a class="rule-link" href="#r-names.explicit.generics" title="names.explicit.generics"><span>[names<wbr>.explicit<wbr>.generics]</span/></a>
+<div class="rule" id="r-names.explicit.generics"><a class="rule-link" href="#r-names.explicit.generics" title="names.explicit.generics"><span>[names<wbr>.explicit<wbr>.generics]</span></a>
 </div>
+
 <ul>
 <li><a href="items/generics.html">Generic parameters</a></li>
 </ul>
-<div class="rule" id="r-names.explicit.higher-ranked-bounds"><a class="rule-link" href="#r-names.explicit.higher-ranked-bounds" title="names.explicit.higher-ranked-bounds"><span>[names<wbr>.explicit<wbr>.higher-ranked-bounds]</span/></a>
+<div class="rule" id="r-names.explicit.higher-ranked-bounds"><a class="rule-link" href="#r-names.explicit.higher-ranked-bounds" title="names.explicit.higher-ranked-bounds"><span>[names<wbr>.explicit<wbr>.higher-ranked-bounds]</span></a>
 </div>
+
 <ul>
 <li><a href="trait-bounds.html#higher-ranked-trait-bounds">Higher ranked trait bounds</a></li>
 </ul>
-<div class="rule" id="r-names.explicit.binding"><a class="rule-link" href="#r-names.explicit.binding" title="names.explicit.binding"><span>[names<wbr>.explicit<wbr>.binding]</span/></a>
+<div class="rule" id="r-names.explicit.binding"><a class="rule-link" href="#r-names.explicit.binding" title="names.explicit.binding"><span>[names<wbr>.explicit<wbr>.binding]</span></a>
 </div>
+
 <ul>
 <li><a href="statements.html#let-statements"><code>let</code> statement</a> pattern bindings</li>
 </ul>
-<div class="rule" id="r-names.explicit.macro_use"><a class="rule-link" href="#r-names.explicit.macro_use" title="names.explicit.macro_use"><span>[names<wbr>.explicit<wbr>.macro_use]</span/></a>
+<div class="rule" id="r-names.explicit.macro_use"><a class="rule-link" href="#r-names.explicit.macro_use" title="names.explicit.macro_use"><span>[names<wbr>.explicit<wbr>.macro_use]</span></a>
 </div>
+
 <ul>
 <li>The <a href="macros-by-example.html#the-macro_use-attribute"><code>macro_use</code> attribute</a> can introduce macro names from another crate</li>
 </ul>
-<div class="rule" id="r-names.explicit.macro_export"><a class="rule-link" href="#r-names.explicit.macro_export" title="names.explicit.macro_export"><span>[names<wbr>.explicit<wbr>.macro_export]</span/></a>
+<div class="rule" id="r-names.explicit.macro_export"><a class="rule-link" href="#r-names.explicit.macro_export" title="names.explicit.macro_export"><span>[names<wbr>.explicit<wbr>.macro_export]</span></a>
 </div>
+
 <ul>
 <li>The <a href="macros-by-example.html#path-based-scope"><code>macro_export</code> attribute</a> can introduce an alias for the macro into the crate root</li>
 </ul>
-<div class="rule" id="r-names.explicit.macro-invocation"><a class="rule-link" href="#r-names.explicit.macro-invocation" title="names.explicit.macro-invocation"><span>[names<wbr>.explicit<wbr>.macro-invocation]</span/></a>
+<div class="rule" id="r-names.explicit.macro-invocation"><a class="rule-link" href="#r-names.explicit.macro-invocation" title="names.explicit.macro-invocation"><span>[names<wbr>.explicit<wbr>.macro-invocation]</span></a>
 </div>
+
 <p>Additionally, <a href="macros.html#macro-invocation">macro invocations</a> and <a href="attributes.html">attributes</a> can introduce names by
 expanding to one of the above items.</p>
-<div class="rule" id="r-names.implicit"><a class="rule-link" href="#r-names.implicit" title="names.implicit"><span>[names<wbr>.implicit]</span/></a>
+<div class="rule" id="r-names.implicit"><a class="rule-link" href="#r-names.implicit" title="names.implicit"><span>[names<wbr>.implicit]</span></a>
 </div>
+
 <h2 id="implicitly-declared-entities"><a class="header" href="#implicitly-declared-entities">Implicitly declared entities</a></h2>
-<div class="rule" id="r-names.implicit.list"><a class="rule-link" href="#r-names.implicit.list" title="names.implicit.list"><span>[names<wbr>.implicit<wbr>.list]</span/></a>
+<div class="rule" id="r-names.implicit.list"><a class="rule-link" href="#r-names.implicit.list" title="names.implicit.list"><span>[names<wbr>.implicit<wbr>.list]</span></a>
 </div>
+
 <p>The following entities are implicitly defined by the language, or are
 introduced by compiler options and extensions:</p>
-<div class="rule" id="r-names.implicit.primitive-types"><a class="rule-link" href="#r-names.implicit.primitive-types" title="names.implicit.primitive-types"><span>[names<wbr>.implicit<wbr>.primitive-types]</span/></a>
+<div class="rule" id="r-names.implicit.primitive-types"><a class="rule-link" href="#r-names.implicit.primitive-types" title="names.implicit.primitive-types"><span>[names<wbr>.implicit<wbr>.primitive-types]</span></a>
 </div>
+
 <ul>
 <li><a href="names/preludes.html#language-prelude">Language prelude</a>:
 <ul>
@@ -308,48 +330,57 @@ introduced by compiler options and extensions:</p>
 </ul>
 </li>
 </ul>
-<div class="rule" id="r-names.implicit.builtin-attributes"><a class="rule-link" href="#r-names.implicit.builtin-attributes" title="names.implicit.builtin-attributes"><span>[names<wbr>.implicit<wbr>.builtin-attributes]</span/></a>
+<div class="rule" id="r-names.implicit.builtin-attributes"><a class="rule-link" href="#r-names.implicit.builtin-attributes" title="names.implicit.builtin-attributes"><span>[names<wbr>.implicit<wbr>.builtin-attributes]</span></a>
 </div>
+
 <ul>
 <li><a href="attributes.html#built-in-attributes-index">Built-in attributes</a></li>
 </ul>
-<div class="rule" id="r-names.implicit.prelude"><a class="rule-link" href="#r-names.implicit.prelude" title="names.implicit.prelude"><span>[names<wbr>.implicit<wbr>.prelude]</span/></a>
+<div class="rule" id="r-names.implicit.prelude"><a class="rule-link" href="#r-names.implicit.prelude" title="names.implicit.prelude"><span>[names<wbr>.implicit<wbr>.prelude]</span></a>
 </div>
+
 <ul>
 <li><a href="names/preludes.html#standard-library-prelude">Standard library prelude</a> items, attributes, and macros</li>
 </ul>
-<div class="rule" id="r-names.implicit.stdlib"><a class="rule-link" href="#r-names.implicit.stdlib" title="names.implicit.stdlib"><span>[names<wbr>.implicit<wbr>.stdlib]</span/></a>
+<div class="rule" id="r-names.implicit.stdlib"><a class="rule-link" href="#r-names.implicit.stdlib" title="names.implicit.stdlib"><span>[names<wbr>.implicit<wbr>.stdlib]</span></a>
 </div>
+
 <ul>
 <li><a href="names/preludes.html#extern-prelude">Standard library</a> crates in the root module</li>
 </ul>
-<div class="rule" id="r-names.implicit.extern-prelude"><a class="rule-link" href="#r-names.implicit.extern-prelude" title="names.implicit.extern-prelude"><span>[names<wbr>.implicit<wbr>.extern-prelude]</span/></a>
+<div class="rule" id="r-names.implicit.extern-prelude"><a class="rule-link" href="#r-names.implicit.extern-prelude" title="names.implicit.extern-prelude"><span>[names<wbr>.implicit<wbr>.extern-prelude]</span></a>
 </div>
+
 <ul>
 <li><a href="names/preludes.html#extern-prelude">External crates</a> linked by the compiler</li>
 </ul>
-<div class="rule" id="r-names.implicit.tool-attributes"><a class="rule-link" href="#r-names.implicit.tool-attributes" title="names.implicit.tool-attributes"><span>[names<wbr>.implicit<wbr>.tool-attributes]</span/></a>
+<div class="rule" id="r-names.implicit.tool-attributes"><a class="rule-link" href="#r-names.implicit.tool-attributes" title="names.implicit.tool-attributes"><span>[names<wbr>.implicit<wbr>.tool-attributes]</span></a>
 </div>
+
 <ul>
 <li><a href="attributes.html#tool-attributes">Tool attributes</a></li>
 </ul>
-<div class="rule" id="r-names.implicit.lints"><a class="rule-link" href="#r-names.implicit.lints" title="names.implicit.lints"><span>[names<wbr>.implicit<wbr>.lints]</span/></a>
+<div class="rule" id="r-names.implicit.lints"><a class="rule-link" href="#r-names.implicit.lints" title="names.implicit.lints"><span>[names<wbr>.implicit<wbr>.lints]</span></a>
 </div>
+
 <ul>
 <li><a href="attributes/diagnostics.html#lint-check-attributes">Lints</a> and <a href="attributes/diagnostics.html#tool-lint-attributes">tool lint attributes</a></li>
 </ul>
-<div class="rule" id="r-names.implicit.derive-helpers"><a class="rule-link" href="#r-names.implicit.derive-helpers" title="names.implicit.derive-helpers"><span>[names<wbr>.implicit<wbr>.derive-helpers]</span/></a>
+<div class="rule" id="r-names.implicit.derive-helpers"><a class="rule-link" href="#r-names.implicit.derive-helpers" title="names.implicit.derive-helpers"><span>[names<wbr>.implicit<wbr>.derive-helpers]</span></a>
 </div>
+
 <ul>
 <li><a href="procedural-macros.html#derive-macro-helper-attributes">Derive helper attributes</a> are valid within an item without being explicitly imported</li>
 </ul>
-<div class="rule" id="r-names.implicit.lifetime-static"><a class="rule-link" href="#r-names.implicit.lifetime-static" title="names.implicit.lifetime-static"><span>[names<wbr>.implicit<wbr>.lifetime-static]</span/></a>
+<div class="rule" id="r-names.implicit.lifetime-static"><a class="rule-link" href="#r-names.implicit.lifetime-static" title="names.implicit.lifetime-static"><span>[names<wbr>.implicit<wbr>.lifetime-static]</span></a>
 </div>
+
 <ul>
 <li>The <a href="keywords.html#weak-keywords"><code>'static</code></a> lifetime</li>
 </ul>
-<div class="rule" id="r-names.implicit.root"><a class="rule-link" href="#r-names.implicit.root" title="names.implicit.root"><span>[names<wbr>.implicit<wbr>.root]</span/></a>
+<div class="rule" id="r-names.implicit.root"><a class="rule-link" href="#r-names.implicit.root" title="names.implicit.root"><span>[names<wbr>.implicit<wbr>.root]</span></a>
 </div>
+
 <p>Additionally, the crate root module does not have a name, but can be referred
 to with certain <a href="paths.html#path-qualifiers">path qualifiers</a> or aliases.</p>
 
@@ -359,6 +390,7 @@ to with certain <a href="paths.html#path-qualifiers">path qualifiers</a> or alia
                         <!-- Mobile navigation buttons -->
                             <a rel="prev" href="special-types-and-traits.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                            </a>
 
                             <a rel="next prefetch" href="names/namespaces.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
@@ -400,10 +432,10 @@ to with certain <a href="paths.html#path-qualifiers">path qualifiers</a> or alia
 
         <script src="clipboard-1626706a.min.js"></script>
         <script src="highlight-abc7f01d.js"></script>
-        <script src="book-81fc5345.js"></script>
+        <script src="book-a0b12cfe.js"></script>
 
         <!-- Custom JS scripts -->
-        <script src="theme/reference-cfed9ca5.js"></script>
+        <script src="theme/reference-da60281b.js"></script>
 
 
 

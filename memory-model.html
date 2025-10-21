@@ -14,9 +14,9 @@
 
         <link rel="icon" href="favicon-de23e50b.svg">
         <link rel="shortcut icon" href="favicon-8114d1fc.png">
-        <link rel="stylesheet" href="css/variables-3865ffda.css">
-        <link rel="stylesheet" href="css/general-d297d479.css">
-        <link rel="stylesheet" href="css/chrome-ad662a8e.css">
+        <link rel="stylesheet" href="css/variables-8adf115d.css">
+        <link rel="stylesheet" href="css/general-2459343d.css">
+        <link rel="stylesheet" href="css/chrome-3111ccdb.css">
         <link rel="stylesheet" href="css/print-9e4910d8.css" media="print">
 
         <!-- Fonts -->
@@ -28,7 +28,7 @@
         <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="ayu-highlight-56612340.css">
 
         <!-- Custom theme stylesheets -->
-        <link rel="stylesheet" href="theme/reference-94a8e8ad.css">
+        <link rel="stylesheet" href="theme/reference-6200eb72.css">
 
 
         <!-- Provide site root and default themes to javascript -->
@@ -36,10 +36,10 @@
             const path_to_root = "";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "searchindex-54e4028f.js";
+            window.path_to_searchindex_js = "searchindex-93e32808.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="toc-1b51e6f3.js"></script>
+        <script src="toc-8771841d.js"></script>
     </head>
     <body>
     <div id="mdbook-help-container">
@@ -181,46 +181,58 @@
 
                 <div id="mdbook-content" class="content">
                     <main>
-                        <div class="rule" id="r-memory"><a class="rule-link" href="#r-memory" title="memory"><span>[memory]</span/></a>
+                        <div class="rule" id="r-memory"><a class="rule-link" href="#r-memory" title="memory"><span>[memory]</span></a>
 </div>
+
 <h1 id="memory-model"><a class="header" href="#memory-model">Memory model</a></h1>
 <div class="alert alert-warning">
 <blockquote>
-<p class="alert-title"><svg viewBox="0 0 16 16" width="18" height="18"><path d="M6.457 1.047c.659-1.234 2.427-1.234 3.086 0l6.082 11.378A1.75 1.75 0 0 1 14.082 15H1.918a1.75 1.75 0 0 1-1.543-2.575Zm1.763.707a.25.25 0 0 0-.44 0L1.698 13.132a.25.25 0 0 0 .22.368h12.164a.25.25 0 0 0 .22-.368Zm.53 3.996v2.5a.75.75 0 0 1-1.5 0v-2.5a.75.75 0 0 1 1.5 0ZM9 11a1 1 0 1 1-2 0 1 1 0 0 1 2 0Z"></path></svg>Warning</p>
+<p class="alert-title"><svg viewbox="0 0 16 16" width="18" height="18"><path d="M6.457 1.047c.659-1.234 2.427-1.234 3.086 0l6.082 11.378A1.75 1.75 0 0 1 14.082 15H1.918a1.75 1.75 0 0 1-1.543-2.575Zm1.763.707a.25.25 0 0 0-.44 0L1.698 13.132a.25.25 0 0 0 .22.368h12.164a.25.25 0 0 0 .22-.368Zm.53 3.996v2.5a.75.75 0 0 1-1.5 0v-2.5a.75.75 0 0 1 1.5 0ZM9 11a1 1 0 1 1-2 0 1 1 0 0 1 2 0Z"></path></svg>Warning</p>
+
 <p>The memory model of Rust is incomplete and not fully decided.</p>
 </blockquote>
 </div>
-<div class="rule" id="r-memory.bytes"><a class="rule-link" href="#r-memory.bytes" title="memory.bytes"><span>[memory<wbr>.bytes]</span/></a>
+
+<div class="rule" id="r-memory.bytes"><a class="rule-link" href="#r-memory.bytes" title="memory.bytes"><span>[memory<wbr>.bytes]</span></a>
 </div>
+
 <h2 id="bytes"><a class="header" href="#bytes">Bytes</a></h2>
-<div class="rule" id="r-memory.bytes.intro"><a class="rule-link" href="#r-memory.bytes.intro" title="memory.bytes.intro"><span>[memory<wbr>.bytes<wbr>.intro]</span/></a>
+<div class="rule" id="r-memory.bytes.intro"><a class="rule-link" href="#r-memory.bytes.intro" title="memory.bytes.intro"><span>[memory<wbr>.bytes<wbr>.intro]</span></a>
 </div>
+
 <p>The most basic unit of memory in Rust is a byte.</p>
 <div class="alert alert-note">
 <blockquote>
-<p class="alert-title"><svg viewBox="0 0 16 16" width="18" height="18"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"></path></svg>Note</p>
+<p class="alert-title"><svg viewbox="0 0 16 16" width="18" height="18"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"></path></svg>Note</p>
+
 <p>While bytes are typically lowered to hardware bytes, Rust uses an “abstract” notion of bytes that can make distinctions which are absent in hardware, such as being uninitialized, or storing part of a pointer. Those distinctions can affect whether your program has undefined behavior, so they still have tangible impact on how compiled Rust programs behave.</p>
 </blockquote>
 </div>
-<div class="rule" id="r-memory.bytes.contents"><a class="rule-link" href="#r-memory.bytes.contents" title="memory.bytes.contents"><span>[memory<wbr>.bytes<wbr>.contents]</span/></a>
+
+<div class="rule" id="r-memory.bytes.contents"><a class="rule-link" href="#r-memory.bytes.contents" title="memory.bytes.contents"><span>[memory<wbr>.bytes<wbr>.contents]</span></a>
 </div>
+
 <p>Each byte may have one of the following values:</p>
-<div class="rule" id="r-memory.bytes.init"><a class="rule-link" href="#r-memory.bytes.init" title="memory.bytes.init"><span>[memory<wbr>.bytes<wbr>.init]</span/></a>
+<div class="rule" id="r-memory.bytes.init"><a class="rule-link" href="#r-memory.bytes.init" title="memory.bytes.init"><span>[memory<wbr>.bytes<wbr>.init]</span></a>
 </div>
+
 <ul>
 <li>An initialized byte containing a <code>u8</code> value and optional <a href="../core/ptr/index.html#provenance">provenance</a>,</li>
 </ul>
-<div class="rule" id="r-memory.bytes.uninit"><a class="rule-link" href="#r-memory.bytes.uninit" title="memory.bytes.uninit"><span>[memory<wbr>.bytes<wbr>.uninit]</span/></a>
+<div class="rule" id="r-memory.bytes.uninit"><a class="rule-link" href="#r-memory.bytes.uninit" title="memory.bytes.uninit"><span>[memory<wbr>.bytes<wbr>.uninit]</span></a>
 </div>
+
 <ul>
 <li>An uninitialized byte.</li>
 </ul>
 <div class="alert alert-note">
 <blockquote>
-<p class="alert-title"><svg viewBox="0 0 16 16" width="18" height="18"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"></path></svg>Note</p>
+<p class="alert-title"><svg viewbox="0 0 16 16" width="18" height="18"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"></path></svg>Note</p>
+
 <p>The above list is not yet guaranteed to be exhaustive.</p>
 </blockquote>
 </div>
+
 
                     </main>
 
@@ -228,6 +240,7 @@
                         <!-- Mobile navigation buttons -->
                             <a rel="prev" href="visibility-and-privacy.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                            </a>
 
                             <a rel="next prefetch" href="memory-allocation-and-lifetime.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
@@ -269,10 +282,10 @@
 
         <script src="clipboard-1626706a.min.js"></script>
         <script src="highlight-abc7f01d.js"></script>
-        <script src="book-81fc5345.js"></script>
+        <script src="book-a0b12cfe.js"></script>
 
         <!-- Custom JS scripts -->
-        <script src="theme/reference-cfed9ca5.js"></script>
+        <script src="theme/reference-da60281b.js"></script>
 
 
 

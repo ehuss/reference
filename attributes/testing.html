@@ -14,9 +14,9 @@
 
         <link rel="icon" href="../favicon-de23e50b.svg">
         <link rel="shortcut icon" href="../favicon-8114d1fc.png">
-        <link rel="stylesheet" href="../css/variables-3865ffda.css">
-        <link rel="stylesheet" href="../css/general-d297d479.css">
-        <link rel="stylesheet" href="../css/chrome-ad662a8e.css">
+        <link rel="stylesheet" href="../css/variables-8adf115d.css">
+        <link rel="stylesheet" href="../css/general-2459343d.css">
+        <link rel="stylesheet" href="../css/chrome-3111ccdb.css">
         <link rel="stylesheet" href="../css/print-9e4910d8.css" media="print">
 
         <!-- Fonts -->
@@ -28,7 +28,7 @@
         <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="../ayu-highlight-56612340.css">
 
         <!-- Custom theme stylesheets -->
-        <link rel="stylesheet" href="../theme/reference-94a8e8ad.css">
+        <link rel="stylesheet" href="../theme/reference-6200eb72.css">
 
 
         <!-- Provide site root and default themes to javascript -->
@@ -36,10 +36,10 @@
             const path_to_root = "../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../searchindex-54e4028f.js";
+            window.path_to_searchindex_js = "../searchindex-93e32808.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="../toc-1b51e6f3.js"></script>
+        <script src="../toc-8771841d.js"></script>
     </head>
     <body>
     <div id="mdbook-help-container">
@@ -181,24 +181,28 @@
 
                 <div id="mdbook-content" class="content">
                     <main>
-                        <div class="rule" id="r-attributes.testing"><a class="rule-link" href="#r-attributes.testing" title="attributes.testing"><span>[attributes<wbr>.testing]</span/></a>
+                        <div class="rule" id="r-attributes.testing"><a class="rule-link" href="#r-attributes.testing" title="attributes.testing"><span>[attributes<wbr>.testing]</span></a>
 </div>
+
 <h1 id="testing-attributes"><a class="header" href="#testing-attributes">Testing attributes</a></h1>
 <p>The following <a href="../attributes.html">attributes</a> are used for specifying functions for performing
 tests. Compiling a crate in “test” mode enables building the test functions
 along with a test harness for executing the tests. Enabling the test mode also
 enables the <a href="../conditional-compilation.html#test"><code>test</code> conditional compilation option</a>.</p>
 <!-- template:attributes -->
-<div class="rule" id="r-attributes.testing.test"><a class="rule-link" href="#r-attributes.testing.test" title="attributes.testing.test"><span>[attributes<wbr>.testing<wbr>.test]</span/></a>
+<div class="rule" id="r-attributes.testing.test"><a class="rule-link" href="#r-attributes.testing.test" title="attributes.testing.test"><span>[attributes<wbr>.testing<wbr>.test]</span></a>
 </div>
+
 <h2 id="the-test-attribute"><a class="header" href="#the-test-attribute">The <code>test</code> attribute</a></h2>
-<div class="rule" id="r-attributes.testing.test.intro"><a class="rule-link" href="#r-attributes.testing.test.intro" title="attributes.testing.test.intro"><span>[attributes<wbr>.testing<wbr>.test<wbr>.intro]</span/></a>
+<div class="rule" id="r-attributes.testing.test.intro"><a class="rule-link" href="#r-attributes.testing.test.intro" title="attributes.testing.test.intro"><span>[attributes<wbr>.testing<wbr>.test<wbr>.intro]</span></a>
 </div>
+
 <p>The <em><code>test</code> <a href="../attributes.html">attribute</a></em> marks a function to be executed as a test.</p>
 <div class="alert alert-example">
 <blockquote>
-<p class="alert-title"><svg viewBox="0 0 16 16" width="18" height="18"><path d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0ZM1.5 8a6.5 6.5 0 1 0 13 0 6.5 6.5 0 0 0-13 0Zm4.879-2.773 4.264 2.559a.25.25 0 0 1 0 .428l-4.264 2.559A.25.25 0 0 1 6 10.559V5.442a.25.25 0 0 1 .379-.215Z"></path></svg>Example</p>
-<pre><pre class="playground"><code class="language-rust no_run edition2024"><span class="boring">#![allow(unused)]
+<p class="alert-title"><svg viewbox="0 0 16 16" width="18" height="18"><path d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0ZM1.5 8a6.5 6.5 0 1 0 13 0 6.5 6.5 0 0 0-13 0Zm4.879-2.773 4.264 2.559a.25.25 0 0 1 0 .428l-4.264 2.559A.25.25 0 0 1 6 10.559V5.442a.25.25 0 0 1 .379-.215Z"></path></svg>Example</p>
+
+<pre class="playground"><code class="language-rust no_run edition2024"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span><span class="boring">pub fn add(left: u64, right: u64) -&gt; u64 { left + right }
 </span>#[test]
@@ -206,18 +210,22 @@ fn it_works() {
     let result = add(2, 2);
     assert_eq!(result, 4);
 }
-<span class="boring">}</span></code></pre></pre>
+<span class="boring">}</span></code></pre>
 </blockquote>
 </div>
-<div class="rule" id="r-attributes.testing.test.syntax"><a class="rule-link" href="#r-attributes.testing.test.syntax" title="attributes.testing.test.syntax"><span>[attributes<wbr>.testing<wbr>.test<wbr>.syntax]</span/></a>
+
+<div class="rule" id="r-attributes.testing.test.syntax"><a class="rule-link" href="#r-attributes.testing.test.syntax" title="attributes.testing.test.syntax"><span>[attributes<wbr>.testing<wbr>.test<wbr>.syntax]</span></a>
 </div>
+
 <p>The <code>test</code> attribute uses the <a href="../attributes.html#grammar-MetaWord">MetaWord</a> syntax.</p>
-<div class="rule" id="r-attributes.testing.test.allowed-positions"><a class="rule-link" href="#r-attributes.testing.test.allowed-positions" title="attributes.testing.test.allowed-positions"><span>[attributes<wbr>.testing<wbr>.test<wbr>.allowed-positions]</span/></a>
+<div class="rule" id="r-attributes.testing.test.allowed-positions"><a class="rule-link" href="#r-attributes.testing.test.allowed-positions" title="attributes.testing.test.allowed-positions"><span>[attributes<wbr>.testing<wbr>.test<wbr>.allowed-positions]</span></a>
 </div>
+
 <p>The <code>test</code> attribute may only be applied to <a href="../glossary.html#free-item">free functions</a> that are monomorphic, that take no arguments, and where the return type implements the <a href="../../std/process/trait.Termination.html"><code>Termination</code></a> trait.</p>
 <div class="alert alert-note">
 <blockquote>
-<p class="alert-title"><svg viewBox="0 0 16 16" width="18" height="18"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"></path></svg>Note</p>
+<p class="alert-title"><svg viewbox="0 0 16 16" width="18" height="18"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"></path></svg>Note</p>
+
 <p>Some of types that implement the <a href="../../std/process/trait.Termination.html"><code>Termination</code></a> trait include:</p>
 <ul>
 <li><code>()</code></li>
@@ -225,30 +233,39 @@ fn it_works() {
 </ul>
 </blockquote>
 </div>
-<div class="rule" id="r-attributes.testing.test.duplicates"><a class="rule-link" href="#r-attributes.testing.test.duplicates" title="attributes.testing.test.duplicates"><span>[attributes<wbr>.testing<wbr>.test<wbr>.duplicates]</span/></a>
+
+<div class="rule" id="r-attributes.testing.test.duplicates"><a class="rule-link" href="#r-attributes.testing.test.duplicates" title="attributes.testing.test.duplicates"><span>[attributes<wbr>.testing<wbr>.test<wbr>.duplicates]</span></a>
 </div>
+
 <p>Only the first use of <code>test</code> on a function has effect.</p>
 <div class="alert alert-note">
 <blockquote>
-<p class="alert-title"><svg viewBox="0 0 16 16" width="18" height="18"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"></path></svg>Note</p>
+<p class="alert-title"><svg viewbox="0 0 16 16" width="18" height="18"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"></path></svg>Note</p>
+
 <p><code>rustc</code> lints against any use following the first. This may become an error in the future.</p>
 </blockquote>
 </div>
+
 <!-- TODO: This is a minor lie. Currently rustc warns that duplicates are ignored, but it then generates multiple test entries with the same name. I would vote for rejecting this in the future. -->
-<div class="rule" id="r-attributes.testing.test.stdlib"><a class="rule-link" href="#r-attributes.testing.test.stdlib" title="attributes.testing.test.stdlib"><span>[attributes<wbr>.testing<wbr>.test<wbr>.stdlib]</span/></a>
+<div class="rule" id="r-attributes.testing.test.stdlib"><a class="rule-link" href="#r-attributes.testing.test.stdlib" title="attributes.testing.test.stdlib"><span>[attributes<wbr>.testing<wbr>.test<wbr>.stdlib]</span></a>
 </div>
+
 <p>The <code>test</code> attribute is exported from the standard library prelude as <a href="../../core/macros/builtin/attr.test.html"><code>std::prelude::v1::test</code></a>.</p>
-<div class="rule" id="r-attributes.testing.test.enabled"><a class="rule-link" href="#r-attributes.testing.test.enabled" title="attributes.testing.test.enabled"><span>[attributes<wbr>.testing<wbr>.test<wbr>.enabled]</span/></a>
+<div class="rule" id="r-attributes.testing.test.enabled"><a class="rule-link" href="#r-attributes.testing.test.enabled" title="attributes.testing.test.enabled"><span>[attributes<wbr>.testing<wbr>.test<wbr>.enabled]</span></a>
 </div>
+
 <p>These functions are only compiled when in test mode.</p>
 <div class="alert alert-note">
 <blockquote>
-<p class="alert-title"><svg viewBox="0 0 16 16" width="18" height="18"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"></path></svg>Note</p>
+<p class="alert-title"><svg viewbox="0 0 16 16" width="18" height="18"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"></path></svg>Note</p>
+
 <p>The test mode is enabled by passing the <code>--test</code> argument to <code>rustc</code> or using <code>cargo test</code>.</p>
 </blockquote>
 </div>
-<div class="rule" id="r-attributes.testing.test.success"><a class="rule-link" href="#r-attributes.testing.test.success" title="attributes.testing.test.success"><span>[attributes<wbr>.testing<wbr>.test<wbr>.success]</span/></a>
+
+<div class="rule" id="r-attributes.testing.test.success"><a class="rule-link" href="#r-attributes.testing.test.success" title="attributes.testing.test.success"><span>[attributes<wbr>.testing<wbr>.test<wbr>.success]</span></a>
 </div>
+
 <p>The test harness calls the returned value’s <a href="../../std/process/trait.Termination.html#tymethod.report"><code>report</code></a> method, and classifies the test as passed or failed depending on whether the resulting <a href="../../std/process/struct.ExitCode.html"><code>ExitCode</code></a> represents successful termination.
 In particular:</p>
 <ul>
@@ -259,8 +276,9 @@ In particular:</p>
 </ul>
 <div class="alert alert-example">
 <blockquote>
-<p class="alert-title"><svg viewBox="0 0 16 16" width="18" height="18"><path d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0ZM1.5 8a6.5 6.5 0 1 0 13 0 6.5 6.5 0 0 0-13 0Zm4.879-2.773 4.264 2.559a.25.25 0 0 1 0 .428l-4.264 2.559A.25.25 0 0 1 6 10.559V5.442a.25.25 0 0 1 .379-.215Z"></path></svg>Example</p>
-<pre><pre class="playground"><code class="language-rust no_run edition2024"><span class="boring">#![allow(unused)]
+<p class="alert-title"><svg viewbox="0 0 16 16" width="18" height="18"><path d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0ZM1.5 8a6.5 6.5 0 1 0 13 0 6.5 6.5 0 0 0-13 0Zm4.879-2.773 4.264 2.559a.25.25 0 0 1 0 .428l-4.264 2.559A.25.25 0 0 1 6 10.559V5.442a.25.25 0 0 1 .379-.215Z"></path></svg>Example</p>
+
+<pre class="playground"><code class="language-rust no_run edition2024"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span><span class="boring">use std::io;
 </span><span class="boring">fn setup_the_thing() -&gt; io::Result&lt;i32&gt; { Ok(1) }
@@ -271,165 +289,202 @@ fn test_the_thing() -&gt; io::Result&lt;()&gt; {
     do_the_thing(&amp;state)?;          // expected to succeed
     Ok(())
 }
-<span class="boring">}</span></code></pre></pre>
+<span class="boring">}</span></code></pre>
 </blockquote>
 </div>
+
 <!-- template:attributes -->
-<div class="rule" id="r-attributes.testing.ignore"><a class="rule-link" href="#r-attributes.testing.ignore" title="attributes.testing.ignore"><span>[attributes<wbr>.testing<wbr>.ignore]</span/></a>
+<div class="rule" id="r-attributes.testing.ignore"><a class="rule-link" href="#r-attributes.testing.ignore" title="attributes.testing.ignore"><span>[attributes<wbr>.testing<wbr>.ignore]</span></a>
 </div>
+
 <h2 id="the-ignore-attribute"><a class="header" href="#the-ignore-attribute">The <code>ignore</code> attribute</a></h2>
-<div class="rule" id="r-attributes.testing.ignore.intro"><a class="rule-link" href="#r-attributes.testing.ignore.intro" title="attributes.testing.ignore.intro"><span>[attributes<wbr>.testing<wbr>.ignore<wbr>.intro]</span/></a>
+<div class="rule" id="r-attributes.testing.ignore.intro"><a class="rule-link" href="#r-attributes.testing.ignore.intro" title="attributes.testing.ignore.intro"><span>[attributes<wbr>.testing<wbr>.ignore<wbr>.intro]</span></a>
 </div>
+
 <p>The <em><code>ignore</code> <a href="../attributes.html">attribute</a></em> can be used with the <a href="testing.html#r-attributes.testing.test"><code>test</code> attribute</a> to tell the test harness to not execute that function as a test.</p>
 <div class="alert alert-example">
 <blockquote>
-<p class="alert-title"><svg viewBox="0 0 16 16" width="18" height="18"><path d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0ZM1.5 8a6.5 6.5 0 1 0 13 0 6.5 6.5 0 0 0-13 0Zm4.879-2.773 4.264 2.559a.25.25 0 0 1 0 .428l-4.264 2.559A.25.25 0 0 1 6 10.559V5.442a.25.25 0 0 1 .379-.215Z"></path></svg>Example</p>
-<pre><pre class="playground"><code class="language-rust no_run edition2024"><span class="boring">#![allow(unused)]
+<p class="alert-title"><svg viewbox="0 0 16 16" width="18" height="18"><path d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0ZM1.5 8a6.5 6.5 0 1 0 13 0 6.5 6.5 0 0 0-13 0Zm4.879-2.773 4.264 2.559a.25.25 0 0 1 0 .428l-4.264 2.559A.25.25 0 0 1 6 10.559V5.442a.25.25 0 0 1 .379-.215Z"></path></svg>Example</p>
+
+<pre class="playground"><code class="language-rust no_run edition2024"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>#[test]
 #[ignore]
 fn check_thing() {
     // …
 }
-<span class="boring">}</span></code></pre></pre>
+<span class="boring">}</span></code></pre>
 </blockquote>
 </div>
+
 <div class="alert alert-note">
 <blockquote>
-<p class="alert-title"><svg viewBox="0 0 16 16" width="18" height="18"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"></path></svg>Note</p>
+<p class="alert-title"><svg viewbox="0 0 16 16" width="18" height="18"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"></path></svg>Note</p>
+
 <p>The <code>rustc</code> test harness supports the <code>--include-ignored</code> flag to force ignored tests to be run.</p>
 </blockquote>
 </div>
-<div class="rule" id="r-attributes.testing.ignore.syntax"><a class="rule-link" href="#r-attributes.testing.ignore.syntax" title="attributes.testing.ignore.syntax"><span>[attributes<wbr>.testing<wbr>.ignore<wbr>.syntax]</span/></a>
+
+<div class="rule" id="r-attributes.testing.ignore.syntax"><a class="rule-link" href="#r-attributes.testing.ignore.syntax" title="attributes.testing.ignore.syntax"><span>[attributes<wbr>.testing<wbr>.ignore<wbr>.syntax]</span></a>
 </div>
+
 <p>The <code>ignore</code> attribute uses the <a href="../attributes.html#grammar-MetaWord">MetaWord</a> and <a href="../attributes.html#grammar-MetaNameValueStr">MetaNameValueStr</a> syntaxes.</p>
-<div class="rule" id="r-attributes.testing.ignore.reason"><a class="rule-link" href="#r-attributes.testing.ignore.reason" title="attributes.testing.ignore.reason"><span>[attributes<wbr>.testing<wbr>.ignore<wbr>.reason]</span/></a>
+<div class="rule" id="r-attributes.testing.ignore.reason"><a class="rule-link" href="#r-attributes.testing.ignore.reason" title="attributes.testing.ignore.reason"><span>[attributes<wbr>.testing<wbr>.ignore<wbr>.reason]</span></a>
 </div>
+
 <p>The <a href="../attributes.html#grammar-MetaNameValueStr">MetaNameValueStr</a> form of the <code>ignore</code> attribute provides a way to specify a reason why the test is ignored.</p>
 <div class="alert alert-example">
 <blockquote>
-<p class="alert-title"><svg viewBox="0 0 16 16" width="18" height="18"><path d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0ZM1.5 8a6.5 6.5 0 1 0 13 0 6.5 6.5 0 0 0-13 0Zm4.879-2.773 4.264 2.559a.25.25 0 0 1 0 .428l-4.264 2.559A.25.25 0 0 1 6 10.559V5.442a.25.25 0 0 1 .379-.215Z"></path></svg>Example</p>
-<pre><pre class="playground"><code class="language-rust no_run edition2024"><span class="boring">#![allow(unused)]
+<p class="alert-title"><svg viewbox="0 0 16 16" width="18" height="18"><path d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0ZM1.5 8a6.5 6.5 0 1 0 13 0 6.5 6.5 0 0 0-13 0Zm4.879-2.773 4.264 2.559a.25.25 0 0 1 0 .428l-4.264 2.559A.25.25 0 0 1 6 10.559V5.442a.25.25 0 0 1 .379-.215Z"></path></svg>Example</p>
+
+<pre class="playground"><code class="language-rust no_run edition2024"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>#[test]
 #[ignore = "not yet implemented"]
 fn mytest() {
     // …
 }
-<span class="boring">}</span></code></pre></pre>
+<span class="boring">}</span></code></pre>
 </blockquote>
 </div>
-<div class="rule" id="r-attributes.testing.ignore.allowed-positions"><a class="rule-link" href="#r-attributes.testing.ignore.allowed-positions" title="attributes.testing.ignore.allowed-positions"><span>[attributes<wbr>.testing<wbr>.ignore<wbr>.allowed-positions]</span/></a>
+
+<div class="rule" id="r-attributes.testing.ignore.allowed-positions"><a class="rule-link" href="#r-attributes.testing.ignore.allowed-positions" title="attributes.testing.ignore.allowed-positions"><span>[attributes<wbr>.testing<wbr>.ignore<wbr>.allowed-positions]</span></a>
 </div>
+
 <p>The <code>ignore</code> attribute may only be applied to functions annotated with the <code>test</code> attribute.</p>
 <div class="alert alert-note">
 <blockquote>
-<p class="alert-title"><svg viewBox="0 0 16 16" width="18" height="18"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"></path></svg>Note</p>
+<p class="alert-title"><svg viewbox="0 0 16 16" width="18" height="18"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"></path></svg>Note</p>
+
 <p><code>rustc</code> ignores use in other positions but lints against it. This may become an error in the future.</p>
 </blockquote>
 </div>
-<div class="rule" id="r-attributes.testing.ignore.duplicates"><a class="rule-link" href="#r-attributes.testing.ignore.duplicates" title="attributes.testing.ignore.duplicates"><span>[attributes<wbr>.testing<wbr>.ignore<wbr>.duplicates]</span/></a>
+
+<div class="rule" id="r-attributes.testing.ignore.duplicates"><a class="rule-link" href="#r-attributes.testing.ignore.duplicates" title="attributes.testing.ignore.duplicates"><span>[attributes<wbr>.testing<wbr>.ignore<wbr>.duplicates]</span></a>
 </div>
+
 <p>Only the first use of <code>ignore</code> on a function has effect.</p>
 <div class="alert alert-note">
 <blockquote>
-<p class="alert-title"><svg viewBox="0 0 16 16" width="18" height="18"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"></path></svg>Note</p>
+<p class="alert-title"><svg viewbox="0 0 16 16" width="18" height="18"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"></path></svg>Note</p>
+
 <p><code>rustc</code> lints against any use following the first. This may become an error in the future.</p>
 </blockquote>
 </div>
-<div class="rule" id="r-attributes.testing.ignore.behavior"><a class="rule-link" href="#r-attributes.testing.ignore.behavior" title="attributes.testing.ignore.behavior"><span>[attributes<wbr>.testing<wbr>.ignore<wbr>.behavior]</span/></a>
+
+<div class="rule" id="r-attributes.testing.ignore.behavior"><a class="rule-link" href="#r-attributes.testing.ignore.behavior" title="attributes.testing.ignore.behavior"><span>[attributes<wbr>.testing<wbr>.ignore<wbr>.behavior]</span></a>
 </div>
+
 <p>Ignored tests are still compiled when in test mode, but they are not executed.</p>
 <!-- template:attributes -->
-<div class="rule" id="r-attributes.testing.should_panic"><a class="rule-link" href="#r-attributes.testing.should_panic" title="attributes.testing.should_panic"><span>[attributes<wbr>.testing<wbr>.should_panic]</span/></a>
+<div class="rule" id="r-attributes.testing.should_panic"><a class="rule-link" href="#r-attributes.testing.should_panic" title="attributes.testing.should_panic"><span>[attributes<wbr>.testing<wbr>.should_panic]</span></a>
 </div>
+
 <h2 id="the-should_panic-attribute"><a class="header" href="#the-should_panic-attribute">The <code>should_panic</code> attribute</a></h2>
-<div class="rule" id="r-attributes.testing.should_panic.intro"><a class="rule-link" href="#r-attributes.testing.should_panic.intro" title="attributes.testing.should_panic.intro"><span>[attributes<wbr>.testing<wbr>.should_panic<wbr>.intro]</span/></a>
+<div class="rule" id="r-attributes.testing.should_panic.intro"><a class="rule-link" href="#r-attributes.testing.should_panic.intro" title="attributes.testing.should_panic.intro"><span>[attributes<wbr>.testing<wbr>.should_panic<wbr>.intro]</span></a>
 </div>
+
 <p>The <em><code>should_panic</code> <a href="../attributes.html">attribute</a></em> causes a test to pass only if the <a href="testing.html#r-attributes.testing.test">test function</a> to which the attribute is applied panics.</p>
 <div class="alert alert-example">
 <blockquote>
-<p class="alert-title"><svg viewBox="0 0 16 16" width="18" height="18"><path d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0ZM1.5 8a6.5 6.5 0 1 0 13 0 6.5 6.5 0 0 0-13 0Zm4.879-2.773 4.264 2.559a.25.25 0 0 1 0 .428l-4.264 2.559A.25.25 0 0 1 6 10.559V5.442a.25.25 0 0 1 .379-.215Z"></path></svg>Example</p>
-<pre><pre class="playground"><code class="language-rust no_run edition2024"><span class="boring">#![allow(unused)]
+<p class="alert-title"><svg viewbox="0 0 16 16" width="18" height="18"><path d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0ZM1.5 8a6.5 6.5 0 1 0 13 0 6.5 6.5 0 0 0-13 0Zm4.879-2.773 4.264 2.559a.25.25 0 0 1 0 .428l-4.264 2.559A.25.25 0 0 1 6 10.559V5.442a.25.25 0 0 1 .379-.215Z"></path></svg>Example</p>
+
+<pre class="playground"><code class="language-rust no_run edition2024"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>#[test]
 #[should_panic(expected = "values don't match")]
 fn mytest() {
     assert_eq!(1, 2, "values don't match");
 }
-<span class="boring">}</span></code></pre></pre>
+<span class="boring">}</span></code></pre>
 </blockquote>
 </div>
-<div class="rule" id="r-attributes.testing.should_panic.syntax"><a class="rule-link" href="#r-attributes.testing.should_panic.syntax" title="attributes.testing.should_panic.syntax"><span>[attributes<wbr>.testing<wbr>.should_panic<wbr>.syntax]</span/></a>
+
+<div class="rule" id="r-attributes.testing.should_panic.syntax"><a class="rule-link" href="#r-attributes.testing.should_panic.syntax" title="attributes.testing.should_panic.syntax"><span>[attributes<wbr>.testing<wbr>.should_panic<wbr>.syntax]</span></a>
 </div>
+
 <p>The <code>should_panic</code> attribute has these forms:</p>
 <ul>
 <li>
 <p><a href="../attributes.html#grammar-MetaWord">MetaWord</a></p>
 <div class="alert alert-example">
 <blockquote>
-<p class="alert-title"><svg viewBox="0 0 16 16" width="18" height="18"><path d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0ZM1.5 8a6.5 6.5 0 1 0 13 0 6.5 6.5 0 0 0-13 0Zm4.879-2.773 4.264 2.559a.25.25 0 0 1 0 .428l-4.264 2.559A.25.25 0 0 1 6 10.559V5.442a.25.25 0 0 1 .379-.215Z"></path></svg>Example</p>
-<pre><pre class="playground"><code class="language-rust no_run edition2024"><span class="boring">#![allow(unused)]
+<p class="alert-title"><svg viewbox="0 0 16 16" width="18" height="18"><path d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0ZM1.5 8a6.5 6.5 0 1 0 13 0 6.5 6.5 0 0 0-13 0Zm4.879-2.773 4.264 2.559a.25.25 0 0 1 0 .428l-4.264 2.559A.25.25 0 0 1 6 10.559V5.442a.25.25 0 0 1 .379-.215Z"></path></svg>Example</p>
+
+<pre class="playground"><code class="language-rust no_run edition2024"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>#[test]
 #[should_panic]
 fn mytest() { panic!("error: some message, and more"); }
-<span class="boring">}</span></code></pre></pre>
+<span class="boring">}</span></code></pre>
 </blockquote>
 </div>
+
 </li>
 <li>
 <p><a href="../attributes.html#grammar-MetaNameValueStr">MetaNameValueStr</a> — The given string must appear within the panic message for the test to pass.</p>
 <div class="alert alert-example">
 <blockquote>
-<p class="alert-title"><svg viewBox="0 0 16 16" width="18" height="18"><path d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0ZM1.5 8a6.5 6.5 0 1 0 13 0 6.5 6.5 0 0 0-13 0Zm4.879-2.773 4.264 2.559a.25.25 0 0 1 0 .428l-4.264 2.559A.25.25 0 0 1 6 10.559V5.442a.25.25 0 0 1 .379-.215Z"></path></svg>Example</p>
-<pre><pre class="playground"><code class="language-rust no_run edition2024"><span class="boring">#![allow(unused)]
+<p class="alert-title"><svg viewbox="0 0 16 16" width="18" height="18"><path d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0ZM1.5 8a6.5 6.5 0 1 0 13 0 6.5 6.5 0 0 0-13 0Zm4.879-2.773 4.264 2.559a.25.25 0 0 1 0 .428l-4.264 2.559A.25.25 0 0 1 6 10.559V5.442a.25.25 0 0 1 .379-.215Z"></path></svg>Example</p>
+
+<pre class="playground"><code class="language-rust no_run edition2024"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>#[test]
 #[should_panic = "some message"]
 fn mytest() { panic!("error: some message, and more"); }
-<span class="boring">}</span></code></pre></pre>
+<span class="boring">}</span></code></pre>
 </blockquote>
 </div>
+
 </li>
 <li>
 <p><a href="../attributes.html#grammar-MetaListNameValueStr">MetaListNameValueStr</a> — As with the <a href="../attributes.html#grammar-MetaNameValueStr">MetaNameValueStr</a> syntax, the given string must appear within the panic message.</p>
 <div class="alert alert-example">
 <blockquote>
-<p class="alert-title"><svg viewBox="0 0 16 16" width="18" height="18"><path d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0ZM1.5 8a6.5 6.5 0 1 0 13 0 6.5 6.5 0 0 0-13 0Zm4.879-2.773 4.264 2.559a.25.25 0 0 1 0 .428l-4.264 2.559A.25.25 0 0 1 6 10.559V5.442a.25.25 0 0 1 .379-.215Z"></path></svg>Example</p>
-<pre><pre class="playground"><code class="language-rust no_run edition2024"><span class="boring">#![allow(unused)]
+<p class="alert-title"><svg viewbox="0 0 16 16" width="18" height="18"><path d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0ZM1.5 8a6.5 6.5 0 1 0 13 0 6.5 6.5 0 0 0-13 0Zm4.879-2.773 4.264 2.559a.25.25 0 0 1 0 .428l-4.264 2.559A.25.25 0 0 1 6 10.559V5.442a.25.25 0 0 1 .379-.215Z"></path></svg>Example</p>
+
+<pre class="playground"><code class="language-rust no_run edition2024"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>#[test]
 #[should_panic(expected = "some message")]
 fn mytest() { panic!("error: some message, and more"); }
-<span class="boring">}</span></code></pre></pre>
+<span class="boring">}</span></code></pre>
 </blockquote>
 </div>
+
 </li>
 </ul>
-<div class="rule" id="r-attributes.testing.should_panic.allowed-positions"><a class="rule-link" href="#r-attributes.testing.should_panic.allowed-positions" title="attributes.testing.should_panic.allowed-positions"><span>[attributes<wbr>.testing<wbr>.should_panic<wbr>.allowed-positions]</span/></a>
+<div class="rule" id="r-attributes.testing.should_panic.allowed-positions"><a class="rule-link" href="#r-attributes.testing.should_panic.allowed-positions" title="attributes.testing.should_panic.allowed-positions"><span>[attributes<wbr>.testing<wbr>.should_panic<wbr>.allowed-positions]</span></a>
 </div>
+
 <p>The <code>should_panic</code> attribute may only be applied to functions annotated with the <code>test</code> attribute.</p>
 <div class="alert alert-note">
 <blockquote>
-<p class="alert-title"><svg viewBox="0 0 16 16" width="18" height="18"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"></path></svg>Note</p>
+<p class="alert-title"><svg viewbox="0 0 16 16" width="18" height="18"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"></path></svg>Note</p>
+
 <p><code>rustc</code> ignores use in other positions but lints against it. This may become an error in the future.</p>
 </blockquote>
 </div>
-<div class="rule" id="r-attributes.testing.should_panic.duplicates"><a class="rule-link" href="#r-attributes.testing.should_panic.duplicates" title="attributes.testing.should_panic.duplicates"><span>[attributes<wbr>.testing<wbr>.should_panic<wbr>.duplicates]</span/></a>
+
+<div class="rule" id="r-attributes.testing.should_panic.duplicates"><a class="rule-link" href="#r-attributes.testing.should_panic.duplicates" title="attributes.testing.should_panic.duplicates"><span>[attributes<wbr>.testing<wbr>.should_panic<wbr>.duplicates]</span></a>
 </div>
+
 <p>Only the first use of <code>should_panic</code> on a function has effect.</p>
 <div class="alert alert-note">
 <blockquote>
-<p class="alert-title"><svg viewBox="0 0 16 16" width="18" height="18"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"></path></svg>Note</p>
+<p class="alert-title"><svg viewbox="0 0 16 16" width="18" height="18"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"></path></svg>Note</p>
+
 <p><code>rustc</code> lints against any use following the first with a future-compatibility warning. This may become an error in the future.</p>
 </blockquote>
 </div>
-<div class="rule" id="r-attributes.testing.should_panic.expected"><a class="rule-link" href="#r-attributes.testing.should_panic.expected" title="attributes.testing.should_panic.expected"><span>[attributes<wbr>.testing<wbr>.should_panic<wbr>.expected]</span/></a>
+
+<div class="rule" id="r-attributes.testing.should_panic.expected"><a class="rule-link" href="#r-attributes.testing.should_panic.expected" title="attributes.testing.should_panic.expected"><span>[attributes<wbr>.testing<wbr>.should_panic<wbr>.expected]</span></a>
 </div>
+
 <p>When the <a href="../attributes.html#grammar-MetaNameValueStr">MetaNameValueStr</a> form or the <a href="../attributes.html#grammar-MetaListNameValueStr">MetaListNameValueStr</a> form with the <code>expected</code> key is used, the given string must appear somewhere within the panic message for the test to pass.</p>
-<div class="rule" id="r-attributes.testing.should_panic.return"><a class="rule-link" href="#r-attributes.testing.should_panic.return" title="attributes.testing.should_panic.return"><span>[attributes<wbr>.testing<wbr>.should_panic<wbr>.return]</span/></a>
+<div class="rule" id="r-attributes.testing.should_panic.return"><a class="rule-link" href="#r-attributes.testing.should_panic.return" title="attributes.testing.should_panic.return"><span>[attributes<wbr>.testing<wbr>.should_panic<wbr>.return]</span></a>
 </div>
+
 <p>The return type of the test function must be <code>()</code>.</p>
 
                     </main>
@@ -438,6 +493,7 @@ fn mytest() { panic!("error: some message, and more"); }
                         <!-- Mobile navigation buttons -->
                             <a rel="prev" href="../attributes.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                            </a>
 
                             <a rel="next prefetch" href="../attributes/derive.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
@@ -479,10 +535,10 @@ fn mytest() { panic!("error: some message, and more"); }
 
         <script src="../clipboard-1626706a.min.js"></script>
         <script src="../highlight-abc7f01d.js"></script>
-        <script src="../book-81fc5345.js"></script>
+        <script src="../book-a0b12cfe.js"></script>
 
         <!-- Custom JS scripts -->
-        <script src="../theme/reference-cfed9ca5.js"></script>
+        <script src="../theme/reference-da60281b.js"></script>
 
 
 

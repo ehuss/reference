@@ -14,9 +14,9 @@
 
         <link rel="icon" href="../favicon-de23e50b.svg">
         <link rel="shortcut icon" href="../favicon-8114d1fc.png">
-        <link rel="stylesheet" href="../css/variables-3865ffda.css">
-        <link rel="stylesheet" href="../css/general-d297d479.css">
-        <link rel="stylesheet" href="../css/chrome-ad662a8e.css">
+        <link rel="stylesheet" href="../css/variables-8adf115d.css">
+        <link rel="stylesheet" href="../css/general-2459343d.css">
+        <link rel="stylesheet" href="../css/chrome-3111ccdb.css">
         <link rel="stylesheet" href="../css/print-9e4910d8.css" media="print">
 
         <!-- Fonts -->
@@ -28,7 +28,7 @@
         <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="../ayu-highlight-56612340.css">
 
         <!-- Custom theme stylesheets -->
-        <link rel="stylesheet" href="../theme/reference-94a8e8ad.css">
+        <link rel="stylesheet" href="../theme/reference-6200eb72.css">
 
 
         <!-- Provide site root and default themes to javascript -->
@@ -36,10 +36,10 @@
             const path_to_root = "../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../searchindex-54e4028f.js";
+            window.path_to_searchindex_js = "../searchindex-93e32808.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="../toc-1b51e6f3.js"></script>
+        <script src="../toc-8771841d.js"></script>
     </head>
     <body>
     <div id="mdbook-help-container">
@@ -181,121 +181,129 @@
 
                 <div id="mdbook-content" class="content">
                     <main>
-                        <div class="rule" id="r-type.tuple"><a class="rule-link" href="#r-type.tuple" title="type.tuple"><span>[type<wbr>.tuple]</span/></a>
+                        <div class="rule" id="r-type.tuple"><a class="rule-link" href="#r-type.tuple" title="type.tuple"><span>[type<wbr>.tuple]</span></a>
 </div>
+
 <h1 id="tuple-types"><a class="header" href="#tuple-types">Tuple types</a></h1>
-<div class="rule" id="r-type.tuple.syntax"><a class="rule-link" href="#r-type.tuple.syntax" title="type.tuple.syntax"><span>[type<wbr>.tuple<wbr>.syntax]</span/></a>
+<div class="rule" id="r-type.tuple.syntax"><a class="rule-link" href="#r-type.tuple.syntax" title="type.tuple.syntax"><span>[type<wbr>.tuple<wbr>.syntax]</span></a>
 </div>
+
 <div class="grammar-container">
 <p><strong><sup>Syntax</sup></strong>
 <br>
-<span class="grammar-text grammar-production" id="grammar-TupleType" onclick="show_railroad()"><a href="tuple.html#railroad-TupleType">TupleType</a></span> → <br />
-      <span class="grammar-literal">(</span> <span class="grammar-literal">)</span> <br />
-    | <span class="grammar-literal">(</span> ( <span class="grammar-text"><a href="../types.html#grammar-Type">Type</a></span> <span class="grammar-literal">,</span> )<sup>+</sup> <span class="grammar-text"><a href="../types.html#grammar-Type">Type</a></span><sup>?</sup> <span class="grammar-literal">)</span></p>
+<span class="grammar-text grammar-production" id="grammar-TupleType" onclick="show_railroad()"><a href="tuple.html#railroad-TupleType">TupleType</a></span> → <br>      <span class="grammar-literal">(</span> <span class="grammar-literal">)</span> <br>    | <span class="grammar-literal">(</span> ( <span class="grammar-text"><a href="../types.html#grammar-Type">Type</a></span> <span class="grammar-literal">,</span> )<sup>+</sup> <span class="grammar-text"><a href="../types.html#grammar-Type">Type</a></span><sup>?</sup> <span class="grammar-literal">)</span></p>
 <p><button class="grammar-toggle-railroad" type="button" title="Toggle railroad display" onclick="toggle_railroad()">Show Railroad</button></p>
 </div>
+
 <div class="grammar-railroad grammar-hidden">
-<div style="width: 418px; height: auto; max-width: 100%; max-height: 100%" class="railroad-production" id="railroad-TupleType"><svg class="railroad" viewBox="0 0 418 132" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-<rect class="railroad_canvas" height="100%" width="100%"/>
+<div style="width: 418px; height: auto; max-width: 100%; max-height: 100%" class="railroad-production" id="railroad-TupleType"><svg class="railroad" viewbox="0 0 418 132" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<rect class="railroad_canvas" height="100%" width="100%" />
 <g class="verticalgrid">
 <a class="link" xlink:href="tuple.html#grammar-TupleType">
 <text class="comment" x="46" y="25">
 TupleType</text>
 </a>
 <g class="sequence">
-<path d=" M 10 53 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5 m 10 0 h 5"/>
+<path d=" M 10 53 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5 m 10 0 h 5" />
 <g class="choice">
-<path d=" M 35 53 h 24 m 66 0 h 258 m -126 0 l -5 -5 m 0 10 l 5 -5 m 126 0"/>
+<path d=" M 35 53 h 24 m 66 0 h 258 m -126 0 l -5 -5 m 0 10 l 5 -5 m 126 0" />
 <g class="sequence">
 <g class="terminal">
-<rect height="22" rx="10" ry="10" width="28" x="59" y="42"/>
+<rect height="22" rx="10" ry="10" width="28" x="59" y="42" />
 <text x="73" y="58">
 (</text>
 </g>
 <g class="terminal">
-<rect height="22" rx="10" ry="10" width="28" x="97" y="42"/>
+<rect height="22" rx="10" ry="10" width="28" x="97" y="42" />
 <text x="111" y="58">
 )</text>
 </g>
-<path d=" M 87 53 h 10"/>
+<path d=" M 87 53 h 10" />
 </g>
-<path d=" M 35 53 a 12 12 0 0 1 12 12 v 9 m 324 0 v -9 a 12 12 0 0 1 12 -12"/>
-<path d=" M 47 74 v 12 a 12 12 0 0 0 12 12 m 300 0 h 0 a 12 12 0 0 0 12 -12 v -12"/>
+<path d=" M 35 53 a 12 12 0 0 1 12 12 v 9 m 324 0 v -9 a 12 12 0 0 1 12 -12" />
+<path d=" M 47 74 v 12 a 12 12 0 0 0 12 12 m 300 0 h 0 a 12 12 0 0 0 12 -12 v -12" />
 <g class="sequence">
 <g class="terminal">
-<rect height="22" rx="10" ry="10" width="28" x="59" y="87"/>
+<rect height="22" rx="10" ry="10" width="28" x="59" y="87" />
 <text x="73" y="103">
 (</text>
 </g>
 <g class="repeat">
-<path d=" M 97 98 h 12 m 90 0 h 12 m -12 0 a 12 12 0 0 1 12 12 v 0 a 12 12 0 0 1 -12 12 m 0 0 h -90 m 48 0 l 5 -5 m 0 10 l -5 -5 m -48 0 a 12 12 0 0 1 -12 -12 v 0 a 12 12 0 0 1 12 -12"/>
-<g/>
+<path d=" M 97 98 h 12 m 90 0 h 12 m -12 0 a 12 12 0 0 1 12 12 v 0 a 12 12 0 0 1 -12 12 m 0 0 h -90 m 48 0 l 5 -5 m 0 10 l -5 -5 m -48 0 a 12 12 0 0 1 -12 -12 v 0 a 12 12 0 0 1 12 -12" />
+<g />
 <g class="sequence">
 <a class="link" xlink:href="../types.html#railroad-Type">
 <g class="nonterminal">
-<rect height="22" width="52" x="109" y="87"/>
+<rect height="22" width="52" x="109" y="87" />
 <text x="135" y="103">
 Type</text>
 </g>
 </a>
 <g class="terminal">
-<rect height="22" rx="10" ry="10" width="28" x="171" y="87"/>
+<rect height="22" rx="10" ry="10" width="28" x="171" y="87" />
 <text x="185" y="103">
 ,</text>
 </g>
-<path d=" M 161 98 h 10"/>
+<path d=" M 161 98 h 10" />
 </g>
 </g>
 <g class="optional">
-<path d=" M 221 98 h 24 m -24 0 a 12 12 0 0 0 12 -12 v 0 a 12 12 0 0 1 12 -12 h 52 m -23 0 l -5 -5 m 0 10 l 5 -5 m 23 0 a 12 12 0 0 1 12 12 v 0 a 12 12 0 0 0 12 12 h -24"/>
+<path d=" M 221 98 h 24 m -24 0 a 12 12 0 0 0 12 -12 v 0 a 12 12 0 0 1 12 -12 h 52 m -23 0 l -5 -5 m 0 10 l 5 -5 m 23 0 a 12 12 0 0 1 12 12 v 0 a 12 12 0 0 0 12 12 h -24" />
 <a class="link" xlink:href="../types.html#railroad-Type">
 <g class="nonterminal">
-<rect height="22" width="52" x="245" y="87"/>
+<rect height="22" width="52" x="245" y="87" />
 <text x="271" y="103">
 Type</text>
 </g>
 </a>
 </g>
 <g class="terminal">
-<rect height="22" rx="10" ry="10" width="28" x="331" y="87"/>
+<rect height="22" rx="10" ry="10" width="28" x="331" y="87" />
 <text x="345" y="103">
 )</text>
 </g>
-<path d=" M 87 98 h 10"/>
-<path d=" M 211 98 h 10"/>
-<path d=" M 321 98 h 10"/>
+<path d=" M 87 98 h 10" />
+<path d=" M 211 98 h 10" />
+<path d=" M 321 98 h 10" />
 </g>
 </g>
-<path d=" M 393 53 h 5 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5"/>
-<path d=" M 25 53 h 10"/>
-<path d=" M 383 53 h 10"/>
+<path d=" M 393 53 h 5 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5" />
+<path d=" M 25 53 h 10" />
+<path d=" M 383 53 h 10" />
 </g>
 </g>
 </svg>
 </div>
+
 </div>
-<div class="rule" id="r-type.tuple.intro"><a class="rule-link" href="#r-type.tuple.intro" title="type.tuple.intro"><span>[type<wbr>.tuple<wbr>.intro]</span/></a>
+
+<div class="rule" id="r-type.tuple.intro"><a class="rule-link" href="#r-type.tuple.intro" title="type.tuple.intro"><span>[type<wbr>.tuple<wbr>.intro]</span></a>
 </div>
+
 <p><em>Tuple types</em> are a family of structural types<sup class="footnote-reference" id="fr-1-1"><a href="#footnote-1">1</a></sup> for heterogeneous lists of other types.</p>
 <p>The syntax for a tuple type is a parenthesized, comma-separated list of types.</p>
-<div class="rule" id="r-type.tuple.restriction"><a class="rule-link" href="#r-type.tuple.restriction" title="type.tuple.restriction"><span>[type<wbr>.tuple<wbr>.restriction]</span/></a>
+<div class="rule" id="r-type.tuple.restriction"><a class="rule-link" href="#r-type.tuple.restriction" title="type.tuple.restriction"><span>[type<wbr>.tuple<wbr>.restriction]</span></a>
 </div>
+
 <p>1-ary tuples require a comma after their element type to be disambiguated with a <a href="../types.html#parenthesized-types">parenthesized type</a>.</p>
-<div class="rule" id="r-type.tuple.field-number"><a class="rule-link" href="#r-type.tuple.field-number" title="type.tuple.field-number"><span>[type<wbr>.tuple<wbr>.field-number]</span/></a>
+<div class="rule" id="r-type.tuple.field-number"><a class="rule-link" href="#r-type.tuple.field-number" title="type.tuple.field-number"><span>[type<wbr>.tuple<wbr>.field-number]</span></a>
 </div>
+
 <p>A tuple type has a number of fields equal to the length of the list of types.
 This number of fields determines the <em>arity</em> of the tuple.
 A tuple with <code>n</code> fields is called an <em>n-ary tuple</em>.
 For example, a tuple with 2 fields is a 2-ary tuple.</p>
-<div class="rule" id="r-type.tuple.field-name"><a class="rule-link" href="#r-type.tuple.field-name" title="type.tuple.field-name"><span>[type<wbr>.tuple<wbr>.field-name]</span/></a>
+<div class="rule" id="r-type.tuple.field-name"><a class="rule-link" href="#r-type.tuple.field-name" title="type.tuple.field-name"><span>[type<wbr>.tuple<wbr>.field-name]</span></a>
 </div>
+
 <p>Fields of tuples are named using increasing numeric names matching their position in the list of types.
 The first field is <code>0</code>.
 The second field is <code>1</code>.
 And so on.
 The type of each field is the type of the same position in the tuple’s list of types.</p>
-<div class="rule" id="r-type.tuple.unit"><a class="rule-link" href="#r-type.tuple.unit" title="type.tuple.unit"><span>[type<wbr>.tuple<wbr>.unit]</span/></a>
+<div class="rule" id="r-type.tuple.unit"><a class="rule-link" href="#r-type.tuple.unit" title="type.tuple.unit"><span>[type<wbr>.tuple<wbr>.unit]</span></a>
 </div>
+
 <p>For convenience and historical reasons, the tuple type with no fields (<code>()</code>) is often called <em>unit</em> or <em>the unit type</em>.
 Its one value is also called <em>unit</em> or <em>the unit value</em>.</p>
 <p>Some examples of tuple types:</p>
@@ -307,25 +315,30 @@ Its one value is also called <em>unit</em> or <em>the unit value</em>.</p>
 <li><code>(i32, String)</code> (different type from the previous example)</li>
 <li><code>(i32, f64, Vec&lt;String&gt;, Option&lt;bool&gt;)</code></li>
 </ul>
-<div class="rule" id="r-type.tuple.constructor"><a class="rule-link" href="#r-type.tuple.constructor" title="type.tuple.constructor"><span>[type<wbr>.tuple<wbr>.constructor]</span/></a>
+<div class="rule" id="r-type.tuple.constructor"><a class="rule-link" href="#r-type.tuple.constructor" title="type.tuple.constructor"><span>[type<wbr>.tuple<wbr>.constructor]</span></a>
 </div>
+
 <p>Values of this type are constructed using a <a href="../expressions/tuple-expr.html#tuple-expressions">tuple expression</a>.
 Furthermore, various expressions will produce the unit value if there is no other meaningful value for it to evaluate to.</p>
-<div class="rule" id="r-type.tuple.access"><a class="rule-link" href="#r-type.tuple.access" title="type.tuple.access"><span>[type<wbr>.tuple<wbr>.access]</span/></a>
+<div class="rule" id="r-type.tuple.access"><a class="rule-link" href="#r-type.tuple.access" title="type.tuple.access"><span>[type<wbr>.tuple<wbr>.access]</span></a>
 </div>
+
 <p>Tuple fields can be accessed by either a <a href="../expressions/tuple-expr.html#tuple-indexing-expressions">tuple index expression</a> or <a href="../patterns.html#tuple-patterns">pattern matching</a>.</p>
 <hr>
-<ol class="footnote-definition"><li id="footnote-1">
+<ol class="footnote-definition">
+<li id="footnote-1">
 <p>Structural types are always equivalent if their internal types are equivalent.
 For a nominal version of tuples, see <a href="./struct.html">tuple structs</a>. <a href="#fr-1-1">↩</a></p>
 </li>
 </ol>
+
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
                             <a rel="prev" href="../types/never.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                            </a>
 
                             <a rel="next prefetch" href="../types/array.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
@@ -367,10 +380,10 @@ For a nominal version of tuples, see <a href="./struct.html">tuple structs</a>. 
 
         <script src="../clipboard-1626706a.min.js"></script>
         <script src="../highlight-abc7f01d.js"></script>
-        <script src="../book-81fc5345.js"></script>
+        <script src="../book-a0b12cfe.js"></script>
 
         <!-- Custom JS scripts -->
-        <script src="../theme/reference-cfed9ca5.js"></script>
+        <script src="../theme/reference-da60281b.js"></script>
 
 
 

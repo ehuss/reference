@@ -14,9 +14,9 @@
 
         <link rel="icon" href="favicon-de23e50b.svg">
         <link rel="shortcut icon" href="favicon-8114d1fc.png">
-        <link rel="stylesheet" href="css/variables-3865ffda.css">
-        <link rel="stylesheet" href="css/general-d297d479.css">
-        <link rel="stylesheet" href="css/chrome-ad662a8e.css">
+        <link rel="stylesheet" href="css/variables-8adf115d.css">
+        <link rel="stylesheet" href="css/general-2459343d.css">
+        <link rel="stylesheet" href="css/chrome-3111ccdb.css">
         <link rel="stylesheet" href="css/print-9e4910d8.css" media="print">
 
         <!-- Fonts -->
@@ -28,7 +28,7 @@
         <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="ayu-highlight-56612340.css">
 
         <!-- Custom theme stylesheets -->
-        <link rel="stylesheet" href="theme/reference-94a8e8ad.css">
+        <link rel="stylesheet" href="theme/reference-6200eb72.css">
 
 
         <!-- Provide site root and default themes to javascript -->
@@ -36,10 +36,10 @@
             const path_to_root = "";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "searchindex-54e4028f.js";
+            window.path_to_searchindex_js = "searchindex-93e32808.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="toc-1b51e6f3.js"></script>
+        <script src="toc-8771841d.js"></script>
     </head>
     <body>
     <div id="mdbook-help-container">
@@ -189,6 +189,15 @@ the structure of the program when the compiler is compiling it.</p>
 <p>The alignment of a value specifies what addresses values are preferred to
 start at. Always a power of two. References to a value must be aligned.
 <a href="type-layout.html#size-and-alignment">More</a>.</p>
+<div class="rule" id="r-glossary.abi"><a class="rule-link" href="#r-glossary.abi" title="glossary.abi"><span>[glossary<wbr>.abi]</span></a>
+</div>
+
+<h3 id="application-binary-interface-abi"><a class="header" href="#application-binary-interface-abi">Application binary interface (ABI)</a></h3>
+<p>An <em>application binary interface</em> (ABI) defines how compiled code interacts with other compiled code. With <a href="items/external-blocks.html#r-items.extern"><code>extern</code> blocks</a> and <a href="items/functions.html#r-items.fn.extern"><code>extern fn</code></a>, <em>ABI strings</em> affect:</p>
+<ul>
+<li><strong>Calling convention</strong>: How function arguments are passed, values are returned (e.g., in registers or on the stack), and who is responsible for cleaning up the stack.</li>
+<li><strong>Unwinding</strong>: Whether stack unwinding is allowed. For example, the <code>"C-unwind"</code> ABI allows unwinding across the FFI boundary, while the <code>"C"</code> ABI does not.</li>
+</ul>
 <h3 id="arity"><a class="header" href="#arity">Arity</a></h3>
 <p>Arity refers to the number of arguments a function or operator takes.
 For some examples, <code>f(2, 3)</code> and <code>g(4, 6)</code> have arity 2, while <code>h(8, 2, 6)</code>
@@ -347,11 +356,11 @@ It allows a type to make certain promises about its behavior.</p>
 Combined with the angular brackets for generics, this looks like a fish <code>::&lt;&gt;</code>.
 As such, this syntax is colloquially referred to as turbofish syntax.</p>
 <p>Examples:</p>
-<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">#![allow(unused)]
+<pre class="playground"><code class="language-rust edition2024"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>let ok_num = Ok::&lt;_, ()&gt;(5);
 let vec = [1, 2, 3].iter().map(|n| n * 2).collect::&lt;Vec&lt;_&gt;&gt;();
-<span class="boring">}</span></code></pre></pre>
+<span class="boring">}</span></code></pre>
 <p>This <code>::</code> prefix is required to disambiguate generic paths with multiple comparisons in a comma-separate list.
 See <a href="https://github.com/rust-lang/rust/blob/1.58.0/src/test/ui/parser/bastion-of-the-turbofish.rs">the bastion of the turbofish</a> for an example where not having the prefix would be ambiguous.</p>
 <h3 id="uncovered-type"><a class="header" href="#uncovered-type">Uncovered type</a></h3>
@@ -375,6 +384,7 @@ example of an uninhabited type is the <a href="types/never.html">never type</a> 
                         <!-- Mobile navigation buttons -->
                             <a rel="prev" href="test-summary.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                            </a>
 
 
                         <div style="clear: both"></div>
@@ -410,10 +420,10 @@ example of an uninhabited type is the <a href="types/never.html">never type</a> 
 
         <script src="clipboard-1626706a.min.js"></script>
         <script src="highlight-abc7f01d.js"></script>
-        <script src="book-81fc5345.js"></script>
+        <script src="book-a0b12cfe.js"></script>
 
         <!-- Custom JS scripts -->
-        <script src="theme/reference-cfed9ca5.js"></script>
+        <script src="theme/reference-da60281b.js"></script>
 
 
         <script>

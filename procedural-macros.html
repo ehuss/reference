@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Procedural Macros - The Rust Reference</title>
+        <title>Procedural macros - The Rust Reference</title>
 
 
         <!-- Custom HTML head -->
@@ -14,9 +14,9 @@
 
         <link rel="icon" href="favicon-de23e50b.svg">
         <link rel="shortcut icon" href="favicon-8114d1fc.png">
-        <link rel="stylesheet" href="css/variables-3865ffda.css">
-        <link rel="stylesheet" href="css/general-d297d479.css">
-        <link rel="stylesheet" href="css/chrome-ad662a8e.css">
+        <link rel="stylesheet" href="css/variables-8adf115d.css">
+        <link rel="stylesheet" href="css/general-2459343d.css">
+        <link rel="stylesheet" href="css/chrome-3111ccdb.css">
         <link rel="stylesheet" href="css/print-9e4910d8.css" media="print">
 
         <!-- Fonts -->
@@ -28,7 +28,7 @@
         <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="ayu-highlight-56612340.css">
 
         <!-- Custom theme stylesheets -->
-        <link rel="stylesheet" href="theme/reference-94a8e8ad.css">
+        <link rel="stylesheet" href="theme/reference-6200eb72.css">
 
 
         <!-- Provide site root and default themes to javascript -->
@@ -36,10 +36,10 @@
             const path_to_root = "";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "searchindex-54e4028f.js";
+            window.path_to_searchindex_js = "searchindex-93e32808.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="toc-1b51e6f3.js"></script>
+        <script src="toc-8771841d.js"></script>
     </head>
     <body>
     <div id="mdbook-help-container">
@@ -181,11 +181,13 @@
 
                 <div id="mdbook-content" class="content">
                     <main>
-                        <div class="rule" id="r-macro.proc"><a class="rule-link" href="#r-macro.proc" title="macro.proc"><span>[macro<wbr>.proc]</span/></a>
+                        <div class="rule" id="r-macro.proc"><a class="rule-link" href="#r-macro.proc" title="macro.proc"><span>[macro<wbr>.proc]</span></a>
 </div>
-<h1 id="procedural-macros"><a class="header" href="#procedural-macros">Procedural Macros</a></h1>
-<div class="rule" id="r-macro.proc.intro"><a class="rule-link" href="#r-macro.proc.intro" title="macro.proc.intro"><span>[macro<wbr>.proc<wbr>.intro]</span/></a>
+
+<h1 id="procedural-macros"><a class="header" href="#procedural-macros">Procedural macros</a></h1>
+<div class="rule" id="r-macro.proc.intro"><a class="rule-link" href="#r-macro.proc.intro" title="macro.proc.intro"><span>[macro<wbr>.proc<wbr>.intro]</span></a>
 </div>
+
 <p><em>Procedural macros</em> allow creating syntax extensions as execution of a function.
 Procedural macros come in one of three flavors:</p>
 <ul>
@@ -196,22 +198,26 @@ Procedural macros come in one of three flavors:</p>
 <p>Procedural macros allow you to run code at compile time that operates over Rust
 syntax, both consuming and producing Rust syntax. You can sort of think of
 procedural macros as functions from an AST to another AST.</p>
-<div class="rule" id="r-macro.proc.def"><a class="rule-link" href="#r-macro.proc.def" title="macro.proc.def"><span>[macro<wbr>.proc<wbr>.def]</span/></a>
+<div class="rule" id="r-macro.proc.def"><a class="rule-link" href="#r-macro.proc.def" title="macro.proc.def"><span>[macro<wbr>.proc<wbr>.def]</span></a>
 </div>
+
 <p>Procedural macros must be defined in the root of a crate with the <a href="linkage.html">crate type</a> of
 <code>proc-macro</code>.
 The macros may not be used from the crate where they are defined, and can only be used when imported in another crate.</p>
 <div class="alert alert-note">
 <blockquote>
-<p class="alert-title"><svg viewBox="0 0 16 16" width="18" height="18"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"></path></svg>Note</p>
+<p class="alert-title"><svg viewbox="0 0 16 16" width="18" height="18"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"></path></svg>Note</p>
+
 <p>When using Cargo, Procedural macro crates are defined with the <code>proc-macro</code> key in your manifest:</p>
 <pre><code class="language-toml">[lib]
 proc-macro = true
 </code></pre>
 </blockquote>
 </div>
-<div class="rule" id="r-macro.proc.result"><a class="rule-link" href="#r-macro.proc.result" title="macro.proc.result"><span>[macro<wbr>.proc<wbr>.result]</span/></a>
+
+<div class="rule" id="r-macro.proc.result"><a class="rule-link" href="#r-macro.proc.result" title="macro.proc.result"><span>[macro<wbr>.proc<wbr>.result]</span></a>
 </div>
+
 <p>As functions, they must either return syntax, panic, or loop endlessly. Returned
 syntax either replaces or adds the syntax depending on the kind of procedural
 macro. Panics are caught by the compiler and are turned into a compiler error.
@@ -221,20 +227,24 @@ the compiler has. For example, standard input, error, and output are the same
 that the compiler has access to. Similarly, file access is the same. Because
 of this, procedural macros have the same security concerns that <a href="../cargo/reference/build-scripts.html">Cargo’s
 build scripts</a> have.</p>
-<div class="rule" id="r-macro.proc.error"><a class="rule-link" href="#r-macro.proc.error" title="macro.proc.error"><span>[macro<wbr>.proc<wbr>.error]</span/></a>
+<div class="rule" id="r-macro.proc.error"><a class="rule-link" href="#r-macro.proc.error" title="macro.proc.error"><span>[macro<wbr>.proc<wbr>.error]</span></a>
 </div>
+
 <p>Procedural macros have two ways of reporting errors. The first is to panic. The
 second is to emit a <a href="../core/macro.compile_error.html"><code>compile_error</code></a> macro invocation.</p>
-<div class="rule" id="r-macro.proc.proc_macro"><a class="rule-link" href="#r-macro.proc.proc_macro" title="macro.proc.proc_macro"><span>[macro<wbr>.proc<wbr>.proc_macro]</span/></a>
+<div class="rule" id="r-macro.proc.proc_macro"><a class="rule-link" href="#r-macro.proc.proc_macro" title="macro.proc.proc_macro"><span>[macro<wbr>.proc<wbr>.proc_macro]</span></a>
 </div>
+
 <h2 id="the-proc_macro-crate"><a class="header" href="#the-proc_macro-crate">The <code>proc_macro</code> crate</a></h2>
-<div class="rule" id="r-macro.proc.proc_macro.intro"><a class="rule-link" href="#r-macro.proc.proc_macro.intro" title="macro.proc.proc_macro.intro"><span>[macro<wbr>.proc<wbr>.proc_macro<wbr>.intro]</span/></a>
+<div class="rule" id="r-macro.proc.proc_macro.intro"><a class="rule-link" href="#r-macro.proc.proc_macro.intro" title="macro.proc.proc_macro.intro"><span>[macro<wbr>.proc<wbr>.proc_macro<wbr>.intro]</span></a>
 </div>
+
 <p>Procedural macro crates almost always will link to the compiler-provided
 <a href="../proc_macro/index.html"><code>proc_macro</code> crate</a>. The <code>proc_macro</code> crate provides types required for
 writing procedural macros and facilities to make it easier.</p>
-<div class="rule" id="r-macro.proc.proc_macro.token-stream"><a class="rule-link" href="#r-macro.proc.proc_macro.token-stream" title="macro.proc.proc_macro.token-stream"><span>[macro<wbr>.proc<wbr>.proc_macro<wbr>.token-stream]</span/></a>
+<div class="rule" id="r-macro.proc.proc_macro.token-stream"><a class="rule-link" href="#r-macro.proc.proc_macro.token-stream" title="macro.proc.proc_macro.token-stream"><span>[macro<wbr>.proc<wbr>.proc_macro<wbr>.token-stream]</span></a>
 </div>
+
 <p>This crate primarily contains a <a href="../proc_macro/struct.TokenStream.html"><code>TokenStream</code></a> type. Procedural macros operate
 over <em>token streams</em> instead of AST nodes, which is a far more stable interface
 over time for both the compiler and for procedural macros to target. A
@@ -242,15 +252,17 @@ over time for both the compiler and for procedural macros to target. A
 can roughly be thought of as lexical token. For example <code>foo</code> is an <code>Ident</code>
 token, <code>.</code> is a <code>Punct</code> token, and <code>1.2</code> is a <code>Literal</code> token. The <code>TokenStream</code>
 type, unlike <code>Vec&lt;TokenTree&gt;</code>, is cheap to clone.</p>
-<div class="rule" id="r-macro.proc.proc_macro.span"><a class="rule-link" href="#r-macro.proc.proc_macro.span" title="macro.proc.proc_macro.span"><span>[macro<wbr>.proc<wbr>.proc_macro<wbr>.span]</span/></a>
+<div class="rule" id="r-macro.proc.proc_macro.span"><a class="rule-link" href="#r-macro.proc.proc_macro.span" title="macro.proc.proc_macro.span"><span>[macro<wbr>.proc<wbr>.proc_macro<wbr>.span]</span></a>
 </div>
+
 <p>All tokens have an associated <code>Span</code>. A <code>Span</code> is an opaque value that cannot
 be modified but can be manufactured. <code>Span</code>s represent an extent of source
 code within a program and are primarily used for error reporting. While you
 cannot modify a <code>Span</code> itself, you can always change the <code>Span</code> <em>associated</em>
 with any token, such as through getting a <code>Span</code> from another token.</p>
-<div class="rule" id="r-macro.proc.hygiene"><a class="rule-link" href="#r-macro.proc.hygiene" title="macro.proc.hygiene"><span>[macro<wbr>.proc<wbr>.hygiene]</span/></a>
+<div class="rule" id="r-macro.proc.hygiene"><a class="rule-link" href="#r-macro.proc.hygiene" title="macro.proc.hygiene"><span>[macro<wbr>.proc<wbr>.hygiene]</span></a>
 </div>
+
 <h2 id="procedural-macro-hygiene"><a class="header" href="#procedural-macro-hygiene">Procedural macro hygiene</a></h2>
 <p>Procedural macros are <em>unhygienic</em>. This means they behave as if the output
 token stream was simply written inline to the code it’s next to. This means that
@@ -260,21 +272,25 @@ as possible given this limitation. This often includes using absolute paths to
 items in libraries (for example, <code>::std::option::Option</code> instead of <code>Option</code>) or
 by ensuring that generated functions have names that are unlikely to clash with
 other functions (like <code>__internal_foo</code> instead of <code>foo</code>).</p>
-<div class="rule" id="r-macro.proc.function"><a class="rule-link" href="#r-macro.proc.function" title="macro.proc.function"><span>[macro<wbr>.proc<wbr>.function]</span/></a>
+<div class="rule" id="r-macro.proc.function"><a class="rule-link" href="#r-macro.proc.function" title="macro.proc.function"><span>[macro<wbr>.proc<wbr>.function]</span></a>
 </div>
+
 <h2 id="function-like-procedural-macros"><a class="header" href="#function-like-procedural-macros">Function-like procedural macros</a></h2>
-<div class="rule" id="r-macro.proc.function.intro"><a class="rule-link" href="#r-macro.proc.function.intro" title="macro.proc.function.intro"><span>[macro<wbr>.proc<wbr>.function<wbr>.intro]</span/></a>
+<div class="rule" id="r-macro.proc.function.intro"><a class="rule-link" href="#r-macro.proc.function.intro" title="macro.proc.function.intro"><span>[macro<wbr>.proc<wbr>.function<wbr>.intro]</span></a>
 </div>
+
 <p><em>Function-like procedural macros</em> are procedural macros that are invoked using
 the macro invocation operator (<code>!</code>).</p>
-<div class="rule" id="r-macro.proc.function.def"><a class="rule-link" href="#r-macro.proc.function.def" title="macro.proc.function.def"><span>[macro<wbr>.proc<wbr>.function<wbr>.def]</span/></a>
+<div class="rule" id="r-macro.proc.function.def"><a class="rule-link" href="#r-macro.proc.function.def" title="macro.proc.function.def"><span>[macro<wbr>.proc<wbr>.function<wbr>.def]</span></a>
 </div>
+
 <p>These macros are defined by a <a href="visibility-and-privacy.html">public</a> <a href="items/functions.html">function</a> with the <code>proc_macro</code>
 <a href="attributes.html">attribute</a> and a signature of <code>(TokenStream) -&gt; TokenStream</code>. The input
 <a href="../proc_macro/struct.TokenStream.html"><code>TokenStream</code></a> is what is inside the delimiters of the macro invocation and the
 output <a href="../proc_macro/struct.TokenStream.html"><code>TokenStream</code></a> replaces the entire macro invocation.</p>
-<div class="rule" id="r-macro.proc.function.namespace"><a class="rule-link" href="#r-macro.proc.function.namespace" title="macro.proc.function.namespace"><span>[macro<wbr>.proc<wbr>.function<wbr>.namespace]</span/></a>
+<div class="rule" id="r-macro.proc.function.namespace"><a class="rule-link" href="#r-macro.proc.function.namespace" title="macro.proc.function.namespace"><span>[macro<wbr>.proc<wbr>.function<wbr>.namespace]</span></a>
 </div>
+
 <p>The <code>proc_macro</code> attribute defines the macro in the <a href="names/namespaces.html">macro namespace</a> in the root of the crate.</p>
 <p>For example, the following macro definition ignores its input and outputs a
 function <code>answer</code> into its scope.</p>
@@ -297,22 +313,26 @@ make_answer!();
 fn main() {
     println!("{}", answer());
 }</code></pre>
-<div class="rule" id="r-macro.proc.function.invocation"><a class="rule-link" href="#r-macro.proc.function.invocation" title="macro.proc.function.invocation"><span>[macro<wbr>.proc<wbr>.function<wbr>.invocation]</span/></a>
+<div class="rule" id="r-macro.proc.function.invocation"><a class="rule-link" href="#r-macro.proc.function.invocation" title="macro.proc.function.invocation"><span>[macro<wbr>.proc<wbr>.function<wbr>.invocation]</span></a>
 </div>
+
 <p>Function-like procedural macros may be invoked in any macro invocation
 position, which includes <a href="statements.html">statements</a>, <a href="expressions.html">expressions</a>, <a href="patterns.html">patterns</a>, <a href="types.html#type-expressions">type
 expressions</a>, <a href="items.html">item</a> positions, including items in <a href="items/external-blocks.html"><code>extern</code> blocks</a>, inherent
 and trait <a href="items/implementations.html">implementations</a>, and <a href="items/traits.html">trait definitions</a>.</p>
 <!-- template:attributes -->
-<div class="rule" id="r-macro.proc.derive"><a class="rule-link" href="#r-macro.proc.derive" title="macro.proc.derive"><span>[macro<wbr>.proc<wbr>.derive]</span/></a>
+<div class="rule" id="r-macro.proc.derive"><a class="rule-link" href="#r-macro.proc.derive" title="macro.proc.derive"><span>[macro<wbr>.proc<wbr>.derive]</span></a>
 </div>
+
 <h2 id="the-proc_macro_derive-attribute"><a class="header" href="#the-proc_macro_derive-attribute">The <code>proc_macro_derive</code> attribute</a></h2>
-<div class="rule" id="r-macro.proc.derive.intro"><a class="rule-link" href="#r-macro.proc.derive.intro" title="macro.proc.derive.intro"><span>[macro<wbr>.proc<wbr>.derive<wbr>.intro]</span/></a>
+<div class="rule" id="r-macro.proc.derive.intro"><a class="rule-link" href="#r-macro.proc.derive.intro" title="macro.proc.derive.intro"><span>[macro<wbr>.proc<wbr>.derive<wbr>.intro]</span></a>
 </div>
+
 <p>Applying the <em><code>proc_macro_derive</code> <a href="attributes.html">attribute</a></em> to a function defines a <em>derive macro</em> that can be invoked by the <a href="attributes/derive.html"><code>derive</code> attribute</a>. These macros are given the token stream of a <a href="items/structs.html">struct</a>, <a href="items/enumerations.html">enum</a>, or <a href="items/unions.html">union</a> definition and can emit new <a href="items.html">items</a> after it. They can also declare and use <a href="#derive-macro-helper-attributes">derive macro helper attributes</a>.</p>
 <div class="alert alert-example">
 <blockquote>
-<p class="alert-title"><svg viewBox="0 0 16 16" width="18" height="18"><path d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0ZM1.5 8a6.5 6.5 0 1 0 13 0 6.5 6.5 0 0 0-13 0Zm4.879-2.773 4.264 2.559a.25.25 0 0 1 0 .428l-4.264 2.559A.25.25 0 0 1 6 10.559V5.442a.25.25 0 0 1 .379-.215Z"></path></svg>Example</p>
+<p class="alert-title"><svg viewbox="0 0 16 16" width="18" height="18"><path d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0ZM1.5 8a6.5 6.5 0 1 0 13 0 6.5 6.5 0 0 0-13 0Zm4.879-2.773 4.264 2.559a.25.25 0 0 1 0 .428l-4.264 2.559A.25.25 0 0 1 6 10.559V5.442a.25.25 0 0 1 .379-.215Z"></path></svg>Example</p>
+
 <p>This derive macro ignores its input and appends tokens that define a function.</p>
 <!-- ignore: test doesn't support proc-macro -->
 <pre><code class="language-rust ignore"><span class="boring">#![crate_type = "proc-macro"]
@@ -336,220 +356,233 @@ fn main() {
 }</code></pre>
 </blockquote>
 </div>
-<div class="rule" id="r-macro.proc.derive.syntax"><a class="rule-link" href="#r-macro.proc.derive.syntax" title="macro.proc.derive.syntax"><span>[macro<wbr>.proc<wbr>.derive<wbr>.syntax]</span/></a>
+
+<div class="rule" id="r-macro.proc.derive.syntax"><a class="rule-link" href="#r-macro.proc.derive.syntax" title="macro.proc.derive.syntax"><span>[macro<wbr>.proc<wbr>.derive<wbr>.syntax]</span></a>
 </div>
+
 <p>The syntax for the <code>proc_macro_derive</code> attribute is:</p>
 <div class="grammar-container">
 <p><strong><sup>Syntax</sup></strong>
 <br>
-<span class="grammar-text grammar-production" id="grammar-ProcMacroDeriveAttribute" onclick="show_railroad()"><a href="procedural-macros.html#railroad-ProcMacroDeriveAttribute">ProcMacroDeriveAttribute</a></span> → <br />
-    <span class="grammar-literal">proc_macro_derive</span> <span class="grammar-literal">(</span> <span class="grammar-text"><a href="procedural-macros.html#grammar-DeriveMacroName">DeriveMacroName</a></span> ( <span class="grammar-literal">,</span> <span class="grammar-text"><a href="procedural-macros.html#grammar-DeriveMacroAttributes">DeriveMacroAttributes</a></span> )<sup>?</sup> <span class="grammar-literal">,</span><sup>?</sup> <span class="grammar-literal">)</span></p>
+<span class="grammar-text grammar-production" id="grammar-ProcMacroDeriveAttribute" onclick="show_railroad()"><a href="procedural-macros.html#railroad-ProcMacroDeriveAttribute">ProcMacroDeriveAttribute</a></span> → <br>    <span class="grammar-literal">proc_macro_derive</span> <span class="grammar-literal">(</span> <span class="grammar-text"><a href="procedural-macros.html#grammar-DeriveMacroName">DeriveMacroName</a></span> ( <span class="grammar-literal">,</span> <span class="grammar-text"><a href="procedural-macros.html#grammar-DeriveMacroAttributes">DeriveMacroAttributes</a></span> )<sup>?</sup> <span class="grammar-literal">,</span><sup>?</sup> <span class="grammar-literal">)</span></p>
 <p><span class="grammar-text grammar-production" id="grammar-DeriveMacroName" onclick="show_railroad()"><a href="procedural-macros.html#railroad-DeriveMacroName">DeriveMacroName</a></span> → <span class="grammar-text"><a href="identifiers.html#grammar-IDENTIFIER">IDENTIFIER</a></span></p>
-<p><span class="grammar-text grammar-production" id="grammar-DeriveMacroAttributes" onclick="show_railroad()"><a href="procedural-macros.html#railroad-DeriveMacroAttributes">DeriveMacroAttributes</a></span> → <br />
-    <span class="grammar-literal">attributes</span> <span class="grammar-literal">(</span> ( <span class="grammar-text"><a href="identifiers.html#grammar-IDENTIFIER">IDENTIFIER</a></span> ( <span class="grammar-literal">,</span> <span class="grammar-text"><a href="identifiers.html#grammar-IDENTIFIER">IDENTIFIER</a></span> )<sup>*</sup> <span class="grammar-literal">,</span><sup>?</sup> )<sup>?</sup> <span class="grammar-literal">)</span></p>
+<p><span class="grammar-text grammar-production" id="grammar-DeriveMacroAttributes" onclick="show_railroad()"><a href="procedural-macros.html#railroad-DeriveMacroAttributes">DeriveMacroAttributes</a></span> → <br>    <span class="grammar-literal">attributes</span> <span class="grammar-literal">(</span> ( <span class="grammar-text"><a href="identifiers.html#grammar-IDENTIFIER">IDENTIFIER</a></span> ( <span class="grammar-literal">,</span> <span class="grammar-text"><a href="identifiers.html#grammar-IDENTIFIER">IDENTIFIER</a></span> )<sup>*</sup> <span class="grammar-literal">,</span><sup>?</sup> )<sup>?</sup> <span class="grammar-literal">)</span></p>
 <p><button class="grammar-toggle-railroad" type="button" title="Toggle railroad display" onclick="toggle_railroad()">Show Railroad</button></p>
 </div>
+
 <div class="grammar-railroad grammar-hidden">
-<div style="width: 830px; height: auto; max-width: 100%; max-height: 100%" class="railroad-production" id="railroad-ProcMacroDeriveAttribute"><svg class="railroad" viewBox="0 0 830 87" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-<rect class="railroad_canvas" height="100%" width="100%"/>
+<div style="width: 830px; height: auto; max-width: 100%; max-height: 100%" class="railroad-production" id="railroad-ProcMacroDeriveAttribute"><svg class="railroad" viewbox="0 0 830 87" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<rect class="railroad_canvas" height="100%" width="100%" />
 <g class="verticalgrid">
 <a class="link" xlink:href="procedural-macros.html#grammar-ProcMacroDeriveAttribute">
 <text class="comment" x="102" y="25">
 ProcMacroDeriveAttribute</text>
 </a>
 <g class="sequence">
-<path d=" M 10 66 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5 m 10 0 h 5"/>
+<path d=" M 10 66 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5 m 10 0 h 5" />
 <g class="sequence">
 <g class="terminal">
-<rect height="22" rx="10" ry="10" width="156" x="35" y="55"/>
+<rect height="22" rx="10" ry="10" width="156" x="35" y="55" />
 <text x="113" y="71">
 proc_macro_derive</text>
 </g>
 <g class="terminal">
-<rect height="22" rx="10" ry="10" width="28" x="201" y="55"/>
+<rect height="22" rx="10" ry="10" width="28" x="201" y="55" />
 <text x="215" y="71">
 (</text>
 </g>
 <a class="link" xlink:href="procedural-macros.html#railroad-DeriveMacroName">
 <g class="nonterminal">
-<rect height="22" width="140" x="239" y="55"/>
+<rect height="22" width="140" x="239" y="55" />
 <text x="309" y="71">
 DeriveMacroName</text>
 </g>
 </a>
 <g class="optional">
-<path d=" M 389 66 h 24 m -24 0 a 12 12 0 0 0 12 -12 v 0 a 12 12 0 0 1 12 -12 h 234 m -114 0 l -5 -5 m 0 10 l 5 -5 m 114 0 a 12 12 0 0 1 12 12 v 0 a 12 12 0 0 0 12 12 h -24"/>
+<path d=" M 389 66 h 24 m -24 0 a 12 12 0 0 0 12 -12 v 0 a 12 12 0 0 1 12 -12 h 234 m -114 0 l -5 -5 m 0 10 l 5 -5 m 114 0 a 12 12 0 0 1 12 12 v 0 a 12 12 0 0 0 12 12 h -24" />
 <g class="sequence">
 <g class="terminal">
-<rect height="22" rx="10" ry="10" width="28" x="413" y="55"/>
+<rect height="22" rx="10" ry="10" width="28" x="413" y="55" />
 <text x="427" y="71">
 ,</text>
 </g>
 <a class="link" xlink:href="procedural-macros.html#railroad-DeriveMacroAttributes">
 <g class="nonterminal">
-<rect height="22" width="196" x="451" y="55"/>
+<rect height="22" width="196" x="451" y="55" />
 <text x="549" y="71">
 DeriveMacroAttributes</text>
 </g>
 </a>
-<path d=" M 441 66 h 10"/>
+<path d=" M 441 66 h 10" />
 </g>
 </g>
 <g class="optional">
-<path d=" M 681 66 h 24 m -24 0 a 12 12 0 0 0 12 -12 v 0 a 12 12 0 0 1 12 -12 h 28 a 12 12 0 0 1 12 12 v 0 a 12 12 0 0 0 12 12 h -24"/>
+<path d=" M 681 66 h 24 m -24 0 a 12 12 0 0 0 12 -12 v 0 a 12 12 0 0 1 12 -12 h 28 a 12 12 0 0 1 12 12 v 0 a 12 12 0 0 0 12 12 h -24" />
 <g class="terminal">
-<rect height="22" rx="10" ry="10" width="28" x="705" y="55"/>
+<rect height="22" rx="10" ry="10" width="28" x="705" y="55" />
 <text x="719" y="71">
 ,</text>
 </g>
 </g>
 <g class="terminal">
-<rect height="22" rx="10" ry="10" width="28" x="767" y="55"/>
+<rect height="22" rx="10" ry="10" width="28" x="767" y="55" />
 <text x="781" y="71">
 )</text>
 </g>
-<path d=" M 191 66 h 10"/>
-<path d=" M 229 66 h 10"/>
-<path d=" M 379 66 h 10"/>
-<path d=" M 671 66 h 10"/>
-<path d=" M 757 66 h 10"/>
+<path d=" M 191 66 h 10" />
+<path d=" M 229 66 h 10" />
+<path d=" M 379 66 h 10" />
+<path d=" M 671 66 h 10" />
+<path d=" M 757 66 h 10" />
 </g>
-<path d=" M 805 66 h 5 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5"/>
-<path d=" M 25 66 h 10"/>
-<path d=" M 795 66 h 10"/>
+<path d=" M 805 66 h 5 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5" />
+<path d=" M 25 66 h 10" />
+<path d=" M 795 66 h 10" />
 </g>
 </g>
 </svg>
 </div>
-<div style="width: 170px; height: auto; max-width: 100%; max-height: 100%" class="railroad-production" id="railroad-DeriveMacroName"><svg class="railroad" viewBox="0 0 170 74" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-<rect class="railroad_canvas" height="100%" width="100%"/>
+
+<div style="width: 170px; height: auto; max-width: 100%; max-height: 100%" class="railroad-production" id="railroad-DeriveMacroName"><svg class="railroad" viewbox="0 0 170 74" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<rect class="railroad_canvas" height="100%" width="100%" />
 <g class="verticalgrid">
 <a class="link" xlink:href="procedural-macros.html#grammar-DeriveMacroName">
 <text class="comment" x="67" y="25">
 DeriveMacroName</text>
 </a>
 <g class="sequence">
-<path d=" M 10 53 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5 m 10 0 h 5"/>
+<path d=" M 10 53 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5 m 10 0 h 5" />
 <a class="link" xlink:href="identifiers.html#railroad-IDENTIFIER">
 <g class="nonterminal">
-<rect height="22" width="100" x="35" y="42"/>
+<rect height="22" width="100" x="35" y="42" />
 <text x="85" y="58">
 IDENTIFIER</text>
 </g>
 </a>
-<path d=" M 145 53 h 5 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5"/>
-<path d=" M 25 53 h 10"/>
-<path d=" M 135 53 h 10"/>
+<path d=" M 145 53 h 5 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5" />
+<path d=" M 25 53 h 10" />
+<path d=" M 135 53 h 10" />
 </g>
 </g>
 </svg>
 </div>
-<div style="width: 710px; height: auto; max-width: 100%; max-height: 100%" class="railroad-production" id="railroad-DeriveMacroAttributes"><svg class="railroad" viewBox="0 0 710 112" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-<rect class="railroad_canvas" height="100%" width="100%"/>
+
+<div style="width: 710px; height: auto; max-width: 100%; max-height: 100%" class="railroad-production" id="railroad-DeriveMacroAttributes"><svg class="railroad" viewbox="0 0 710 112" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<rect class="railroad_canvas" height="100%" width="100%" />
 <g class="verticalgrid">
 <a class="link" xlink:href="procedural-macros.html#grammar-DeriveMacroAttributes">
 <text class="comment" x="92" y="25">
 DeriveMacroAttributes</text>
 </a>
 <g class="sequence">
-<path d=" M 10 78 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5 m 10 0 h 5"/>
+<path d=" M 10 78 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5 m 10 0 h 5" />
 <g class="sequence">
 <g class="terminal">
-<rect height="22" rx="10" ry="10" width="100" x="35" y="67"/>
+<rect height="22" rx="10" ry="10" width="100" x="35" y="67" />
 <text x="85" y="83">
 attributes</text>
 </g>
 <g class="terminal">
-<rect height="22" rx="10" ry="10" width="28" x="145" y="67"/>
+<rect height="22" rx="10" ry="10" width="28" x="145" y="67" />
 <text x="159" y="83">
 (</text>
 </g>
 <g class="optional">
-<path d=" M 183 78 h 24 m -24 0 a 12 12 0 0 0 12 -12 v -12 a 12 12 0 0 1 12 -12 h 406 m -200 0 l -5 -5 m 0 10 l 5 -5 m 200 0 a 12 12 0 0 1 12 12 v 12 a 12 12 0 0 0 12 12 h -24"/>
+<path d=" M 183 78 h 24 m -24 0 a 12 12 0 0 0 12 -12 v -12 a 12 12 0 0 1 12 -12 h 406 m -200 0 l -5 -5 m 0 10 l 5 -5 m 200 0 a 12 12 0 0 1 12 12 v 12 a 12 12 0 0 0 12 12 h -24" />
 <g class="sequence">
 <a class="link" xlink:href="identifiers.html#railroad-IDENTIFIER">
 <g class="nonterminal">
-<rect height="22" width="100" x="207" y="67"/>
+<rect height="22" width="100" x="207" y="67" />
 <text x="257" y="83">
 IDENTIFIER</text>
 </g>
 </a>
 <g class="optional">
-<path d=" M 317 78 h 24 m -24 0 a 12 12 0 0 0 12 -12 v 0 a 12 12 0 0 1 12 -12 h 162 m -78 0 l -5 -5 m 0 10 l 5 -5 m 78 0 a 12 12 0 0 1 12 12 v 0 a 12 12 0 0 0 12 12 h -24"/>
+<path d=" M 317 78 h 24 m -24 0 a 12 12 0 0 0 12 -12 v 0 a 12 12 0 0 1 12 -12 h 162 m -78 0 l -5 -5 m 0 10 l 5 -5 m 78 0 a 12 12 0 0 1 12 12 v 0 a 12 12 0 0 0 12 12 h -24" />
 <g class="repeat">
-<path d=" M 341 78 h 12 m 138 0 h 12 m -12 0 a 12 12 0 0 1 12 12 v 0 a 12 12 0 0 1 -12 12 m 0 0 h -138 m 72 0 l 5 -5 m 0 10 l -5 -5 m -72 0 a 12 12 0 0 1 -12 -12 v 0 a 12 12 0 0 1 12 -12"/>
-<g/>
+<path d=" M 341 78 h 12 m 138 0 h 12 m -12 0 a 12 12 0 0 1 12 12 v 0 a 12 12 0 0 1 -12 12 m 0 0 h -138 m 72 0 l 5 -5 m 0 10 l -5 -5 m -72 0 a 12 12 0 0 1 -12 -12 v 0 a 12 12 0 0 1 12 -12" />
+<g />
 <g class="sequence">
 <g class="terminal">
-<rect height="22" rx="10" ry="10" width="28" x="353" y="67"/>
+<rect height="22" rx="10" ry="10" width="28" x="353" y="67" />
 <text x="367" y="83">
 ,</text>
 </g>
 <a class="link" xlink:href="identifiers.html#railroad-IDENTIFIER">
 <g class="nonterminal">
-<rect height="22" width="100" x="391" y="67"/>
+<rect height="22" width="100" x="391" y="67" />
 <text x="441" y="83">
 IDENTIFIER</text>
 </g>
 </a>
-<path d=" M 381 78 h 10"/>
+<path d=" M 381 78 h 10" />
 </g>
 </g>
 </g>
 <g class="optional">
-<path d=" M 537 78 h 24 m -24 0 a 12 12 0 0 0 12 -12 v 0 a 12 12 0 0 1 12 -12 h 28 a 12 12 0 0 1 12 12 v 0 a 12 12 0 0 0 12 12 h -24"/>
+<path d=" M 537 78 h 24 m -24 0 a 12 12 0 0 0 12 -12 v 0 a 12 12 0 0 1 12 -12 h 28 a 12 12 0 0 1 12 12 v 0 a 12 12 0 0 0 12 12 h -24" />
 <g class="terminal">
-<rect height="22" rx="10" ry="10" width="28" x="561" y="67"/>
+<rect height="22" rx="10" ry="10" width="28" x="561" y="67" />
 <text x="575" y="83">
 ,</text>
 </g>
 </g>
-<path d=" M 307 78 h 10"/>
-<path d=" M 527 78 h 10"/>
+<path d=" M 307 78 h 10" />
+<path d=" M 527 78 h 10" />
 </g>
 </g>
 <g class="terminal">
-<rect height="22" rx="10" ry="10" width="28" x="647" y="67"/>
+<rect height="22" rx="10" ry="10" width="28" x="647" y="67" />
 <text x="661" y="83">
 )</text>
 </g>
-<path d=" M 135 78 h 10"/>
-<path d=" M 173 78 h 10"/>
-<path d=" M 637 78 h 10"/>
+<path d=" M 135 78 h 10" />
+<path d=" M 173 78 h 10" />
+<path d=" M 637 78 h 10" />
 </g>
-<path d=" M 685 78 h 5 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5"/>
-<path d=" M 25 78 h 10"/>
-<path d=" M 675 78 h 10"/>
+<path d=" M 685 78 h 5 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5" />
+<path d=" M 25 78 h 10" />
+<path d=" M 675 78 h 10" />
 </g>
 </g>
 </svg>
 </div>
+
 </div>
+
 <p>The name of the derive macro is given by <a href="procedural-macros.html#grammar-DeriveMacroName">DeriveMacroName</a>. The optional <code>attributes</code> argument is described in <a href="procedural-macros.html#r-macro.proc.derive.attributes">macro.proc.derive.attributes</a>.</p>
-<div class="rule" id="r-macro.proc.derive.allowed-positions"><a class="rule-link" href="#r-macro.proc.derive.allowed-positions" title="macro.proc.derive.allowed-positions"><span>[macro<wbr>.proc<wbr>.derive<wbr>.allowed-positions]</span/></a>
+<div class="rule" id="r-macro.proc.derive.allowed-positions"><a class="rule-link" href="#r-macro.proc.derive.allowed-positions" title="macro.proc.derive.allowed-positions"><span>[macro<wbr>.proc<wbr>.derive<wbr>.allowed-positions]</span></a>
 </div>
+
 <p>The <code>proc_macro_derive</code> attribute may only be applied to a <code>pub</code> function with the <a href="items/functions.html#r-items.fn.extern">Rust ABI</a> defined in the root of the crate with a type of <code>fn(TokenStream) -&gt; TokenStream</code>  where <a href="../proc_macro/struct.TokenStream.html"><code>TokenStream</code></a> comes from the <a href="../proc_macro/index.html"><code>proc_macro</code> crate</a>. The function may be <code>const</code> and may use <code>extern</code> to explicitly specify the Rust ABI, but it may not use any other <a href="items/functions.html#grammar-FunctionQualifiers">qualifiers</a> (e.g. it may not be <code>async</code> or <code>unsafe</code>).</p>
-<div class="rule" id="r-macro.proc.derive.duplicates"><a class="rule-link" href="#r-macro.proc.derive.duplicates" title="macro.proc.derive.duplicates"><span>[macro<wbr>.proc<wbr>.derive<wbr>.duplicates]</span/></a>
+<div class="rule" id="r-macro.proc.derive.duplicates"><a class="rule-link" href="#r-macro.proc.derive.duplicates" title="macro.proc.derive.duplicates"><span>[macro<wbr>.proc<wbr>.derive<wbr>.duplicates]</span></a>
 </div>
+
 <p>The <code>proc_macro_derive</code> attribute may be used only once on a function.</p>
-<div class="rule" id="r-macro.proc.derive.namespace"><a class="rule-link" href="#r-macro.proc.derive.namespace" title="macro.proc.derive.namespace"><span>[macro<wbr>.proc<wbr>.derive<wbr>.namespace]</span/></a>
+<div class="rule" id="r-macro.proc.derive.namespace"><a class="rule-link" href="#r-macro.proc.derive.namespace" title="macro.proc.derive.namespace"><span>[macro<wbr>.proc<wbr>.derive<wbr>.namespace]</span></a>
 </div>
+
 <p>The <code>proc_macro_derive</code> attribute publicly defines the derive macro in the <a href="names/namespaces.html">macro namespace</a> in the root of the crate.</p>
-<div class="rule" id="r-macro.proc.derive.output"><a class="rule-link" href="#r-macro.proc.derive.output" title="macro.proc.derive.output"><span>[macro<wbr>.proc<wbr>.derive<wbr>.output]</span/></a>
+<div class="rule" id="r-macro.proc.derive.output"><a class="rule-link" href="#r-macro.proc.derive.output" title="macro.proc.derive.output"><span>[macro<wbr>.proc<wbr>.derive<wbr>.output]</span></a>
 </div>
+
 <p>The input <a href="../proc_macro/struct.TokenStream.html"><code>TokenStream</code></a> is the token stream of the item to which the <code>derive</code> attribute is applied. The output <a href="../proc_macro/struct.TokenStream.html"><code>TokenStream</code></a> must be a (possibly empty) set of items. These items are appended following the input item within the same <a href="items/modules.html">module</a> or <a href="expressions/block-expr.html">block</a>.</p>
-<div class="rule" id="r-macro.proc.derive.attributes"><a class="rule-link" href="#r-macro.proc.derive.attributes" title="macro.proc.derive.attributes"><span>[macro<wbr>.proc<wbr>.derive<wbr>.attributes]</span/></a>
+<div class="rule" id="r-macro.proc.derive.attributes"><a class="rule-link" href="#r-macro.proc.derive.attributes" title="macro.proc.derive.attributes"><span>[macro<wbr>.proc<wbr>.derive<wbr>.attributes]</span></a>
 </div>
+
 <h3 id="derive-macro-helper-attributes"><a class="header" href="#derive-macro-helper-attributes">Derive macro helper attributes</a></h3>
-<div class="rule" id="r-macro.proc.derive.attributes.intro"><a class="rule-link" href="#r-macro.proc.derive.attributes.intro" title="macro.proc.derive.attributes.intro"><span>[macro<wbr>.proc<wbr>.derive<wbr>.attributes<wbr>.intro]</span/></a>
+<div class="rule" id="r-macro.proc.derive.attributes.intro"><a class="rule-link" href="#r-macro.proc.derive.attributes.intro" title="macro.proc.derive.attributes.intro"><span>[macro<wbr>.proc<wbr>.derive<wbr>.attributes<wbr>.intro]</span></a>
 </div>
+
 <p>Derive macros can declare <em>derive macro helper attributes</em> to be used within the scope of the <a href="items.html">item</a> to which the derive macro is applied. These <a href="attributes.html">attributes</a> are <a href="attributes.html#active-and-inert-attributes">inert</a>. While their purpose is to be used by the macro that declared them, they can be seen by any macro.</p>
-<div class="rule" id="r-macro.proc.derive.attributes.decl"><a class="rule-link" href="#r-macro.proc.derive.attributes.decl" title="macro.proc.derive.attributes.decl"><span>[macro<wbr>.proc<wbr>.derive<wbr>.attributes<wbr>.decl]</span/></a>
+<div class="rule" id="r-macro.proc.derive.attributes.decl"><a class="rule-link" href="#r-macro.proc.derive.attributes.decl" title="macro.proc.derive.attributes.decl"><span>[macro<wbr>.proc<wbr>.derive<wbr>.attributes<wbr>.decl]</span></a>
 </div>
+
 <p>A helper attribute for a derive macro is declared by adding its identifier to the <code>attributes</code> list in the <code>proc_macro_derive</code> attribute.</p>
 <div class="alert alert-example">
 <blockquote>
-<p class="alert-title"><svg viewBox="0 0 16 16" width="18" height="18"><path d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0ZM1.5 8a6.5 6.5 0 1 0 13 0 6.5 6.5 0 0 0-13 0Zm4.879-2.773 4.264 2.559a.25.25 0 0 1 0 .428l-4.264 2.559A.25.25 0 0 1 6 10.559V5.442a.25.25 0 0 1 .379-.215Z"></path></svg>Example</p>
+<p class="alert-title"><svg viewbox="0 0 16 16" width="18" height="18"><path d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0ZM1.5 8a6.5 6.5 0 1 0 13 0 6.5 6.5 0 0 0-13 0Zm4.879-2.773 4.264 2.559a.25.25 0 0 1 0 .428l-4.264 2.559A.25.25 0 0 1 6 10.559V5.442a.25.25 0 0 1 .379-.215Z"></path></svg>Example</p>
+
 <p>This declares a helper attribute and then ignores it.</p>
 <!-- ignore: test doesn't support proc-macro -->
 <pre><code class="language-rust ignore"><span class="boring">#![crate_type="proc-macro"]
@@ -568,16 +601,20 @@ struct Struct {
 }</code></pre>
 </blockquote>
 </div>
-<div class="rule" id="r-macro.proc.attribute"><a class="rule-link" href="#r-macro.proc.attribute" title="macro.proc.attribute"><span>[macro<wbr>.proc<wbr>.attribute]</span/></a>
+
+<div class="rule" id="r-macro.proc.attribute"><a class="rule-link" href="#r-macro.proc.attribute" title="macro.proc.attribute"><span>[macro<wbr>.proc<wbr>.attribute]</span></a>
 </div>
+
 <h2 id="attribute-macros"><a class="header" href="#attribute-macros">Attribute macros</a></h2>
-<div class="rule" id="r-macro.proc.attribute.intro"><a class="rule-link" href="#r-macro.proc.attribute.intro" title="macro.proc.attribute.intro"><span>[macro<wbr>.proc<wbr>.attribute<wbr>.intro]</span/></a>
+<div class="rule" id="r-macro.proc.attribute.intro"><a class="rule-link" href="#r-macro.proc.attribute.intro" title="macro.proc.attribute.intro"><span>[macro<wbr>.proc<wbr>.attribute<wbr>.intro]</span></a>
 </div>
+
 <p><em>Attribute macros</em> define new <a href="attributes.html">outer attributes</a> which can be
 attached to <a href="items.html">items</a>, including items in <a href="items/external-blocks.html"><code>extern</code> blocks</a>, inherent and trait
 <a href="items/implementations.html">implementations</a>, and <a href="items/traits.html">trait definitions</a>.</p>
-<div class="rule" id="r-macro.proc.attribute.def"><a class="rule-link" href="#r-macro.proc.attribute.def" title="macro.proc.attribute.def"><span>[macro<wbr>.proc<wbr>.attribute<wbr>.def]</span/></a>
+<div class="rule" id="r-macro.proc.attribute.def"><a class="rule-link" href="#r-macro.proc.attribute.def" title="macro.proc.attribute.def"><span>[macro<wbr>.proc<wbr>.attribute<wbr>.def]</span></a>
 </div>
+
 <p>Attribute macros are defined by a <a href="visibility-and-privacy.html">public</a> <a href="items/functions.html">function</a> with the
 <code>proc_macro_attribute</code> <a href="attributes.html">attribute</a> that has a signature of <code>(TokenStream, TokenStream) -&gt; TokenStream</code>. The first <a href="../proc_macro/struct.TokenStream.html"><code>TokenStream</code></a> is the delimited token
 tree following the attribute’s name, not including the outer delimiters. If
@@ -585,8 +622,9 @@ the attribute is written as a bare attribute name, the attribute
 <a href="../proc_macro/struct.TokenStream.html"><code>TokenStream</code></a> is empty. The second <a href="../proc_macro/struct.TokenStream.html"><code>TokenStream</code></a> is the rest of the <a href="items.html">item</a>
 including other <a href="attributes.html">attributes</a> on the <a href="items.html">item</a>. The returned <a href="../proc_macro/struct.TokenStream.html"><code>TokenStream</code></a>
 replaces the <a href="items.html">item</a> with an arbitrary number of <a href="items.html">items</a>.</p>
-<div class="rule" id="r-macro.proc.attribute.namespace"><a class="rule-link" href="#r-macro.proc.attribute.namespace" title="macro.proc.attribute.namespace"><span>[macro<wbr>.proc<wbr>.attribute<wbr>.namespace]</span/></a>
+<div class="rule" id="r-macro.proc.attribute.namespace"><a class="rule-link" href="#r-macro.proc.attribute.namespace" title="macro.proc.attribute.namespace"><span>[macro<wbr>.proc<wbr>.attribute<wbr>.namespace]</span></a>
 </div>
+
 <p>The <code>proc_macro_attribute</code> attribute defines the attribute in the <a href="names/namespaces.html">macro namespace</a> in the root of the crate.</p>
 <p>For example, this attribute macro takes the input stream and returns it as is,
 effectively being the no-op of attributes.</p>
@@ -642,15 +680,18 @@ fn invoke3() {}
 fn invoke4() {}
 // out: attr: "delimiters"
 // out: item: "fn invoke4() {}"</code></pre>
-<div class="rule" id="r-macro.proc.token"><a class="rule-link" href="#r-macro.proc.token" title="macro.proc.token"><span>[macro<wbr>.proc<wbr>.token]</span/></a>
+<div class="rule" id="r-macro.proc.token"><a class="rule-link" href="#r-macro.proc.token" title="macro.proc.token"><span>[macro<wbr>.proc<wbr>.token]</span></a>
 </div>
+
 <h2 id="declarative-macro-tokens-and-procedural-macro-tokens"><a class="header" href="#declarative-macro-tokens-and-procedural-macro-tokens">Declarative macro tokens and procedural macro tokens</a></h2>
-<div class="rule" id="r-macro.proc.token.intro"><a class="rule-link" href="#r-macro.proc.token.intro" title="macro.proc.token.intro"><span>[macro<wbr>.proc<wbr>.token<wbr>.intro]</span/></a>
+<div class="rule" id="r-macro.proc.token.intro"><a class="rule-link" href="#r-macro.proc.token.intro" title="macro.proc.token.intro"><span>[macro<wbr>.proc<wbr>.token<wbr>.intro]</span></a>
 </div>
+
 <p>Declarative <code>macro_rules</code> macros and procedural macros use similar, but
 different definitions for tokens (or rather <a href="../proc_macro/enum.TokenTree.html"><code>TokenTree</code>s</a>.)</p>
-<div class="rule" id="r-macro.proc.token.macro_rules"><a class="rule-link" href="#r-macro.proc.token.macro_rules" title="macro.proc.token.macro_rules"><span>[macro<wbr>.proc<wbr>.token<wbr>.macro_rules]</span/></a>
+<div class="rule" id="r-macro.proc.token.macro_rules"><a class="rule-link" href="#r-macro.proc.token.macro_rules" title="macro.proc.token.macro_rules"><span>[macro<wbr>.proc<wbr>.token<wbr>.macro_rules]</span></a>
 </div>
+
 <p>Token trees in <code>macro_rules</code> (corresponding to <code>tt</code> matchers) are defined as</p>
 <ul>
 <li>Delimited groups (<code>(...)</code>, <code>{...}</code>, etc)</li>
@@ -673,8 +714,9 @@ but a separate operator token.</li>
 expansion, which will be considered a single token tree regardless of the
 passed expression)</li>
 </ul>
-<div class="rule" id="r-macro.proc.token.tree"><a class="rule-link" href="#r-macro.proc.token.tree" title="macro.proc.token.tree"><span>[macro<wbr>.proc<wbr>.token<wbr>.tree]</span/></a>
+<div class="rule" id="r-macro.proc.token.tree"><a class="rule-link" href="#r-macro.proc.token.tree" title="macro.proc.token.tree"><span>[macro<wbr>.proc<wbr>.token<wbr>.tree]</span></a>
 </div>
+
 <p>Token trees in procedural macros are defined as</p>
 <ul>
 <li>Delimited groups (<code>(...)</code>, <code>{...}</code>, etc)</li>
@@ -689,14 +731,15 @@ and floating point literals.</li>
 </li>
 <li>Identifiers, including keywords (<code>ident</code>, <code>r#ident</code>, <code>fn</code>)</li>
 </ul>
-<div class="rule" id="r-macro.proc.token.conversion.intro"><a class="rule-link" href="#r-macro.proc.token.conversion.intro" title="macro.proc.token.conversion.intro"><span>[macro<wbr>.proc<wbr>.token<wbr>.conversion<wbr>.intro]</span/></a>
+<div class="rule" id="r-macro.proc.token.conversion.intro"><a class="rule-link" href="#r-macro.proc.token.conversion.intro" title="macro.proc.token.conversion.intro"><span>[macro<wbr>.proc<wbr>.token<wbr>.conversion<wbr>.intro]</span></a>
 </div>
+
 <p>Mismatches between these two definitions are accounted for when token streams
-are passed to and from procedural macros. <br />
-Note that the conversions below may happen lazily, so they might not happen if
+are passed to and from procedural macros. <br>Note that the conversions below may happen lazily, so they might not happen if
 the tokens are not actually inspected.</p>
-<div class="rule" id="r-macro.proc.token.conversion.to-proc_macro"><a class="rule-link" href="#r-macro.proc.token.conversion.to-proc_macro" title="macro.proc.token.conversion.to-proc_macro"><span>[macro<wbr>.proc<wbr>.token<wbr>.conversion<wbr>.to-proc_macro]</span/></a>
+<div class="rule" id="r-macro.proc.token.conversion.to-proc_macro"><a class="rule-link" href="#r-macro.proc.token.conversion.to-proc_macro" title="macro.proc.token.conversion.to-proc_macro"><span>[macro<wbr>.proc<wbr>.token<wbr>.conversion<wbr>.to-proc_macro]</span></a>
 </div>
+
 <p>When passed to a proc-macro</p>
 <ul>
 <li>All multi-character operators are broken into single characters.</li>
@@ -713,8 +756,9 @@ always represented as their underlying token trees.</li>
 </ul>
 </li>
 </ul>
-<div class="rule" id="r-macro.proc.token.conversion.from-proc_macro"><a class="rule-link" href="#r-macro.proc.token.conversion.from-proc_macro" title="macro.proc.token.conversion.from-proc_macro"><span>[macro<wbr>.proc<wbr>.token<wbr>.conversion<wbr>.from-proc_macro]</span/></a>
+<div class="rule" id="r-macro.proc.token.conversion.from-proc_macro"><a class="rule-link" href="#r-macro.proc.token.conversion.from-proc_macro" title="macro.proc.token.conversion.from-proc_macro"><span>[macro<wbr>.proc<wbr>.token<wbr>.conversion<wbr>.from-proc_macro]</span></a>
 </div>
+
 <p>When emitted from a proc macro</p>
 <ul>
 <li>Punctuation characters are glued into multi-character operators
@@ -724,8 +768,9 @@ when applicable.</li>
 possibly wrapped into a delimited group (<a href="../proc_macro/struct.Group.html"><code>Group</code></a>) with implicit delimiters
 (<a href="../proc_macro/enum.Delimiter.html#variant.None"><code>Delimiter::None</code></a>) when it’s necessary for preserving parsing priorities.</li>
 </ul>
-<div class="rule" id="r-macro.proc.token.doc-comment"><a class="rule-link" href="#r-macro.proc.token.doc-comment" title="macro.proc.token.doc-comment"><span>[macro<wbr>.proc<wbr>.token<wbr>.doc-comment]</span/></a>
+<div class="rule" id="r-macro.proc.token.doc-comment"><a class="rule-link" href="#r-macro.proc.token.doc-comment" title="macro.proc.token.doc-comment"><span>[macro<wbr>.proc<wbr>.token<wbr>.doc-comment]</span></a>
 </div>
+
 <p>Note that neither declarative nor procedural macros support doc comment tokens
 (e.g. <code>/// Doc</code>), so they are always converted to token streams representing
 their equivalent <code>#[doc = r"str"]</code> attributes when passed to macros.</p>
@@ -736,6 +781,7 @@ their equivalent <code>#[doc = r"str"]</code> attributes when passed to macros.<
                         <!-- Mobile navigation buttons -->
                             <a rel="prev" href="macros-by-example.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                            </a>
 
                             <a rel="next prefetch" href="crates-and-source-files.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
@@ -777,10 +823,10 @@ their equivalent <code>#[doc = r"str"]</code> attributes when passed to macros.<
 
         <script src="clipboard-1626706a.min.js"></script>
         <script src="highlight-abc7f01d.js"></script>
-        <script src="book-81fc5345.js"></script>
+        <script src="book-a0b12cfe.js"></script>
 
         <!-- Custom JS scripts -->
-        <script src="theme/reference-cfed9ca5.js"></script>
+        <script src="theme/reference-da60281b.js"></script>
 
 
         <script>

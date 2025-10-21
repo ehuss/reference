@@ -14,9 +14,9 @@
 
         <link rel="icon" href="../favicon-de23e50b.svg">
         <link rel="shortcut icon" href="../favicon-8114d1fc.png">
-        <link rel="stylesheet" href="../css/variables-3865ffda.css">
-        <link rel="stylesheet" href="../css/general-d297d479.css">
-        <link rel="stylesheet" href="../css/chrome-ad662a8e.css">
+        <link rel="stylesheet" href="../css/variables-8adf115d.css">
+        <link rel="stylesheet" href="../css/general-2459343d.css">
+        <link rel="stylesheet" href="../css/chrome-3111ccdb.css">
         <link rel="stylesheet" href="../css/print-9e4910d8.css" media="print">
 
         <!-- Fonts -->
@@ -28,7 +28,7 @@
         <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="../ayu-highlight-56612340.css">
 
         <!-- Custom theme stylesheets -->
-        <link rel="stylesheet" href="../theme/reference-94a8e8ad.css">
+        <link rel="stylesheet" href="../theme/reference-6200eb72.css">
 
 
         <!-- Provide site root and default themes to javascript -->
@@ -36,10 +36,10 @@
             const path_to_root = "../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../searchindex-54e4028f.js";
+            window.path_to_searchindex_js = "../searchindex-93e32808.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="../toc-1b51e6f3.js"></script>
+        <script src="../toc-8771841d.js"></script>
     </head>
     <body>
     <div id="mdbook-help-container">
@@ -181,48 +181,58 @@
 
                 <div id="mdbook-content" class="content">
                     <main>
-                        <div class="rule" id="r-type.struct"><a class="rule-link" href="#r-type.struct" title="type.struct"><span>[type<wbr>.struct]</span/></a>
+                        <div class="rule" id="r-type.struct"><a class="rule-link" href="#r-type.struct" title="type.struct"><span>[type<wbr>.struct]</span></a>
 </div>
+
 <h1 id="struct-types"><a class="header" href="#struct-types">Struct types</a></h1>
-<div class="rule" id="r-type.struct.intro"><a class="rule-link" href="#r-type.struct.intro" title="type.struct.intro"><span>[type<wbr>.struct<wbr>.intro]</span/></a>
+<div class="rule" id="r-type.struct.intro"><a class="rule-link" href="#r-type.struct.intro" title="type.struct.intro"><span>[type<wbr>.struct<wbr>.intro]</span></a>
 </div>
+
 <p>A <code>struct</code> <em>type</em> is a heterogeneous product of other types, called the
 <em>fields</em> of the type.<sup class="footnote-reference" id="fr-structtype-1"><a href="#footnote-structtype">1</a></sup></p>
-<div class="rule" id="r-type.struct.constructor"><a class="rule-link" href="#r-type.struct.constructor" title="type.struct.constructor"><span>[type<wbr>.struct<wbr>.constructor]</span/></a>
+<div class="rule" id="r-type.struct.constructor"><a class="rule-link" href="#r-type.struct.constructor" title="type.struct.constructor"><span>[type<wbr>.struct<wbr>.constructor]</span></a>
 </div>
+
 <p>New instances of a <code>struct</code> can be constructed with a <a href="../expressions/struct-expr.html">struct expression</a>.</p>
-<div class="rule" id="r-type.struct.layout"><a class="rule-link" href="#r-type.struct.layout" title="type.struct.layout"><span>[type<wbr>.struct<wbr>.layout]</span/></a>
+<div class="rule" id="r-type.struct.layout"><a class="rule-link" href="#r-type.struct.layout" title="type.struct.layout"><span>[type<wbr>.struct<wbr>.layout]</span></a>
 </div>
+
 <p>The memory layout of a <code>struct</code> is undefined by default to allow for compiler
 optimizations like field reordering, but it can be fixed with the
 <a href="../type-layout.html#representations"><code>repr</code> attribute</a>. In either case, fields may be given in any order in a
 corresponding struct <em>expression</em>; the resulting <code>struct</code> value will always
 have the same memory layout.</p>
-<div class="rule" id="r-type.struct.field-visibility"><a class="rule-link" href="#r-type.struct.field-visibility" title="type.struct.field-visibility"><span>[type<wbr>.struct<wbr>.field-visibility]</span/></a>
+<div class="rule" id="r-type.struct.field-visibility"><a class="rule-link" href="#r-type.struct.field-visibility" title="type.struct.field-visibility"><span>[type<wbr>.struct<wbr>.field-visibility]</span></a>
 </div>
+
 <p>The fields of a <code>struct</code> may be qualified by <a href="../visibility-and-privacy.html">visibility modifiers</a>, to allow
 access to data in a struct outside a module.</p>
-<div class="rule" id="r-type.struct.tuple"><a class="rule-link" href="#r-type.struct.tuple" title="type.struct.tuple"><span>[type<wbr>.struct<wbr>.tuple]</span/></a>
+<div class="rule" id="r-type.struct.tuple"><a class="rule-link" href="#r-type.struct.tuple" title="type.struct.tuple"><span>[type<wbr>.struct<wbr>.tuple]</span></a>
 </div>
+
 <p>A <em>tuple struct</em> type is just like a struct type, except that the fields are
 anonymous.</p>
-<div class="rule" id="r-type.struct.unit"><a class="rule-link" href="#r-type.struct.unit" title="type.struct.unit"><span>[type<wbr>.struct<wbr>.unit]</span/></a>
+<div class="rule" id="r-type.struct.unit"><a class="rule-link" href="#r-type.struct.unit" title="type.struct.unit"><span>[type<wbr>.struct<wbr>.unit]</span></a>
 </div>
+
 <p>A <em>unit-like struct</em> type is like a struct type, except that it has no fields.
 The one value constructed by the associated <a href="../expressions/struct-expr.html">struct expression</a> is the only
 value that inhabits such a type.</p>
 <hr>
-<ol class="footnote-definition"><li id="footnote-structtype">
+<ol class="footnote-definition">
+<li id="footnote-structtype">
 <p><code>struct</code> types are analogous to <code>struct</code> types in C, the
 <em>record</em> types of the ML family, or the <em>struct</em> types of the Lisp family. <a href="#fr-structtype-1">↩</a></p>
 </li>
 </ol>
+
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
                             <a rel="prev" href="../types/slice.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                            </a>
 
                             <a rel="next prefetch" href="../types/enum.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
@@ -264,10 +274,10 @@ value that inhabits such a type.</p>
 
         <script src="../clipboard-1626706a.min.js"></script>
         <script src="../highlight-abc7f01d.js"></script>
-        <script src="../book-81fc5345.js"></script>
+        <script src="../book-a0b12cfe.js"></script>
 
         <!-- Custom JS scripts -->
-        <script src="../theme/reference-cfed9ca5.js"></script>
+        <script src="../theme/reference-da60281b.js"></script>
 
 
 

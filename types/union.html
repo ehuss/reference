@@ -14,9 +14,9 @@
 
         <link rel="icon" href="../favicon-de23e50b.svg">
         <link rel="shortcut icon" href="../favicon-8114d1fc.png">
-        <link rel="stylesheet" href="../css/variables-3865ffda.css">
-        <link rel="stylesheet" href="../css/general-d297d479.css">
-        <link rel="stylesheet" href="../css/chrome-ad662a8e.css">
+        <link rel="stylesheet" href="../css/variables-8adf115d.css">
+        <link rel="stylesheet" href="../css/general-2459343d.css">
+        <link rel="stylesheet" href="../css/chrome-3111ccdb.css">
         <link rel="stylesheet" href="../css/print-9e4910d8.css" media="print">
 
         <!-- Fonts -->
@@ -28,7 +28,7 @@
         <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="../ayu-highlight-56612340.css">
 
         <!-- Custom theme stylesheets -->
-        <link rel="stylesheet" href="../theme/reference-94a8e8ad.css">
+        <link rel="stylesheet" href="../theme/reference-6200eb72.css">
 
 
         <!-- Provide site root and default themes to javascript -->
@@ -36,10 +36,10 @@
             const path_to_root = "../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../searchindex-54e4028f.js";
+            window.path_to_searchindex_js = "../searchindex-93e32808.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="../toc-1b51e6f3.js"></script>
+        <script src="../toc-8771841d.js"></script>
     </head>
     <body>
     <div id="mdbook-help-container">
@@ -181,28 +181,34 @@
 
                 <div id="mdbook-content" class="content">
                     <main>
-                        <div class="rule" id="r-type.union"><a class="rule-link" href="#r-type.union" title="type.union"><span>[type<wbr>.union]</span/></a>
+                        <div class="rule" id="r-type.union"><a class="rule-link" href="#r-type.union" title="type.union"><span>[type<wbr>.union]</span></a>
 </div>
+
 <h1 id="union-types"><a class="header" href="#union-types">Union types</a></h1>
-<div class="rule" id="r-type.union.intro"><a class="rule-link" href="#r-type.union.intro" title="type.union.intro"><span>[type<wbr>.union<wbr>.intro]</span/></a>
+<div class="rule" id="r-type.union.intro"><a class="rule-link" href="#r-type.union.intro" title="type.union.intro"><span>[type<wbr>.union<wbr>.intro]</span></a>
 </div>
+
 <p>A <em>union type</em> is a nominal, heterogeneous C-like union, denoted by the name of
 a <a href="../items/unions.html"><code>union</code> item</a>.</p>
-<div class="rule" id="r-type.union.access"><a class="rule-link" href="#r-type.union.access" title="type.union.access"><span>[type<wbr>.union<wbr>.access]</span/></a>
+<div class="rule" id="r-type.union.access"><a class="rule-link" href="#r-type.union.access" title="type.union.access"><span>[type<wbr>.union<wbr>.access]</span></a>
 </div>
+
 <p>Unions have no notion of an “active field”. Instead, every union access
 transmutes parts of the content of the union to the type of the accessed field.</p>
-<div class="rule" id="r-type.union.safety"><a class="rule-link" href="#r-type.union.safety" title="type.union.safety"><span>[type<wbr>.union<wbr>.safety]</span/></a>
+<div class="rule" id="r-type.union.safety"><a class="rule-link" href="#r-type.union.safety" title="type.union.safety"><span>[type<wbr>.union<wbr>.safety]</span></a>
 </div>
+
 <p>Since transmutes can cause unexpected or undefined behaviour, <code>unsafe</code> is
 required to read from a union field.</p>
-<div class="rule" id="r-type.union.constraint"><a class="rule-link" href="#r-type.union.constraint" title="type.union.constraint"><span>[type<wbr>.union<wbr>.constraint]</span/></a>
+<div class="rule" id="r-type.union.constraint"><a class="rule-link" href="#r-type.union.constraint" title="type.union.constraint"><span>[type<wbr>.union<wbr>.constraint]</span></a>
 </div>
+
 <p>Union field types are also restricted to a
 subset of types which ensures that they never need dropping. See the <a href="../items/unions.html">item</a>
 documentation for further details.</p>
-<div class="rule" id="r-type.union.layout"><a class="rule-link" href="#r-type.union.layout" title="type.union.layout"><span>[type<wbr>.union<wbr>.layout]</span/></a>
+<div class="rule" id="r-type.union.layout"><a class="rule-link" href="#r-type.union.layout" title="type.union.layout"><span>[type<wbr>.union<wbr>.layout]</span></a>
 </div>
+
 <p>The memory layout of a <code>union</code> is undefined by default (in particular, fields do
 <em>not</em> have to be at offset 0), but the <code>#[repr(...)]</code> attribute can be used to
 fix a layout.</p>
@@ -213,6 +219,7 @@ fix a layout.</p>
                         <!-- Mobile navigation buttons -->
                             <a rel="prev" href="../types/enum.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                            </a>
 
                             <a rel="next prefetch" href="../types/function-item.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
@@ -254,10 +261,10 @@ fix a layout.</p>
 
         <script src="../clipboard-1626706a.min.js"></script>
         <script src="../highlight-abc7f01d.js"></script>
-        <script src="../book-81fc5345.js"></script>
+        <script src="../book-a0b12cfe.js"></script>
 
         <!-- Custom JS scripts -->
-        <script src="../theme/reference-cfed9ca5.js"></script>
+        <script src="../theme/reference-da60281b.js"></script>
 
 
 

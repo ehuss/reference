@@ -14,9 +14,9 @@
 
         <link rel="icon" href="favicon-de23e50b.svg">
         <link rel="shortcut icon" href="favicon-8114d1fc.png">
-        <link rel="stylesheet" href="css/variables-3865ffda.css">
-        <link rel="stylesheet" href="css/general-d297d479.css">
-        <link rel="stylesheet" href="css/chrome-ad662a8e.css">
+        <link rel="stylesheet" href="css/variables-8adf115d.css">
+        <link rel="stylesheet" href="css/general-2459343d.css">
+        <link rel="stylesheet" href="css/chrome-3111ccdb.css">
         <link rel="stylesheet" href="css/print-9e4910d8.css" media="print">
 
         <!-- Fonts -->
@@ -28,7 +28,7 @@
         <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="ayu-highlight-56612340.css">
 
         <!-- Custom theme stylesheets -->
-        <link rel="stylesheet" href="theme/reference-94a8e8ad.css">
+        <link rel="stylesheet" href="theme/reference-6200eb72.css">
 
 
         <!-- Provide site root and default themes to javascript -->
@@ -36,10 +36,10 @@
             const path_to_root = "";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "searchindex-54e4028f.js";
+            window.path_to_searchindex_js = "searchindex-93e32808.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="toc-1b51e6f3.js"></script>
+        <script src="toc-8771841d.js"></script>
     </head>
     <body>
     <div id="mdbook-help-container">
@@ -181,40 +181,49 @@
 
                 <div id="mdbook-content" class="content">
                     <main>
-                        <div class="rule" id="r-interior-mut"><a class="rule-link" href="#r-interior-mut" title="interior-mut"><span>[interior-mut]</span/></a>
+                        <div class="rule" id="r-interior-mut"><a class="rule-link" href="#r-interior-mut" title="interior-mut"><span>[interior-mut]</span></a>
 </div>
-<h1 id="interior-mutability"><a class="header" href="#interior-mutability">Interior Mutability</a></h1>
-<div class="rule" id="r-interior-mut.intro"><a class="rule-link" href="#r-interior-mut.intro" title="interior-mut.intro"><span>[interior-mut<wbr>.intro]</span/></a>
+
+<h1 id="interior-mutability"><a class="header" href="#interior-mutability">Interior mutability</a></h1>
+<div class="rule" id="r-interior-mut.intro"><a class="rule-link" href="#r-interior-mut.intro" title="interior-mut.intro"><span>[interior-mut<wbr>.intro]</span></a>
 </div>
+
 <p>Sometimes a type needs to be mutated while having multiple aliases. In Rust this
 is achieved using a pattern called <em>interior mutability</em>.</p>
-<div class="rule" id="r-interior-mut.shared-ref"><a class="rule-link" href="#r-interior-mut.shared-ref" title="interior-mut.shared-ref"><span>[interior-mut<wbr>.shared-ref]</span/></a>
+<div class="rule" id="r-interior-mut.shared-ref"><a class="rule-link" href="#r-interior-mut.shared-ref" title="interior-mut.shared-ref"><span>[interior-mut<wbr>.shared-ref]</span></a>
 </div>
+
 <p>A type has interior mutability if its internal state can be changed through a <a href="types/pointer.html#shared-references-">shared reference</a> to
 it.</p>
-<div class="rule" id="r-interior-mut.no-constraint"><a class="rule-link" href="#r-interior-mut.no-constraint" title="interior-mut.no-constraint"><span>[interior-mut<wbr>.no-constraint]</span/></a>
+<div class="rule" id="r-interior-mut.no-constraint"><a class="rule-link" href="#r-interior-mut.no-constraint" title="interior-mut.no-constraint"><span>[interior-mut<wbr>.no-constraint]</span></a>
 </div>
+
 <p>This goes against the usual <a href="behavior-considered-undefined.html">requirement</a> that the value pointed to by a
 shared reference is not mutated.</p>
-<div class="rule" id="r-interior-mut.unsafe-cell"><a class="rule-link" href="#r-interior-mut.unsafe-cell" title="interior-mut.unsafe-cell"><span>[interior-mut<wbr>.unsafe-cell]</span/></a>
+<div class="rule" id="r-interior-mut.unsafe-cell"><a class="rule-link" href="#r-interior-mut.unsafe-cell" title="interior-mut.unsafe-cell"><span>[interior-mut<wbr>.unsafe-cell]</span></a>
 </div>
+
 <p><a href="../core/cell/struct.UnsafeCell.html"><code>std::cell::UnsafeCell&lt;T&gt;</code></a> type is the only allowed way to disable
 this requirement. When <code>UnsafeCell&lt;T&gt;</code> is immutably aliased, it is still safe to
 mutate, or obtain a mutable reference to, the <code>T</code> it contains.</p>
-<div class="rule" id="r-interior-mut.mut-unsafe-cell"><a class="rule-link" href="#r-interior-mut.mut-unsafe-cell" title="interior-mut.mut-unsafe-cell"><span>[interior-mut<wbr>.mut-unsafe-cell]</span/></a>
+<div class="rule" id="r-interior-mut.mut-unsafe-cell"><a class="rule-link" href="#r-interior-mut.mut-unsafe-cell" title="interior-mut.mut-unsafe-cell"><span>[interior-mut<wbr>.mut-unsafe-cell]</span></a>
 </div>
+
 <p>As with all other types, it is undefined behavior to have multiple <code>&amp;mut UnsafeCell&lt;T&gt;</code>
 aliases.</p>
-<div class="rule" id="r-interior-mut.abstraction"><a class="rule-link" href="#r-interior-mut.abstraction" title="interior-mut.abstraction"><span>[interior-mut<wbr>.abstraction]</span/></a>
+<div class="rule" id="r-interior-mut.abstraction"><a class="rule-link" href="#r-interior-mut.abstraction" title="interior-mut.abstraction"><span>[interior-mut<wbr>.abstraction]</span></a>
 </div>
+
 <p>Other types with interior mutability can be created by using <code>UnsafeCell&lt;T&gt;</code> as
 a field. The standard library provides a variety of types that provide safe
 interior mutability APIs.</p>
-<div class="rule" id="r-interior-mut.ref-cell"><a class="rule-link" href="#r-interior-mut.ref-cell" title="interior-mut.ref-cell"><span>[interior-mut<wbr>.ref-cell]</span/></a>
+<div class="rule" id="r-interior-mut.ref-cell"><a class="rule-link" href="#r-interior-mut.ref-cell" title="interior-mut.ref-cell"><span>[interior-mut<wbr>.ref-cell]</span></a>
 </div>
+
 <p>For example, <a href="../core/cell/struct.RefCell.html"><code>std::cell::RefCell&lt;T&gt;</code></a> uses run-time borrow checks to ensure the usual rules around multiple references.</p>
-<div class="rule" id="r-interior-mut.atomic"><a class="rule-link" href="#r-interior-mut.atomic" title="interior-mut.atomic"><span>[interior-mut<wbr>.atomic]</span/></a>
+<div class="rule" id="r-interior-mut.atomic"><a class="rule-link" href="#r-interior-mut.atomic" title="interior-mut.atomic"><span>[interior-mut<wbr>.atomic]</span></a>
 </div>
+
 <p>The <a href="../core/sync/atomic/index.html"><code>std::sync::atomic</code></a> module contains types that wrap a value that is only
 accessed with atomic operations, allowing the value to be shared and mutated
 across threads.</p>
@@ -225,6 +234,7 @@ across threads.</p>
                         <!-- Mobile navigation buttons -->
                             <a rel="prev" href="type-layout.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                            </a>
 
                             <a rel="next prefetch" href="subtyping.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
@@ -266,10 +276,10 @@ across threads.</p>
 
         <script src="clipboard-1626706a.min.js"></script>
         <script src="highlight-abc7f01d.js"></script>
-        <script src="book-81fc5345.js"></script>
+        <script src="book-a0b12cfe.js"></script>
 
         <!-- Custom JS scripts -->
-        <script src="theme/reference-cfed9ca5.js"></script>
+        <script src="theme/reference-da60281b.js"></script>
 
 
 

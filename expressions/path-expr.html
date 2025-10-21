@@ -14,9 +14,9 @@
 
         <link rel="icon" href="../favicon-de23e50b.svg">
         <link rel="shortcut icon" href="../favicon-8114d1fc.png">
-        <link rel="stylesheet" href="../css/variables-3865ffda.css">
-        <link rel="stylesheet" href="../css/general-d297d479.css">
-        <link rel="stylesheet" href="../css/chrome-ad662a8e.css">
+        <link rel="stylesheet" href="../css/variables-8adf115d.css">
+        <link rel="stylesheet" href="../css/general-2459343d.css">
+        <link rel="stylesheet" href="../css/chrome-3111ccdb.css">
         <link rel="stylesheet" href="../css/print-9e4910d8.css" media="print">
 
         <!-- Fonts -->
@@ -28,7 +28,7 @@
         <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="../ayu-highlight-56612340.css">
 
         <!-- Custom theme stylesheets -->
-        <link rel="stylesheet" href="../theme/reference-94a8e8ad.css">
+        <link rel="stylesheet" href="../theme/reference-6200eb72.css">
 
 
         <!-- Provide site root and default themes to javascript -->
@@ -36,10 +36,10 @@
             const path_to_root = "../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../searchindex-54e4028f.js";
+            window.path_to_searchindex_js = "../searchindex-93e32808.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="../toc-1b51e6f3.js"></script>
+        <script src="../toc-8771841d.js"></script>
     </head>
     <body>
     <div id="mdbook-help-container">
@@ -181,68 +181,74 @@
 
                 <div id="mdbook-content" class="content">
                     <main>
-                        <div class="rule" id="r-expr.path"><a class="rule-link" href="#r-expr.path" title="expr.path"><span>[expr<wbr>.path]</span/></a>
+                        <div class="rule" id="r-expr.path"><a class="rule-link" href="#r-expr.path" title="expr.path"><span>[expr<wbr>.path]</span></a>
 </div>
+
 <h1 id="path-expressions"><a class="header" href="#path-expressions">Path expressions</a></h1>
-<div class="rule" id="r-expr.path.syntax"><a class="rule-link" href="#r-expr.path.syntax" title="expr.path.syntax"><span>[expr<wbr>.path<wbr>.syntax]</span/></a>
+<div class="rule" id="r-expr.path.syntax"><a class="rule-link" href="#r-expr.path.syntax" title="expr.path.syntax"><span>[expr<wbr>.path<wbr>.syntax]</span></a>
 </div>
+
 <div class="grammar-container">
 <p><strong><sup>Syntax</sup></strong>
 <br>
-<span class="grammar-text grammar-production" id="grammar-PathExpression" onclick="show_railroad()"><a href="path-expr.html#railroad-PathExpression">PathExpression</a></span> → <br />
-      <span class="grammar-text"><a href="../paths.html#grammar-PathInExpression">PathInExpression</a></span> <br />
-    | <span class="grammar-text"><a href="../paths.html#grammar-QualifiedPathInExpression">QualifiedPathInExpression</a></span></p>
+<span class="grammar-text grammar-production" id="grammar-PathExpression" onclick="show_railroad()"><a href="path-expr.html#railroad-PathExpression">PathExpression</a></span> → <br>      <span class="grammar-text"><a href="../paths.html#grammar-PathInExpression">PathInExpression</a></span> <br>    | <span class="grammar-text"><a href="../paths.html#grammar-QualifiedPathInExpression">QualifiedPathInExpression</a></span></p>
 <p><button class="grammar-toggle-railroad" type="button" title="Toggle railroad display" onclick="toggle_railroad()">Show Railroad</button></p>
 </div>
+
 <div class="grammar-railroad grammar-hidden">
-<div style="width: 346px; height: auto; max-width: 100%; max-height: 100%" class="railroad-production" id="railroad-PathExpression"><svg class="railroad" viewBox="0 0 346 107" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-<rect class="railroad_canvas" height="100%" width="100%"/>
+<div style="width: 346px; height: auto; max-width: 100%; max-height: 100%" class="railroad-production" id="railroad-PathExpression"><svg class="railroad" viewbox="0 0 346 107" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<rect class="railroad_canvas" height="100%" width="100%" />
 <g class="verticalgrid">
 <a class="link" xlink:href="path-expr.html#grammar-PathExpression">
 <text class="comment" x="64" y="25">
 PathExpression</text>
 </a>
 <g class="sequence">
-<path d=" M 10 53 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5 m 10 0 h 5"/>
+<path d=" M 10 53 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5 m 10 0 h 5" />
 <g class="choice">
-<path d=" M 35 53 h 24 m 148 0 h 104 m -49 0 l -5 -5 m 0 10 l 5 -5 m 49 0"/>
+<path d=" M 35 53 h 24 m 148 0 h 104 m -49 0 l -5 -5 m 0 10 l 5 -5 m 49 0" />
 <g class="sequence">
 <a class="link" xlink:href="../paths.html#railroad-PathInExpression">
 <g class="nonterminal">
-<rect height="22" width="148" x="59" y="42"/>
+<rect height="22" width="148" x="59" y="42" />
 <text x="133" y="58">
 PathInExpression</text>
 </g>
 </a>
 </g>
-<path d=" M 35 53 a 12 12 0 0 1 12 12 v 9 m 252 0 v -9 a 12 12 0 0 1 12 -12"/>
-<path d=" M 47 74 v 0 a 12 12 0 0 0 12 12 m 228 0 h 0 a 12 12 0 0 0 12 -12 v 0"/>
+<path d=" M 35 53 a 12 12 0 0 1 12 12 v 9 m 252 0 v -9 a 12 12 0 0 1 12 -12" />
+<path d=" M 47 74 v 0 a 12 12 0 0 0 12 12 m 228 0 h 0 a 12 12 0 0 0 12 -12 v 0" />
 <a class="link" xlink:href="../paths.html#railroad-QualifiedPathInExpression">
 <g class="nonterminal">
-<rect height="22" width="228" x="59" y="75"/>
+<rect height="22" width="228" x="59" y="75" />
 <text x="173" y="91">
 QualifiedPathInExpression</text>
 </g>
 </a>
 </g>
-<path d=" M 321 53 h 5 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5"/>
-<path d=" M 25 53 h 10"/>
-<path d=" M 311 53 h 10"/>
+<path d=" M 321 53 h 5 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5" />
+<path d=" M 25 53 h 10" />
+<path d=" M 311 53 h 10" />
 </g>
 </g>
 </svg>
 </div>
+
 </div>
-<div class="rule" id="r-expr.path.intro"><a class="rule-link" href="#r-expr.path.intro" title="expr.path.intro"><span>[expr<wbr>.path<wbr>.intro]</span/></a>
+
+<div class="rule" id="r-expr.path.intro"><a class="rule-link" href="#r-expr.path.intro" title="expr.path.intro"><span>[expr<wbr>.path<wbr>.intro]</span></a>
 </div>
+
 <p>A <a href="../paths.html">path</a> used as an expression context denotes either a local variable or an item.</p>
-<div class="rule" id="r-expr.path.place"><a class="rule-link" href="#r-expr.path.place" title="expr.path.place"><span>[expr<wbr>.path<wbr>.place]</span/></a>
+<div class="rule" id="r-expr.path.place"><a class="rule-link" href="#r-expr.path.place" title="expr.path.place"><span>[expr<wbr>.path<wbr>.place]</span></a>
 </div>
+
 <p>Path expressions that resolve to local or static variables are <a href="../expressions.html#place-expressions-and-value-expressions">place expressions</a>, other paths are <a href="../expressions.html#place-expressions-and-value-expressions">value expressions</a>.</p>
-<div class="rule" id="r-expr.path.safety"><a class="rule-link" href="#r-expr.path.safety" title="expr.path.safety"><span>[expr<wbr>.path<wbr>.safety]</span/></a>
+<div class="rule" id="r-expr.path.safety"><a class="rule-link" href="#r-expr.path.safety" title="expr.path.safety"><span>[expr<wbr>.path<wbr>.safety]</span></a>
 </div>
+
 <p>Using a <a href="../items/static-items.html#mutable-statics"><code>static mut</code></a> variable requires an <a href="block-expr.html#unsafe-blocks"><code>unsafe</code> block</a>.</p>
-<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">#![allow(unused)]
+<pre class="playground"><code class="language-rust edition2024"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span><span class="boring">mod globals {
 </span><span class="boring">    pub static STATIC_VAR: i32 = 5;
@@ -255,9 +261,10 @@ unsafe { globals::STATIC_MUT_VAR };
 let some_constructor = Some::&lt;i32&gt;;
 let push_integer = Vec::&lt;i32&gt;::push;
 let slice_reverse = &lt;[i32]&gt;::reverse;
-<span class="boring">}</span></code></pre></pre>
-<div class="rule" id="r-expr.path.const"><a class="rule-link" href="#r-expr.path.const" title="expr.path.const"><span>[expr<wbr>.path<wbr>.const]</span/></a>
+<span class="boring">}</span></code></pre>
+<div class="rule" id="r-expr.path.const"><a class="rule-link" href="#r-expr.path.const" title="expr.path.const"><span>[expr<wbr>.path<wbr>.const]</span></a>
 </div>
+
 <p>Evaluation of associated constants is handled the same way as <a href="block-expr.html#const-blocks"><code>const</code> blocks</a>.</p>
 
                     </main>
@@ -266,6 +273,7 @@ let slice_reverse = &lt;[i32]&gt;::reverse;
                         <!-- Mobile navigation buttons -->
                             <a rel="prev" href="../expressions/literal-expr.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                            </a>
 
                             <a rel="next prefetch" href="../expressions/block-expr.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
@@ -307,10 +315,10 @@ let slice_reverse = &lt;[i32]&gt;::reverse;
 
         <script src="../clipboard-1626706a.min.js"></script>
         <script src="../highlight-abc7f01d.js"></script>
-        <script src="../book-81fc5345.js"></script>
+        <script src="../book-a0b12cfe.js"></script>
 
         <!-- Custom JS scripts -->
-        <script src="../theme/reference-cfed9ca5.js"></script>
+        <script src="../theme/reference-da60281b.js"></script>
 
 
 

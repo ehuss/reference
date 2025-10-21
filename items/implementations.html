@@ -14,9 +14,9 @@
 
         <link rel="icon" href="../favicon-de23e50b.svg">
         <link rel="shortcut icon" href="../favicon-8114d1fc.png">
-        <link rel="stylesheet" href="../css/variables-3865ffda.css">
-        <link rel="stylesheet" href="../css/general-d297d479.css">
-        <link rel="stylesheet" href="../css/chrome-ad662a8e.css">
+        <link rel="stylesheet" href="../css/variables-8adf115d.css">
+        <link rel="stylesheet" href="../css/general-2459343d.css">
+        <link rel="stylesheet" href="../css/chrome-3111ccdb.css">
         <link rel="stylesheet" href="../css/print-9e4910d8.css" media="print">
 
         <!-- Fonts -->
@@ -28,7 +28,7 @@
         <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="../ayu-highlight-56612340.css">
 
         <!-- Custom theme stylesheets -->
-        <link rel="stylesheet" href="../theme/reference-94a8e8ad.css">
+        <link rel="stylesheet" href="../theme/reference-6200eb72.css">
 
 
         <!-- Provide site root and default themes to javascript -->
@@ -36,10 +36,10 @@
             const path_to_root = "../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../searchindex-54e4028f.js";
+            window.path_to_searchindex_js = "../searchindex-93e32808.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="../toc-1b51e6f3.js"></script>
+        <script src="../toc-8771841d.js"></script>
     </head>
     <body>
     <div id="mdbook-help-container">
@@ -181,88 +181,82 @@
 
                 <div id="mdbook-content" class="content">
                     <main>
-                        <div class="rule" id="r-items.impl"><a class="rule-link" href="#r-items.impl" title="items.impl"><span>[items<wbr>.impl]</span/></a>
+                        <div class="rule" id="r-items.impl"><a class="rule-link" href="#r-items.impl" title="items.impl"><span>[items<wbr>.impl]</span></a>
 </div>
+
 <h1 id="implementations"><a class="header" href="#implementations">Implementations</a></h1>
-<div class="rule" id="r-items.impl.syntax"><a class="rule-link" href="#r-items.impl.syntax" title="items.impl.syntax"><span>[items<wbr>.impl<wbr>.syntax]</span/></a>
+<div class="rule" id="r-items.impl.syntax"><a class="rule-link" href="#r-items.impl.syntax" title="items.impl.syntax"><span>[items<wbr>.impl<wbr>.syntax]</span></a>
 </div>
+
 <div class="grammar-container">
 <p><strong><sup>Syntax</sup></strong>
 <br>
 <span class="grammar-text grammar-production" id="grammar-Implementation" onclick="show_railroad()"><a href="implementations.html#railroad-Implementation">Implementation</a></span> → <span class="grammar-text"><a href="implementations.html#grammar-InherentImpl">InherentImpl</a></span> | <span class="grammar-text"><a href="implementations.html#grammar-TraitImpl">TraitImpl</a></span></p>
-<p><span class="grammar-text grammar-production" id="grammar-InherentImpl" onclick="show_railroad()"><a href="implementations.html#railroad-InherentImpl">InherentImpl</a></span> → <br />
-    <span class="grammar-literal">impl</span> <span class="grammar-text"><a href="generics.html#grammar-GenericParams">GenericParams</a></span><sup>?</sup> <span class="grammar-text"><a href="../types.html#grammar-Type">Type</a></span> <span class="grammar-text"><a href="generics.html#grammar-WhereClause">WhereClause</a></span><sup>?</sup> <span class="grammar-literal">{</span> <br />
-        <span class="grammar-text"><a href="../attributes.html#grammar-InnerAttribute">InnerAttribute</a></span><sup>*</sup> <br />
-        <span class="grammar-text"><a href="associated-items.html#grammar-AssociatedItem">AssociatedItem</a></span><sup>*</sup> <br />
-    <span class="grammar-literal">}</span></p>
-<p><span class="grammar-text grammar-production" id="grammar-TraitImpl" onclick="show_railroad()"><a href="implementations.html#railroad-TraitImpl">TraitImpl</a></span> → <br />
-    <span class="grammar-literal">unsafe</span><sup>?</sup> <span class="grammar-literal">impl</span> <span class="grammar-text"><a href="generics.html#grammar-GenericParams">GenericParams</a></span><sup>?</sup> <span class="grammar-literal">!</span><sup>?</sup> <span class="grammar-text"><a href="../paths.html#grammar-TypePath">TypePath</a></span> <span class="grammar-literal">for</span> <span class="grammar-text"><a href="../types.html#grammar-Type">Type</a></span> <br />
-    <span class="grammar-text"><a href="generics.html#grammar-WhereClause">WhereClause</a></span><sup>?</sup> <br />
-    <span class="grammar-literal">{</span> <br />
-        <span class="grammar-text"><a href="../attributes.html#grammar-InnerAttribute">InnerAttribute</a></span><sup>*</sup> <br />
-        <span class="grammar-text"><a href="associated-items.html#grammar-AssociatedItem">AssociatedItem</a></span><sup>*</sup> <br />
-    <span class="grammar-literal">}</span></p>
+<p><span class="grammar-text grammar-production" id="grammar-InherentImpl" onclick="show_railroad()"><a href="implementations.html#railroad-InherentImpl">InherentImpl</a></span> → <br>    <span class="grammar-literal">impl</span> <span class="grammar-text"><a href="generics.html#grammar-GenericParams">GenericParams</a></span><sup>?</sup> <span class="grammar-text"><a href="../types.html#grammar-Type">Type</a></span> <span class="grammar-text"><a href="generics.html#grammar-WhereClause">WhereClause</a></span><sup>?</sup> <span class="grammar-literal">{</span> <br>        <span class="grammar-text"><a href="../attributes.html#grammar-InnerAttribute">InnerAttribute</a></span><sup>*</sup> <br>        <span class="grammar-text"><a href="associated-items.html#grammar-AssociatedItem">AssociatedItem</a></span><sup>*</sup> <br>    <span class="grammar-literal">}</span></p>
+<p><span class="grammar-text grammar-production" id="grammar-TraitImpl" onclick="show_railroad()"><a href="implementations.html#railroad-TraitImpl">TraitImpl</a></span> → <br>    <span class="grammar-literal">unsafe</span><sup>?</sup> <span class="grammar-literal">impl</span> <span class="grammar-text"><a href="generics.html#grammar-GenericParams">GenericParams</a></span><sup>?</sup> <span class="grammar-literal">!</span><sup>?</sup> <span class="grammar-text"><a href="../paths.html#grammar-TypePath">TypePath</a></span> <span class="grammar-literal">for</span> <span class="grammar-text"><a href="../types.html#grammar-Type">Type</a></span> <br>    <span class="grammar-text"><a href="generics.html#grammar-WhereClause">WhereClause</a></span><sup>?</sup> <br>    <span class="grammar-literal">{</span> <br>        <span class="grammar-text"><a href="../attributes.html#grammar-InnerAttribute">InnerAttribute</a></span><sup>*</sup> <br>        <span class="grammar-text"><a href="associated-items.html#grammar-AssociatedItem">AssociatedItem</a></span><sup>*</sup> <br>    <span class="grammar-literal">}</span></p>
 <p><button class="grammar-toggle-railroad" type="button" title="Toggle railroad display" onclick="toggle_railroad()">Show Railroad</button></p>
 </div>
+
 <div class="grammar-railroad grammar-hidden">
-<div style="width: 234px; height: auto; max-width: 100%; max-height: 100%" class="railroad-production" id="railroad-Implementation"><svg class="railroad" viewBox="0 0 234 107" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-<rect class="railroad_canvas" height="100%" width="100%"/>
+<div style="width: 234px; height: auto; max-width: 100%; max-height: 100%" class="railroad-production" id="railroad-Implementation"><svg class="railroad" viewbox="0 0 234 107" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<rect class="railroad_canvas" height="100%" width="100%" />
 <g class="verticalgrid">
 <a class="link" xlink:href="implementations.html#grammar-Implementation">
 <text class="comment" x="64" y="25">
 Implementation</text>
 </a>
 <g class="sequence">
-<path d=" M 10 53 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5 m 10 0 h 5"/>
+<path d=" M 10 53 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5 m 10 0 h 5" />
 <g class="choice">
-<path d=" M 35 53 h 24 m 116 0 h 24"/>
+<path d=" M 35 53 h 24 m 116 0 h 24" />
 <a class="link" xlink:href="implementations.html#railroad-InherentImpl">
 <g class="nonterminal">
-<rect height="22" width="116" x="59" y="42"/>
+<rect height="22" width="116" x="59" y="42" />
 <text x="117" y="58">
 InherentImpl</text>
 </g>
 </a>
-<path d=" M 35 53 a 12 12 0 0 1 12 12 v 9 m 140 0 v -9 a 12 12 0 0 1 12 -12"/>
-<path d=" M 47 74 v 0 a 12 12 0 0 0 12 12 m 92 0 h 24 a 12 12 0 0 0 12 -12 v 0"/>
+<path d=" M 35 53 a 12 12 0 0 1 12 12 v 9 m 140 0 v -9 a 12 12 0 0 1 12 -12" />
+<path d=" M 47 74 v 0 a 12 12 0 0 0 12 12 m 92 0 h 24 a 12 12 0 0 0 12 -12 v 0" />
 <a class="link" xlink:href="implementations.html#railroad-TraitImpl">
 <g class="nonterminal">
-<rect height="22" width="92" x="59" y="75"/>
+<rect height="22" width="92" x="59" y="75" />
 <text x="105" y="91">
 TraitImpl</text>
 </g>
 </a>
 </g>
-<path d=" M 209 53 h 5 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5"/>
-<path d=" M 25 53 h 10"/>
-<path d=" M 199 53 h 10"/>
+<path d=" M 209 53 h 5 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5" />
+<path d=" M 25 53 h 10" />
+<path d=" M 199 53 h 10" />
 </g>
 </g>
 </svg>
 </div>
-<div style="width: 618px; height: auto; max-width: 100%; max-height: 100%" class="railroad-production" id="railroad-InherentImpl"><svg class="railroad" viewBox="0 0 618 279" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-<rect class="railroad_canvas" height="100%" width="100%"/>
+
+<div style="width: 618px; height: auto; max-width: 100%; max-height: 100%" class="railroad-production" id="railroad-InherentImpl"><svg class="railroad" viewbox="0 0 618 279" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<rect class="railroad_canvas" height="100%" width="100%" />
 <g class="verticalgrid">
 <a class="link" xlink:href="implementations.html#grammar-InherentImpl">
 <text class="comment" x="57" y="25">
 InherentImpl</text>
 </a>
 <g class="sequence">
-<path d=" M 10 66 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5 m 10 0 h 5"/>
+<path d=" M 10 66 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5 m 10 0 h 5" />
 <g class="stack">
-<path d=" M 35 66 h 12"/>
-<path d=" M 547 66 a 12 12 0 0 1 12 12 v 0 a 12 12 0 0 1 -12 12 h -500 m 253 0 l 5 -5 m 0 10 l -5 -5 m -253 0 a 12 12 0 0 0 -12 12 v 12 v 0 a 12 12 0 0 0 12 12 h 0"/>
+<path d=" M 35 66 h 12" />
+<path d=" M 547 66 a 12 12 0 0 1 12 12 v 0 a 12 12 0 0 1 -12 12 h -500 m 253 0 l 5 -5 m 0 10 l -5 -5 m -253 0 a 12 12 0 0 0 -12 12 v 12 v 0 a 12 12 0 0 0 12 12 h 0" />
 <g class="sequence">
 <g class="terminal">
-<rect height="22" rx="10" ry="10" width="52" x="47" y="55"/>
+<rect height="22" rx="10" ry="10" width="52" x="47" y="55" />
 <text x="73" y="71">
 impl</text>
 </g>
 <g class="optional">
-<path d=" M 109 66 h 24 m -24 0 a 12 12 0 0 0 12 -12 v 0 a 12 12 0 0 1 12 -12 h 124 m -59 0 l -5 -5 m 0 10 l 5 -5 m 59 0 a 12 12 0 0 1 12 12 v 0 a 12 12 0 0 0 12 12 h -24"/>
+<path d=" M 109 66 h 24 m -24 0 a 12 12 0 0 0 12 -12 v 0 a 12 12 0 0 1 12 -12 h 124 m -59 0 l -5 -5 m 0 10 l 5 -5 m 59 0 a 12 12 0 0 1 12 12 v 0 a 12 12 0 0 0 12 12 h -24" />
 <a class="link" xlink:href="generics.html#railroad-GenericParams">
 <g class="nonterminal">
-<rect height="22" width="124" x="133" y="55"/>
+<rect height="22" width="124" x="133" y="55" />
 <text x="195" y="71">
 GenericParams</text>
 </g>
@@ -270,41 +264,41 @@ GenericParams</text>
 </g>
 <a class="link" xlink:href="../types.html#railroad-Type">
 <g class="nonterminal">
-<rect height="22" width="52" x="291" y="55"/>
+<rect height="22" width="52" x="291" y="55" />
 <text x="317" y="71">
 Type</text>
 </g>
 </a>
 <g class="optional">
-<path d=" M 353 66 h 24 m -24 0 a 12 12 0 0 0 12 -12 v 0 a 12 12 0 0 1 12 -12 h 108 m -51 0 l -5 -5 m 0 10 l 5 -5 m 51 0 a 12 12 0 0 1 12 12 v 0 a 12 12 0 0 0 12 12 h -24"/>
+<path d=" M 353 66 h 24 m -24 0 a 12 12 0 0 0 12 -12 v 0 a 12 12 0 0 1 12 -12 h 108 m -51 0 l -5 -5 m 0 10 l 5 -5 m 51 0 a 12 12 0 0 1 12 12 v 0 a 12 12 0 0 0 12 12 h -24" />
 <a class="link" xlink:href="generics.html#railroad-WhereClause">
 <g class="nonterminal">
-<rect height="22" width="108" x="377" y="55"/>
+<rect height="22" width="108" x="377" y="55" />
 <text x="431" y="71">
 WhereClause</text>
 </g>
 </a>
 </g>
 <g class="terminal">
-<rect height="22" rx="10" ry="10" width="28" x="519" y="55"/>
+<rect height="22" rx="10" ry="10" width="28" x="519" y="55" />
 <text x="533" y="71">
 {</text>
 </g>
-<path d=" M 99 66 h 10"/>
-<path d=" M 281 66 h 10"/>
-<path d=" M 343 66 h 10"/>
-<path d=" M 509 66 h 10"/>
+<path d=" M 99 66 h 10" />
+<path d=" M 281 66 h 10" />
+<path d=" M 343 66 h 10" />
+<path d=" M 509 66 h 10" />
 </g>
-<path d=" M 251 126 a 12 12 0 0 1 12 12 v 12 a 12 12 0 0 1 -12 12 h -204 m 105 0 l 5 -5 m 0 10 l -5 -5 m -105 0 a 12 12 0 0 0 -12 12 v 12 v 0 a 12 12 0 0 0 12 12 h 0"/>
+<path d=" M 251 126 a 12 12 0 0 1 12 12 v 12 a 12 12 0 0 1 -12 12 h -204 m 105 0 l 5 -5 m 0 10 l -5 -5 m -105 0 a 12 12 0 0 0 -12 12 v 12 v 0 a 12 12 0 0 0 12 12 h 0" />
 <g class="sequence">
 <g class="optional">
-<path d=" M 47 126 h 24 m -24 0 a 12 12 0 0 0 12 -12 v 0 a 12 12 0 0 1 12 -12 h 156 m -75 0 l -5 -5 m 0 10 l 5 -5 m 75 0 a 12 12 0 0 1 12 12 v 0 a 12 12 0 0 0 12 12 h -24"/>
+<path d=" M 47 126 h 24 m -24 0 a 12 12 0 0 0 12 -12 v 0 a 12 12 0 0 1 12 -12 h 156 m -75 0 l -5 -5 m 0 10 l 5 -5 m 75 0 a 12 12 0 0 1 12 12 v 0 a 12 12 0 0 0 12 12 h -24" />
 <g class="repeat">
-<path d=" M 71 126 h 12 m 132 0 h 12 m -12 0 a 12 12 0 0 1 12 12 v 0 a 12 12 0 0 1 -12 12 m 0 0 h -132 m 69 0 l 5 -5 m 0 10 l -5 -5 m -69 0 a 12 12 0 0 1 -12 -12 v 0 a 12 12 0 0 1 12 -12"/>
-<g/>
+<path d=" M 71 126 h 12 m 132 0 h 12 m -12 0 a 12 12 0 0 1 12 12 v 0 a 12 12 0 0 1 -12 12 m 0 0 h -132 m 69 0 l 5 -5 m 0 10 l -5 -5 m -69 0 a 12 12 0 0 1 -12 -12 v 0 a 12 12 0 0 1 12 -12" />
+<g />
 <a class="link" xlink:href="../attributes.html#railroad-InnerAttribute">
 <g class="nonterminal">
-<rect height="22" width="132" x="83" y="115"/>
+<rect height="22" width="132" x="83" y="115" />
 <text x="149" y="131">
 InnerAttribute</text>
 </g>
@@ -312,16 +306,16 @@ InnerAttribute</text>
 </g>
 </g>
 </g>
-<path d=" M 251 198 a 12 12 0 0 1 12 12 v 12 a 12 12 0 0 1 -12 12 h -204 m 105 0 l 5 -5 m 0 10 l -5 -5 m -105 0 a 12 12 0 0 0 -12 12 v 0 v 0 a 12 12 0 0 0 12 12 h 0"/>
+<path d=" M 251 198 a 12 12 0 0 1 12 12 v 12 a 12 12 0 0 1 -12 12 h -204 m 105 0 l 5 -5 m 0 10 l -5 -5 m -105 0 a 12 12 0 0 0 -12 12 v 0 v 0 a 12 12 0 0 0 12 12 h 0" />
 <g class="sequence">
 <g class="optional">
-<path d=" M 47 198 h 24 m -24 0 a 12 12 0 0 0 12 -12 v 0 a 12 12 0 0 1 12 -12 h 156 m -75 0 l -5 -5 m 0 10 l 5 -5 m 75 0 a 12 12 0 0 1 12 12 v 0 a 12 12 0 0 0 12 12 h -24"/>
+<path d=" M 47 198 h 24 m -24 0 a 12 12 0 0 0 12 -12 v 0 a 12 12 0 0 1 12 -12 h 156 m -75 0 l -5 -5 m 0 10 l 5 -5 m 75 0 a 12 12 0 0 1 12 12 v 0 a 12 12 0 0 0 12 12 h -24" />
 <g class="repeat">
-<path d=" M 71 198 h 12 m 132 0 h 12 m -12 0 a 12 12 0 0 1 12 12 v 0 a 12 12 0 0 1 -12 12 m 0 0 h -132 m 69 0 l 5 -5 m 0 10 l -5 -5 m -69 0 a 12 12 0 0 1 -12 -12 v 0 a 12 12 0 0 1 12 -12"/>
-<g/>
+<path d=" M 71 198 h 12 m 132 0 h 12 m -12 0 a 12 12 0 0 1 12 12 v 0 a 12 12 0 0 1 -12 12 m 0 0 h -132 m 69 0 l 5 -5 m 0 10 l -5 -5 m -69 0 a 12 12 0 0 1 -12 -12 v 0 a 12 12 0 0 1 12 -12" />
+<g />
 <a class="link" xlink:href="associated-items.html#railroad-AssociatedItem">
 <g class="nonterminal">
-<rect height="22" width="132" x="83" y="187"/>
+<rect height="22" width="132" x="83" y="187" />
 <text x="149" y="203">
 AssociatedItem</text>
 </g>
@@ -329,123 +323,124 @@ AssociatedItem</text>
 </g>
 </g>
 </g>
-<path d=" M 75 258 h 484 m -239 0 l -5 -5 m 0 10 l 5 -5 m 239 0 a 12 12 0 0 0 12 -12 v -168 m 0 87 l -5 5 m 10 0 l -5 -5 m 0 -87 a 12 12 0 0 1 12 -12"/>
+<path d=" M 75 258 h 484 m -239 0 l -5 -5 m 0 10 l 5 -5 m 239 0 a 12 12 0 0 0 12 -12 v -168 m 0 87 l -5 5 m 10 0 l -5 -5 m 0 -87 a 12 12 0 0 1 12 -12" />
 <g class="sequence">
 <g class="terminal">
-<rect height="22" rx="10" ry="10" width="28" x="47" y="247"/>
+<rect height="22" rx="10" ry="10" width="28" x="47" y="247" />
 <text x="61" y="263">
 }</text>
 </g>
 </g>
 </g>
-<path d=" M 593 66 h 5 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5"/>
-<path d=" M 25 66 h 10"/>
-<path d=" M 583 66 h 10"/>
+<path d=" M 593 66 h 5 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5" />
+<path d=" M 25 66 h 10" />
+<path d=" M 583 66 h 10" />
 </g>
 </g>
 </svg>
 </div>
-<div style="width: 774px; height: auto; max-width: 100%; max-height: 100%" class="railroad-production" id="railroad-TraitImpl"><svg class="railroad" viewBox="0 0 774 387" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-<rect class="railroad_canvas" height="100%" width="100%"/>
+
+<div style="width: 774px; height: auto; max-width: 100%; max-height: 100%" class="railroad-production" id="railroad-TraitImpl"><svg class="railroad" viewbox="0 0 774 387" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<rect class="railroad_canvas" height="100%" width="100%" />
 <g class="verticalgrid">
 <a class="link" xlink:href="implementations.html#grammar-TraitImpl">
 <text class="comment" x="46" y="25">
 TraitImpl</text>
 </a>
 <g class="sequence">
-<path d=" M 10 66 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5 m 10 0 h 5"/>
+<path d=" M 10 66 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5 m 10 0 h 5" />
 <g class="stack">
-<path d=" M 35 66 h 12"/>
-<path d=" M 703 66 a 12 12 0 0 1 12 12 v 0 a 12 12 0 0 1 -12 12 h -656 m 331 0 l 5 -5 m 0 10 l -5 -5 m -331 0 a 12 12 0 0 0 -12 12 v 12 v 0 a 12 12 0 0 0 12 12 h 0"/>
+<path d=" M 35 66 h 12" />
+<path d=" M 703 66 a 12 12 0 0 1 12 12 v 0 a 12 12 0 0 1 -12 12 h -656 m 331 0 l 5 -5 m 0 10 l -5 -5 m -331 0 a 12 12 0 0 0 -12 12 v 12 v 0 a 12 12 0 0 0 12 12 h 0" />
 <g class="sequence">
 <g class="optional">
-<path d=" M 47 66 h 24 m -24 0 a 12 12 0 0 0 12 -12 v 0 a 12 12 0 0 1 12 -12 h 68 m -31 0 l -5 -5 m 0 10 l 5 -5 m 31 0 a 12 12 0 0 1 12 12 v 0 a 12 12 0 0 0 12 12 h -24"/>
+<path d=" M 47 66 h 24 m -24 0 a 12 12 0 0 0 12 -12 v 0 a 12 12 0 0 1 12 -12 h 68 m -31 0 l -5 -5 m 0 10 l 5 -5 m 31 0 a 12 12 0 0 1 12 12 v 0 a 12 12 0 0 0 12 12 h -24" />
 <g class="terminal">
-<rect height="22" rx="10" ry="10" width="68" x="71" y="55"/>
+<rect height="22" rx="10" ry="10" width="68" x="71" y="55" />
 <text x="105" y="71">
 unsafe</text>
 </g>
 </g>
 <g class="terminal">
-<rect height="22" rx="10" ry="10" width="52" x="173" y="55"/>
+<rect height="22" rx="10" ry="10" width="52" x="173" y="55" />
 <text x="199" y="71">
 impl</text>
 </g>
 <g class="optional">
-<path d=" M 235 66 h 24 m -24 0 a 12 12 0 0 0 12 -12 v 0 a 12 12 0 0 1 12 -12 h 124 m -59 0 l -5 -5 m 0 10 l 5 -5 m 59 0 a 12 12 0 0 1 12 12 v 0 a 12 12 0 0 0 12 12 h -24"/>
+<path d=" M 235 66 h 24 m -24 0 a 12 12 0 0 0 12 -12 v 0 a 12 12 0 0 1 12 -12 h 124 m -59 0 l -5 -5 m 0 10 l 5 -5 m 59 0 a 12 12 0 0 1 12 12 v 0 a 12 12 0 0 0 12 12 h -24" />
 <a class="link" xlink:href="generics.html#railroad-GenericParams">
 <g class="nonterminal">
-<rect height="22" width="124" x="259" y="55"/>
+<rect height="22" width="124" x="259" y="55" />
 <text x="321" y="71">
 GenericParams</text>
 </g>
 </a>
 </g>
 <g class="optional">
-<path d=" M 417 66 h 24 m -24 0 a 12 12 0 0 0 12 -12 v 0 a 12 12 0 0 1 12 -12 h 28 a 12 12 0 0 1 12 12 v 0 a 12 12 0 0 0 12 12 h -24"/>
+<path d=" M 417 66 h 24 m -24 0 a 12 12 0 0 0 12 -12 v 0 a 12 12 0 0 1 12 -12 h 28 a 12 12 0 0 1 12 12 v 0 a 12 12 0 0 0 12 12 h -24" />
 <g class="terminal">
-<rect height="22" rx="10" ry="10" width="28" x="441" y="55"/>
+<rect height="22" rx="10" ry="10" width="28" x="441" y="55" />
 <text x="455" y="71">
 !</text>
 </g>
 </g>
 <a class="link" xlink:href="../paths.html#railroad-TypePath">
 <g class="nonterminal">
-<rect height="22" width="84" x="503" y="55"/>
+<rect height="22" width="84" x="503" y="55" />
 <text x="545" y="71">
 TypePath</text>
 </g>
 </a>
 <g class="terminal">
-<rect height="22" rx="10" ry="10" width="44" x="597" y="55"/>
+<rect height="22" rx="10" ry="10" width="44" x="597" y="55" />
 <text x="619" y="71">
 for</text>
 </g>
 <a class="link" xlink:href="../types.html#railroad-Type">
 <g class="nonterminal">
-<rect height="22" width="52" x="651" y="55"/>
+<rect height="22" width="52" x="651" y="55" />
 <text x="677" y="71">
 Type</text>
 </g>
 </a>
-<path d=" M 163 66 h 10"/>
-<path d=" M 225 66 h 10"/>
-<path d=" M 407 66 h 10"/>
-<path d=" M 493 66 h 10"/>
-<path d=" M 587 66 h 10"/>
-<path d=" M 641 66 h 10"/>
+<path d=" M 163 66 h 10" />
+<path d=" M 225 66 h 10" />
+<path d=" M 407 66 h 10" />
+<path d=" M 493 66 h 10" />
+<path d=" M 587 66 h 10" />
+<path d=" M 641 66 h 10" />
 </g>
-<path d=" M 203 126 a 12 12 0 0 1 12 12 v 0 a 12 12 0 0 1 -12 12 h -156 m 81 0 l 5 -5 m 0 10 l -5 -5 m -81 0 a 12 12 0 0 0 -12 12 v 0 v 0 a 12 12 0 0 0 12 12 h 0"/>
+<path d=" M 203 126 a 12 12 0 0 1 12 12 v 0 a 12 12 0 0 1 -12 12 h -156 m 81 0 l 5 -5 m 0 10 l -5 -5 m -81 0 a 12 12 0 0 0 -12 12 v 0 v 0 a 12 12 0 0 0 12 12 h 0" />
 <g class="sequence">
 <g class="optional">
-<path d=" M 47 126 h 24 m -24 0 a 12 12 0 0 0 12 -12 v 0 a 12 12 0 0 1 12 -12 h 108 m -51 0 l -5 -5 m 0 10 l 5 -5 m 51 0 a 12 12 0 0 1 12 12 v 0 a 12 12 0 0 0 12 12 h -24"/>
+<path d=" M 47 126 h 24 m -24 0 a 12 12 0 0 0 12 -12 v 0 a 12 12 0 0 1 12 -12 h 108 m -51 0 l -5 -5 m 0 10 l 5 -5 m 51 0 a 12 12 0 0 1 12 12 v 0 a 12 12 0 0 0 12 12 h -24" />
 <a class="link" xlink:href="generics.html#railroad-WhereClause">
 <g class="nonterminal">
-<rect height="22" width="108" x="71" y="115"/>
+<rect height="22" width="108" x="71" y="115" />
 <text x="125" y="131">
 WhereClause</text>
 </g>
 </a>
 </g>
 </g>
-<path d=" M 75 174 a 12 12 0 0 1 12 12 v 0 a 12 12 0 0 1 -12 12 h -28 a 12 12 0 0 0 -12 12 v 12 v 0 a 12 12 0 0 0 12 12 h 0"/>
+<path d=" M 75 174 a 12 12 0 0 1 12 12 v 0 a 12 12 0 0 1 -12 12 h -28 a 12 12 0 0 0 -12 12 v 12 v 0 a 12 12 0 0 0 12 12 h 0" />
 <g class="sequence">
 <g class="terminal">
-<rect height="22" rx="10" ry="10" width="28" x="47" y="163"/>
+<rect height="22" rx="10" ry="10" width="28" x="47" y="163" />
 <text x="61" y="179">
 {</text>
 </g>
 </g>
-<path d=" M 251 234 a 12 12 0 0 1 12 12 v 12 a 12 12 0 0 1 -12 12 h -204 m 105 0 l 5 -5 m 0 10 l -5 -5 m -105 0 a 12 12 0 0 0 -12 12 v 12 v 0 a 12 12 0 0 0 12 12 h 0"/>
+<path d=" M 251 234 a 12 12 0 0 1 12 12 v 12 a 12 12 0 0 1 -12 12 h -204 m 105 0 l 5 -5 m 0 10 l -5 -5 m -105 0 a 12 12 0 0 0 -12 12 v 12 v 0 a 12 12 0 0 0 12 12 h 0" />
 <g class="sequence">
 <g class="optional">
-<path d=" M 47 234 h 24 m -24 0 a 12 12 0 0 0 12 -12 v 0 a 12 12 0 0 1 12 -12 h 156 m -75 0 l -5 -5 m 0 10 l 5 -5 m 75 0 a 12 12 0 0 1 12 12 v 0 a 12 12 0 0 0 12 12 h -24"/>
+<path d=" M 47 234 h 24 m -24 0 a 12 12 0 0 0 12 -12 v 0 a 12 12 0 0 1 12 -12 h 156 m -75 0 l -5 -5 m 0 10 l 5 -5 m 75 0 a 12 12 0 0 1 12 12 v 0 a 12 12 0 0 0 12 12 h -24" />
 <g class="repeat">
-<path d=" M 71 234 h 12 m 132 0 h 12 m -12 0 a 12 12 0 0 1 12 12 v 0 a 12 12 0 0 1 -12 12 m 0 0 h -132 m 69 0 l 5 -5 m 0 10 l -5 -5 m -69 0 a 12 12 0 0 1 -12 -12 v 0 a 12 12 0 0 1 12 -12"/>
-<g/>
+<path d=" M 71 234 h 12 m 132 0 h 12 m -12 0 a 12 12 0 0 1 12 12 v 0 a 12 12 0 0 1 -12 12 m 0 0 h -132 m 69 0 l 5 -5 m 0 10 l -5 -5 m -69 0 a 12 12 0 0 1 -12 -12 v 0 a 12 12 0 0 1 12 -12" />
+<g />
 <a class="link" xlink:href="../attributes.html#railroad-InnerAttribute">
 <g class="nonterminal">
-<rect height="22" width="132" x="83" y="223"/>
+<rect height="22" width="132" x="83" y="223" />
 <text x="149" y="239">
 InnerAttribute</text>
 </g>
@@ -453,16 +448,16 @@ InnerAttribute</text>
 </g>
 </g>
 </g>
-<path d=" M 251 306 a 12 12 0 0 1 12 12 v 12 a 12 12 0 0 1 -12 12 h -204 m 105 0 l 5 -5 m 0 10 l -5 -5 m -105 0 a 12 12 0 0 0 -12 12 v 0 v 0 a 12 12 0 0 0 12 12 h 0"/>
+<path d=" M 251 306 a 12 12 0 0 1 12 12 v 12 a 12 12 0 0 1 -12 12 h -204 m 105 0 l 5 -5 m 0 10 l -5 -5 m -105 0 a 12 12 0 0 0 -12 12 v 0 v 0 a 12 12 0 0 0 12 12 h 0" />
 <g class="sequence">
 <g class="optional">
-<path d=" M 47 306 h 24 m -24 0 a 12 12 0 0 0 12 -12 v 0 a 12 12 0 0 1 12 -12 h 156 m -75 0 l -5 -5 m 0 10 l 5 -5 m 75 0 a 12 12 0 0 1 12 12 v 0 a 12 12 0 0 0 12 12 h -24"/>
+<path d=" M 47 306 h 24 m -24 0 a 12 12 0 0 0 12 -12 v 0 a 12 12 0 0 1 12 -12 h 156 m -75 0 l -5 -5 m 0 10 l 5 -5 m 75 0 a 12 12 0 0 1 12 12 v 0 a 12 12 0 0 0 12 12 h -24" />
 <g class="repeat">
-<path d=" M 71 306 h 12 m 132 0 h 12 m -12 0 a 12 12 0 0 1 12 12 v 0 a 12 12 0 0 1 -12 12 m 0 0 h -132 m 69 0 l 5 -5 m 0 10 l -5 -5 m -69 0 a 12 12 0 0 1 -12 -12 v 0 a 12 12 0 0 1 12 -12"/>
-<g/>
+<path d=" M 71 306 h 12 m 132 0 h 12 m -12 0 a 12 12 0 0 1 12 12 v 0 a 12 12 0 0 1 -12 12 m 0 0 h -132 m 69 0 l 5 -5 m 0 10 l -5 -5 m -69 0 a 12 12 0 0 1 -12 -12 v 0 a 12 12 0 0 1 12 -12" />
+<g />
 <a class="link" xlink:href="associated-items.html#railroad-AssociatedItem">
 <g class="nonterminal">
-<rect height="22" width="132" x="83" y="295"/>
+<rect height="22" width="132" x="83" y="295" />
 <text x="149" y="311">
 AssociatedItem</text>
 </g>
@@ -470,68 +465,80 @@ AssociatedItem</text>
 </g>
 </g>
 </g>
-<path d=" M 75 366 h 640 m -317 0 l -5 -5 m 0 10 l 5 -5 m 317 0 a 12 12 0 0 0 12 -12 v -276 m 0 141 l -5 5 m 10 0 l -5 -5 m 0 -141 a 12 12 0 0 1 12 -12"/>
+<path d=" M 75 366 h 640 m -317 0 l -5 -5 m 0 10 l 5 -5 m 317 0 a 12 12 0 0 0 12 -12 v -276 m 0 141 l -5 5 m 10 0 l -5 -5 m 0 -141 a 12 12 0 0 1 12 -12" />
 <g class="sequence">
 <g class="terminal">
-<rect height="22" rx="10" ry="10" width="28" x="47" y="355"/>
+<rect height="22" rx="10" ry="10" width="28" x="47" y="355" />
 <text x="61" y="371">
 }</text>
 </g>
 </g>
 </g>
-<path d=" M 749 66 h 5 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5"/>
-<path d=" M 25 66 h 10"/>
-<path d=" M 739 66 h 10"/>
+<path d=" M 749 66 h 5 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5" />
+<path d=" M 25 66 h 10" />
+<path d=" M 739 66 h 10" />
 </g>
 </g>
 </svg>
 </div>
+
 </div>
-<div class="rule" id="r-items.impl.intro"><a class="rule-link" href="#r-items.impl.intro" title="items.impl.intro"><span>[items<wbr>.impl<wbr>.intro]</span/></a>
+
+<div class="rule" id="r-items.impl.intro"><a class="rule-link" href="#r-items.impl.intro" title="items.impl.intro"><span>[items<wbr>.impl<wbr>.intro]</span></a>
 </div>
+
 <p>An <em>implementation</em> is an item that associates items with an <em>implementing type</em>.
 Implementations are defined with the keyword <code>impl</code> and contain functions
 that belong to an instance of the type that is being implemented or to the
 type statically.</p>
-<div class="rule" id="r-items.impl.kinds"><a class="rule-link" href="#r-items.impl.kinds" title="items.impl.kinds"><span>[items<wbr>.impl<wbr>.kinds]</span/></a>
+<div class="rule" id="r-items.impl.kinds"><a class="rule-link" href="#r-items.impl.kinds" title="items.impl.kinds"><span>[items<wbr>.impl<wbr>.kinds]</span></a>
 </div>
+
 <p>There are two types of implementations:</p>
 <ul>
 <li>inherent implementations</li>
 <li><a href="traits.html">trait</a> implementations</li>
 </ul>
-<div class="rule" id="r-items.impl.inherent"><a class="rule-link" href="#r-items.impl.inherent" title="items.impl.inherent"><span>[items<wbr>.impl<wbr>.inherent]</span/></a>
+<div class="rule" id="r-items.impl.inherent"><a class="rule-link" href="#r-items.impl.inherent" title="items.impl.inherent"><span>[items<wbr>.impl<wbr>.inherent]</span></a>
 </div>
-<h2 id="inherent-implementations"><a class="header" href="#inherent-implementations">Inherent Implementations</a></h2>
-<div class="rule" id="r-items.impl.inherent.intro"><a class="rule-link" href="#r-items.impl.inherent.intro" title="items.impl.inherent.intro"><span>[items<wbr>.impl<wbr>.inherent<wbr>.intro]</span/></a>
+
+<h2 id="inherent-implementations"><a class="header" href="#inherent-implementations">Inherent implementations</a></h2>
+<div class="rule" id="r-items.impl.inherent.intro"><a class="rule-link" href="#r-items.impl.inherent.intro" title="items.impl.inherent.intro"><span>[items<wbr>.impl<wbr>.inherent<wbr>.intro]</span></a>
 </div>
+
 <p>An inherent implementation is defined as the sequence of the <code>impl</code> keyword,
 generic type declarations, a path to a nominal type, a where clause, and a
 bracketed set of associable items.</p>
-<div class="rule" id="r-items.impl.inherent.implementing-type"><a class="rule-link" href="#r-items.impl.inherent.implementing-type" title="items.impl.inherent.implementing-type"><span>[items<wbr>.impl<wbr>.inherent<wbr>.implementing-type]</span/></a>
+<div class="rule" id="r-items.impl.inherent.implementing-type"><a class="rule-link" href="#r-items.impl.inherent.implementing-type" title="items.impl.inherent.implementing-type"><span>[items<wbr>.impl<wbr>.inherent<wbr>.implementing-type]</span></a>
 </div>
+
 <p>The nominal type is called the <em>implementing type</em> and the associable items are
 the <em>associated items</em> to the implementing type.</p>
-<div class="rule" id="r-items.impl.inherent.associated-items"><a class="rule-link" href="#r-items.impl.inherent.associated-items" title="items.impl.inherent.associated-items"><span>[items<wbr>.impl<wbr>.inherent<wbr>.associated-items]</span/></a>
+<div class="rule" id="r-items.impl.inherent.associated-items"><a class="rule-link" href="#r-items.impl.inherent.associated-items" title="items.impl.inherent.associated-items"><span>[items<wbr>.impl<wbr>.inherent<wbr>.associated-items]</span></a>
 </div>
+
 <p>Inherent implementations associate the contained items to the
 implementing type.</p>
-<div class="rule" id="r-items.impl.inherent.associated-items.allowed-items"><a class="rule-link" href="#r-items.impl.inherent.associated-items.allowed-items" title="items.impl.inherent.associated-items.allowed-items"><span>[items<wbr>.impl<wbr>.inherent<wbr>.associated-items<wbr>.allowed-items]</span/></a>
+<div class="rule" id="r-items.impl.inherent.associated-items.allowed-items"><a class="rule-link" href="#r-items.impl.inherent.associated-items.allowed-items" title="items.impl.inherent.associated-items.allowed-items"><span>[items<wbr>.impl<wbr>.inherent<wbr>.associated-items<wbr>.allowed-items]</span></a>
 </div>
+
 <p>Inherent implementations can contain <a href="associated-items.html#associated-functions-and-methods">associated functions</a> (including <a href="associated-items.html#methods">methods</a>) and <a href="associated-items.html#associated-constants">associated constants</a>.</p>
-<div class="rule" id="r-items.impl.inherent.type-alias"><a class="rule-link" href="#r-items.impl.inherent.type-alias" title="items.impl.inherent.type-alias"><span>[items<wbr>.impl<wbr>.inherent<wbr>.type-alias]</span/></a>
+<div class="rule" id="r-items.impl.inherent.type-alias"><a class="rule-link" href="#r-items.impl.inherent.type-alias" title="items.impl.inherent.type-alias"><span>[items<wbr>.impl<wbr>.inherent<wbr>.type-alias]</span></a>
 </div>
+
 <p>They cannot contain associated type aliases.</p>
-<div class="rule" id="r-items.impl.inherent.associated-item-path"><a class="rule-link" href="#r-items.impl.inherent.associated-item-path" title="items.impl.inherent.associated-item-path"><span>[items<wbr>.impl<wbr>.inherent<wbr>.associated-item-path]</span/></a>
+<div class="rule" id="r-items.impl.inherent.associated-item-path"><a class="rule-link" href="#r-items.impl.inherent.associated-item-path" title="items.impl.inherent.associated-item-path"><span>[items<wbr>.impl<wbr>.inherent<wbr>.associated-item-path]</span></a>
 </div>
+
 <p>The <a href="../paths.html">path</a> to an associated item is any path to the implementing type,
 followed by the associated item’s identifier as the final path
 component.</p>
-<div class="rule" id="r-items.impl.inherent.coherence"><a class="rule-link" href="#r-items.impl.inherent.coherence" title="items.impl.inherent.coherence"><span>[items<wbr>.impl<wbr>.inherent<wbr>.coherence]</span/></a>
+<div class="rule" id="r-items.impl.inherent.coherence"><a class="rule-link" href="#r-items.impl.inherent.coherence" title="items.impl.inherent.coherence"><span>[items<wbr>.impl<wbr>.inherent<wbr>.coherence]</span></a>
 </div>
+
 <p>A type can also have multiple inherent implementations. An implementing type
 must be defined within the same crate as the original type definition.</p>
-<pre><pre class="playground"><code class="language-rust edition2024">pub mod color {
+<pre class="playground"><code class="language-rust edition2024">pub mod color {
     pub struct Color(pub u8, pub u8, pub u8);
 
     impl Color {
@@ -561,35 +568,41 @@ fn main() {
 
     // Does not work, because use in `values` is not pub.
     // values::Color::red();
-}</code></pre></pre>
-<div class="rule" id="r-items.impl.trait"><a class="rule-link" href="#r-items.impl.trait" title="items.impl.trait"><span>[items<wbr>.impl<wbr>.trait]</span/></a>
+}</code></pre>
+<div class="rule" id="r-items.impl.trait"><a class="rule-link" href="#r-items.impl.trait" title="items.impl.trait"><span>[items<wbr>.impl<wbr>.trait]</span></a>
 </div>
-<h2 id="trait-implementations"><a class="header" href="#trait-implementations">Trait Implementations</a></h2>
-<div class="rule" id="r-items.impl.trait.intro"><a class="rule-link" href="#r-items.impl.trait.intro" title="items.impl.trait.intro"><span>[items<wbr>.impl<wbr>.trait<wbr>.intro]</span/></a>
+
+<h2 id="trait-implementations"><a class="header" href="#trait-implementations">Trait implementations</a></h2>
+<div class="rule" id="r-items.impl.trait.intro"><a class="rule-link" href="#r-items.impl.trait.intro" title="items.impl.trait.intro"><span>[items<wbr>.impl<wbr>.trait<wbr>.intro]</span></a>
 </div>
+
 <p>A <em>trait implementation</em> is defined like an inherent implementation except that
 the optional generic type declarations are followed by a <a href="traits.html">trait</a>, followed
 by the keyword <code>for</code>, followed by a path to a nominal type.</p>
 <!-- To understand this, you have to back-reference to the previous section. :( -->
-<div class="rule" id="r-items.impl.trait.implemented-trait"><a class="rule-link" href="#r-items.impl.trait.implemented-trait" title="items.impl.trait.implemented-trait"><span>[items<wbr>.impl<wbr>.trait<wbr>.implemented-trait]</span/></a>
+<div class="rule" id="r-items.impl.trait.implemented-trait"><a class="rule-link" href="#r-items.impl.trait.implemented-trait" title="items.impl.trait.implemented-trait"><span>[items<wbr>.impl<wbr>.trait<wbr>.implemented-trait]</span></a>
 </div>
+
 <p>The trait is known as the <em>implemented trait</em>. The implementing type
 implements the implemented trait.</p>
-<div class="rule" id="r-items.impl.trait.def-requirement"><a class="rule-link" href="#r-items.impl.trait.def-requirement" title="items.impl.trait.def-requirement"><span>[items<wbr>.impl<wbr>.trait<wbr>.def-requirement]</span/></a>
+<div class="rule" id="r-items.impl.trait.def-requirement"><a class="rule-link" href="#r-items.impl.trait.def-requirement" title="items.impl.trait.def-requirement"><span>[items<wbr>.impl<wbr>.trait<wbr>.def-requirement]</span></a>
 </div>
+
 <p>A trait implementation must define all non-default associated items declared
 by the implemented trait, may redefine default associated items defined by the
 implemented trait, and cannot define any other items.</p>
-<div class="rule" id="r-items.impl.trait.associated-item-path"><a class="rule-link" href="#r-items.impl.trait.associated-item-path" title="items.impl.trait.associated-item-path"><span>[items<wbr>.impl<wbr>.trait<wbr>.associated-item-path]</span/></a>
+<div class="rule" id="r-items.impl.trait.associated-item-path"><a class="rule-link" href="#r-items.impl.trait.associated-item-path" title="items.impl.trait.associated-item-path"><span>[items<wbr>.impl<wbr>.trait<wbr>.associated-item-path]</span></a>
 </div>
+
 <p>The path to the associated items is <code>&lt;</code> followed by a path to the implementing
 type followed by <code>as</code> followed by a path to the trait followed by <code>&gt;</code> as a path
 component followed by the associated item’s path component.</p>
-<div class="rule" id="r-items.impl.trait.safety"><a class="rule-link" href="#r-items.impl.trait.safety" title="items.impl.trait.safety"><span>[items<wbr>.impl<wbr>.trait<wbr>.safety]</span/></a>
+<div class="rule" id="r-items.impl.trait.safety"><a class="rule-link" href="#r-items.impl.trait.safety" title="items.impl.trait.safety"><span>[items<wbr>.impl<wbr>.trait<wbr>.safety]</span></a>
 </div>
+
 <p><a href="traits.html#unsafe-traits">Unsafe traits</a> require the trait implementation to begin with the <code>unsafe</code>
 keyword.</p>
-<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">#![allow(unused)]
+<pre class="playground"><code class="language-rust edition2024"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span><span class="boring">#[derive(Copy, Clone)]
 </span><span class="boring">struct Point {x: f64, y: f64};
@@ -620,30 +633,36 @@ impl Shape for Circle {
         }
     }
 }
-<span class="boring">}</span></code></pre></pre>
-<div class="rule" id="r-items.impl.trait.coherence"><a class="rule-link" href="#r-items.impl.trait.coherence" title="items.impl.trait.coherence"><span>[items<wbr>.impl<wbr>.trait<wbr>.coherence]</span/></a>
+<span class="boring">}</span></code></pre>
+<div class="rule" id="r-items.impl.trait.coherence"><a class="rule-link" href="#r-items.impl.trait.coherence" title="items.impl.trait.coherence"><span>[items<wbr>.impl<wbr>.trait<wbr>.coherence]</span></a>
 </div>
-<h3 id="trait-implementation-coherence"><a class="header" href="#trait-implementation-coherence">Trait Implementation Coherence</a></h3>
-<div class="rule" id="r-items.impl.trait.coherence.intro"><a class="rule-link" href="#r-items.impl.trait.coherence.intro" title="items.impl.trait.coherence.intro"><span>[items<wbr>.impl<wbr>.trait<wbr>.coherence<wbr>.intro]</span/></a>
+
+<h3 id="trait-implementation-coherence"><a class="header" href="#trait-implementation-coherence">Trait implementation coherence</a></h3>
+<div class="rule" id="r-items.impl.trait.coherence.intro"><a class="rule-link" href="#r-items.impl.trait.coherence.intro" title="items.impl.trait.coherence.intro"><span>[items<wbr>.impl<wbr>.trait<wbr>.coherence<wbr>.intro]</span></a>
 </div>
+
 <p>A trait implementation is considered incoherent if either the orphan rules check fails
 or there are overlapping implementation instances.</p>
-<div class="rule" id="r-items.impl.trait.coherence.overlapping"><a class="rule-link" href="#r-items.impl.trait.coherence.overlapping" title="items.impl.trait.coherence.overlapping"><span>[items<wbr>.impl<wbr>.trait<wbr>.coherence<wbr>.overlapping]</span/></a>
+<div class="rule" id="r-items.impl.trait.coherence.overlapping"><a class="rule-link" href="#r-items.impl.trait.coherence.overlapping" title="items.impl.trait.coherence.overlapping"><span>[items<wbr>.impl<wbr>.trait<wbr>.coherence<wbr>.overlapping]</span></a>
 </div>
+
 <p>Two trait implementations overlap when there is a non-empty intersection of the
 traits the implementation is for, the implementations can be instantiated with
 the same type. <!-- This is probably wrong? Source: No two implementations can
 be instantiable with the same set of types for the input type parameters. --></p>
-<div class="rule" id="r-items.impl.trait.orphan-rule"><a class="rule-link" href="#r-items.impl.trait.orphan-rule" title="items.impl.trait.orphan-rule"><span>[items<wbr>.impl<wbr>.trait<wbr>.orphan-rule]</span/></a>
+<div class="rule" id="r-items.impl.trait.orphan-rule"><a class="rule-link" href="#r-items.impl.trait.orphan-rule" title="items.impl.trait.orphan-rule"><span>[items<wbr>.impl<wbr>.trait<wbr>.orphan-rule]</span></a>
 </div>
+
 <h4 id="orphan-rules"><a class="header" href="#orphan-rules">Orphan rules</a></h4>
-<div class="rule" id="r-items.impl.trait.orphan-rule.intro"><a class="rule-link" href="#r-items.impl.trait.orphan-rule.intro" title="items.impl.trait.orphan-rule.intro"><span>[items<wbr>.impl<wbr>.trait<wbr>.orphan-rule<wbr>.intro]</span/></a>
+<div class="rule" id="r-items.impl.trait.orphan-rule.intro"><a class="rule-link" href="#r-items.impl.trait.orphan-rule.intro" title="items.impl.trait.orphan-rule.intro"><span>[items<wbr>.impl<wbr>.trait<wbr>.orphan-rule<wbr>.intro]</span></a>
 </div>
+
 <p>The <em>orphan rule</em> states that a trait implementation is only allowed if either the trait or at least one of the types in the implementation is defined in the current crate. It prevents conflicting trait implementations across different crates and is key to ensuring coherence.</p>
 <p>An orphan implementation is one that implements a foreign trait for a foreign type. If these were freely allowed, two crates could implement the same trait for the same type in incompatible ways, creating a situation where adding or updating a dependency could break compilation due to conflicting implementations.</p>
 <p>The orphan rule enables library authors to add new implementations to their traits without fear that they’ll break downstream code. Without these restrictions, a library couldn’t add an implementation like <code>impl&lt;T: Display&gt; MyTrait for T</code> without potentially conflicting with downstream implementations.</p>
-<div class="rule" id="r-items.impl.trait.orphan-rule.general"><a class="rule-link" href="#r-items.impl.trait.orphan-rule.general" title="items.impl.trait.orphan-rule.general"><span>[items<wbr>.impl<wbr>.trait<wbr>.orphan-rule<wbr>.general]</span/></a>
+<div class="rule" id="r-items.impl.trait.orphan-rule.general"><a class="rule-link" href="#r-items.impl.trait.orphan-rule.general" title="items.impl.trait.orphan-rule.general"><span>[items<wbr>.impl<wbr>.trait<wbr>.orphan-rule<wbr>.general]</span></a>
 </div>
+
 <p>Given <code>impl&lt;P1..=Pn&gt; Trait&lt;T1..=Tn&gt; for T0</code>, an <code>impl</code> is valid only if at
 least one of the following is true:</p>
 <ul>
@@ -657,23 +676,27 @@ first such type.</li>
 </ul>
 </li>
 </ul>
-<div class="rule" id="r-items.impl.trait.uncovered-param"><a class="rule-link" href="#r-items.impl.trait.uncovered-param" title="items.impl.trait.uncovered-param"><span>[items<wbr>.impl<wbr>.trait<wbr>.uncovered-param]</span/></a>
+<div class="rule" id="r-items.impl.trait.uncovered-param"><a class="rule-link" href="#r-items.impl.trait.uncovered-param" title="items.impl.trait.uncovered-param"><span>[items<wbr>.impl<wbr>.trait<wbr>.uncovered-param]</span></a>
 </div>
+
 <p>Only the appearance of <em>uncovered</em> type parameters is restricted.</p>
-<div class="rule" id="r-items.impl.trait.fundamental"><a class="rule-link" href="#r-items.impl.trait.fundamental" title="items.impl.trait.fundamental"><span>[items<wbr>.impl<wbr>.trait<wbr>.fundamental]</span/></a>
+<div class="rule" id="r-items.impl.trait.fundamental"><a class="rule-link" href="#r-items.impl.trait.fundamental" title="items.impl.trait.fundamental"><span>[items<wbr>.impl<wbr>.trait<wbr>.fundamental]</span></a>
 </div>
+
 <p>Note that for the purposes of coherence, <a href="../glossary.html#fundamental-type-constructors">fundamental types</a> are
 special. The <code>T</code> in <code>Box&lt;T&gt;</code> is not considered covered, and <code>Box&lt;LocalType&gt;</code>
 is considered local.</p>
-<div class="rule" id="r-items.impl.generics"><a class="rule-link" href="#r-items.impl.generics" title="items.impl.generics"><span>[items<wbr>.impl<wbr>.generics]</span/></a>
+<div class="rule" id="r-items.impl.generics"><a class="rule-link" href="#r-items.impl.generics" title="items.impl.generics"><span>[items<wbr>.impl<wbr>.generics]</span></a>
 </div>
-<h2 id="generic-implementations"><a class="header" href="#generic-implementations">Generic Implementations</a></h2>
-<div class="rule" id="r-items.impl.generics.intro"><a class="rule-link" href="#r-items.impl.generics.intro" title="items.impl.generics.intro"><span>[items<wbr>.impl<wbr>.generics<wbr>.intro]</span/></a>
+
+<h2 id="generic-implementations"><a class="header" href="#generic-implementations">Generic implementations</a></h2>
+<div class="rule" id="r-items.impl.generics.intro"><a class="rule-link" href="#r-items.impl.generics.intro" title="items.impl.generics.intro"><span>[items<wbr>.impl<wbr>.generics<wbr>.intro]</span></a>
 </div>
+
 <p>An implementation can take <a href="generics.html">generic parameters</a>, which can be used in the rest
 of the implementation. Implementation parameters are written directly after the
 <code>impl</code> keyword.</p>
-<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">#![allow(unused)]
+<pre class="playground"><code class="language-rust edition2024"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span><span class="boring">trait Seq&lt;T&gt; { fn dummy(&amp;self, _: T) { } }
 </span>impl&lt;T&gt; Seq&lt;T&gt; for Vec&lt;T&gt; {
@@ -682,9 +705,10 @@ of the implementation. Implementation parameters are written directly after the
 impl Seq&lt;bool&gt; for u32 {
     /* Treat the integer as a sequence of bits */
 }
-<span class="boring">}</span></code></pre></pre>
-<div class="rule" id="r-items.impl.generics.usage"><a class="rule-link" href="#r-items.impl.generics.usage" title="items.impl.generics.usage"><span>[items<wbr>.impl<wbr>.generics<wbr>.usage]</span/></a>
+<span class="boring">}</span></code></pre>
+<div class="rule" id="r-items.impl.generics.usage"><a class="rule-link" href="#r-items.impl.generics.usage" title="items.impl.generics.usage"><span>[items<wbr>.impl<wbr>.generics<wbr>.usage]</span></a>
 </div>
+
 <p>Generic parameters <em>constrain</em> an implementation if the parameter appears at
 least once in one of:</p>
 <ul>
@@ -693,12 +717,13 @@ least once in one of:</p>
 <li>As an <a href="associated-items.html#associated-types">associated type</a> in the <a href="../trait-bounds.html">bounds</a> of a type that contains another
 parameter that constrains the implementation</li>
 </ul>
-<div class="rule" id="r-items.impl.generics.constrain"><a class="rule-link" href="#r-items.impl.generics.constrain" title="items.impl.generics.constrain"><span>[items<wbr>.impl<wbr>.generics<wbr>.constrain]</span/></a>
+<div class="rule" id="r-items.impl.generics.constrain"><a class="rule-link" href="#r-items.impl.generics.constrain" title="items.impl.generics.constrain"><span>[items<wbr>.impl<wbr>.generics<wbr>.constrain]</span></a>
 </div>
+
 <p>Type and const parameters must always constrain the implementation. Lifetimes
 must constrain the implementation if the lifetime is used in an associated type.</p>
 <p>Examples of constraining situations:</p>
-<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">#![allow(unused)]
+<pre class="playground"><code class="language-rust edition2024"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span><span class="boring">trait Trait{}
 </span><span class="boring">trait GenericTrait&lt;T&gt; {}
@@ -722,9 +747,9 @@ impl&lt;T, U&gt; GenericTrait&lt;U&gt; for u32 where U: HasAssocType&lt;Ty = T&g
 // Like previous, except the type is `(U, isize)`. `U` appears inside the type
 // that includes `T`, and is not the type itself.
 impl&lt;T, U&gt; GenericStruct&lt;U&gt; where (U, isize): HasAssocType&lt;Ty = T&gt; { /* ... */ }
-<span class="boring">}</span></code></pre></pre>
+<span class="boring">}</span></code></pre>
 <p>Examples of non-constraining situations:</p>
-<pre><pre class="playground"><code class="language-rust compile_fail edition2024"><span class="boring">#![allow(unused)]
+<pre class="playground"><code class="language-rust compile_fail edition2024"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>// The rest of these are errors, since they have type or const parameters that
 // do not constrain.
@@ -745,25 +770,26 @@ impl&lt;T, U&gt; Struct where U: HasAssocType&lt;Ty = T&gt; { /* ... */ }
 
 // T is used in the bounds, but not as an associated type, so it does not constrain.
 impl&lt;T, U&gt; GenericTrait&lt;U&gt; for u32 where U: GenericTrait&lt;T&gt; {}
-<span class="boring">}</span></code></pre></pre>
+<span class="boring">}</span></code></pre>
 <p>Example of an allowed unconstraining lifetime parameter:</p>
-<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">#![allow(unused)]
+<pre class="playground"><code class="language-rust edition2024"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span><span class="boring">struct Struct;
 </span>impl&lt;'a&gt; Struct {}
-<span class="boring">}</span></code></pre></pre>
+<span class="boring">}</span></code></pre>
 <p>Example of a disallowed unconstraining lifetime parameter:</p>
-<pre><pre class="playground"><code class="language-rust compile_fail edition2024"><span class="boring">#![allow(unused)]
+<pre class="playground"><code class="language-rust compile_fail edition2024"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span><span class="boring">struct Struct;
 </span><span class="boring">trait HasAssocType { type Ty; }
 </span>impl&lt;'a&gt; HasAssocType for Struct {
     type Ty = &amp;'a Struct;
 }
-<span class="boring">}</span></code></pre></pre>
-<div class="rule" id="r-items.impl.attributes"><a class="rule-link" href="#r-items.impl.attributes" title="items.impl.attributes"><span>[items<wbr>.impl<wbr>.attributes]</span/></a>
+<span class="boring">}</span></code></pre>
+<div class="rule" id="r-items.impl.attributes"><a class="rule-link" href="#r-items.impl.attributes" title="items.impl.attributes"><span>[items<wbr>.impl<wbr>.attributes]</span></a>
 </div>
-<h2 id="attributes-on-implementations"><a class="header" href="#attributes-on-implementations">Attributes on Implementations</a></h2>
+
+<h2 id="attributes-on-implementations"><a class="header" href="#attributes-on-implementations">Attributes on implementations</a></h2>
 <p>Implementations may contain outer <a href="../attributes.html">attributes</a> before the <code>impl</code> keyword and
 inner <a href="../attributes.html">attributes</a> inside the brackets that contain the associated items. Inner
 attributes must come before any associated items. The attributes that have
@@ -776,6 +802,7 @@ attributes</a>.</p>
                         <!-- Mobile navigation buttons -->
                             <a rel="prev" href="../items/traits.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                            </a>
 
                             <a rel="next prefetch" href="../items/external-blocks.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
@@ -817,10 +844,10 @@ attributes</a>.</p>
 
         <script src="../clipboard-1626706a.min.js"></script>
         <script src="../highlight-abc7f01d.js"></script>
-        <script src="../book-81fc5345.js"></script>
+        <script src="../book-a0b12cfe.js"></script>
 
         <!-- Custom JS scripts -->
-        <script src="../theme/reference-cfed9ca5.js"></script>
+        <script src="../theme/reference-da60281b.js"></script>
 
 
 

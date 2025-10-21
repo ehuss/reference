@@ -14,9 +14,9 @@
 
         <link rel="icon" href="../favicon-de23e50b.svg">
         <link rel="shortcut icon" href="../favicon-8114d1fc.png">
-        <link rel="stylesheet" href="../css/variables-3865ffda.css">
-        <link rel="stylesheet" href="../css/general-d297d479.css">
-        <link rel="stylesheet" href="../css/chrome-ad662a8e.css">
+        <link rel="stylesheet" href="../css/variables-8adf115d.css">
+        <link rel="stylesheet" href="../css/general-2459343d.css">
+        <link rel="stylesheet" href="../css/chrome-3111ccdb.css">
         <link rel="stylesheet" href="../css/print-9e4910d8.css" media="print">
 
         <!-- Fonts -->
@@ -28,7 +28,7 @@
         <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="../ayu-highlight-56612340.css">
 
         <!-- Custom theme stylesheets -->
-        <link rel="stylesheet" href="../theme/reference-94a8e8ad.css">
+        <link rel="stylesheet" href="../theme/reference-6200eb72.css">
 
 
         <!-- Provide site root and default themes to javascript -->
@@ -36,10 +36,10 @@
             const path_to_root = "../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../searchindex-54e4028f.js";
+            window.path_to_searchindex_js = "../searchindex-93e32808.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="../toc-1b51e6f3.js"></script>
+        <script src="../toc-8771841d.js"></script>
     </head>
     <body>
     <div id="mdbook-help-container">
@@ -181,11 +181,13 @@
 
                 <div id="mdbook-content" class="content">
                     <main>
-                        <div class="rule" id="r-names.namespaces"><a class="rule-link" href="#r-names.namespaces" title="names.namespaces"><span>[names<wbr>.namespaces]</span/></a>
+                        <div class="rule" id="r-names.namespaces"><a class="rule-link" href="#r-names.namespaces" title="names.namespaces"><span>[names<wbr>.namespaces]</span></a>
 </div>
+
 <h1 id="namespaces"><a class="header" href="#namespaces">Namespaces</a></h1>
-<div class="rule" id="r-names.namespaces.intro"><a class="rule-link" href="#r-names.namespaces.intro" title="names.namespaces.intro"><span>[names<wbr>.namespaces<wbr>.intro]</span/></a>
+<div class="rule" id="r-names.namespaces.intro"><a class="rule-link" href="#r-names.namespaces.intro" title="names.namespaces.intro"><span>[names<wbr>.namespaces<wbr>.intro]</span></a>
 </div>
+
 <p>A <em>namespace</em> is a logical grouping of declared <a href="../names.html">names</a>. Names are segregated
 into separate namespaces based on the kind of entity the name refers to.
 Namespaces allow the occurrence of a name in one namespace to not conflict
@@ -194,8 +196,9 @@ with the same name in another namespace.</p>
 entities. The usage of a name will look for the declaration of that name in
 different namespaces, based on the context, as described in the <a href="name-resolution.html">name
 resolution</a> chapter.</p>
-<div class="rule" id="r-names.namespaces.kinds"><a class="rule-link" href="#r-names.namespaces.kinds" title="names.namespaces.kinds"><span>[names<wbr>.namespaces<wbr>.kinds]</span/></a>
+<div class="rule" id="r-names.namespaces.kinds"><a class="rule-link" href="#r-names.namespaces.kinds" title="names.namespaces.kinds"><span>[names<wbr>.namespaces<wbr>.kinds]</span></a>
 </div>
+
 <p>The following is a list of namespaces, with their corresponding entities:</p>
 <ul>
 <li>Type Namespace
@@ -253,7 +256,7 @@ arms, <a href="../items/functions.html#function-parameters">function parameters<
 </li>
 </ul>
 <p>An example of how overlapping names in different namespaces can be used unambiguously:</p>
-<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">#![allow(unused)]
+<pre class="playground"><code class="language-rust edition2024"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>// Foo introduces a type in the type namespace and a constructor in the value
 // namespace.
@@ -280,38 +283,44 @@ fn example&lt;'Foo&gt;(f: Foo) {
         break 'Foo;
     }
 }
-<span class="boring">}</span></code></pre></pre>
-<div class="rule" id="r-names.namespaces.without"><a class="rule-link" href="#r-names.namespaces.without" title="names.namespaces.without"><span>[names<wbr>.namespaces<wbr>.without]</span/></a>
+<span class="boring">}</span></code></pre>
+<div class="rule" id="r-names.namespaces.without"><a class="rule-link" href="#r-names.namespaces.without" title="names.namespaces.without"><span>[names<wbr>.namespaces<wbr>.without]</span></a>
 </div>
+
 <h2 id="named-entities-without-a-namespace"><a class="header" href="#named-entities-without-a-namespace">Named entities without a namespace</a></h2>
 <p>The following entities have explicit names, but the names are not a part of
 any specific namespace.</p>
 <h3 id="fields"><a class="header" href="#fields">Fields</a></h3>
-<div class="rule" id="r-names.namespaces.without.fields"><a class="rule-link" href="#r-names.namespaces.without.fields" title="names.namespaces.without.fields"><span>[names<wbr>.namespaces<wbr>.without<wbr>.fields]</span/></a>
+<div class="rule" id="r-names.namespaces.without.fields"><a class="rule-link" href="#r-names.namespaces.without.fields" title="names.namespaces.without.fields"><span>[names<wbr>.namespaces<wbr>.without<wbr>.fields]</span></a>
 </div>
+
 <p>Even though struct, enum, and union fields are named, the named fields do not
 live in an explicit namespace. They can only be accessed via a <a href="../expressions/field-expr.html">field
 expression</a>, which only inspects the field names of the specific type being
 accessed.</p>
 <h3 id="use-declarations"><a class="header" href="#use-declarations">Use declarations</a></h3>
-<div class="rule" id="r-names.namespaces.without.use"><a class="rule-link" href="#r-names.namespaces.without.use" title="names.namespaces.without.use"><span>[names<wbr>.namespaces<wbr>.without<wbr>.use]</span/></a>
+<div class="rule" id="r-names.namespaces.without.use"><a class="rule-link" href="#r-names.namespaces.without.use" title="names.namespaces.without.use"><span>[names<wbr>.namespaces<wbr>.without<wbr>.use]</span></a>
 </div>
+
 <p>A <a href="../items/use-declarations.html">use declaration</a> has named aliases that it imports into scope, but the
 <code>use</code> item itself does not belong to a specific namespace. Instead, it can
 introduce aliases into multiple namespaces, depending on the item kind being
 imported.</p>
-<div class="rule" id="r-names.namespaces.sub-namespaces"><a class="rule-link" href="#r-names.namespaces.sub-namespaces" title="names.namespaces.sub-namespaces"><span>[names<wbr>.namespaces<wbr>.sub-namespaces]</span/></a>
+<div class="rule" id="r-names.namespaces.sub-namespaces"><a class="rule-link" href="#r-names.namespaces.sub-namespaces" title="names.namespaces.sub-namespaces"><span>[names<wbr>.namespaces<wbr>.sub-namespaces]</span></a>
 </div>
+
 <h2 id="sub-namespaces"><a class="header" href="#sub-namespaces">Sub-namespaces</a></h2>
-<div class="rule" id="r-names.namespaces.sub-namespaces.intro"><a class="rule-link" href="#r-names.namespaces.sub-namespaces.intro" title="names.namespaces.sub-namespaces.intro"><span>[names<wbr>.namespaces<wbr>.sub-namespaces<wbr>.intro]</span/></a>
+<div class="rule" id="r-names.namespaces.sub-namespaces.intro"><a class="rule-link" href="#r-names.namespaces.sub-namespaces.intro" title="names.namespaces.sub-namespaces.intro"><span>[names<wbr>.namespaces<wbr>.sub-namespaces<wbr>.intro]</span></a>
 </div>
+
 <p>The macro namespace is split into two sub-namespaces: one for <a href="../macros.html">bang-style macros</a> and one for <a href="../attributes.html">attributes</a>.
 When an attribute is resolved, any bang-style macros in scope will be ignored.
 And conversely resolving a bang-style macro will ignore attribute macros in scope.
 This prevents one style from shadowing another.</p>
 <p>For example, the <a href="../conditional-compilation.html#the-cfg-attribute"><code>cfg</code> attribute</a> and the <a href="../conditional-compilation.html#the-cfg-macro"><code>cfg</code> macro</a> are two different entities with the same name in the macro namespace, but they can still be used in their respective context.</p>
-<div class="rule" id="r-names.namespaces.sub-namespaces.use-shadow"><a class="rule-link" href="#r-names.namespaces.sub-namespaces.use-shadow" title="names.namespaces.sub-namespaces.use-shadow"><span>[names<wbr>.namespaces<wbr>.sub-namespaces<wbr>.use-shadow]</span/></a>
+<div class="rule" id="r-names.namespaces.sub-namespaces.use-shadow"><a class="rule-link" href="#r-names.namespaces.sub-namespaces.use-shadow" title="names.namespaces.sub-namespaces.use-shadow"><span>[names<wbr>.namespaces<wbr>.sub-namespaces<wbr>.use-shadow]</span></a>
 </div>
+
 <p>It is still an error for a <a href="../items/use-declarations.html"><code>use</code> import</a> to shadow another macro, regardless of their sub-namespaces.</p>
 
                     </main>
@@ -320,6 +329,7 @@ This prevents one style from shadowing another.</p>
                         <!-- Mobile navigation buttons -->
                             <a rel="prev" href="../names.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                            </a>
 
                             <a rel="next prefetch" href="../names/scopes.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
@@ -361,10 +371,10 @@ This prevents one style from shadowing another.</p>
 
         <script src="../clipboard-1626706a.min.js"></script>
         <script src="../highlight-abc7f01d.js"></script>
-        <script src="../book-81fc5345.js"></script>
+        <script src="../book-a0b12cfe.js"></script>
 
         <!-- Custom JS scripts -->
-        <script src="../theme/reference-cfed9ca5.js"></script>
+        <script src="../theme/reference-da60281b.js"></script>
 
 
 

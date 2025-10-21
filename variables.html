@@ -14,9 +14,9 @@
 
         <link rel="icon" href="favicon-de23e50b.svg">
         <link rel="shortcut icon" href="favicon-8114d1fc.png">
-        <link rel="stylesheet" href="css/variables-3865ffda.css">
-        <link rel="stylesheet" href="css/general-d297d479.css">
-        <link rel="stylesheet" href="css/chrome-ad662a8e.css">
+        <link rel="stylesheet" href="css/variables-8adf115d.css">
+        <link rel="stylesheet" href="css/general-2459343d.css">
+        <link rel="stylesheet" href="css/chrome-3111ccdb.css">
         <link rel="stylesheet" href="css/print-9e4910d8.css" media="print">
 
         <!-- Fonts -->
@@ -28,7 +28,7 @@
         <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="ayu-highlight-56612340.css">
 
         <!-- Custom theme stylesheets -->
-        <link rel="stylesheet" href="theme/reference-94a8e8ad.css">
+        <link rel="stylesheet" href="theme/reference-6200eb72.css">
 
 
         <!-- Provide site root and default themes to javascript -->
@@ -36,10 +36,10 @@
             const path_to_root = "";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "searchindex-54e4028f.js";
+            window.path_to_searchindex_js = "searchindex-93e32808.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="toc-1b51e6f3.js"></script>
+        <script src="toc-8771841d.js"></script>
     </head>
     <body>
     <div id="mdbook-help-container">
@@ -181,30 +181,36 @@
 
                 <div id="mdbook-content" class="content">
                     <main>
-                        <div class="rule" id="r-variable"><a class="rule-link" href="#r-variable" title="variable"><span>[variable]</span/></a>
+                        <div class="rule" id="r-variable"><a class="rule-link" href="#r-variable" title="variable"><span>[variable]</span></a>
 </div>
+
 <h1 id="variables"><a class="header" href="#variables">Variables</a></h1>
-<div class="rule" id="r-variable.intro"><a class="rule-link" href="#r-variable.intro" title="variable.intro"><span>[variable<wbr>.intro]</span/></a>
+<div class="rule" id="r-variable.intro"><a class="rule-link" href="#r-variable.intro" title="variable.intro"><span>[variable<wbr>.intro]</span></a>
 </div>
+
 <p>A <em>variable</em> is a component of a stack frame, either a named function parameter,
 an anonymous <a href="expressions.html#temporaries">temporary</a>, or a named local
 variable.</p>
-<div class="rule" id="r-variable.local"><a class="rule-link" href="#r-variable.local" title="variable.local"><span>[variable<wbr>.local]</span/></a>
+<div class="rule" id="r-variable.local"><a class="rule-link" href="#r-variable.local" title="variable.local"><span>[variable<wbr>.local]</span></a>
 </div>
+
 <p>A <em>local variable</em> (or <em>stack-local</em> allocation) holds a value directly,
 allocated within the stack’s memory. The value is a part of the stack frame.</p>
-<div class="rule" id="r-variable.local-mut"><a class="rule-link" href="#r-variable.local-mut" title="variable.local-mut"><span>[variable<wbr>.local-mut]</span/></a>
+<div class="rule" id="r-variable.local-mut"><a class="rule-link" href="#r-variable.local-mut" title="variable.local-mut"><span>[variable<wbr>.local-mut]</span></a>
 </div>
+
 <p>Local variables are immutable unless declared otherwise. For example:
 <code>let mut x = ...</code>.</p>
-<div class="rule" id="r-variable.param-mut"><a class="rule-link" href="#r-variable.param-mut" title="variable.param-mut"><span>[variable<wbr>.param-mut]</span/></a>
+<div class="rule" id="r-variable.param-mut"><a class="rule-link" href="#r-variable.param-mut" title="variable.param-mut"><span>[variable<wbr>.param-mut]</span></a>
 </div>
+
 <p>Function parameters are immutable unless declared with <code>mut</code>. The <code>mut</code> keyword
 applies only to the following parameter. For example: <code>|mut x, y|</code> and
 <code>fn f(mut x: Box&lt;i32&gt;, y: Box&lt;i32&gt;)</code> declare one mutable variable <code>x</code> and one
 immutable variable <code>y</code>.</p>
-<div class="rule" id="r-variable.init"><a class="rule-link" href="#r-variable.init" title="variable.init"><span>[variable<wbr>.init]</span/></a>
+<div class="rule" id="r-variable.init"><a class="rule-link" href="#r-variable.init" title="variable.init"><span>[variable<wbr>.init]</span></a>
 </div>
+
 <p>Local variables are not initialized when allocated. Instead, the entire frame
 worth of local variables are allocated, on frame-entry, in an uninitialized
 state. Subsequent statements within a function may or may not initialize the
@@ -212,7 +218,7 @@ local variables. Local variables can be used only after they have been
 initialized through all reachable control flow paths.</p>
 <p>In this next example, <code>init_after_if</code> is initialized after the <a href="expressions/if-expr.html#if-expressions"><code>if</code> expression</a>
 while <code>uninit_after_if</code> is not because it is not initialized in the <code>else</code> case.</p>
-<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">#![allow(unused)]
+<pre class="playground"><code class="language-rust edition2024"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span><span class="boring">fn random_bool() -&gt; bool { true }
 </span>fn initialization_example() {
@@ -229,7 +235,7 @@ while <code>uninit_after_if</code> is not because it is not initialized in the <
     init_after_if; // ok
     // uninit_after_if; // err: use of possibly uninitialized `uninit_after_if`
 }
-<span class="boring">}</span></code></pre></pre>
+<span class="boring">}</span></code></pre>
 
                     </main>
 
@@ -237,6 +243,7 @@ while <code>uninit_after_if</code> is not because it is not initialized in the <
                         <!-- Mobile navigation buttons -->
                             <a rel="prev" href="memory-allocation-and-lifetime.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                            </a>
 
                             <a rel="next prefetch" href="panic.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
@@ -278,10 +285,10 @@ while <code>uninit_after_if</code> is not because it is not initialized in the <
 
         <script src="clipboard-1626706a.min.js"></script>
         <script src="highlight-abc7f01d.js"></script>
-        <script src="book-81fc5345.js"></script>
+        <script src="book-a0b12cfe.js"></script>
 
         <!-- Custom JS scripts -->
-        <script src="theme/reference-cfed9ca5.js"></script>
+        <script src="theme/reference-da60281b.js"></script>
 
 
 

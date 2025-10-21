@@ -14,9 +14,9 @@
 
         <link rel="icon" href="../favicon-de23e50b.svg">
         <link rel="shortcut icon" href="../favicon-8114d1fc.png">
-        <link rel="stylesheet" href="../css/variables-3865ffda.css">
-        <link rel="stylesheet" href="../css/general-d297d479.css">
-        <link rel="stylesheet" href="../css/chrome-ad662a8e.css">
+        <link rel="stylesheet" href="../css/variables-8adf115d.css">
+        <link rel="stylesheet" href="../css/general-2459343d.css">
+        <link rel="stylesheet" href="../css/chrome-3111ccdb.css">
         <link rel="stylesheet" href="../css/print-9e4910d8.css" media="print">
 
         <!-- Fonts -->
@@ -28,7 +28,7 @@
         <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="../ayu-highlight-56612340.css">
 
         <!-- Custom theme stylesheets -->
-        <link rel="stylesheet" href="../theme/reference-94a8e8ad.css">
+        <link rel="stylesheet" href="../theme/reference-6200eb72.css">
 
 
         <!-- Provide site root and default themes to javascript -->
@@ -36,10 +36,10 @@
             const path_to_root = "../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../searchindex-54e4028f.js";
+            window.path_to_searchindex_js = "../searchindex-93e32808.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="../toc-1b51e6f3.js"></script>
+        <script src="../toc-8771841d.js"></script>
     </head>
     <body>
     <div id="mdbook-help-container">
@@ -181,76 +181,86 @@
 
                 <div id="mdbook-content" class="content">
                     <main>
-                        <div class="rule" id="r-expr.field"><a class="rule-link" href="#r-expr.field" title="expr.field"><span>[expr<wbr>.field]</span/></a>
+                        <div class="rule" id="r-expr.field"><a class="rule-link" href="#r-expr.field" title="expr.field"><span>[expr<wbr>.field]</span></a>
 </div>
+
 <h1 id="field-access-expressions"><a class="header" href="#field-access-expressions">Field access expressions</a></h1>
-<div class="rule" id="r-expr.field.syntax"><a class="rule-link" href="#r-expr.field.syntax" title="expr.field.syntax"><span>[expr<wbr>.field<wbr>.syntax]</span/></a>
+<div class="rule" id="r-expr.field.syntax"><a class="rule-link" href="#r-expr.field.syntax" title="expr.field.syntax"><span>[expr<wbr>.field<wbr>.syntax]</span></a>
 </div>
+
 <div class="grammar-container">
 <p><strong><sup>Syntax</sup></strong>
 <br>
 <span class="grammar-text grammar-production" id="grammar-FieldExpression" onclick="show_railroad()"><a href="field-expr.html#railroad-FieldExpression">FieldExpression</a></span> → <span class="grammar-text"><a href="../expressions.html#grammar-Expression">Expression</a></span> <span class="grammar-literal">.</span> <span class="grammar-text"><a href="../identifiers.html#grammar-IDENTIFIER">IDENTIFIER</a></span></p>
 <p><button class="grammar-toggle-railroad" type="button" title="Toggle railroad display" onclick="toggle_railroad()">Show Railroad</button></p>
 </div>
+
 <div class="grammar-railroad grammar-hidden">
-<div style="width: 318px; height: auto; max-width: 100%; max-height: 100%" class="railroad-production" id="railroad-FieldExpression"><svg class="railroad" viewBox="0 0 318 74" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-<rect class="railroad_canvas" height="100%" width="100%"/>
+<div style="width: 318px; height: auto; max-width: 100%; max-height: 100%" class="railroad-production" id="railroad-FieldExpression"><svg class="railroad" viewbox="0 0 318 74" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<rect class="railroad_canvas" height="100%" width="100%" />
 <g class="verticalgrid">
 <a class="link" xlink:href="field-expr.html#grammar-FieldExpression">
 <text class="comment" x="67" y="25">
 FieldExpression</text>
 </a>
 <g class="sequence">
-<path d=" M 10 53 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5 m 10 0 h 5"/>
+<path d=" M 10 53 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5 m 10 0 h 5" />
 <g class="sequence">
 <a class="link" xlink:href="../expressions.html#railroad-Expression">
 <g class="nonterminal">
-<rect height="22" width="100" x="35" y="42"/>
+<rect height="22" width="100" x="35" y="42" />
 <text x="85" y="58">
 Expression</text>
 </g>
 </a>
 <g class="terminal">
-<rect height="22" rx="10" ry="10" width="28" x="145" y="42"/>
+<rect height="22" rx="10" ry="10" width="28" x="145" y="42" />
 <text x="159" y="58">
 .</text>
 </g>
 <a class="link" xlink:href="../identifiers.html#railroad-IDENTIFIER">
 <g class="nonterminal">
-<rect height="22" width="100" x="183" y="42"/>
+<rect height="22" width="100" x="183" y="42" />
 <text x="233" y="58">
 IDENTIFIER</text>
 </g>
 </a>
-<path d=" M 135 53 h 10"/>
-<path d=" M 173 53 h 10"/>
+<path d=" M 135 53 h 10" />
+<path d=" M 173 53 h 10" />
 </g>
-<path d=" M 293 53 h 5 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5"/>
-<path d=" M 25 53 h 10"/>
-<path d=" M 283 53 h 10"/>
+<path d=" M 293 53 h 5 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5" />
+<path d=" M 25 53 h 10" />
+<path d=" M 283 53 h 10" />
 </g>
 </g>
 </svg>
 </div>
+
 </div>
-<div class="rule" id="r-expr.field.intro"><a class="rule-link" href="#r-expr.field.intro" title="expr.field.intro"><span>[expr<wbr>.field<wbr>.intro]</span/></a>
+
+<div class="rule" id="r-expr.field.intro"><a class="rule-link" href="#r-expr.field.intro" title="expr.field.intro"><span>[expr<wbr>.field<wbr>.intro]</span></a>
 </div>
+
 <p>A <em>field expression</em> is a <a href="../expressions.html#place-expressions-and-value-expressions">place expression</a> that evaluates to the location of a field of a <a href="../items/structs.html">struct</a> or <a href="../items/unions.html">union</a>.</p>
-<div class="rule" id="r-expr.field.mut"><a class="rule-link" href="#r-expr.field.mut" title="expr.field.mut"><span>[expr<wbr>.field<wbr>.mut]</span/></a>
+<div class="rule" id="r-expr.field.mut"><a class="rule-link" href="#r-expr.field.mut" title="expr.field.mut"><span>[expr<wbr>.field<wbr>.mut]</span></a>
 </div>
+
 <p>When the operand is <a href="../expressions.html#mutability">mutable</a>, the field expression is also mutable.</p>
-<div class="rule" id="r-expr.field.form"><a class="rule-link" href="#r-expr.field.form" title="expr.field.form"><span>[expr<wbr>.field<wbr>.form]</span/></a>
+<div class="rule" id="r-expr.field.form"><a class="rule-link" href="#r-expr.field.form" title="expr.field.form"><span>[expr<wbr>.field<wbr>.form]</span></a>
 </div>
+
 <p>The syntax for a field expression is an expression, called the <em>container operand</em>, then a <code>.</code>, and finally an <a href="../identifiers.html">identifier</a>.</p>
-<div class="rule" id="r-expr.field.not-method-call"><a class="rule-link" href="#r-expr.field.not-method-call" title="expr.field.not-method-call"><span>[expr<wbr>.field<wbr>.not-method-call]</span/></a>
+<div class="rule" id="r-expr.field.not-method-call"><a class="rule-link" href="#r-expr.field.not-method-call" title="expr.field.not-method-call"><span>[expr<wbr>.field<wbr>.not-method-call]</span></a>
 </div>
+
 <p>Field expressions cannot be followed by a parenthetical comma-separated list of expressions, as that is instead parsed as a <a href="method-call-expr.html">method call expression</a>.
 That is, they cannot be the function operand of a <a href="call-expr.html">call expression</a>.</p>
 <div class="alert alert-note">
 <blockquote>
-<p class="alert-title"><svg viewBox="0 0 16 16" width="18" height="18"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"></path></svg>Note</p>
+<p class="alert-title"><svg viewbox="0 0 16 16" width="18" height="18"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"></path></svg>Note</p>
+
 <p>Wrap the field expression in a <a href="grouped-expr.html">parenthesized expression</a> to use it in a call expression.</p>
-<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">#![allow(unused)]
+<pre class="playground"><code class="language-rust edition2024"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span><span class="boring">struct HoldsCallable&lt;F: Fn()&gt; { callable: F }
 </span>let holds_callable = HoldsCallable { callable: || () };
@@ -260,27 +270,30 @@ That is, they cannot be the function operand of a <a href="call-expr.html">call 
 
 // Valid
 (holds_callable.callable)();
-<span class="boring">}</span></code></pre></pre>
+<span class="boring">}</span></code></pre>
 </blockquote>
 </div>
+
 <p>Examples:</p>
 <!-- ignore: needs lots of support code -->
 <pre><code class="language-rust ignore">mystruct.myfield;
 foo().x;
 (Struct {a: 10, b: 20}).a;
 (mystruct.function_field)() // Call expression containing a field expression</code></pre>
-<div class="rule" id="r-expr.field.autoref-deref"><a class="rule-link" href="#r-expr.field.autoref-deref" title="expr.field.autoref-deref"><span>[expr<wbr>.field<wbr>.autoref-deref]</span/></a>
+<div class="rule" id="r-expr.field.autoref-deref"><a class="rule-link" href="#r-expr.field.autoref-deref" title="expr.field.autoref-deref"><span>[expr<wbr>.field<wbr>.autoref-deref]</span></a>
 </div>
+
 <h2 id="automatic-dereferencing"><a class="header" href="#automatic-dereferencing">Automatic dereferencing</a></h2>
 <p>If the type of the container operand implements <a href="../special-types-and-traits.html#deref-and-derefmut"><code>Deref</code></a> or <a href="../special-types-and-traits.html#deref-and-derefmut"><code>DerefMut</code></a> depending on whether the operand is <a href="../expressions.html#mutability">mutable</a>, it is <em>automatically dereferenced</em> as many times as necessary to make the field access possible.
 This process is also called <em>autoderef</em> for short.</p>
-<div class="rule" id="r-expr.field.borrow"><a class="rule-link" href="#r-expr.field.borrow" title="expr.field.borrow"><span>[expr<wbr>.field<wbr>.borrow]</span/></a>
+<div class="rule" id="r-expr.field.borrow"><a class="rule-link" href="#r-expr.field.borrow" title="expr.field.borrow"><span>[expr<wbr>.field<wbr>.borrow]</span></a>
 </div>
+
 <h2 id="borrowing"><a class="header" href="#borrowing">Borrowing</a></h2>
 <p>The fields of a struct or a reference to a struct are treated as separate entities when borrowing.
 If the struct does not implement <a href="../special-types-and-traits.html#drop"><code>Drop</code></a> and is stored in a local variable, this also applies to moving out of each of its fields.
 This also does not apply if automatic dereferencing is done through user-defined types other than <a href="../special-types-and-traits.html#boxt"><code>Box</code></a>.</p>
-<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">#![allow(unused)]
+<pre class="playground"><code class="language-rust edition2024"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>struct A { f1: String, f2: String, f3: String }
 let mut x: A;
@@ -293,7 +306,7 @@ let mut x: A;
 let b: &amp;String = &amp;x.f2;         // x.f2 borrowed immutably
 let c: &amp;String = &amp;x.f2;         // Can borrow again
 let d: String = x.f3;           // Move out of x.f3
-<span class="boring">}</span></code></pre></pre>
+<span class="boring">}</span></code></pre>
 
                     </main>
 
@@ -301,6 +314,7 @@ let d: String = x.f3;           // Move out of x.f3
                         <!-- Mobile navigation buttons -->
                             <a rel="prev" href="../expressions/method-call-expr.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                            </a>
 
                             <a rel="next prefetch" href="../expressions/closure-expr.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
@@ -342,10 +356,10 @@ let d: String = x.f3;           // Move out of x.f3
 
         <script src="../clipboard-1626706a.min.js"></script>
         <script src="../highlight-abc7f01d.js"></script>
-        <script src="../book-81fc5345.js"></script>
+        <script src="../book-a0b12cfe.js"></script>
 
         <!-- Custom JS scripts -->
-        <script src="../theme/reference-cfed9ca5.js"></script>
+        <script src="../theme/reference-da60281b.js"></script>
 
 
 

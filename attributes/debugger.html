@@ -14,9 +14,9 @@
 
         <link rel="icon" href="../favicon-de23e50b.svg">
         <link rel="shortcut icon" href="../favicon-8114d1fc.png">
-        <link rel="stylesheet" href="../css/variables-3865ffda.css">
-        <link rel="stylesheet" href="../css/general-d297d479.css">
-        <link rel="stylesheet" href="../css/chrome-ad662a8e.css">
+        <link rel="stylesheet" href="../css/variables-8adf115d.css">
+        <link rel="stylesheet" href="../css/general-2459343d.css">
+        <link rel="stylesheet" href="../css/chrome-3111ccdb.css">
         <link rel="stylesheet" href="../css/print-9e4910d8.css" media="print">
 
         <!-- Fonts -->
@@ -28,7 +28,7 @@
         <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="../ayu-highlight-56612340.css">
 
         <!-- Custom theme stylesheets -->
-        <link rel="stylesheet" href="../theme/reference-94a8e8ad.css">
+        <link rel="stylesheet" href="../theme/reference-6200eb72.css">
 
 
         <!-- Provide site root and default themes to javascript -->
@@ -36,10 +36,10 @@
             const path_to_root = "../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../searchindex-54e4028f.js";
+            window.path_to_searchindex_js = "../searchindex-93e32808.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="../toc-1b51e6f3.js"></script>
+        <script src="../toc-8771841d.js"></script>
     </head>
     <body>
     <div id="mdbook-help-container">
@@ -181,53 +181,66 @@
 
                 <div id="mdbook-content" class="content">
                     <main>
-                        <div class="rule" id="r-attributes.debugger"><a class="rule-link" href="#r-attributes.debugger" title="attributes.debugger"><span>[attributes<wbr>.debugger]</span/></a>
+                        <div class="rule" id="r-attributes.debugger"><a class="rule-link" href="#r-attributes.debugger" title="attributes.debugger"><span>[attributes<wbr>.debugger]</span></a>
 </div>
+
 <h1 id="debugger-attributes"><a class="header" href="#debugger-attributes">Debugger attributes</a></h1>
 <p>The following <a href="../attributes.html">attributes</a> are used for enhancing the debugging experience when using third-party debuggers like GDB or WinDbg.</p>
 <!-- template:attributes -->
-<div class="rule" id="r-attributes.debugger.debugger_visualizer"><a class="rule-link" href="#r-attributes.debugger.debugger_visualizer" title="attributes.debugger.debugger_visualizer"><span>[attributes<wbr>.debugger<wbr>.debugger_visualizer]</span/></a>
+<div class="rule" id="r-attributes.debugger.debugger_visualizer"><a class="rule-link" href="#r-attributes.debugger.debugger_visualizer" title="attributes.debugger.debugger_visualizer"><span>[attributes<wbr>.debugger<wbr>.debugger_visualizer]</span></a>
 </div>
+
 <h2 id="the-debugger_visualizer-attribute"><a class="header" href="#the-debugger_visualizer-attribute">The <code>debugger_visualizer</code> attribute</a></h2>
-<div class="rule" id="r-attributes.debugger.debugger_visualizer.intro"><a class="rule-link" href="#r-attributes.debugger.debugger_visualizer.intro" title="attributes.debugger.debugger_visualizer.intro"><span>[attributes<wbr>.debugger<wbr>.debugger_visualizer<wbr>.intro]</span/></a>
+<div class="rule" id="r-attributes.debugger.debugger_visualizer.intro"><a class="rule-link" href="#r-attributes.debugger.debugger_visualizer.intro" title="attributes.debugger.debugger_visualizer.intro"><span>[attributes<wbr>.debugger<wbr>.debugger_visualizer<wbr>.intro]</span></a>
 </div>
+
 <p>The <em><code>debugger_visualizer</code> <a href="../attributes.html">attribute</a></em> can be used to embed a debugger visualizer file into the debug information. This improves the debugger experience when displaying values.</p>
 <div class="alert alert-example">
 <blockquote>
-<p class="alert-title"><svg viewBox="0 0 16 16" width="18" height="18"><path d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0ZM1.5 8a6.5 6.5 0 1 0 13 0 6.5 6.5 0 0 0-13 0Zm4.879-2.773 4.264 2.559a.25.25 0 0 1 0 .428l-4.264 2.559A.25.25 0 0 1 6 10.559V5.442a.25.25 0 0 1 .379-.215Z"></path></svg>Example</p>
+<p class="alert-title"><svg viewbox="0 0 16 16" width="18" height="18"><path d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0ZM1.5 8a6.5 6.5 0 1 0 13 0 6.5 6.5 0 0 0-13 0Zm4.879-2.773 4.264 2.559a.25.25 0 0 1 0 .428l-4.264 2.559A.25.25 0 0 1 6 10.559V5.442a.25.25 0 0 1 .379-.215Z"></path></svg>Example</p>
+
 <!-- ignore: requires external files-->
 <pre><code class="language-rust ignore">#![debugger_visualizer(natvis_file = "Example.natvis")]
 #![debugger_visualizer(gdb_script_file = "example.py")]</code></pre>
 </blockquote>
 </div>
-<div class="rule" id="r-attributes.debugger.debugger_visualizer.syntax"><a class="rule-link" href="#r-attributes.debugger.debugger_visualizer.syntax" title="attributes.debugger.debugger_visualizer.syntax"><span>[attributes<wbr>.debugger<wbr>.debugger_visualizer<wbr>.syntax]</span/></a>
+
+<div class="rule" id="r-attributes.debugger.debugger_visualizer.syntax"><a class="rule-link" href="#r-attributes.debugger.debugger_visualizer.syntax" title="attributes.debugger.debugger_visualizer.syntax"><span>[attributes<wbr>.debugger<wbr>.debugger_visualizer<wbr>.syntax]</span></a>
 </div>
+
 <p>The <code>debugger_visualizer</code> attribute uses the <a href="../attributes.html#grammar-MetaListNameValueStr">MetaListNameValueStr</a> syntax to specify its inputs. One of the following keys must be specified:</p>
 <ul>
 <li><a href="debugger.html#r-attributes.debugger.debugger_visualizer.natvis"><code>natvis_file</code></a></li>
 <li><a href="debugger.html#r-attributes.debugger.debugger_visualizer.gdb"><code>gdb_script_file</code></a></li>
 </ul>
-<div class="rule" id="r-attributes.debugger.debugger_visualizer.allowed-positions"><a class="rule-link" href="#r-attributes.debugger.debugger_visualizer.allowed-positions" title="attributes.debugger.debugger_visualizer.allowed-positions"><span>[attributes<wbr>.debugger<wbr>.debugger_visualizer<wbr>.allowed-positions]</span/></a>
+<div class="rule" id="r-attributes.debugger.debugger_visualizer.allowed-positions"><a class="rule-link" href="#r-attributes.debugger.debugger_visualizer.allowed-positions" title="attributes.debugger.debugger_visualizer.allowed-positions"><span>[attributes<wbr>.debugger<wbr>.debugger_visualizer<wbr>.allowed-positions]</span></a>
 </div>
+
 <p>The <code>debugger_visualizer</code> attribute may only be applied to a <a href="../items/modules.html">module</a> or to the crate root.</p>
-<div class="rule" id="r-attributes.debugger.debugger_visualizer.duplicates"><a class="rule-link" href="#r-attributes.debugger.debugger_visualizer.duplicates" title="attributes.debugger.debugger_visualizer.duplicates"><span>[attributes<wbr>.debugger<wbr>.debugger_visualizer<wbr>.duplicates]</span/></a>
+<div class="rule" id="r-attributes.debugger.debugger_visualizer.duplicates"><a class="rule-link" href="#r-attributes.debugger.debugger_visualizer.duplicates" title="attributes.debugger.debugger_visualizer.duplicates"><span>[attributes<wbr>.debugger<wbr>.debugger_visualizer<wbr>.duplicates]</span></a>
 </div>
+
 <p>The <code>debugger_visualizer</code> attribute may be used any number of times on a form. All specified visualizer files will be loaded.</p>
-<div class="rule" id="r-attributes.debugger.debugger_visualizer.natvis"><a class="rule-link" href="#r-attributes.debugger.debugger_visualizer.natvis" title="attributes.debugger.debugger_visualizer.natvis"><span>[attributes<wbr>.debugger<wbr>.debugger_visualizer<wbr>.natvis]</span/></a>
+<div class="rule" id="r-attributes.debugger.debugger_visualizer.natvis"><a class="rule-link" href="#r-attributes.debugger.debugger_visualizer.natvis" title="attributes.debugger.debugger_visualizer.natvis"><span>[attributes<wbr>.debugger<wbr>.debugger_visualizer<wbr>.natvis]</span></a>
 </div>
+
 <h3 id="using-debugger_visualizer-with-natvis"><a class="header" href="#using-debugger_visualizer-with-natvis">Using <code>debugger_visualizer</code> with Natvis</a></h3>
-<div class="rule" id="r-attributes.debugger.debugger_visualizer.natvis.intro"><a class="rule-link" href="#r-attributes.debugger.debugger_visualizer.natvis.intro" title="attributes.debugger.debugger_visualizer.natvis.intro"><span>[attributes<wbr>.debugger<wbr>.debugger_visualizer<wbr>.natvis<wbr>.intro]</span/></a>
+<div class="rule" id="r-attributes.debugger.debugger_visualizer.natvis.intro"><a class="rule-link" href="#r-attributes.debugger.debugger_visualizer.natvis.intro" title="attributes.debugger.debugger_visualizer.natvis.intro"><span>[attributes<wbr>.debugger<wbr>.debugger_visualizer<wbr>.natvis<wbr>.intro]</span></a>
 </div>
+
 <p>Natvis is an XML-based framework for Microsoft debuggers (such as Visual Studio and WinDbg) that uses declarative rules to customize the display of types. For detailed information on the Natvis format, refer to Microsoft’s <a href="https://docs.microsoft.com/en-us/visualstudio/debugger/create-custom-views-of-native-objects">Natvis documentation</a>.</p>
-<div class="rule" id="r-attributes.debugger.debugger_visualizer.natvis.msvc"><a class="rule-link" href="#r-attributes.debugger.debugger_visualizer.natvis.msvc" title="attributes.debugger.debugger_visualizer.natvis.msvc"><span>[attributes<wbr>.debugger<wbr>.debugger_visualizer<wbr>.natvis<wbr>.msvc]</span/></a>
+<div class="rule" id="r-attributes.debugger.debugger_visualizer.natvis.msvc"><a class="rule-link" href="#r-attributes.debugger.debugger_visualizer.natvis.msvc" title="attributes.debugger.debugger_visualizer.natvis.msvc"><span>[attributes<wbr>.debugger<wbr>.debugger_visualizer<wbr>.natvis<wbr>.msvc]</span></a>
 </div>
+
 <p>This attribute only supports embedding Natvis files on <code>-windows-msvc</code> targets.</p>
-<div class="rule" id="r-attributes.debugger.debugger_visualizer.natvis.path"><a class="rule-link" href="#r-attributes.debugger.debugger_visualizer.natvis.path" title="attributes.debugger.debugger_visualizer.natvis.path"><span>[attributes<wbr>.debugger<wbr>.debugger_visualizer<wbr>.natvis<wbr>.path]</span/></a>
+<div class="rule" id="r-attributes.debugger.debugger_visualizer.natvis.path"><a class="rule-link" href="#r-attributes.debugger.debugger_visualizer.natvis.path" title="attributes.debugger.debugger_visualizer.natvis.path"><span>[attributes<wbr>.debugger<wbr>.debugger_visualizer<wbr>.natvis<wbr>.path]</span></a>
 </div>
+
 <p>The path to the Natvis file is specified with the <code>natvis_file</code> key, which is a path relative to the source file.</p>
 <div class="alert alert-example">
 <blockquote>
-<p class="alert-title"><svg viewBox="0 0 16 16" width="18" height="18"><path d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0ZM1.5 8a6.5 6.5 0 1 0 13 0 6.5 6.5 0 0 0-13 0Zm4.879-2.773 4.264 2.559a.25.25 0 0 1 0 .428l-4.264 2.559A.25.25 0 0 1 6 10.559V5.442a.25.25 0 0 1 .379-.215Z"></path></svg>Example</p>
+<p class="alert-title"><svg viewbox="0 0 16 16" width="18" height="18"><path d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0ZM1.5 8a6.5 6.5 0 1 0 13 0 6.5 6.5 0 0 0-13 0Zm4.879-2.773 4.264 2.559a.25.25 0 0 1 0 .428l-4.264 2.559A.25.25 0 0 1 6 10.559V5.442a.25.25 0 0 1 .379-.215Z"></path></svg>Example</p>
+
 <!-- ignore: requires external files and msvc -->
 <pre><code class="language-rust ignore">#![debugger_visualizer(natvis_file = "Rectangle.natvis")]
 
@@ -274,15 +287,19 @@ fn main() {
 </code></pre>
 </blockquote>
 </div>
-<div class="rule" id="r-attributes.debugger.debugger_visualizer.gdb"><a class="rule-link" href="#r-attributes.debugger.debugger_visualizer.gdb" title="attributes.debugger.debugger_visualizer.gdb"><span>[attributes<wbr>.debugger<wbr>.debugger_visualizer<wbr>.gdb]</span/></a>
+
+<div class="rule" id="r-attributes.debugger.debugger_visualizer.gdb"><a class="rule-link" href="#r-attributes.debugger.debugger_visualizer.gdb" title="attributes.debugger.debugger_visualizer.gdb"><span>[attributes<wbr>.debugger<wbr>.debugger_visualizer<wbr>.gdb]</span></a>
 </div>
+
 <h3 id="using-debugger_visualizer-with-gdb"><a class="header" href="#using-debugger_visualizer-with-gdb">Using <code>debugger_visualizer</code> with GDB</a></h3>
-<div class="rule" id="r-attributes.debugger.debugger_visualizer.gdb.pretty"><a class="rule-link" href="#r-attributes.debugger.debugger_visualizer.gdb.pretty" title="attributes.debugger.debugger_visualizer.gdb.pretty"><span>[attributes<wbr>.debugger<wbr>.debugger_visualizer<wbr>.gdb<wbr>.pretty]</span/></a>
+<div class="rule" id="r-attributes.debugger.debugger_visualizer.gdb.pretty"><a class="rule-link" href="#r-attributes.debugger.debugger_visualizer.gdb.pretty" title="attributes.debugger.debugger_visualizer.gdb.pretty"><span>[attributes<wbr>.debugger<wbr>.debugger_visualizer<wbr>.gdb<wbr>.pretty]</span></a>
 </div>
+
 <p>GDB supports the use of a structured Python script, called a <em>pretty printer</em>, that describes how a type should be visualized in the debugger view. For detailed information on pretty printers, refer to GDB’s <a href="https://sourceware.org/gdb/onlinedocs/gdb/Pretty-Printing.html">pretty printing documentation</a>.</p>
 <div class="alert alert-note">
 <blockquote>
-<p class="alert-title"><svg viewBox="0 0 16 16" width="18" height="18"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"></path></svg>Note</p>
+<p class="alert-title"><svg viewbox="0 0 16 16" width="18" height="18"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"></path></svg>Note</p>
+
 <p>Embedded pretty printers are not automatically loaded when debugging a binary under GDB.</p>
 <p>There are two ways to enable auto-loading embedded pretty printers:</p>
 <ol>
@@ -291,12 +308,15 @@ fn main() {
 </ol>
 </blockquote>
 </div>
-<div class="rule" id="r-attributes.debugger.debugger_visualizer.gdb.path"><a class="rule-link" href="#r-attributes.debugger.debugger_visualizer.gdb.path" title="attributes.debugger.debugger_visualizer.gdb.path"><span>[attributes<wbr>.debugger<wbr>.debugger_visualizer<wbr>.gdb<wbr>.path]</span/></a>
+
+<div class="rule" id="r-attributes.debugger.debugger_visualizer.gdb.path"><a class="rule-link" href="#r-attributes.debugger.debugger_visualizer.gdb.path" title="attributes.debugger.debugger_visualizer.gdb.path"><span>[attributes<wbr>.debugger<wbr>.debugger_visualizer<wbr>.gdb<wbr>.path]</span></a>
 </div>
+
 <p>These scripts are embedded using the <code>gdb_script_file</code> key, which is a path relative to the source file.</p>
 <div class="alert alert-example">
 <blockquote>
-<p class="alert-title"><svg viewBox="0 0 16 16" width="18" height="18"><path d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0ZM1.5 8a6.5 6.5 0 1 0 13 0 6.5 6.5 0 0 0-13 0Zm4.879-2.773 4.264 2.559a.25.25 0 0 1 0 .428l-4.264 2.559A.25.25 0 0 1 6 10.559V5.442a.25.25 0 0 1 .379-.215Z"></path></svg>Example</p>
+<p class="alert-title"><svg viewbox="0 0 16 16" width="18" height="18"><path d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0ZM1.5 8a6.5 6.5 0 1 0 13 0 6.5 6.5 0 0 0-13 0Zm4.879-2.773 4.264 2.559a.25.25 0 0 1 0 .428l-4.264 2.559A.25.25 0 0 1 6 10.559V5.442a.25.25 0 0 1 .379-.215Z"></path></svg>Example</p>
+
 <!-- ignore: requires external files -->
 <pre><code class="language-rust ignore">#![debugger_visualizer(gdb_script_file = "printer.py")]
 
@@ -339,17 +359,21 @@ gdb.current_objfile().pretty_printers.append(lookup)
 </code></pre>
 </blockquote>
 </div>
+
 <!-- template:attributes -->
-<div class="rule" id="r-attributes.debugger.collapse_debuginfo"><a class="rule-link" href="#r-attributes.debugger.collapse_debuginfo" title="attributes.debugger.collapse_debuginfo"><span>[attributes<wbr>.debugger<wbr>.collapse_debuginfo]</span/></a>
+<div class="rule" id="r-attributes.debugger.collapse_debuginfo"><a class="rule-link" href="#r-attributes.debugger.collapse_debuginfo" title="attributes.debugger.collapse_debuginfo"><span>[attributes<wbr>.debugger<wbr>.collapse_debuginfo]</span></a>
 </div>
+
 <h2 id="the-collapse_debuginfo-attribute"><a class="header" href="#the-collapse_debuginfo-attribute">The <code>collapse_debuginfo</code> attribute</a></h2>
-<div class="rule" id="r-attributes.debugger.collapse_debuginfo.intro"><a class="rule-link" href="#r-attributes.debugger.collapse_debuginfo.intro" title="attributes.debugger.collapse_debuginfo.intro"><span>[attributes<wbr>.debugger<wbr>.collapse_debuginfo<wbr>.intro]</span/></a>
+<div class="rule" id="r-attributes.debugger.collapse_debuginfo.intro"><a class="rule-link" href="#r-attributes.debugger.collapse_debuginfo.intro" title="attributes.debugger.collapse_debuginfo.intro"><span>[attributes<wbr>.debugger<wbr>.collapse_debuginfo<wbr>.intro]</span></a>
 </div>
+
 <p>The <em><code>collapse_debuginfo</code> <a href="../attributes.html">attribute</a></em> controls whether code locations from a macro definition are collapsed into a single location associated with the macro’s call site when generating debuginfo for code calling this macro.</p>
 <div class="alert alert-example">
 <blockquote>
-<p class="alert-title"><svg viewBox="0 0 16 16" width="18" height="18"><path d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0ZM1.5 8a6.5 6.5 0 1 0 13 0 6.5 6.5 0 0 0-13 0Zm4.879-2.773 4.264 2.559a.25.25 0 0 1 0 .428l-4.264 2.559A.25.25 0 0 1 6 10.559V5.442a.25.25 0 0 1 .379-.215Z"></path></svg>Example</p>
-<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">#![allow(unused)]
+<p class="alert-title"><svg viewbox="0 0 16 16" width="18" height="18"><path d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0ZM1.5 8a6.5 6.5 0 1 0 13 0 6.5 6.5 0 0 0-13 0Zm4.879-2.773 4.264 2.559a.25.25 0 0 1 0 .428l-4.264 2.559A.25.25 0 0 1 6 10.559V5.442a.25.25 0 0 1 .379-.215Z"></path></svg>Example</p>
+
+<pre class="playground"><code class="language-rust edition2024"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>#[collapse_debuginfo(yes)]
 macro_rules! example {
@@ -357,145 +381,157 @@ macro_rules! example {
         println!("hello!");
     };
 }
-<span class="boring">}</span></code></pre></pre>
+<span class="boring">}</span></code></pre>
 <p>When using a debugger, invoking the <code>example</code> macro may appear as though it is calling a function. That is, when you step to the invocation site, it may show the macro invocation rather than the expanded code.</p>
 </blockquote>
 </div>
+
 <!-- TODO: I think it would be nice to extend this to explain a little more about why this is useful, and the kinds of scenarios where you would want one vs the other. See https://github.com/rust-lang/rfcs/pull/2117 for some guidance. -->
-<div class="rule" id="r-attributes.debugger.collapse_debuginfo.syntax"><a class="rule-link" href="#r-attributes.debugger.collapse_debuginfo.syntax" title="attributes.debugger.collapse_debuginfo.syntax"><span>[attributes<wbr>.debugger<wbr>.collapse_debuginfo<wbr>.syntax]</span/></a>
+<div class="rule" id="r-attributes.debugger.collapse_debuginfo.syntax"><a class="rule-link" href="#r-attributes.debugger.collapse_debuginfo.syntax" title="attributes.debugger.collapse_debuginfo.syntax"><span>[attributes<wbr>.debugger<wbr>.collapse_debuginfo<wbr>.syntax]</span></a>
 </div>
+
 <p>The syntax for the <code>collapse_debuginfo</code> attribute is:</p>
 <div class="grammar-container">
 <p><strong><sup>Syntax</sup></strong>
 <br>
 <span class="grammar-text grammar-production" id="grammar-CollapseDebuginfoAttribute" onclick="show_railroad()"><a href="debugger.html#railroad-CollapseDebuginfoAttribute">CollapseDebuginfoAttribute</a></span> → <span class="grammar-literal">collapse_debuginfo</span> <span class="grammar-literal">(</span> <span class="grammar-text"><a href="debugger.html#grammar-CollapseDebuginfoOption">CollapseDebuginfoOption</a></span> <span class="grammar-literal">)</span></p>
-<p><span class="grammar-text grammar-production" id="grammar-CollapseDebuginfoOption" onclick="show_railroad()"><a href="debugger.html#railroad-CollapseDebuginfoOption">CollapseDebuginfoOption</a></span> → <br />
-      <span class="grammar-literal">yes</span> <br />
-    | <span class="grammar-literal">no</span> <br />
-    | <span class="grammar-literal">external</span></p>
+<p><span class="grammar-text grammar-production" id="grammar-CollapseDebuginfoOption" onclick="show_railroad()"><a href="debugger.html#railroad-CollapseDebuginfoOption">CollapseDebuginfoOption</a></span> → <br>      <span class="grammar-literal">yes</span> <br>    | <span class="grammar-literal">no</span> <br>    | <span class="grammar-literal">external</span></p>
 <p><button class="grammar-toggle-railroad" type="button" title="Toggle railroad display" onclick="toggle_railroad()">Show Railroad</button></p>
 </div>
+
 <div class="grammar-railroad grammar-hidden">
-<div style="width: 532px; height: auto; max-width: 100%; max-height: 100%" class="railroad-production" id="railroad-CollapseDebuginfoAttribute"><svg class="railroad" viewBox="0 0 532 74" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-<rect class="railroad_canvas" height="100%" width="100%"/>
+<div style="width: 532px; height: auto; max-width: 100%; max-height: 100%" class="railroad-production" id="railroad-CollapseDebuginfoAttribute"><svg class="railroad" viewbox="0 0 532 74" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<rect class="railroad_canvas" height="100%" width="100%" />
 <g class="verticalgrid">
 <a class="link" xlink:href="debugger.html#grammar-CollapseDebuginfoAttribute">
 <text class="comment" x="109" y="25">
 CollapseDebuginfoAttribute</text>
 </a>
 <g class="sequence">
-<path d=" M 10 53 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5 m 10 0 h 5"/>
+<path d=" M 10 53 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5 m 10 0 h 5" />
 <g class="sequence">
 <g class="terminal">
-<rect height="22" rx="10" ry="10" width="164" x="35" y="42"/>
+<rect height="22" rx="10" ry="10" width="164" x="35" y="42" />
 <text x="117" y="58">
 collapse_debuginfo</text>
 </g>
 <g class="terminal">
-<rect height="22" rx="10" ry="10" width="28" x="209" y="42"/>
+<rect height="22" rx="10" ry="10" width="28" x="209" y="42" />
 <text x="223" y="58">
 (</text>
 </g>
 <a class="link" xlink:href="debugger.html#railroad-CollapseDebuginfoOption">
 <g class="nonterminal">
-<rect height="22" width="212" x="247" y="42"/>
+<rect height="22" width="212" x="247" y="42" />
 <text x="353" y="58">
 CollapseDebuginfoOption</text>
 </g>
 </a>
 <g class="terminal">
-<rect height="22" rx="10" ry="10" width="28" x="469" y="42"/>
+<rect height="22" rx="10" ry="10" width="28" x="469" y="42" />
 <text x="483" y="58">
 )</text>
 </g>
-<path d=" M 199 53 h 10"/>
-<path d=" M 237 53 h 10"/>
-<path d=" M 459 53 h 10"/>
+<path d=" M 199 53 h 10" />
+<path d=" M 237 53 h 10" />
+<path d=" M 459 53 h 10" />
 </g>
-<path d=" M 507 53 h 5 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5"/>
-<path d=" M 25 53 h 10"/>
-<path d=" M 497 53 h 10"/>
+<path d=" M 507 53 h 5 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5" />
+<path d=" M 25 53 h 10" />
+<path d=" M 497 53 h 10" />
 </g>
 </g>
 </svg>
 </div>
-<div style="width: 202px; height: auto; max-width: 100%; max-height: 100%" class="railroad-production" id="railroad-CollapseDebuginfoOption"><svg class="railroad" viewBox="0 0 202 140" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-<rect class="railroad_canvas" height="100%" width="100%"/>
+
+<div style="width: 202px; height: auto; max-width: 100%; max-height: 100%" class="railroad-production" id="railroad-CollapseDebuginfoOption"><svg class="railroad" viewbox="0 0 202 140" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<rect class="railroad_canvas" height="100%" width="100%" />
 <g class="verticalgrid">
 <a class="link" xlink:href="debugger.html#grammar-CollapseDebuginfoOption">
 <text class="comment" x="99" y="25">
 CollapseDebuginfoOption</text>
 </a>
 <g class="sequence">
-<path d=" M 10 53 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5 m 10 0 h 5"/>
+<path d=" M 10 53 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5 m 10 0 h 5" />
 <g class="choice">
-<path d=" M 35 53 h 24 m 44 0 h 64 m -29 0 l -5 -5 m 0 10 l 5 -5 m 29 0"/>
+<path d=" M 35 53 h 24 m 44 0 h 64 m -29 0 l -5 -5 m 0 10 l 5 -5 m 29 0" />
 <g class="sequence">
 <g class="terminal">
-<rect height="22" rx="10" ry="10" width="44" x="59" y="42"/>
+<rect height="22" rx="10" ry="10" width="44" x="59" y="42" />
 <text x="81" y="58">
 yes</text>
 </g>
 </g>
-<path d=" M 35 53 a 12 12 0 0 1 12 12 v 9 m 108 0 v -9 a 12 12 0 0 1 12 -12"/>
-<path d=" M 47 74 v 33 m 108 0 v -33"/>
-<path d=" M 47 74 v 0 a 12 12 0 0 0 12 12 m 36 0 h 48 a 12 12 0 0 0 12 -12 v 0"/>
+<path d=" M 35 53 a 12 12 0 0 1 12 12 v 9 m 108 0 v -9 a 12 12 0 0 1 12 -12" />
+<path d=" M 47 74 v 33 m 108 0 v -33" />
+<path d=" M 47 74 v 0 a 12 12 0 0 0 12 12 m 36 0 h 48 a 12 12 0 0 0 12 -12 v 0" />
 <g class="sequence">
 <g class="terminal">
-<rect height="22" rx="10" ry="10" width="36" x="59" y="75"/>
+<rect height="22" rx="10" ry="10" width="36" x="59" y="75" />
 <text x="77" y="91">
 no</text>
 </g>
 </g>
-<path d=" M 47 107 v 0 a 12 12 0 0 0 12 12 m 84 0 h 0 a 12 12 0 0 0 12 -12 v 0"/>
+<path d=" M 47 107 v 0 a 12 12 0 0 0 12 12 m 84 0 h 0 a 12 12 0 0 0 12 -12 v 0" />
 <g class="terminal">
-<rect height="22" rx="10" ry="10" width="84" x="59" y="108"/>
+<rect height="22" rx="10" ry="10" width="84" x="59" y="108" />
 <text x="101" y="124">
 external</text>
 </g>
 </g>
-<path d=" M 177 53 h 5 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5"/>
-<path d=" M 25 53 h 10"/>
-<path d=" M 167 53 h 10"/>
+<path d=" M 177 53 h 5 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5" />
+<path d=" M 25 53 h 10" />
+<path d=" M 167 53 h 10" />
 </g>
 </g>
 </svg>
 </div>
+
 </div>
-<div class="rule" id="r-attributes.debugger.collapse_debuginfo.allowed-positions"><a class="rule-link" href="#r-attributes.debugger.collapse_debuginfo.allowed-positions" title="attributes.debugger.collapse_debuginfo.allowed-positions"><span>[attributes<wbr>.debugger<wbr>.collapse_debuginfo<wbr>.allowed-positions]</span/></a>
+
+<div class="rule" id="r-attributes.debugger.collapse_debuginfo.allowed-positions"><a class="rule-link" href="#r-attributes.debugger.collapse_debuginfo.allowed-positions" title="attributes.debugger.collapse_debuginfo.allowed-positions"><span>[attributes<wbr>.debugger<wbr>.collapse_debuginfo<wbr>.allowed-positions]</span></a>
 </div>
+
 <p>The <code>collapse_debuginfo</code> attribute may only be applied to a <a href="../macros-by-example.html"><code>macro_rules</code> definition</a>.</p>
-<div class="rule" id="r-attributes.debugger.collapse_debuginfo.duplicates"><a class="rule-link" href="#r-attributes.debugger.collapse_debuginfo.duplicates" title="attributes.debugger.collapse_debuginfo.duplicates"><span>[attributes<wbr>.debugger<wbr>.collapse_debuginfo<wbr>.duplicates]</span/></a>
+<div class="rule" id="r-attributes.debugger.collapse_debuginfo.duplicates"><a class="rule-link" href="#r-attributes.debugger.collapse_debuginfo.duplicates" title="attributes.debugger.collapse_debuginfo.duplicates"><span>[attributes<wbr>.debugger<wbr>.collapse_debuginfo<wbr>.duplicates]</span></a>
 </div>
+
 <p>The <code>collapse_debuginfo</code> attribute may used only once on a macro.</p>
-<div class="rule" id="r-attributes.debugger.collapse_debuginfo.options"><a class="rule-link" href="#r-attributes.debugger.collapse_debuginfo.options" title="attributes.debugger.collapse_debuginfo.options"><span>[attributes<wbr>.debugger<wbr>.collapse_debuginfo<wbr>.options]</span/></a>
+<div class="rule" id="r-attributes.debugger.collapse_debuginfo.options"><a class="rule-link" href="#r-attributes.debugger.collapse_debuginfo.options" title="attributes.debugger.collapse_debuginfo.options"><span>[attributes<wbr>.debugger<wbr>.collapse_debuginfo<wbr>.options]</span></a>
 </div>
+
 <p>The <code>collapse_debuginfo</code> attribute accepts these options:</p>
 <ul>
 <li><code>#[collapse_debuginfo(yes)]</code> — Code locations in debuginfo are collapsed.</li>
 <li><code>#[collapse_debuginfo(no)]</code> — Code locations in debuginfo are not collapsed.</li>
 <li><code>#[collapse_debuginfo(external)]</code> — Code locations in debuginfo are collapsed only if the macro comes from a different crate.</li>
 </ul>
-<div class="rule" id="r-attributes.debugger.collapse_debuginfo.default"><a class="rule-link" href="#r-attributes.debugger.collapse_debuginfo.default" title="attributes.debugger.collapse_debuginfo.default"><span>[attributes<wbr>.debugger<wbr>.collapse_debuginfo<wbr>.default]</span/></a>
+<div class="rule" id="r-attributes.debugger.collapse_debuginfo.default"><a class="rule-link" href="#r-attributes.debugger.collapse_debuginfo.default" title="attributes.debugger.collapse_debuginfo.default"><span>[attributes<wbr>.debugger<wbr>.collapse_debuginfo<wbr>.default]</span></a>
 </div>
+
 <p>The <code>external</code> behavior is the default for macros that don’t have this attribute unless they are built-in macros. For built-in macros the default is <code>yes</code>.</p>
 <div class="alert alert-note">
 <blockquote>
-<p class="alert-title"><svg viewBox="0 0 16 16" width="18" height="18"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"></path></svg>Note</p>
+<p class="alert-title"><svg viewbox="0 0 16 16" width="18" height="18"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"></path></svg>Note</p>
+
 <p><code>rustc</code> has a <a href="../../rustc/codegen-options/index.html#collapse-macro-debuginfo"><code>-C collapse-macro-debuginfo</code></a> CLI option to override both the default behavior and the values of any <code>#[collapse_debuginfo]</code> attributes.</p>
 </blockquote>
 </div>
+
 <hr>
-<ol class="footnote-definition"><li id="footnote-rust-gdb">
+<ol class="footnote-definition">
+<li id="footnote-rust-gdb">
 <p>Note: This assumes you are using the <code>rust-gdb</code> script which configures pretty-printers for standard library types like <code>String</code>. <a href="#fr-rust-gdb-1">↩</a></p>
 </li>
 </ol>
+
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
                             <a rel="prev" href="../attributes/type_system.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                            </a>
 
                             <a rel="next prefetch" href="../statements-and-expressions.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
@@ -537,10 +573,10 @@ external</text>
 
         <script src="../clipboard-1626706a.min.js"></script>
         <script src="../highlight-abc7f01d.js"></script>
-        <script src="../book-81fc5345.js"></script>
+        <script src="../book-a0b12cfe.js"></script>
 
         <!-- Custom JS scripts -->
-        <script src="../theme/reference-cfed9ca5.js"></script>
+        <script src="../theme/reference-da60281b.js"></script>
 
 
 

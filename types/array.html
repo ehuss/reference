@@ -14,9 +14,9 @@
 
         <link rel="icon" href="../favicon-de23e50b.svg">
         <link rel="shortcut icon" href="../favicon-8114d1fc.png">
-        <link rel="stylesheet" href="../css/variables-3865ffda.css">
-        <link rel="stylesheet" href="../css/general-d297d479.css">
-        <link rel="stylesheet" href="../css/chrome-ad662a8e.css">
+        <link rel="stylesheet" href="../css/variables-8adf115d.css">
+        <link rel="stylesheet" href="../css/general-2459343d.css">
+        <link rel="stylesheet" href="../css/chrome-3111ccdb.css">
         <link rel="stylesheet" href="../css/print-9e4910d8.css" media="print">
 
         <!-- Fonts -->
@@ -28,7 +28,7 @@
         <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="../ayu-highlight-56612340.css">
 
         <!-- Custom theme stylesheets -->
-        <link rel="stylesheet" href="../theme/reference-94a8e8ad.css">
+        <link rel="stylesheet" href="../theme/reference-6200eb72.css">
 
 
         <!-- Provide site root and default themes to javascript -->
@@ -36,10 +36,10 @@
             const path_to_root = "../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../searchindex-54e4028f.js";
+            window.path_to_searchindex_js = "../searchindex-93e32808.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="../toc-1b51e6f3.js"></script>
+        <script src="../toc-8771841d.js"></script>
     </head>
     <body>
     <div id="mdbook-help-container">
@@ -181,96 +181,106 @@
 
                 <div id="mdbook-content" class="content">
                     <main>
-                        <div class="rule" id="r-type.array"><a class="rule-link" href="#r-type.array" title="type.array"><span>[type<wbr>.array]</span/></a>
+                        <div class="rule" id="r-type.array"><a class="rule-link" href="#r-type.array" title="type.array"><span>[type<wbr>.array]</span></a>
 </div>
+
 <h1 id="array-types"><a class="header" href="#array-types">Array types</a></h1>
-<div class="rule" id="r-type.array.syntax"><a class="rule-link" href="#r-type.array.syntax" title="type.array.syntax"><span>[type<wbr>.array<wbr>.syntax]</span/></a>
+<div class="rule" id="r-type.array.syntax"><a class="rule-link" href="#r-type.array.syntax" title="type.array.syntax"><span>[type<wbr>.array<wbr>.syntax]</span></a>
 </div>
+
 <div class="grammar-container">
 <p><strong><sup>Syntax</sup></strong>
 <br>
 <span class="grammar-text grammar-production" id="grammar-ArrayType" onclick="show_railroad()"><a href="array.html#railroad-ArrayType">ArrayType</a></span> → <span class="grammar-literal">[</span> <span class="grammar-text"><a href="../types.html#grammar-Type">Type</a></span> <span class="grammar-literal">;</span> <span class="grammar-text"><a href="../expressions.html#grammar-Expression">Expression</a></span> <span class="grammar-literal">]</span></p>
 <p><button class="grammar-toggle-railroad" type="button" title="Toggle railroad display" onclick="toggle_railroad()">Show Railroad</button></p>
 </div>
+
 <div class="grammar-railroad grammar-hidden">
-<div style="width: 346px; height: auto; max-width: 100%; max-height: 100%" class="railroad-production" id="railroad-ArrayType"><svg class="railroad" viewBox="0 0 346 74" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-<rect class="railroad_canvas" height="100%" width="100%"/>
+<div style="width: 346px; height: auto; max-width: 100%; max-height: 100%" class="railroad-production" id="railroad-ArrayType"><svg class="railroad" viewbox="0 0 346 74" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<rect class="railroad_canvas" height="100%" width="100%" />
 <g class="verticalgrid">
 <a class="link" xlink:href="array.html#grammar-ArrayType">
 <text class="comment" x="46" y="25">
 ArrayType</text>
 </a>
 <g class="sequence">
-<path d=" M 10 53 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5 m 10 0 h 5"/>
+<path d=" M 10 53 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5 m 10 0 h 5" />
 <g class="sequence">
 <g class="terminal">
-<rect height="22" rx="10" ry="10" width="28" x="35" y="42"/>
+<rect height="22" rx="10" ry="10" width="28" x="35" y="42" />
 <text x="49" y="58">
 [</text>
 </g>
 <a class="link" xlink:href="../types.html#railroad-Type">
 <g class="nonterminal">
-<rect height="22" width="52" x="73" y="42"/>
+<rect height="22" width="52" x="73" y="42" />
 <text x="99" y="58">
 Type</text>
 </g>
 </a>
 <g class="terminal">
-<rect height="22" rx="10" ry="10" width="28" x="135" y="42"/>
+<rect height="22" rx="10" ry="10" width="28" x="135" y="42" />
 <text x="149" y="58">
 ;</text>
 </g>
 <a class="link" xlink:href="../expressions.html#railroad-Expression">
 <g class="nonterminal">
-<rect height="22" width="100" x="173" y="42"/>
+<rect height="22" width="100" x="173" y="42" />
 <text x="223" y="58">
 Expression</text>
 </g>
 </a>
 <g class="terminal">
-<rect height="22" rx="10" ry="10" width="28" x="283" y="42"/>
+<rect height="22" rx="10" ry="10" width="28" x="283" y="42" />
 <text x="297" y="58">
 ]</text>
 </g>
-<path d=" M 63 53 h 10"/>
-<path d=" M 125 53 h 10"/>
-<path d=" M 163 53 h 10"/>
-<path d=" M 273 53 h 10"/>
+<path d=" M 63 53 h 10" />
+<path d=" M 125 53 h 10" />
+<path d=" M 163 53 h 10" />
+<path d=" M 273 53 h 10" />
 </g>
-<path d=" M 321 53 h 5 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5"/>
-<path d=" M 25 53 h 10"/>
-<path d=" M 311 53 h 10"/>
+<path d=" M 321 53 h 5 a 5 5 0 0 1 5 -5 a 5 5 0 0 1 5 5 a 5 5 0 0 1 -5 5 a 5 5 0 0 1 -5 -5" />
+<path d=" M 25 53 h 10" />
+<path d=" M 311 53 h 10" />
 </g>
 </g>
 </svg>
 </div>
+
 </div>
-<div class="rule" id="r-type.array.intro"><a class="rule-link" href="#r-type.array.intro" title="type.array.intro"><span>[type<wbr>.array<wbr>.intro]</span/></a>
+
+<div class="rule" id="r-type.array.intro"><a class="rule-link" href="#r-type.array.intro" title="type.array.intro"><span>[type<wbr>.array<wbr>.intro]</span></a>
 </div>
+
 <p>An array is a fixed-size sequence of <code>N</code> elements of type <code>T</code>. The array type
 is written as <code>[T; N]</code>.</p>
-<div class="rule" id="r-type.array.constraint"><a class="rule-link" href="#r-type.array.constraint" title="type.array.constraint"><span>[type<wbr>.array<wbr>.constraint]</span/></a>
+<div class="rule" id="r-type.array.constraint"><a class="rule-link" href="#r-type.array.constraint" title="type.array.constraint"><span>[type<wbr>.array<wbr>.constraint]</span></a>
 </div>
+
 <p>The size is a <a href="../const_eval.html#constant-expressions">constant expression</a> that evaluates to a <a href="numeric.html#machine-dependent-integer-types"><code>usize</code></a>.</p>
 <p>Examples:</p>
-<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">#![allow(unused)]
+<pre class="playground"><code class="language-rust edition2024"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>// A stack-allocated array
 let array: [i32; 3] = [1, 2, 3];
 
 // A heap-allocated array, coerced to a slice
 let boxed_array: Box&lt;[i32]&gt; = Box::new([1, 2, 3]);
-<span class="boring">}</span></code></pre></pre>
-<div class="rule" id="r-type.array.index"><a class="rule-link" href="#r-type.array.index" title="type.array.index"><span>[type<wbr>.array<wbr>.index]</span/></a>
+<span class="boring">}</span></code></pre>
+<div class="rule" id="r-type.array.index"><a class="rule-link" href="#r-type.array.index" title="type.array.index"><span>[type<wbr>.array<wbr>.index]</span></a>
 </div>
+
 <p>All elements of arrays are always initialized, and access to an array is
 always bounds-checked in safe methods and operators.</p>
 <div class="alert alert-note">
 <blockquote>
-<p class="alert-title"><svg viewBox="0 0 16 16" width="18" height="18"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"></path></svg>Note</p>
+<p class="alert-title"><svg viewbox="0 0 16 16" width="18" height="18"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"></path></svg>Note</p>
+
 <p>The <a href="../../alloc/vec/struct.Vec.html"><code>Vec&lt;T&gt;</code></a> standard library type provides a heap-allocated resizable array type.</p>
 </blockquote>
 </div>
+
 
                     </main>
 
@@ -278,6 +288,7 @@ always bounds-checked in safe methods and operators.</p>
                         <!-- Mobile navigation buttons -->
                             <a rel="prev" href="../types/tuple.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                            </a>
 
                             <a rel="next prefetch" href="../types/slice.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
@@ -319,10 +330,10 @@ always bounds-checked in safe methods and operators.</p>
 
         <script src="../clipboard-1626706a.min.js"></script>
         <script src="../highlight-abc7f01d.js"></script>
-        <script src="../book-81fc5345.js"></script>
+        <script src="../book-a0b12cfe.js"></script>
 
         <!-- Custom JS scripts -->
-        <script src="../theme/reference-cfed9ca5.js"></script>
+        <script src="../theme/reference-da60281b.js"></script>
 
 
 
