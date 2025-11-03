@@ -176,7 +176,7 @@ r[expr.deref.safety]
 Dereferencing a raw pointer requires `unsafe`.
 
 r[expr.deref.traits]
-On non-pointer types `*x` is equivalent to `*std::ops::Deref::deref(&x)` in an [immutable place expression context](../expressions.md#mutability) and `*std::ops::DerefMut::deref_mut(&mut x)` in a mutable place expression context.
+On non-pointer types `*x` is equivalent to `*std::ops::Deref::deref(&x)` in an [immutable place expression context](../expressions.md#mutability) and `*std::ops::DerefMut::deref_mut(&mut x)` in a mutable place expression context, except that when `*x` undergoes [temporary lifetime extension], the dereferenced expression `x` also has its [temporary scope] extended.
 
 ```rust
 # struct NoCopy;
@@ -187,6 +187,21 @@ let b = &mut 9;
 assert_eq!(*b, 11);
 let c = Box::new(NoCopy);
 let d: NoCopy = *c;
+```
+
+```rust
+// The temporary holding the result of `String::new()` is extended
+// to live to the end of the block, so `x` may be used in subsequent
+// statements.
+let x = &*String::new();
+# x;
+```
+
+```rust,compile_fail,E0716
+// The temporary holding the result of `String::new()` is dropped at
+// the end of the statement, so it's an error to use `y` after.
+let y = &*std::ops::Deref::deref(&String::new()); // ERROR
+# y;
 ```
 
 r[expr.try]
