@@ -2,6 +2,8 @@
 
 [Introduction](introduction.md)
 
+- [Scope](scope.md)
+
 - [Notation](notation.md)
 
 - [Lexical structure](lexical-structure.md)

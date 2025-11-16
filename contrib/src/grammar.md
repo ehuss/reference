@@ -1,4 +1,4 @@
-# Grammar
+# Rust grammar
 
 The Reference grammar is written in markdown code blocks using a modified BNF-like syntax (with a blend of regex and other arbitrary things). The `mdbook-spec` extension parses these rules and converts them to a renderable format, including railroad diagrams.
 
