@@ -14,11 +14,11 @@ See the [Scope] chapter for a detailed explanation of what constitutes the Refer
 
 ## How to use this book
 
-This book does not assume you are reading this book sequentially. Each chapter generally can be read standalone, but will cross-link to other chapters for facets of the language they refer to, but do not discuss.
+This book does not assume you are reading it sequentially. Each chapter generally can be read standalone, but will cross-link to other chapters for facets of the language they refer to but do not discuss.
 
 There are two main ways to read this document.
 
-The first is to answer a specific question. If you know which chapter answers that question, you can jump to that chapter in the table of contents. Otherwise, you can press `s` or click the magnifying glass on the top bar to search for keywords related to your question. For example, say you wanted to know when a temporary value created in a let statement is dropped. If you didn't already know that the [lifetime of temporaries] is defined in the [expressions chapter], you could search "temporary let" and the first search result will take you to that section.
+The first is to answer a specific question. If you know which chapter answers that question, you can jump to that chapter in the table of contents. Otherwise, you can press `s` or click the magnifying glass on the top bar to search for keywords related to your question. For example, say you wanted to know when a temporary value created in a `let` statement is dropped. If you didn't already know that the [lifetime of temporaries] is defined in the [expressions chapter], you could search "temporary let" and the first search result will take you to that section.
 
 The second is to generally improve your knowledge of a facet of the language. In that case, just browse the table of contents until you see something you want to know more about, and just start reading. If a link looks interesting, click it, and read about that section.
 
@@ -40,7 +40,7 @@ Like all technical books, this book has certain conventions in how it displays i
 ### Rules
 
 r[example.rule.label]
-Rule identifiers appear before each language rule enclosed in square brackets. These identifiers provide a way to refer to and link to a specific rule in the language ([e.g.][example rule]). The rule identifier uses periods to separate sections from most general to most specific ([destructors.scope.nesting.function-body] for example). On narrow screens, the rule name will collapse to display `[*]`.
+Rule identifiers appear before each language rule, enclosed in square brackets. These identifiers provide a way to refer to and link to a specific rule in the language ([e.g.][example rule]). The rule identifier uses periods to separate sections from most general to most specific ([destructors.scope.nesting.function-body] for example). On narrow screens, the rule name will collapse to display `[*]`.
 
 The rule name can be clicked to link to that rule.
 
@@ -49,7 +49,7 @@ The rule name can be clicked to link to that rule.
 
 #### Rule tests
 
-Rules that have associated tests will include a `Tests` link below them (on narrow screens, the link is `[T]`). Clicking the link will pop up a list of tests, which can be clicked to view the test. For example, see [input.encoding.utf8].
+Rules that have associated tests will include a `Tests` link below them (on narrow screens, the link is `[T]`). Clicking the link will display a list of tests, which can be clicked to view each test. For example, see [input.encoding.utf8].
 
 Linking rules to tests is an ongoing effort. See the [Test summary](test-summary.md) chapter for an overview.
 
@@ -113,7 +113,7 @@ The main text describes the latest stable edition. Differences to previous editi
 
 We welcome contributions of all kinds.
 
-You can contribute to this book by opening an issue or sending a pull request to [the Rust Reference repository]. If this book does not answer your question, and you think its answer is in scope of it, please do not hesitate to [file an issue] or ask about it in the `t-lang/doc` stream on [Zulip]. Knowing what people use this book for the most helps direct our attention to making those sections the best that they can be. And of course, if you see anything that is wrong or is non-normative but not specifically called out as such, please also [file an issue].
+You can contribute to this book by opening an issue or sending a pull request to [the Rust Reference repository]. If this book does not answer your question and you think its answer is in scope, please do not hesitate to [file an issue] or ask about it in the `t-lang/doc` stream on [Zulip]. Knowing what people use this book for the most helps direct our attention to making those sections the best they can be. And of course, if you see anything that is wrong or is non-normative but not specifically called out as such, please also [file an issue].
 
 <!-- TODO: Link to contributing guide -->
 
