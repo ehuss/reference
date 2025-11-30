@@ -1,0 +1,7 @@
+[workspace]
+members = [
+    "mdbook-spec",
+    "style-check",
+    "xtask",
+]
+resolver = "2"

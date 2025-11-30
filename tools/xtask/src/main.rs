@@ -47,7 +47,12 @@ fn mdbook_test() -> Result<()> {
 fn style_check() -> Result<()> {
     eprintln!("Running style checks...");
     let status = Command::new("cargo")
-        .args(["run", "--manifest-path=style-check/Cargo.toml", "--", "src"])
+        .args([
+            "run",
+            "--manifest-path=tools/style-check/Cargo.toml",
+            "--",
+            "src",
+        ])
         .status()
         .expect("cargo should be installed");
     if !status.success() {
@@ -58,15 +63,13 @@ fn style_check() -> Result<()> {
 
 fn fmt() -> Result<()> {
     eprintln!("Checking code formatting...");
-    for dir in ["style-check", "mdbook-spec", "xtask"] {
-        let status = Command::new("cargo")
-            .args(["fmt", "--check"])
-            .current_dir(dir)
-            .status()
-            .expect("cargo should be installed");
-        if !status.success() {
-            return Err(format!("fmt check failed for {dir}").into());
-        }
+    let status = Command::new("cargo")
+        .args(["fmt", "--check"])
+        .current_dir("tools")
+        .status()
+        .expect("cargo should be installed");
+    if !status.success() {
+        return Err("fmt check failed".into());
     }
     Ok(())
 }
@@ -75,7 +78,7 @@ fn cargo_test() -> Result<()> {
     eprintln!("Running cargo tests...");
     let status = Command::new("cargo")
         .arg("test")
-        .current_dir("mdbook-spec")
+        .current_dir("tools/mdbook-spec")
         .status()
         .expect("cargo should be installed");
     if !status.success() {
