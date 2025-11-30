@@ -1,5 +1,6 @@
 [workspace]
 members = [
+    "diagnostics",
     "mdbook-spec",
     "style-check",
     "xtask",
@@ -9,3 +10,6 @@ resolver = "2"
 [workspace.package]
 edition = "2024"
 license = "MIT OR Apache-2.0"
+
+[workspace.dependencies]
+diagnostics = { path = "diagnostics" }
