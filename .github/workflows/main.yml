@@ -96,8 +96,8 @@ jobs:
     - name: Verify tools workspace lockfile is current
       working-directory: ./tools
       run: cargo update -p mdbook-spec --locked
-    - name: Test mdbook-spec
-      working-directory: ./tools/mdbook-spec
+    - name: Test tools
+      working-directory: ./tools
       run: cargo test
 
   preview:

@@ -1,6 +1,7 @@
 [workspace]
 members = [
     "diagnostics",
+    "grammar",
     "mdbook-spec",
     "style-check",
     "xtask",
@@ -13,3 +14,7 @@ license = "MIT OR Apache-2.0"
 
 [workspace.dependencies]
 diagnostics = { path = "diagnostics" }
+grammar = { path = "grammar" }
+pathdiff =  "0.2.3"
+regex = "1.12.2"
+walkdir = "2.5.0"
