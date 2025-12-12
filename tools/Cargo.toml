@@ -2,6 +2,8 @@
 members = [
     "diagnostics",
     "grammar",
+    "grammar-check",
+    "lexer",
     "mdbook-spec",
     "style-check",
     "xtask",
@@ -13,8 +15,13 @@ edition = "2024"
 license = "MIT OR Apache-2.0"
 
 [workspace.dependencies]
+clap = "4.5.53"
 diagnostics = { path = "diagnostics" }
 grammar = { path = "grammar" }
+lexer = { path = "lexer" }
 pathdiff =  "0.2.3"
 regex = "1.12.2"
+tracing = "0.1.43"
+tracing-subscriber = { version = "0.3.22", features = ["env-filter"] }
+unicode-ident = "1.0.22"
 walkdir = "2.5.0"

@@ -1,0 +1,459 @@
+#![allow(unused)]
+use diagnostics::Diagnostics;
+use grammar::Characters;
+use grammar::Expression;
+use grammar::ExpressionKind;
+use grammar::Grammar;
+use std::error::Error;
+use std::ops::Range;
+use tracing::debug;
+use tracing::instrument;
+
+// type Result<T> = std::result::Result<T, Box<dyn Error>>;
+
+#[derive(Debug, Clone)]
+pub struct Token {
+    pub name: String,
+    pub range: Range<usize>,
+}
+
+#[derive(Debug)]
+pub struct LexError {
+    pub byte_offset: usize,
+    pub message: String,
+}
+
+impl LexError {
+    pub fn display(&self, src: &str) -> String {
+        let s = &src[self.byte_offset..];
+        match s.char_indices().nth(100) {
+            Some((i, _)) => format!("{} at `{}…`", self.message, &s[..i]),
+            None => format!("{} at `{s}`", self.message),
+        }
+    }
+}
+
+pub fn tokenize(src: &str) -> Result<Vec<Token>, LexError> {
+    let mut diag = Diagnostics::new();
+    let mut grammar = grammar::load_grammar(&mut diag);
+    remove_breaks(&mut grammar);
+    let mut tokens = Vec::new();
+    let mut top_prods: Vec<_> = [
+        "LINE_COMMENT",
+        "BLOCK_COMMENT",
+        "OUTER_BLOCK_DOC",
+        "INNER_LINE_DOC",
+        "INNER_BLOCK_DOC",
+        "OUTER_LINE_DOC",
+    ].into_iter()
+    .map(|comment| grammar.productions.get(comment).unwrap())
+    .collect();
+
+    let token = grammar.productions.get("Token").unwrap();
+    let ExpressionKind::Alt(es) = &token.expression.kind else {
+        panic!("expected alts");
+    };
+    for e in es {
+        let nt = match &e.kind {
+            ExpressionKind::Sequence(es) => {
+                let seq: Vec<_> = es
+                    .iter()
+                    .filter_map(|e| match &e.kind {
+                        ExpressionKind::Nt(nt) => Some(nt),
+                        kind => panic!("unexpected kind {kind:?}"),
+                    })
+                    .collect();
+                assert_eq!(seq.len(), 1);
+                seq[0]
+            }
+            ExpressionKind::Nt(nt) => nt,
+            kind => panic!("unexpected kind {kind:?}"),
+        };
+        top_prods.push(grammar.productions.get(nt).unwrap());
+    }
+
+    let whitespace = &grammar.productions.get("WHITESPACE").unwrap().expression;
+
+    let mut index = 0;
+    while index < src.len() {
+        if let Some(i) = parse_expression(&grammar, whitespace, None, src, index) {
+            index += i;
+            continue;
+        }
+
+        let t = top_prods
+            .iter()
+            .filter_map(|token_prod| {
+                debug!("try top-level token `{}`", token_prod.name);
+                parse_expression(&grammar, &token_prod.expression, None, src, index).and_then(|l| {
+                    if l == 0 {
+                        None
+                    } else {
+                        Some((
+                            l,
+                            Token {
+                                name: token_prod.name.clone(),
+                                range: Range {
+                                    start: index,
+                                    end: index + l,
+                                },
+                            },
+                        ))
+                    }
+                })
+            })
+            .next();
+        match t {
+            Some((l, t)) => {
+                index += l;
+                tokens.push(t);
+            }
+            None => {
+                return Err(LexError {
+                    byte_offset: index,
+                    message: String::from("no tokens matched"),
+                });
+            }
+        }
+    }
+
+    Ok(tokens)
+}
+
+#[instrument(level = "debug", skip(grammar, e, next, src), ret)]
+fn parse_expression(
+    grammar: &Grammar,
+    e: &Expression,
+    next: Option<&Expression>,
+    src: &str,
+    index: usize,
+) -> Option<usize> {
+    // eprintln!("match {e:?}");
+    tracing::debug!("e={e}");
+    if index < src.len() {
+        tracing::debug!("next char={:?}", src[index..].chars().next());
+    } else {
+        tracing::debug!("eof");
+    }
+    match &e.kind {
+        ExpressionKind::Grouped(e) => {
+            assert_eq!(e.suffix, None);
+            return parse_expression(grammar, e, None, src, index);
+        }
+        ExpressionKind::Alt(es) => {
+            assert_eq!(e.suffix, None);
+            for e in es {
+                if let Some(l) = parse_expression(grammar, e, None, src, index) {
+                    if l != 0 {
+                        return Some(l);
+                    }
+                }
+            }
+            None
+        }
+        ExpressionKind::Sequence(es) => {
+            assert_eq!(e.suffix, None);
+            let mut i = 0;
+            let mut es_i = es.iter().peekable();
+            while let Some(e) = es_i.next() {
+                let next = es_i.peek().map(|e| *e);
+                match parse_expression(grammar, e, next, &src, index + i) {
+                    Some(l) => {
+                        i += l;
+                    }
+                    None => return None,
+                }
+            }
+            Some(i)
+        }
+        ExpressionKind::Optional(e) => {
+            assert_eq!(e.suffix, None);
+            match parse_expression(grammar, e, None, src, index) {
+                Some(l) => Some(l),
+                None => Some(0),
+            }
+        }
+        ExpressionKind::Repeat(e) => {
+            assert_eq!(e.suffix, None);
+            let mut i = 0;
+            while i < src.len()
+                && let Some(l) = parse_expression(grammar, e, None, &src, index + i)
+            {
+                i += l;
+            }
+            Some(i)
+        }
+        ExpressionKind::RepeatNonGreedy(e) => {
+            assert_eq!(e.suffix, None);
+            let Some(next) = next else {
+                panic!("expected next after non-greedy");
+            };
+            let mut i = 0;
+            while i < src.len() {
+                if let Some(_) = parse_expression(grammar, next, None, src, index + i) {
+                    break;
+                }
+                match parse_expression(grammar, e, None, &src, index + i) {
+                    Some(l) => i += l,
+                    None => break,
+                }
+            }
+            Some(i)
+        }
+        ExpressionKind::RepeatPlus(e) => {
+            assert_eq!(e.suffix, None);
+            let mut i = 0;
+            while i < src.len()
+                && let Some(l) = parse_expression(grammar, e, None, &src, index + i)
+            {
+                i += l;
+            }
+            if i == 0 { None } else { Some(i) }
+        }
+        ExpressionKind::RepeatPlusNonGreedy(e) => {
+            assert_eq!(e.suffix, None);
+            todo!()
+        }
+        ExpressionKind::RepeatRange(e, min, max) => {
+            assert_eq!(e.suffix, None);
+            let mut i = 0;
+            let mut count = 0;
+            while i < src.len()
+                && let Some(l) = parse_expression(grammar, e, None, &src, index + i)
+            {
+                count += 1;
+                i += l;
+                if let Some(max) = max {
+                    if count == *max {
+                        break;
+                    }
+                }
+            }
+            if let Some(min) = min {
+                if count < *min {
+                    return None;
+                }
+            }
+            Some(i)
+        }
+        ExpressionKind::Nt(s) => {
+            let prod = grammar.productions.get(s).unwrap();
+            let l = parse_expression(grammar, &prod.expression, None, src, index)?;
+            match e.suffix.as_deref() {
+                Some("except `\\0` or `\\x00`") => {
+                    let s = &src[index..index + l];
+                    if matches!(s, "\\0" | "\\x00") {
+                        return None;
+                    }
+                }
+                Some("except `\\u{0}`, `\\u{00}`, …, `\\u{000000}`") => todo!(),
+                Some("except `_`") => {
+                    let s = &src[index..index + l];
+                    if s == "_" {
+                        return None;
+                    }
+                }
+                Some("except `b` or `c` or `r` or `br` or `cr`") => {
+                    let s = &src[index..index + l];
+                    if matches!(s, "b" | "c" | "r" | "br" | "cr") {
+                        return None;
+                    }
+                }
+                Some("except `b`") => {
+                    let s = &src[index..index + l];
+                    if s == "b" {
+                        return None;
+                    }
+                }
+                Some("except `r` or `br` or `cr`") => {
+                    let s = &src[index..index + l];
+                    if matches!(s, "r" | "br" | "cr") {
+                        return None;
+                    }
+                }
+                Some("except `r`") => {
+                    let s = &src[index..index + l];
+                    if s == "r" {
+                        return None;
+                    }
+                }
+                Some("not beginning with `e` or `E`") => {
+                    let s = &src[index..index + l];
+                    if s.starts_with('e') || s.starts_with('E') {
+                        return None;
+                    }
+                }
+                Some("not immediately followed by `'`") => {
+                    if src[index + l..].chars().next() == Some('\'') {
+                        return None;
+                    }
+                }
+                Some(s) => panic!("unknown suffix {s:?}"),
+                None => {}
+            }
+            Some(l)
+        }
+        ExpressionKind::Terminal(s) => {
+            if index >= src.len() || !src[index..].starts_with(s) {
+                return None;
+            }
+            let l = s.len();
+            match e.suffix.as_deref() {
+                Some("not immediately followed by `.`, `_` or an XID_Start character") => {
+                    if let Some(next_ch) = src[index + l..].chars().next() {
+                        if matches!(next_ch, '.' | '_') || unicode_ident::is_xid_start(next_ch) {
+                            return None;
+                        }
+                    }
+                }
+                Some("not immediately followed by `#`") => {
+                    if src[index + l..].chars().next() == Some('#') {
+                        return None
+                    }
+                }
+                Some(s) => panic!("unknown suffix {s:?}"),
+                None => {}
+            }
+            Some(l)
+        }
+        ExpressionKind::Prose(s) => {
+            assert_eq!(e.suffix, None);
+            match_prose(grammar, s, src, index)
+        }
+        ExpressionKind::Break(_) => unreachable!(),
+        ExpressionKind::Comment(s) => Some(0),
+        ExpressionKind::Charset(chars) => {
+            assert_eq!(e.suffix, None);
+            if index >= src.len() {
+                return None;
+            }
+            for ch in chars {
+                match ch {
+                    Characters::Named(name) => {
+                        let prod = grammar.productions.get(name).unwrap();
+                        let l = parse_expression(grammar, &prod.expression, None, src, index)?;
+                        return Some(l);
+                    }
+                    Characters::Terminal(s) => {
+                        if src[index..].starts_with(s) {
+                            return Some(s.len());
+                        }
+                    }
+                    Characters::Range(a, b) => {
+                        let next = src[index..].chars().next()?;
+                        if next >= *a && next <= *b {
+                            return Some(next.len_utf8());
+                        }
+                    }
+                }
+            }
+            None
+        }
+        ExpressionKind::NegExpression(e) => {
+            assert_eq!(e.suffix, None);
+            match parse_expression(grammar, e, None, src, index) {
+                Some(_) => None,
+                None => {
+                    if index <= src.len() {
+                        Some(src[index..].chars().next()?.len_utf8())
+                    } else {
+                        None
+                    }
+                }
+            }
+        }
+        ExpressionKind::Unicode(s) => {
+            assert_eq!(e.suffix, None);
+            let c = char::from_u32(u32::from_str_radix(s, 16).unwrap()).unwrap();
+            if src[index..].starts_with(c) {
+                Some(c.len_utf8())
+            } else {
+                None
+            }
+        }
+    }
+}
+
+fn match_prose(grammar: &Grammar, prose: &str, src: &str, index: usize) -> Option<usize> {
+    let ch = src[index..].chars().next();
+    let eof_but_not_digit = |prod| match ch {
+        Some(ch) => {
+            let p = grammar.productions.get(prod).unwrap();
+            if parse_expression(grammar, &p.expression, None, src, index).is_some() {
+                return None;
+            }
+            Some(0)
+        }
+        None => Some(0),
+    };
+    let ascii_but = |except: &dyn Fn(char) -> bool| {
+        let ch = ch?;
+        (ch >= '\0' && ch <= '\x7f' && !except(ch)).then_some(1)
+    };
+
+    match prose {
+        "`XID_Start` defined by Unicode" => {
+            let ch = ch?;
+            unicode_ident::is_xid_start(ch).then(|| ch.len_utf8())
+        }
+        "`XID_Continue` defined by Unicode" => {
+            let ch = ch?;
+            unicode_ident::is_xid_continue(ch).then(|| ch.len_utf8())
+        }
+        "any ASCII (i.e. 0x00 to 0x7F) except CR" => ascii_but(&|ch| ch == '\r'),
+        "any ASCII (i.e. 0x00 to 0x7F) except `'`, `\\`, LF, CR, or TAB" => {
+            ascii_but(&|ch| matches!(ch, '\'' | '\\' | '\n' | '\r' | '\t'))
+        }
+        "any ASCII (i.e 0x00 to 0x7F) except `\"`, `\\`, or CR" => {
+            ascii_but(&|ch| matches!(ch, '\"' | '\\' | '\r'))
+        }
+        "end of input or not BIN_DIGIT" => eof_but_not_digit("BIN_DIGIT"),
+        "end of input or not DEC_DIGIT" => eof_but_not_digit("DEC_DIGIT"),
+        "end of input or not HEX_DIGIT" => eof_but_not_digit("HEX_DIGIT"),
+        "end of input or not OCT_DIGIT" => eof_but_not_digit("OCT_DIGIT"),
+        "a Unicode scalar value" => {
+            let ch = ch?;
+            Some(ch.len_utf8())
+        }
+
+        p => panic!("unknown prose {p}"),
+    }
+}
+
+fn remove_breaks(grammar: &mut Grammar) {
+    for prod in grammar.productions.values_mut() {
+        remove_break_expr(&mut prod.expression);
+    }
+}
+
+fn remove_break_expr(e: &mut Expression) {
+    match &mut e.kind {
+        ExpressionKind::Grouped(e) => remove_break_expr(e),
+        ExpressionKind::Alt(es) => {
+            es.retain(|e| !matches!(e.kind, ExpressionKind::Break(_)));
+            for e in es {
+                remove_break_expr(e);
+            }
+        }
+        ExpressionKind::Sequence(es) => {
+            es.retain(|e| !matches!(e.kind, ExpressionKind::Break(_)));
+            for e in es {
+                remove_break_expr(e);
+            }
+        }
+        ExpressionKind::Optional(e) => remove_break_expr(e),
+        ExpressionKind::Repeat(e) => remove_break_expr(e),
+        ExpressionKind::RepeatNonGreedy(e) => remove_break_expr(e),
+        ExpressionKind::RepeatPlus(e) => remove_break_expr(e),
+        ExpressionKind::RepeatPlusNonGreedy(e) => remove_break_expr(e),
+        ExpressionKind::RepeatRange(e, _, _) => remove_break_expr(e),
+        ExpressionKind::Nt(_) => {}
+        ExpressionKind::Terminal(_) => {}
+        ExpressionKind::Prose(_) => {}
+        ExpressionKind::Break(_) => panic!("unvisitable"),
+        ExpressionKind::Comment(_) => {}
+        ExpressionKind::Charset(_) => {}
+        ExpressionKind::NegExpression(e) => remove_break_expr(e),
+        ExpressionKind::Unicode(_) => {}
+    }
+}

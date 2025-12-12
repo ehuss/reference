@@ -5,7 +5,7 @@ r[comments.syntax]
 ```grammar,lexer
 @root LINE_COMMENT ->
       `//` (~[`/` `!` LF] | `//`) ~LF*
-    | `//`
+    | `//` ~CHAR
 
 BLOCK_COMMENT ->
       `/*`
@@ -22,7 +22,7 @@ INNER_BLOCK_DOC ->
     `/*!` ( BLOCK_COMMENT_OR_DOC | ~[`*/` CR] )* `*/`
 
 @root OUTER_LINE_DOC ->
-    `///` (~`/` ~[LF CR]*)?
+    `///` (~[LF CR]*)?
 
 OUTER_BLOCK_DOC ->
     `/**`

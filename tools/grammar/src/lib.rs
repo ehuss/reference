@@ -7,6 +7,7 @@ use std::path::{Path, PathBuf};
 use std::sync::LazyLock;
 use walkdir::WalkDir;
 
+mod display;
 mod parser;
 
 #[derive(Debug, Default)]
@@ -125,7 +126,7 @@ impl Expression {
                 }
             }
             ExpressionKind::Nt(nt) => {
-                callback(&nt);
+                callback(nt);
             }
             ExpressionKind::Terminal(_)
             | ExpressionKind::Prose(_)
@@ -219,7 +220,7 @@ fn check_unexpected_roots(grammar: &Grammar, diag: &mut Diagnostics) {
     let expected: HashSet<_> = grammar
         .productions
         .values()
-        .filter_map(|p| p.is_root.then(|| p.name.as_str()))
+        .filter(|&p| p.is_root).map(|p| p.name.as_str())
         .collect();
     if set != expected {
         let new: Vec<_> = set.difference(&expected).collect();
