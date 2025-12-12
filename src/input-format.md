@@ -10,6 +10,10 @@ ASCII -> [U+0000-U+007F]
 NUL -> U+0000
 
 EOF -> !CHAR  // End of file or input
+
+⊥ -> CHAR* CHAR
+
+error -> ^ ⊥ // Should be a hard error.
 ```
 
 r[input.intro]
