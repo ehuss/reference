@@ -71,7 +71,8 @@ fn last_expr(expr: &Expression) -> &ExpressionKind {
         | ExpressionKind::RepeatNonGreedy(_)
         | ExpressionKind::RepeatPlus(_)
         | ExpressionKind::RepeatPlusNonGreedy(_)
-        | ExpressionKind::RepeatRange(_, _, _)
+        | ExpressionKind::RepeatRange(_, _, _, _)
+        | ExpressionKind::RepeatRangeNamed(_, _)
         | ExpressionKind::Nt(_)
         | ExpressionKind::Terminal(_)
         | ExpressionKind::Prose(_)
@@ -79,6 +80,7 @@ fn last_expr(expr: &Expression) -> &ExpressionKind {
         | ExpressionKind::Comment(_)
         | ExpressionKind::Charset(_)
         | ExpressionKind::NegExpression(_)
+        | ExpressionKind::Cut(_, _)
         | ExpressionKind::Unicode(_) => &expr.kind,
     }
 }
@@ -134,15 +136,20 @@ fn render_expression(expr: &Expression, cx: &RenderCtx, output: &mut String) {
             render_expression(e, cx, output);
             output.push_str("<sup>+ (non-greedy)</sup>");
         }
-        ExpressionKind::RepeatRange(e, a, b) => {
+        ExpressionKind::RepeatRange(e, name, a, b) => {
             render_expression(e, cx, output);
             write!(
                 output,
-                "<sup>{}..{}</sup>",
+                "<sup>{}{}..{}</sup>",
+                name.as_ref().map(|n| format!("{n}:")).unwrap_or_default(),
                 a.map(|v| v.to_string()).unwrap_or_default(),
                 b.map(|v| v.to_string()).unwrap_or_default(),
             )
             .unwrap();
+        }
+        ExpressionKind::RepeatRangeNamed(e, name) => {
+            render_expression(e, cx, output);
+            write!(output, "<sup>{name}</sup>").unwrap();
         }
         ExpressionKind::Nt(nt) => {
             let dest = cx.md_link_map.get(nt).map_or("missing", |d| d.as_str());
@@ -170,6 +177,11 @@ fn render_expression(expr: &Expression, cx: &RenderCtx, output: &mut String) {
         ExpressionKind::NegExpression(e) => {
             output.push('~');
             render_expression(e, cx, output);
+        }
+        ExpressionKind::Cut(e1, e2) => {
+            render_expression(e1, cx, output);
+            output.push_str(" ^ ");
+            render_expression(e2, cx, output);
         }
         ExpressionKind::Unicode(s) => {
             output.push_str("U+");

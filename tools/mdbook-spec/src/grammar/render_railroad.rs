@@ -78,7 +78,8 @@ fn render_expression(expr: &Expression, cx: &RenderCtx, stack: bool) -> Option<B
         state_ref = 'cont: {
             break 'l match state_ref {
                 // Render grouped nodes and `e{1..1}` repeats directly.
-                ExpressionKind::Grouped(e) | ExpressionKind::RepeatRange(e, Some(1), Some(1)) => {
+                ExpressionKind::Grouped(e)
+                | ExpressionKind::RepeatRange(e, _, Some(1), Some(1)) => {
                     render_expression(e, cx, stack)?
                 }
                 ExpressionKind::Alt(es) => {
@@ -141,13 +142,13 @@ fn render_expression(expr: &Expression, cx: &RenderCtx, stack: bool) -> Option<B
                 }
                 // Treat `e?` and `e{..1}` / `e{0..1}` equally.
                 ExpressionKind::Optional(e)
-                | ExpressionKind::RepeatRange(e, None | Some(0), Some(1)) => {
+                | ExpressionKind::RepeatRange(e, _, None | Some(0), Some(1)) => {
                     let n = render_expression(e, cx, stack)?;
                     Box::new(Optional::new(n))
                 }
                 // Treat `e*` and `e{..}` / `e{0..}` equally.
                 ExpressionKind::Repeat(e)
-                | ExpressionKind::RepeatRange(e, None | Some(0), None) => {
+                | ExpressionKind::RepeatRange(e, _, None | Some(0), None) => {
                     let n = render_expression(e, cx, stack)?;
                     Box::new(Optional::new(Repeat::new(n, railroad::Empty)))
                 }
@@ -158,7 +159,8 @@ fn render_expression(expr: &Expression, cx: &RenderCtx, stack: bool) -> Option<B
                     Box::new(lbox)
                 }
                 // Treat `e+` and `e{1..}` equally.
-                ExpressionKind::RepeatPlus(e) | ExpressionKind::RepeatRange(e, Some(1), None) => {
+                ExpressionKind::RepeatPlus(e)
+                | ExpressionKind::RepeatRange(e, _, Some(1), None) => {
                     let n = render_expression(e, cx, stack)?;
                     Box::new(Repeat::new(n, railroad::Empty))
                 }
@@ -169,16 +171,16 @@ fn render_expression(expr: &Expression, cx: &RenderCtx, stack: bool) -> Option<B
                     Box::new(lbox)
                 }
                 // For `e{a..0}` render an empty node.
-                ExpressionKind::RepeatRange(_, _, Some(0)) => Box::new(railroad::Empty),
+                ExpressionKind::RepeatRange(_, _, _, Some(0)) => Box::new(railroad::Empty),
                 // Treat `e{..b}` / `e{0..b}` as `(e{1..b})?`.
-                ExpressionKind::RepeatRange(e, None | Some(0), Some(b @ 2..)) => {
+                ExpressionKind::RepeatRange(e, name, None | Some(0), Some(b @ 2..)) => {
                     state = ExpressionKind::Optional(Box::new(Expression::new_kind(
-                        ExpressionKind::RepeatRange(e.clone(), Some(1), Some(*b)),
+                        ExpressionKind::RepeatRange(e.clone(), name.clone(), Some(1), Some(*b)),
                     )));
                     break 'cont &state;
                 }
                 // Render `e{1..b}` directly.
-                ExpressionKind::RepeatRange(e, Some(1), Some(b @ 2..)) => {
+                ExpressionKind::RepeatRange(e, _, Some(1), Some(b @ 2..)) => {
                     let n = render_expression(e, cx, stack)?;
                     let cmt = format!("at most {b} more times", b = b - 1);
                     let r = Repeat::new(n, Comment::new(cmt));
@@ -187,18 +189,25 @@ fn render_expression(expr: &Expression, cx: &RenderCtx, stack: bool) -> Option<B
                 // Treat `e{a..}` as `e{a-1..a-1} e{1..}` and `e{a..b}` as
                 // `e{a-1..a-1} e{1..b-(a-1)}`, and treat `e{x..x}` for some
                 // `x` as a sequence of `e` nodes of length `x`.
-                ExpressionKind::RepeatRange(e, Some(a @ 2..), b) => {
+                ExpressionKind::RepeatRange(e, name, Some(a @ 2..), b) => {
                     let mut es = Vec::<Expression>::new();
                     for _ in 0..(a - 1) {
                         es.push(*e.clone());
                     }
                     es.push(Expression::new_kind(ExpressionKind::RepeatRange(
                         e.clone(),
+                        name.clone(),
                         Some(1),
                         b.map(|x| x - (a - 1)),
                     )));
                     state = ExpressionKind::Sequence(es);
                     break 'cont &state;
+                }
+                ExpressionKind::RepeatRangeNamed(e, name) => {
+                    let n = render_expression(e, cx, stack)?;
+                    let cmt = format!("repeat exactly {name} times");
+                    let lbox = LabeledBox::new(n, Comment::new(cmt));
+                    Box::new(lbox)
                 }
                 ExpressionKind::Nt(nt) => node_for_nt(cx, nt),
                 ExpressionKind::Terminal(t) => Box::new(Terminal::new(t.clone())),
@@ -213,6 +222,12 @@ fn render_expression(expr: &Expression, cx: &RenderCtx, stack: bool) -> Option<B
                     let n = render_expression(e, cx, stack)?;
                     let ch = node_for_nt(cx, "CHAR");
                     Box::new(Except::new(Box::new(ch), n))
+                }
+                ExpressionKind::Cut(e1, e2) => {
+                    let n1 = render_expression(e1, cx, stack)?;
+                    let n2 = render_expression(e2, cx, stack)?;
+                    let lbox = LabeledBox::new(n2, Comment::new("no backtracking".to_string()));
+                    Box::new(Sequence::new(vec![n1, Box::new(lbox)]))
                 }
                 ExpressionKind::Unicode(s) => Box::new(Terminal::new(format!("U+{}", s))),
             };
