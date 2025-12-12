@@ -1,0 +1,12 @@
+[package]
+name = "lexer"
+edition.workspace = true
+license.workspace = true
+
+[dependencies]
+diagnostics.workspace = true
+grammar.workspace = true
+tracing.workspace = true
+tracing-subscriber.workspace = true
+tracing-tree = "0.4.1"
+unicode-ident.workspace = true

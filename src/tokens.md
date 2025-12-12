@@ -113,7 +113,9 @@ A suffix is a sequence of characters following the primary part of a literal (wi
 
 r[lex.token.literal.suffix.syntax]
 ```grammar,lexer
-SUFFIX -> IDENTIFIER_OR_KEYWORD _except `_`_
+SUFFIX ->
+      `_` ^ XID_Continue+
+    | XID_Start XID_Continue*
 
 SUFFIX_NO_E -> SUFFIX _not beginning with `e` or `E`_
 ```
@@ -171,7 +173,7 @@ r[lex.token.literal.str]
 r[lex.token.literal.str.syntax]
 ```grammar,lexer
 STRING_LITERAL ->
-    `"` (
+    `"` ^ (
         ~[`"` `\` CR]
       | QUOTE_ESCAPE
       | ASCII_ESCAPE
@@ -214,11 +216,9 @@ r[lex.token.literal.str-raw]
 
 r[lex.token.literal.str-raw.syntax]
 ```grammar,lexer
-RAW_STRING_LITERAL -> `r` RAW_STRING_CONTENT SUFFIX?
-
-RAW_STRING_CONTENT ->
-      `"` ( ~CR )*? `"`
-    | `#` RAW_STRING_CONTENT `#`
+RAW_STRING_LITERAL ->
+      `r` `"` ^ ( ~CR )*? `"` SUFFIX?
+    | `r` `#`{n:1..255} ^ `"` ( ~CR )*? (`"` `#`{n}) SUFFIX?
 ```
 
 r[lex.token.literal.str-raw.intro]
@@ -251,7 +251,7 @@ r[lex.token.byte]
 r[lex.token.byte.syntax]
 ```grammar,lexer
 BYTE_LITERAL ->
-    `b'` ( ASCII_FOR_CHAR | BYTE_ESCAPE )  `'` SUFFIX?
+    `b'` ^ ( ASCII_FOR_CHAR | BYTE_ESCAPE )  `'` SUFFIX?
 
 ASCII_FOR_CHAR ->
     <any ASCII (i.e. 0x00 to 0x7F) except `'`, `\`, LF, CR, or TAB>
@@ -270,7 +270,7 @@ r[lex.token.str-byte]
 r[lex.token.str-byte.syntax]
 ```grammar,lexer
 BYTE_STRING_LITERAL ->
-    `b"` ( ASCII_FOR_STRING | BYTE_ESCAPE | STRING_CONTINUE )* `"` SUFFIX?
+    `b"` ^ ( ASCII_FOR_STRING | BYTE_ESCAPE | STRING_CONTINUE )* `"` SUFFIX?
 
 ASCII_FOR_STRING ->
     <any ASCII (i.e 0x00 to 0x7F) except `"`, `\`, or CR>
@@ -303,11 +303,7 @@ r[lex.token.str-byte-raw]
 r[lex.token.str-byte-raw.syntax]
 ```grammar,lexer
 RAW_BYTE_STRING_LITERAL ->
-    `br` RAW_BYTE_STRING_CONTENT SUFFIX?
-
-RAW_BYTE_STRING_CONTENT ->
-      `"` ASCII_FOR_RAW*? `"`
-    | `#` RAW_BYTE_STRING_CONTENT `#`
+    `br` `#`{n:0..255} `"` ^ ASCII_FOR_RAW*? (`"` `#`{n}) SUFFIX?
 
 ASCII_FOR_RAW ->
     <any ASCII (i.e. 0x00 to 0x7F) except CR>
@@ -343,7 +339,7 @@ r[lex.token.str-c]
 r[lex.token.str-c.syntax]
 ```grammar,lexer
 C_STRING_LITERAL ->
-    `c"` (
+    `c"` ^ (
         ~[`"` `\` CR NUL]
       | BYTE_ESCAPE _except `\0` or `\x00`_
       | UNICODE_ESCAPE _except `\u{0}`, `\u{00}`, …, `\u{000000}`_
@@ -399,11 +395,8 @@ r[lex.token.str-c-raw]
 r[lex.token.str-c-raw.syntax]
 ```grammar,lexer
 RAW_C_STRING_LITERAL ->
-    `cr` RAW_C_STRING_CONTENT SUFFIX?
-
-RAW_C_STRING_CONTENT ->
-      `"` ( ~[CR NUL] )*? `"`
-    | `#` RAW_C_STRING_CONTENT `#`
+      `cr` `"` ^ ( ~[CR NUL] )*? `"` SUFFIX?
+    | `cr` `#`{n:1..255} ^ `"` ( ~[CR NUL] )*? (`"` `#`{n}) SUFFIX?
 ```
 
 r[lex.token.str-c-raw.intro]
