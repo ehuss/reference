@@ -1,7 +1,6 @@
 use std::error::Error;
 use std::path::{Path, PathBuf};
-use std::process::Command;
-use std::process::exit;
+use std::process::{Command, exit};
 
 type Result<T> = std::result::Result<T, Box<dyn Error>>;
 

@@ -84,6 +84,7 @@ fn render_expression(expr: &Expression, cx: &RenderCtx, stack: bool) -> Option<B
                     min: Some(1),
                     max: Some(1),
                     limit: RangeLimit::Closed,
+                    ..
                 } => render_expression(e, cx, stack)?,
                 ExpressionKind::Alt(es) => {
                     let choices: Vec<_> = es
@@ -143,12 +144,6 @@ fn render_expression(expr: &Expression, cx: &RenderCtx, stack: bool) -> Option<B
                         make_seq(&es)?
                     }
                 }
-                ExpressionKind::NegativeLookahead(e) => {
-                    let forward = render_expression(e, cx, stack)?;
-                    let lbox =
-                        LabeledBox::new(forward, Comment::new("not followed by".to_string()));
-                    Box::new(lbox)
-                }
                 // Treat `e?` and `e{..=1}` / `e{0..=1}` equally.
                 ExpressionKind::Optional(e)
                 | ExpressionKind::RepeatRange {
@@ -156,9 +151,16 @@ fn render_expression(expr: &Expression, cx: &RenderCtx, stack: bool) -> Option<B
                     min: None | Some(0),
                     max: Some(1),
                     limit: RangeLimit::Closed,
+                    ..
                 } => {
                     let n = render_expression(e, cx, stack)?;
                     Box::new(Optional::new(n))
+                }
+                ExpressionKind::NegativeLookahead(e) => {
+                    let forward = render_expression(e, cx, stack)?;
+                    let lbox =
+                        LabeledBox::new(forward, Comment::new("not followed by".to_string()));
+                    Box::new(lbox)
                 }
                 // Treat `e*` and `e{..}` / `e{0..}` equally.
                 ExpressionKind::Repeat(e)
@@ -167,15 +169,10 @@ fn render_expression(expr: &Expression, cx: &RenderCtx, stack: bool) -> Option<B
                     min: None | Some(0),
                     max: None,
                     limit: RangeLimit::HalfOpen,
+                    ..
                 } => {
                     let n = render_expression(e, cx, stack)?;
                     Box::new(Optional::new(Repeat::new(n, railroad::Empty)))
-                }
-                ExpressionKind::RepeatNonGreedy(e) => {
-                    let n = render_expression(e, cx, stack)?;
-                    let r = Box::new(Optional::new(Repeat::new(n, railroad::Empty)));
-                    let lbox = LabeledBox::new(r, Comment::new("non-greedy".to_string()));
-                    Box::new(lbox)
                 }
                 // Treat `e+` and `e{1..}` equally.
                 ExpressionKind::RepeatPlus(e)
@@ -184,15 +181,10 @@ fn render_expression(expr: &Expression, cx: &RenderCtx, stack: bool) -> Option<B
                     min: Some(1),
                     max: None,
                     limit: RangeLimit::HalfOpen,
+                    ..
                 } => {
                     let n = render_expression(e, cx, stack)?;
                     Box::new(Repeat::new(n, railroad::Empty))
-                }
-                ExpressionKind::RepeatPlusNonGreedy(e) => {
-                    let n = render_expression(e, cx, stack)?;
-                    let r = Repeat::new(n, railroad::Empty);
-                    let lbox = LabeledBox::new(r, Comment::new("non-greedy".to_string()));
-                    Box::new(lbox)
                 }
                 // For `e{..=0}` / `e{0..=0}` or `e{..1}` / `e{0..1}` render an empty node.
                 ExpressionKind::RepeatRange { max: Some(0), .. }
@@ -205,6 +197,7 @@ fn render_expression(expr: &Expression, cx: &RenderCtx, stack: bool) -> Option<B
                 // `(e{1..=b})?` (or `(e{1..b})?` for half-open).
                 ExpressionKind::RepeatRange {
                     expr: e,
+                    name,
                     min: None | Some(0),
                     max: Some(b @ 2..),
                     limit,
@@ -212,10 +205,12 @@ fn render_expression(expr: &Expression, cx: &RenderCtx, stack: bool) -> Option<B
                     state = ExpressionKind::Optional(Box::new(Expression::new_kind(
                         ExpressionKind::RepeatRange {
                             expr: e.clone(),
+                            name: name.clone(),
                             min: Some(1),
                             max: Some(*b),
                             limit: *limit,
                         },
+                        0, // Synthetic expression for rendering
                     )));
                     break 'cont &state;
                 }
@@ -225,6 +220,7 @@ fn render_expression(expr: &Expression, cx: &RenderCtx, stack: bool) -> Option<B
                     min: Some(1),
                     max: Some(b @ 2..),
                     limit,
+                    ..
                 } => {
                     let n = render_expression(e, cx, stack)?;
                     let more = match limit {
@@ -251,12 +247,14 @@ fn render_expression(expr: &Expression, cx: &RenderCtx, stack: bool) -> Option<B
                 // - `e{a..b}` as `e{0..a-1} e{1..b-(a-1)}`
                 ExpressionKind::RepeatRange {
                     expr: e,
+                    name,
                     min: Some(a @ 2..),
                     max: b @ None,
                     limit,
                 }
                 | ExpressionKind::RepeatRange {
                     expr: e,
+                    name,
                     min: Some(a @ 2..),
                     max: b @ Some(_),
                     limit,
@@ -265,12 +263,16 @@ fn render_expression(expr: &Expression, cx: &RenderCtx, stack: bool) -> Option<B
                     for _ in 0..(a - 1) {
                         es.push(*e.clone());
                     }
-                    es.push(Expression::new_kind(ExpressionKind::RepeatRange {
-                        expr: e.clone(),
-                        min: Some(1),
-                        max: b.map(|x| x - (a - 1)),
-                        limit: *limit,
-                    }));
+                    es.push(Expression::new_kind(
+                        ExpressionKind::RepeatRange {
+                            expr: e.clone(),
+                            name: name.clone(),
+                            min: Some(1),
+                            max: b.map(|x| x - (a - 1)),
+                            limit: *limit,
+                        },
+                        0,
+                    )); // Synthetic expression for rendering
                     state = ExpressionKind::Sequence(es);
                     break 'cont &state;
                 }
@@ -279,6 +281,12 @@ fn render_expression(expr: &Expression, cx: &RenderCtx, stack: bool) -> Option<B
                     limit: RangeLimit::Closed,
                     ..
                 } => unreachable!("closed range must have upper bound"),
+                ExpressionKind::RepeatRangeNamed(e, name) => {
+                    let n = render_expression(e, cx, stack)?;
+                    let cmt = format!("repeat exactly {name} times");
+                    let lbox = LabeledBox::new(n, Comment::new(cmt));
+                    Box::new(lbox)
+                }
                 ExpressionKind::Nt(nt) => node_for_nt(cx, nt),
                 ExpressionKind::Terminal(t) => Box::new(Terminal::new(t.clone())),
                 ExpressionKind::Prose(s) => Box::new(Terminal::new(s.clone())),
@@ -403,12 +411,16 @@ mod tests {
 
     /// Build a `RepeatRange` expression wrapping a nonterminal `e`.
     fn range_expr(min: Option<u32>, max: Option<u32>, limit: RangeLimit) -> Expression {
-        Expression::new_kind(ExpressionKind::RepeatRange {
-            expr: Box::new(Expression::new_kind(ExpressionKind::Nt("e".to_string()))),
-            min,
-            max,
-            limit,
-        })
+        Expression::new_kind(
+            ExpressionKind::RepeatRange {
+                expr: Box::new(Expression::new_kind(ExpressionKind::Nt("e".to_string()), 0)),
+                name: None,
+                min,
+                max,
+                limit,
+            },
+            0,
+        )
     }
 
     // -- RepeatRange tests --
@@ -483,9 +495,13 @@ mod tests {
 
     #[test]
     fn lookahead_nonterminal() {
-        let expr = Expression::new_kind(ExpressionKind::NegativeLookahead(Box::new(
-            Expression::new_kind(ExpressionKind::Nt("CHAR".to_string())),
-        )));
+        let expr = Expression::new_kind(
+            ExpressionKind::NegativeLookahead(Box::new(Expression::new_kind(
+                ExpressionKind::Nt("CHAR".to_string()),
+                0,
+            ))),
+            0,
+        );
         let svg = render_to_svg(&expr).unwrap();
         assert!(
             svg.contains("not followed by"),
@@ -496,9 +512,13 @@ mod tests {
 
     #[test]
     fn lookahead_terminal() {
-        let expr = Expression::new_kind(ExpressionKind::NegativeLookahead(Box::new(
-            Expression::new_kind(ExpressionKind::Terminal("CR".to_string())),
-        )));
+        let expr = Expression::new_kind(
+            ExpressionKind::NegativeLookahead(Box::new(Expression::new_kind(
+                ExpressionKind::Terminal("CR".to_string()),
+                0,
+            ))),
+            0,
+        );
         let svg = render_to_svg(&expr).unwrap();
         assert!(svg.contains("not followed by"));
         assert!(svg.contains("CR"));
@@ -506,12 +526,16 @@ mod tests {
 
     #[test]
     fn lookahead_charset() {
-        let expr = Expression::new_kind(ExpressionKind::NegativeLookahead(Box::new(
-            Expression::new_kind(ExpressionKind::Charset(vec![
-                Characters::Terminal("e".to_string()),
-                Characters::Terminal("E".to_string()),
-            ])),
-        )));
+        let expr = Expression::new_kind(
+            ExpressionKind::NegativeLookahead(Box::new(Expression::new_kind(
+                ExpressionKind::Charset(vec![
+                    Characters::Terminal("e".to_string()),
+                    Characters::Terminal("E".to_string()),
+                ]),
+                0,
+            ))),
+            0,
+        );
         let svg = render_to_svg(&expr).unwrap();
         assert!(svg.contains("not followed by"));
         assert!(svg.contains("e"));
@@ -522,17 +546,17 @@ mod tests {
 
     #[test]
     fn unicode_4_digit() {
-        let expr = Expression::new_kind(ExpressionKind::Unicode(('\t', "0009".to_string())));
+        let expr = Expression::new_kind(ExpressionKind::Unicode(('\t', "0009".to_string())), 0);
         let svg = render_to_svg(&expr).unwrap();
         assert!(svg.contains("U+0009"), "should render Unicode code point");
     }
 
     #[test]
     fn unicode_6_digit() {
-        let expr = Expression::new_kind(ExpressionKind::Unicode((
-            '\u{10FFFF}',
-            "10FFFF".to_string(),
-        )));
+        let expr = Expression::new_kind(
+            ExpressionKind::Unicode(('\u{10FFFF}', "10FFFF".to_string())),
+            0,
+        );
         let svg = render_to_svg(&expr).unwrap();
         assert!(svg.contains("U+10FFFF"));
     }
@@ -541,10 +565,13 @@ mod tests {
 
     #[test]
     fn charset_unicode_range() {
-        let expr = Expression::new_kind(ExpressionKind::Charset(vec![Characters::Range(
-            Character::Unicode(('\0', "0000".to_string())),
-            Character::Unicode(('\u{007F}', "007F".to_string())),
-        )]));
+        let expr = Expression::new_kind(
+            ExpressionKind::Charset(vec![Characters::Range(
+                Character::Unicode(('\0', "0000".to_string())),
+                Character::Unicode(('\u{007F}', "007F".to_string())),
+            )]),
+            0,
+        );
         let svg = render_to_svg(&expr).unwrap();
         assert!(svg.contains("U+0000"));
         assert!(svg.contains("U+007F"));
@@ -552,10 +579,13 @@ mod tests {
 
     #[test]
     fn charset_char_range() {
-        let expr = Expression::new_kind(ExpressionKind::Charset(vec![Characters::Range(
-            Character::Char('a'),
-            Character::Char('z'),
-        )]));
+        let expr = Expression::new_kind(
+            ExpressionKind::Charset(vec![Characters::Range(
+                Character::Char('a'),
+                Character::Char('z'),
+            )]),
+            0,
+        );
         let svg = render_to_svg(&expr).unwrap();
         assert!(svg.contains("a"));
         assert!(svg.contains("z"));
@@ -565,9 +595,13 @@ mod tests {
 
     #[test]
     fn cut_rendering() {
-        let expr = Expression::new_kind(ExpressionKind::Cut(Box::new(Expression::new_kind(
-            ExpressionKind::Nt("Foo".to_string()),
-        ))));
+        let expr = Expression::new_kind(
+            ExpressionKind::Cut(Box::new(Expression::new_kind(
+                ExpressionKind::Nt("Foo".to_string()),
+                0,
+            ))),
+            0,
+        );
         let svg = render_to_svg(&expr).unwrap();
         assert!(
             svg.contains("no backtracking"),
@@ -580,11 +614,13 @@ mod tests {
 
     #[test]
     fn neg_expression_rendering() {
-        let expr = Expression::new_kind(ExpressionKind::NegExpression(Box::new(
-            Expression::new_kind(ExpressionKind::Charset(vec![Characters::Terminal(
-                "a".to_string(),
-            )])),
-        )));
+        let expr = Expression::new_kind(
+            ExpressionKind::NegExpression(Box::new(Expression::new_kind(
+                ExpressionKind::Charset(vec![Characters::Terminal("a".to_string())]),
+                0,
+            ))),
+            0,
+        );
         let svg = render_to_svg(&expr).unwrap();
         assert!(
             svg.contains("with the exception of"),

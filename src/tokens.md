@@ -21,6 +21,42 @@ Token ->
     | IDENTIFIER_OR_KEYWORD
 ```
 
+```grammar,lexer
+@root FRONTMATTER ->
+    WHITESPACE_ONLY_LINE*
+    !FRONTMATTER_INVALID
+    FRONTMATTER_MAIN
+
+WHITESPACE_ONLY_LINE -> (!LF WHITESPACE)* LF
+
+FRONTMATTER_INVALID -> (!LF WHITESPACE)+ `---` error
+
+FRONTMATTER_MAIN ->
+    `-`{n:3..=255} ^ FRONTMATTER_REST
+
+FRONTMATTER_REST ->
+    FRONTMATTER_FENCE_START
+    FRONTMATTER_LINE*
+    FRONTMATTER_FENCE_END
+
+FRONTMATTER_FENCE_START ->
+    MAYBE_INFOSTRING_OR_WS LF
+
+FRONTMATTER_FENCE_END ->
+    `-`{n} HORIZONTAL_WHITESPACE* ( LF | EOF )
+
+FRONTMATTER_LINE -> !`-`{n} ~[LF CR]* LF
+
+MAYBE_INFOSTRING_OR_WS ->
+    HORIZONTAL_WHITESPACE* INFOSTRING? HORIZONTAL_WHITESPACE*
+
+INFOSTRING -> (XID_Start | `_`) ( XID_Continue | `-` | `.` )*
+
+HORIZONTAL_WHITESPACE ->
+      U+0009 // Horizontal tab, `'\t'`
+    | U+0020 // Space, `' '`
+```
+
 r[lex.token.intro]
 Tokens are primitive productions in the grammar defined by regular (non-recursive) languages.  Rust source input can be broken down into the following kinds of tokens:
 
@@ -113,7 +149,9 @@ A suffix is a sequence of characters following the primary part of a literal (wi
 
 r[lex.token.literal.suffix.syntax]
 ```grammar,lexer
-SUFFIX -> IDENTIFIER_OR_KEYWORD _except `_`_
+SUFFIX ->
+      `_` ^ XID_Continue+
+    | XID_Start XID_Continue*
 
 SUFFIX_NO_E -> ![`e` `E`] SUFFIX
 ```
@@ -171,7 +209,7 @@ r[lex.token.literal.str]
 r[lex.token.literal.str.syntax]
 ```grammar,lexer
 STRING_LITERAL ->
-    `"` (
+    `"` ^ (
         ~[`"` `\` CR]
       | QUOTE_ESCAPE
       | ASCII_ESCAPE
@@ -214,11 +252,13 @@ r[lex.token.literal.str-raw]
 
 r[lex.token.literal.str-raw.syntax]
 ```grammar,lexer
-RAW_STRING_LITERAL -> `r` RAW_STRING_CONTENT SUFFIX?
+RAW_STRING_LITERAL ->
+      `r` `"` ^ RAW_STRING_CONTENT `"` SUFFIX?
+    | `r` `#`{n:1..=255} ^ `"` RAW_STRING_CONTENT_HASHED `"` `#`{n} SUFFIX?
 
-RAW_STRING_CONTENT ->
-      `"` ^ ( ~CR )*? `"`
-    | `#` RAW_STRING_CONTENT `#`
+RAW_STRING_CONTENT -> (!`"` ~CR )*
+
+RAW_STRING_CONTENT_HASHED -> (!(`"` `#`{n}) ~CR )*
 ```
 
 r[lex.token.literal.str-raw.intro]
@@ -301,11 +341,12 @@ r[lex.token.str-byte-raw]
 r[lex.token.str-byte-raw.syntax]
 ```grammar,lexer
 RAW_BYTE_STRING_LITERAL ->
-    `br` RAW_BYTE_STRING_CONTENT SUFFIX?
+      `br` `"` ^ RAW_BYTE_STRING_CONTENT `"` SUFFIX?
+    | `br` `#`{n:1..=255} ^ `"` RAW_BYTE_STRING_CONTENT_HASHED `"` `#`{n} SUFFIX?
 
-RAW_BYTE_STRING_CONTENT ->
-      `"` ^ ASCII_FOR_RAW*? `"`
-    | `#` RAW_BYTE_STRING_CONTENT `#`
+RAW_BYTE_STRING_CONTENT -> (!`"` ASCII_FOR_RAW )*
+
+RAW_BYTE_STRING_CONTENT_HASHED -> (!(`"` `#`{n}) ASCII_FOR_RAW )*
 
 ASCII_FOR_RAW -> !CR ASCII
 ```
@@ -342,8 +383,8 @@ r[lex.token.str-c.syntax]
 C_STRING_LITERAL ->
     `c"` ^ (
         ~[`"` `\` CR NUL]
-      | BYTE_ESCAPE _except `\0` or `\x00`_
-      | UNICODE_ESCAPE _except `\u{0}`, `\u{00}`, …, `\u{000000}`_
+      | !(`\0` | `\x00`) BYTE_ESCAPE
+      | !(`\u{` (`0` `_`*){1..=6} `}`) UNICODE_ESCAPE
       | STRING_CONTINUE
     )* `"` SUFFIX?
 ```
@@ -395,11 +436,12 @@ r[lex.token.str-c-raw]
 r[lex.token.str-c-raw.syntax]
 ```grammar,lexer
 RAW_C_STRING_LITERAL ->
-    `cr` RAW_C_STRING_CONTENT SUFFIX?
+      `cr` `"` ^ RAW_C_STRING_CONTENT `"` SUFFIX?
+    | `cr` `#`{n:1..=255} ^ `"` RAW_C_STRING_CONTENT_HASHED `"` `#`{n} SUFFIX?
 
-RAW_C_STRING_CONTENT ->
-      `"` ^ ( ~[CR NUL] )*? `"`
-    | `#` RAW_C_STRING_CONTENT `#`
+RAW_C_STRING_CONTENT -> (!`"` ~[CR NUL] )*
+
+RAW_C_STRING_CONTENT_HASHED -> (!(`"` `#`{n}) ~[CR NUL] )*
 ```
 
 r[lex.token.str-c-raw.intro]
