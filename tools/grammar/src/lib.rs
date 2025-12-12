@@ -7,6 +7,7 @@ use std::path::{Path, PathBuf};
 use std::sync::LazyLock;
 use walkdir::WalkDir;
 
+mod display;
 mod parser;
 
 #[derive(Debug, Default)]
@@ -59,7 +60,9 @@ pub enum ExpressionKind {
     /// `A+?`
     RepeatPlusNonGreedy(Box<Expression>),
     /// `A{2..4}`
-    RepeatRange(Box<Expression>, Option<u32>, Option<u32>),
+    RepeatRange(Box<Expression>, Option<String>, Option<u32>, Option<u32>),
+    /// `A{name}`
+    RepeatRangeNamed(Box<Expression>, String),
     /// `NonTerminal`
     Nt(String),
     /// `` `string` ``
@@ -76,6 +79,8 @@ pub enum ExpressionKind {
     Charset(Vec<Characters>),
     /// ``~[` ` LF]``
     NegExpression(Box<Expression>),
+    /// `A ^ B`
+    Cut(Box<Expression>, Box<Expression>),
     /// `U+0060`
     Unicode(String),
 }
@@ -115,9 +120,14 @@ impl Expression {
             | ExpressionKind::RepeatNonGreedy(e)
             | ExpressionKind::RepeatPlus(e)
             | ExpressionKind::RepeatPlusNonGreedy(e)
-            | ExpressionKind::RepeatRange(e, _, _)
+            | ExpressionKind::RepeatRange(e, _, _, _)
+            | ExpressionKind::RepeatRangeNamed(e, _)
             | ExpressionKind::NegExpression(e) => {
                 e.visit_nt(callback);
+            }
+            ExpressionKind::Cut(e1, e2) => {
+                e1.visit_nt(callback);
+                e2.visit_nt(callback);
             }
             ExpressionKind::Alt(es) | ExpressionKind::Sequence(es) => {
                 for e in es {
@@ -125,7 +135,7 @@ impl Expression {
                 }
             }
             ExpressionKind::Nt(nt) => {
-                callback(&nt);
+                callback(nt);
             }
             ExpressionKind::Terminal(_)
             | ExpressionKind::Prose(_)
@@ -219,7 +229,7 @@ fn check_unexpected_roots(grammar: &Grammar, diag: &mut Diagnostics) {
     let expected: HashSet<_> = grammar
         .productions
         .values()
-        .filter_map(|p| p.is_root.then(|| p.name.as_str()))
+        .filter(|&p| p.is_root).map(|p| p.name.as_str())
         .collect();
     if set != expected {
         let new: Vec<_> = set.difference(&expected).collect();

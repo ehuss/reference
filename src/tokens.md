@@ -14,8 +14,8 @@ Token ->
     | RAW_BYTE_STRING_LITERAL
     | C_STRING_LITERAL
     | RAW_C_STRING_LITERAL
-    | INTEGER_LITERAL
     | FLOAT_LITERAL
+    | INTEGER_LITERAL
     | LIFETIME_TOKEN
     | PUNCTUATION
     | IDENTIFIER_OR_KEYWORD
@@ -113,7 +113,9 @@ A suffix is a sequence of characters following the primary part of a literal (wi
 
 r[lex.token.literal.suffix.syntax]
 ```grammar,lexer
-SUFFIX -> IDENTIFIER_OR_KEYWORD _except `_`_
+SUFFIX ->
+      `_` ^ XID_Continue+
+    | XID_Start XID_Continue*
 
 SUFFIX_NO_E -> SUFFIX _not beginning with `e` or `E`_
 ```
@@ -157,7 +159,7 @@ ASCII_ESCAPE ->
     | `\n` | `\r` | `\t` | `\\` | `\0`
 
 UNICODE_ESCAPE ->
-    `\u{` ( HEX_DIGIT `_`* ){1..6} `}`
+    `\u{` ( HEX_DIGIT `_`* ){1..6} _valid hex char value_ `}`
 ```
 
 r[lex.token.literal.char.intro]
@@ -169,7 +171,7 @@ r[lex.token.literal.str]
 r[lex.token.literal.str.syntax]
 ```grammar,lexer
 STRING_LITERAL ->
-    `"` (
+    `"` ^ (
         ~[`"` `\` CR]
       | QUOTE_ESCAPE
       | ASCII_ESCAPE
@@ -212,11 +214,9 @@ r[lex.token.literal.str-raw]
 
 r[lex.token.literal.str-raw.syntax]
 ```grammar,lexer
-RAW_STRING_LITERAL -> `r` RAW_STRING_CONTENT SUFFIX?
-
-RAW_STRING_CONTENT ->
-      `"` ( ~CR )*? `"`
-    | `#` RAW_STRING_CONTENT `#`
+RAW_STRING_LITERAL ->
+      `r` `"` ^ ( ~CR )*? `"` SUFFIX?
+    | `r` `#`{n:1..255} ^ `"` ( ~CR )*? (`"` `#`{n}) SUFFIX?
 ```
 
 r[lex.token.literal.str-raw.intro]
@@ -249,7 +249,7 @@ r[lex.token.byte]
 r[lex.token.byte.syntax]
 ```grammar,lexer
 BYTE_LITERAL ->
-    `b'` ( ASCII_FOR_CHAR | BYTE_ESCAPE )  `'` SUFFIX?
+    `b'` ^ ( ASCII_FOR_CHAR | BYTE_ESCAPE )  `'` SUFFIX?
 
 ASCII_FOR_CHAR ->
     <any ASCII (i.e. 0x00 to 0x7F) except `'`, `\`, LF, CR, or TAB>
@@ -268,7 +268,7 @@ r[lex.token.str-byte]
 r[lex.token.str-byte.syntax]
 ```grammar,lexer
 BYTE_STRING_LITERAL ->
-    `b"` ( ASCII_FOR_STRING | BYTE_ESCAPE | STRING_CONTINUE )* `"` SUFFIX?
+    `b"` ^ ( ASCII_FOR_STRING | BYTE_ESCAPE | STRING_CONTINUE )* `"` SUFFIX?
 
 ASCII_FOR_STRING ->
     <any ASCII (i.e 0x00 to 0x7F) except `"`, `\`, or CR>
@@ -301,11 +301,7 @@ r[lex.token.str-byte-raw]
 r[lex.token.str-byte-raw.syntax]
 ```grammar,lexer
 RAW_BYTE_STRING_LITERAL ->
-    `br` RAW_BYTE_STRING_CONTENT SUFFIX?
-
-RAW_BYTE_STRING_CONTENT ->
-      `"` ASCII_FOR_RAW*? `"`
-    | `#` RAW_BYTE_STRING_CONTENT `#`
+    `br` `#`{n:0..255} `"` ^ ASCII_FOR_RAW*? (`"` `#`{n}) SUFFIX?
 
 ASCII_FOR_RAW ->
     <any ASCII (i.e. 0x00 to 0x7F) except CR>
@@ -341,7 +337,7 @@ r[lex.token.str-c]
 r[lex.token.str-c.syntax]
 ```grammar,lexer
 C_STRING_LITERAL ->
-    `c"` (
+    `c"` ^ (
         ~[`"` `\` CR NUL]
       | BYTE_ESCAPE _except `\0` or `\x00`_
       | UNICODE_ESCAPE _except `\u{0}`, `\u{00}`, …, `\u{000000}`_
@@ -397,11 +393,8 @@ r[lex.token.str-c-raw]
 r[lex.token.str-c-raw.syntax]
 ```grammar,lexer
 RAW_C_STRING_LITERAL ->
-    `cr` RAW_C_STRING_CONTENT SUFFIX?
-
-RAW_C_STRING_CONTENT ->
-      `"` ( ~[CR NUL] )*? `"`
-    | `#` RAW_C_STRING_CONTENT `#`
+      `cr` `"` ^ ( ~[CR NUL] )*? `"` SUFFIX?
+    | `cr` `#`{n:1..255} ^ `"` ( ~[CR NUL] )*? (`"` `#`{n}) SUFFIX?
 ```
 
 r[lex.token.str-c-raw.intro]
@@ -441,15 +434,15 @@ r[lex.token.literal.int]
 r[lex.token.literal.int.syntax]
 ```grammar,lexer
 INTEGER_LITERAL ->
-    ( DEC_LITERAL | BIN_LITERAL | OCT_LITERAL | HEX_LITERAL ) SUFFIX_NO_E?
+    ( BIN_LITERAL | OCT_LITERAL | HEX_LITERAL | DEC_LITERAL ) SUFFIX_NO_E?
 
 DEC_LITERAL -> DEC_DIGIT (DEC_DIGIT|`_`)*
 
-BIN_LITERAL -> `0b` (BIN_DIGIT|`_`)* BIN_DIGIT (BIN_DIGIT|`_`)*
+BIN_LITERAL -> `0b` (BIN_DIGIT|`_`)*? BIN_DIGIT (BIN_DIGIT|`_`)*
 
-OCT_LITERAL -> `0o` (OCT_DIGIT|`_`)* OCT_DIGIT (OCT_DIGIT|`_`)*
+OCT_LITERAL -> `0o` (OCT_DIGIT|`_`)*? OCT_DIGIT (OCT_DIGIT|`_`)*
 
-HEX_LITERAL -> `0x` (HEX_DIGIT|`_`)* HEX_DIGIT (HEX_DIGIT|`_`)*
+HEX_LITERAL -> `0x` (HEX_DIGIT|`_`)*? HEX_DIGIT (HEX_DIGIT|`_`)*
 
 BIN_DIGIT -> [`0`-`1`]
 
@@ -556,12 +549,12 @@ r[lex.token.literal.float]
 r[lex.token.literal.float.syntax]
 ```grammar,lexer
 FLOAT_LITERAL ->
-      DEC_LITERAL `.` _not immediately followed by `.`, `_` or an XID_Start character_
+      DEC_LITERAL (`.` DEC_LITERAL)? FLOAT_EXPONENT SUFFIX?
     | DEC_LITERAL `.` DEC_LITERAL SUFFIX_NO_E?
-    | DEC_LITERAL (`.` DEC_LITERAL)? FLOAT_EXPONENT SUFFIX?
+    | DEC_LITERAL `.` _not immediately followed by `.`, `_` or an XID_Start character_
 
 FLOAT_EXPONENT ->
-    (`e`|`E`) (`+`|`-`)? (DEC_DIGIT|`_`)* DEC_DIGIT (DEC_DIGIT|`_`)*
+    (`e`|`E`) (`+`|`-`)? (DEC_DIGIT|`_`)*? DEC_DIGIT (DEC_DIGIT|`_`)*
 ```
 
 r[lex.token.literal.float.form]
@@ -655,12 +648,12 @@ r[lex.token.life]
 r[lex.token.life.syntax]
 ```grammar,lexer
 LIFETIME_TOKEN ->
-      `'` IDENTIFIER_OR_KEYWORD _not immediately followed by `'`_
-    | RAW_LIFETIME
+      RAW_LIFETIME
+    | `'` IDENTIFIER_OR_KEYWORD _not immediately followed by `'`_
 
 LIFETIME_OR_LABEL ->
-      `'` NON_KEYWORD_IDENTIFIER _not immediately followed by `'`_
-    | RAW_LIFETIME
+      RAW_LIFETIME
+    | `'` NON_KEYWORD_IDENTIFIER _not immediately followed by `'`_
 
 RAW_LIFETIME ->
     `'r#` IDENTIFIER_OR_KEYWORD _not immediately followed by `'`_
@@ -693,58 +686,58 @@ Punctuation tokens are used as operators, separators, and other parts of the gra
 r[lex.token.punct.syntax]
 ```grammar,lexer
 PUNCTUATION ->
-      `=`
-    | `<`
-    | `<=`
-    | `==`
-    | `!=`
-    | `>=`
-    | `>`
-    | `&&`
-    | `||`
-    | `!`
-    | `~`
-    | `+`
-    | `-`
-    | `*`
-    | `/`
-    | `%`
-    | `^`
-    | `&`
-    | `|`
-    | `<<`
-    | `>>`
-    | `+=`
-    | `-=`
-    | `*=`
-    | `/=`
-    | `%=`
-    | `^=`
-    | `&=`
-    | `|=`
+      `...`
+    | `..=`
     | `<<=`
     | `>>=`
-    | `@`
-    | `.`
-    | `..`
-    | `...`
-    | `..=`
-    | `,`
-    | `;`
-    | `:`
-    | `::`
+    | `!=`
+    | `%=`
+    | `&&`
+    | `&=`
+    | `*=`
+    | `+=`
+    | `-=`
     | `->`
+    | `..`
+    | `/=`
+    | `::`
     | `<-`
+    | `<<`
+    | `<=`
+    | `==`
     | `=>`
+    | `>=`
+    | `>>`
+    | `>`
+    | `^=`
+    | `|=`
+    | `||`
+    | `!`
     | `#`
     | `$`
-    | `?`
-    | `{`
-    | `}`
-    | `[`
-    | `]`
+    | `%`
+    | `&`
     | `(`
     | `)`
+    | `*`
+    | `+`
+    | `,`
+    | `-`
+    | `.`
+    | `/`
+    | `:`
+    | `;`
+    | `<`
+    | `=`
+    | `?`
+    | `@`
+    | `[`
+    | `]`
+    | `^`
+    | `{`
+    | `|`
+    | `}`
+    | `~`
 ```
 
 > [!NOTE]
