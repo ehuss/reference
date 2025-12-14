@@ -4,6 +4,7 @@ use grammar::Characters;
 use grammar::Expression;
 use grammar::ExpressionKind;
 use grammar::Grammar;
+use std::collections::HashMap;
 use std::error::Error;
 use std::ops::Range;
 use tracing::debug;
@@ -33,6 +34,11 @@ impl LexError {
     }
 }
 
+#[derive(Debug, Default)]
+struct Environment {
+    map: HashMap<String, u32>,
+}
+
 pub fn tokenize(src: &str) -> Result<Vec<Token>, LexError> {
     let mut diag = Diagnostics::new();
     let mut grammar = grammar::load_grammar(&mut diag);
@@ -45,7 +51,8 @@ pub fn tokenize(src: &str) -> Result<Vec<Token>, LexError> {
         "INNER_LINE_DOC",
         "INNER_BLOCK_DOC",
         "OUTER_LINE_DOC",
-    ].into_iter()
+    ]
+    .into_iter()
     .map(|comment| grammar.productions.get(comment).unwrap())
     .collect();
 
@@ -76,7 +83,14 @@ pub fn tokenize(src: &str) -> Result<Vec<Token>, LexError> {
 
     let mut index = 0;
     while index < src.len() {
-        if let Some(i) = parse_expression(&grammar, whitespace, None, src, index) {
+        if let Some(i) = parse_expression(
+            &grammar,
+            whitespace,
+            None,
+            src,
+            index,
+            &mut Environment::default(),
+        ) {
             index += i;
             continue;
         }
@@ -85,7 +99,15 @@ pub fn tokenize(src: &str) -> Result<Vec<Token>, LexError> {
             .iter()
             .filter_map(|token_prod| {
                 debug!("try top-level token `{}`", token_prod.name);
-                parse_expression(&grammar, &token_prod.expression, None, src, index).and_then(|l| {
+                parse_expression(
+                    &grammar,
+                    &token_prod.expression,
+                    None,
+                    src,
+                    index,
+                    &mut Environment::default(),
+                )
+                .and_then(|l| {
                     if l == 0 {
                         None
                     } else {
@@ -127,6 +149,7 @@ fn parse_expression(
     next: Option<&Expression>,
     src: &str,
     index: usize,
+    env: &mut Environment,
 ) -> Option<usize> {
     // eprintln!("match {e:?}");
     tracing::debug!("e={e}");
@@ -138,12 +161,12 @@ fn parse_expression(
     match &e.kind {
         ExpressionKind::Grouped(e) => {
             assert_eq!(e.suffix, None);
-            return parse_expression(grammar, e, None, src, index);
+            return parse_expression(grammar, e, None, src, index, env);
         }
         ExpressionKind::Alt(es) => {
             assert_eq!(e.suffix, None);
             for e in es {
-                if let Some(l) = parse_expression(grammar, e, None, src, index) {
+                if let Some(l) = parse_expression(grammar, e, None, src, index, env) {
                     if l != 0 {
                         return Some(l);
                     }
@@ -157,7 +180,7 @@ fn parse_expression(
             let mut es_i = es.iter().peekable();
             while let Some(e) = es_i.next() {
                 let next = es_i.peek().map(|e| *e);
-                match parse_expression(grammar, e, next, &src, index + i) {
+                match parse_expression(grammar, e, next, &src, index + i, env) {
                     Some(l) => {
                         i += l;
                     }
@@ -168,7 +191,7 @@ fn parse_expression(
         }
         ExpressionKind::Optional(e) => {
             assert_eq!(e.suffix, None);
-            match parse_expression(grammar, e, None, src, index) {
+            match parse_expression(grammar, e, None, src, index, env) {
                 Some(l) => Some(l),
                 None => Some(0),
             }
@@ -177,7 +200,7 @@ fn parse_expression(
             assert_eq!(e.suffix, None);
             let mut i = 0;
             while i < src.len()
-                && let Some(l) = parse_expression(grammar, e, None, &src, index + i)
+                && let Some(l) = parse_expression(grammar, e, None, &src, index + i, env)
             {
                 i += l;
             }
@@ -190,10 +213,10 @@ fn parse_expression(
             };
             let mut i = 0;
             while i < src.len() {
-                if let Some(_) = parse_expression(grammar, next, None, src, index + i) {
+                if let Some(_) = parse_expression(grammar, next, None, src, index + i, env) {
                     break;
                 }
-                match parse_expression(grammar, e, None, &src, index + i) {
+                match parse_expression(grammar, e, None, &src, index + i, env) {
                     Some(l) => i += l,
                     None => break,
                 }
@@ -204,7 +227,7 @@ fn parse_expression(
             assert_eq!(e.suffix, None);
             let mut i = 0;
             while i < src.len()
-                && let Some(l) = parse_expression(grammar, e, None, &src, index + i)
+                && let Some(l) = parse_expression(grammar, e, None, &src, index + i, env)
             {
                 i += l;
             }
@@ -214,31 +237,55 @@ fn parse_expression(
             assert_eq!(e.suffix, None);
             todo!()
         }
-        ExpressionKind::RepeatRange(e, min, max) => {
+        ExpressionKind::RepeatRange(e, name, min, max) => {
             assert_eq!(e.suffix, None);
             let mut i = 0;
             let mut count = 0;
             while i < src.len()
-                && let Some(l) = parse_expression(grammar, e, None, &src, index + i)
+                && let Some(l) = parse_expression(grammar, e, None, &src, index + i, env)
             {
-                count += 1;
                 i += l;
                 if let Some(max) = max {
-                    if count == *max {
+                    if count + 1 == *max {
                         break;
                     }
                 }
+                count += 1;
             }
             if let Some(min) = min {
                 if count < *min {
                     return None;
                 }
             }
+            if let Some(name) = name {
+                assert!(env.map.insert(name.clone(), count).is_none());
+            }
+            Some(i)
+        }
+        ExpressionKind::RepeatRangeNamed(e, name) => {
+            assert_eq!(e.suffix, None);
+            let Some(count) = env.map.get(name) else {
+                panic!("expected {name} in environment for {e}");
+            };
+            let mut i = 0;
+            for _ in 0..*count {
+                match parse_expression(grammar, e, None, &src, index + i, env) {
+                    Some(l) => i += l,
+                    None => return None,
+                }
+            }
             Some(i)
         }
         ExpressionKind::Nt(s) => {
             let prod = grammar.productions.get(s).unwrap();
-            let l = parse_expression(grammar, &prod.expression, None, src, index)?;
+            let l = parse_expression(
+                grammar,
+                &prod.expression,
+                None,
+                src,
+                index,
+                &mut Environment::default(),
+            )?;
             match e.suffix.as_deref() {
                 Some("except `\\0` or `\\x00`") => {
                     let s = &src[index..index + l];
@@ -308,7 +355,12 @@ fn parse_expression(
                 }
                 Some("not immediately followed by `#`") => {
                     if src[index + l..].chars().next() == Some('#') {
-                        return None
+                        return None;
+                    }
+                }
+                Some("immediately followed by LF") => {
+                    if src[index + l..].chars().next() != Some('\n') {
+                        return None;
                     }
                 }
                 Some(s) => panic!("unknown suffix {s:?}"),
@@ -318,7 +370,7 @@ fn parse_expression(
         }
         ExpressionKind::Prose(s) => {
             assert_eq!(e.suffix, None);
-            match_prose(grammar, s, src, index)
+            match_prose(grammar, s, src, index, env)
         }
         ExpressionKind::Break(_) => unreachable!(),
         ExpressionKind::Comment(s) => Some(0),
@@ -331,7 +383,14 @@ fn parse_expression(
                 match ch {
                     Characters::Named(name) => {
                         let prod = grammar.productions.get(name).unwrap();
-                        let l = parse_expression(grammar, &prod.expression, None, src, index)?;
+                        let l = parse_expression(
+                            grammar,
+                            &prod.expression,
+                            None,
+                            src,
+                            index,
+                            &mut Environment::default(),
+                        )?;
                         return Some(l);
                     }
                     Characters::Terminal(s) => {
@@ -351,7 +410,7 @@ fn parse_expression(
         }
         ExpressionKind::NegExpression(e) => {
             assert_eq!(e.suffix, None);
-            match parse_expression(grammar, e, None, src, index) {
+            match parse_expression(grammar, e, None, src, index, env) {
                 Some(_) => None,
                 None => {
                     if index <= src.len() {
@@ -374,12 +433,27 @@ fn parse_expression(
     }
 }
 
-fn match_prose(grammar: &Grammar, prose: &str, src: &str, index: usize) -> Option<usize> {
+fn match_prose(
+    grammar: &Grammar,
+    prose: &str,
+    src: &str,
+    index: usize,
+    env: &mut Environment,
+) -> Option<usize> {
     let ch = src[index..].chars().next();
-    let eof_but_not_digit = |prod| match ch {
+    let mut eof_but_not_digit = |prod| match ch {
         Some(ch) => {
             let p = grammar.productions.get(prod).unwrap();
-            if parse_expression(grammar, &p.expression, None, src, index).is_some() {
+            if parse_expression(
+                grammar,
+                &p.expression,
+                None,
+                src,
+                index,
+                &mut Environment::default(),
+            )
+            .is_some()
+            {
                 return None;
             }
             Some(0)
@@ -446,7 +520,8 @@ fn remove_break_expr(e: &mut Expression) {
         ExpressionKind::RepeatNonGreedy(e) => remove_break_expr(e),
         ExpressionKind::RepeatPlus(e) => remove_break_expr(e),
         ExpressionKind::RepeatPlusNonGreedy(e) => remove_break_expr(e),
-        ExpressionKind::RepeatRange(e, _, _) => remove_break_expr(e),
+        ExpressionKind::RepeatRange(e, _, _, _) => remove_break_expr(e),
+        ExpressionKind::RepeatRangeNamed(e, _) => remove_break_expr(e),
         ExpressionKind::Nt(_) => {}
         ExpressionKind::Terminal(_) => {}
         ExpressionKind::Prose(_) => {}

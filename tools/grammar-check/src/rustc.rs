@@ -81,12 +81,19 @@ pub fn tokenize(src: &str) -> Result<Vec<Token>, LexError> {
                 };
                 let mut tokens = Vec::new();
                 while parser.token.kind != TokenKind::Eof {
+                    let source_file = psess
+                        .source_map()
+                        .lookup_source_file(parser.token.span.lo());
+                    let start = source_file
+                        .original_relative_byte_pos(parser.token.span.lo())
+                        .0 as usize;
+                    let end = source_file
+                        .original_relative_byte_pos(parser.token.span.hi())
+                        .0 as usize;
+
                     let token = Token {
                         name: format!("{:?}", parser.token.kind),
-                        range: Range {
-                            start: parser.token.span.lo().0 as usize,
-                            end: parser.token.span.hi().0 as usize,
-                        },
+                        range: Range { start, end },
                     };
                     tokens.push(token);
                     parser.bump();

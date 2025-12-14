@@ -1,11 +1,13 @@
 r[comments]
 # Comments
 
+<!-- TODO: can remove / ! from LINE_COMMENT? Think about if adding comments/doc comments to token, or if there would be a common COMMENT or how this would be handle -->
 r[comments.syntax]
 ```grammar,lexer
 @root LINE_COMMENT ->
       `//` (~[`/` `!` LF] | `//`) ~LF*
     | `//` ~CHAR
+    | `//` _immediately followed by LF_
 
 BLOCK_COMMENT ->
       `/*`

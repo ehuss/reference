@@ -132,7 +132,7 @@ impl CommonOptions {
             .map(|e| e.parse::<Edition>().unwrap());
         let coverage = matches.get_flag("coverage");
         // TODO: handle zero
-        let test_count = (strings.len() + paths.len()) as u32;
+        let test_count = ((strings.len() + paths.len()) as u32) * tools.len() as u32;
         let thread_count = min(
             test_count,
             std::thread::available_parallelism().unwrap().get() as u32,
@@ -324,17 +324,25 @@ fn compare_loop(opts: Arc<Mutex<CommonOptions>>) {
         let tools = opts_l.tools.clone();
         drop(opts_l);
         for tool in &*tools {
-            match compare_src(&name, &src, tool) {
-                Ok(()) => {}
-                Err(e) => {
+            // TODO: get the panic output somehow?
+            match std::panic::catch_unwind(|| compare_src(&name, &src, tool)) {
+                Ok(Ok(())) => {}
+                Ok(Err(e)) => {
                     let mut opts_l = opts.lock().unwrap();
                     opts_l.errors.push(e);
                     opts_l.set_progress_err_msg();
                 }
+                Err(e) => {
+                    let mut opts_l = opts.lock().unwrap();
+                    opts_l
+                        .errors
+                        .push(format!("test {name} for tool {tool} panicked"));
+                    opts_l.set_progress_err_msg();
+                }
             }
+            let mut opts_l = opts.lock().unwrap();
+            opts_l.progress.inc(1);
         }
-        let mut opts_l = opts.lock().unwrap();
-        opts_l.progress.inc(1);
     }
     channel.send(Message::ThreadComplete).unwrap();
 }

@@ -88,10 +88,7 @@ fn tokens_from_ts(ts: TokenStream, output: &mut Vec<Token>) {
                 if !delim_str.is_empty() {
                     output.push(Token {
                         name: delim_str.to_string(),
-                        range: Range {
-                            start: range.start,
-                            end: range.start + 1,
-                        },
+                        range: group.span_open().byte_range(),
                     });
                 }
                 tokens_from_ts(group.stream(), output);
@@ -104,10 +101,7 @@ fn tokens_from_ts(ts: TokenStream, output: &mut Vec<Token>) {
                     };
                     output.push(Token {
                         name: close_delim.to_string(),
-                        range: Range {
-                            start: range.end - 1,
-                            end: range.end,
-                        },
+                        range: group.span_close().byte_range(),
                     });
                 }
                 i += 1;
@@ -169,7 +163,8 @@ pub fn normalize(tokens: &[Token], src: &str) -> Vec<Token> {
                     acc.push(Token {
                         name: String::from("]"),
                         range: Range {
-                            start: token.range.end - 1,
+                            start: token.range.end
+                                - src[..token.range.end].chars().next_back().unwrap().len_utf8(),
                             end: token.range.end,
                         },
                     });

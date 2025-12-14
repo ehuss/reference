@@ -238,11 +238,7 @@ r[lex.token.literal.str-raw]
 
 r[lex.token.literal.str-raw.syntax]
 ```grammar,lexer
-RAW_STRING_LITERAL -> `r` RAW_STRING_CONTENT SUFFIX?
-
-RAW_STRING_CONTENT ->
-      `"` ( ~CR )*? `"`
-    | `#` RAW_STRING_CONTENT `#`
+RAW_STRING_LITERAL -> `r` `#`{n:0..255} `"` ( ~CR )*? (`"` `#`{n}) SUFFIX?
 ```
 
 r[lex.token.literal.str-raw.intro]
@@ -354,11 +350,7 @@ r[lex.token.str-byte-raw]
 r[lex.token.str-byte-raw.syntax]
 ```grammar,lexer
 RAW_BYTE_STRING_LITERAL ->
-    `br` RAW_BYTE_STRING_CONTENT SUFFIX?
-
-RAW_BYTE_STRING_CONTENT ->
-      `"` ASCII_FOR_RAW*? `"`
-    | `#` RAW_BYTE_STRING_CONTENT `#`
+    `br` `#`{n:0..255} `"` ASCII_FOR_RAW*? (`"` `#`{n}) SUFFIX?
 
 ASCII_FOR_RAW ->
     <any ASCII (i.e. 0x00 to 0x7F) except CR>
@@ -477,11 +469,7 @@ r[lex.token.str-c-raw]
 r[lex.token.str-c-raw.syntax]
 ```grammar,lexer
 RAW_C_STRING_LITERAL ->
-    `cr` RAW_C_STRING_CONTENT SUFFIX?
-
-RAW_C_STRING_CONTENT ->
-      `"` ( ~[CR NUL] )*? `"`
-    | `#` RAW_C_STRING_CONTENT `#`
+    `cr` `#`{n:0..255} `"` ( ~[CR NUL] )*? (`"` `#`{n}) SUFFIX?
 ```
 
 r[lex.token.str-c-raw.intro]

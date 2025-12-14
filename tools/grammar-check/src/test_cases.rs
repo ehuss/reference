@@ -16,6 +16,7 @@ cases!{
         "// line comment"
         "////"
         "//// this is a comment"
+        "//\n"
     comment::block_comment =>
         "/* block comment */"
     comment::inner_line_doc =>
@@ -27,6 +28,7 @@ cases!{
         "///"
         "///\n"
         "///abc\n"
+        "/// ☃"
     comment::outer_block_doc =>
         "/** outer block doc */"
 

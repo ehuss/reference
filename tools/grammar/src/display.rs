@@ -28,12 +28,14 @@ impl Display for Expression {
             ExpressionKind::RepeatNonGreedy(e) => write!(f, "{e}*?")?,
             ExpressionKind::RepeatPlus(e) => write!(f, "{e}+")?,
             ExpressionKind::RepeatPlusNonGreedy(e) => write!(f, "{e}+?")?,
-            ExpressionKind::RepeatRange(e, min, max) => write!(
+            ExpressionKind::RepeatRange(e, name, min, max) => write!(
                 f,
-                "{e}{{{}..{}}}",
+                "{e}{{{}{}..{}}}",
+                name.as_ref().map(|n| format!("{n}:")).unwrap_or_default(),
                 min.map(|v| v.to_string()).unwrap_or_default(),
                 max.map(|v| v.to_string()).unwrap_or_default(),
             )?,
+            ExpressionKind::RepeatRangeNamed(e, name) => write!(f, "{e}{{{name}}}")?,
             ExpressionKind::Nt(s) => write!(f, "{s}")?,
             ExpressionKind::Terminal(s) => write!(f, "`{s}`")?,
             ExpressionKind::Prose(s) => write!(f, "<{s}>")?,

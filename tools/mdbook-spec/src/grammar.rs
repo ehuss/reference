@@ -1,10 +1,9 @@
 //! Support for rendering the grammar.
 
 use crate::{Diagnostics, warn_or_err};
-use diagnostics::{Diagnostics, warn_or_err};
 use grammar::GRAMMAR_RE;
 use grammar::Grammar;
-use mdbook_preprocessor::book::{Book, BookItem, Chapter};
+use mdbook_preprocessor::book::Chapter;
 use regex::{Captures, Regex};
 use std::collections::{HashMap, HashSet};
 use std::fmt::Write;

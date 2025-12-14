@@ -415,8 +415,27 @@ impl Parser<'_> {
     }
 
     /// Parse `{a..}` | `{..b}` | `{a..b}` after expression.
+    //
+    // `name:` before the range is a named binding. `{name}` refers to that binding.
     fn parse_repeat_range(&mut self, kind: ExpressionKind) -> Result<ExpressionKind> {
         self.expect("{", "expected `{`")?;
+        let start = self.index;
+        self.take_while(&|c: char| c.is_alphanumeric() || c == '_');
+        let name = match (self.index == start, self.peek()) {
+            (false, Some(b':')) => {
+                self.index += 1;
+                Some(self.input[start..self.index-1].to_string())
+            }
+            (false, Some(b'}')) => {
+                self.index += 1;
+                let name = self.input[start..self.index-1].to_string();
+                return Ok(ExpressionKind::RepeatRangeNamed(box_kind(kind), name));
+            }
+            _ => {
+                self.index = start;
+                None
+            }
+        };
         let a = self.take_while(&|x| x.is_ascii_digit());
         let Ok(a) = (!a.is_empty()).then(|| a.parse::<u32>()).transpose() else {
             bail!(self, "malformed range start");
@@ -431,7 +450,7 @@ impl Parser<'_> {
             _ => {}
         }
         self.expect("}", "expected `}`")?;
-        Ok(ExpressionKind::RepeatRange(box_kind(kind), a, b))
+        Ok(ExpressionKind::RepeatRange(box_kind(kind), name, a, b))
     }
 
     fn parse_suffix(&mut self) -> Result<Option<String>> {

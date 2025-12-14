@@ -2,6 +2,10 @@
 
 use crate::rules::Rules;
 use anyhow::{Context, Result, bail};
+use mdbook_preprocessor::book::BookItem;
+use mdbook_preprocessor::book::{Book, Chapter};
+use mdbook_preprocessor::errors::Error;
+use mdbook_preprocessor::{Preprocessor, PreprocessorContext};
 use diagnostics::{Diagnostics, warn_or_err};
 use once_cell::sync::Lazy;
 use regex::{Captures, Regex};
