@@ -241,6 +241,8 @@ dependencies = [
  "indicatif",
  "lexer",
  "proc-macro2",
+ "serde",
+ "serde_json",
  "walkdir",
 ]
 

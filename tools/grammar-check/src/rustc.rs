@@ -1,3 +1,4 @@
+use std::fmt::Write as _;
 extern crate rustc_ast;
 extern crate rustc_driver;
 extern crate rustc_errors;
@@ -13,6 +14,7 @@ use rustc_errors::json::JsonEmitter;
 use rustc_errors::translation::Translator;
 use rustc_errors::{ColorConfig, DiagCtxt};
 use rustc_span::FileName;
+use rustc_span::fatal_error::FatalError;
 use rustc_span::source_map::{FilePathMapping, SourceMap};
 use std::ops::Range;
 use std::sync::{Arc, Mutex};
@@ -59,7 +61,7 @@ pub fn tokenize(src: &str) -> Result<Vec<Token>, LexError> {
                 }),
                 Some(source_map.clone()),
                 translator,
-                true, // pretty
+                false, // pretty
                 HumanReadableErrorType::Default { short: true },
                 ColorConfig::Never,
             );
@@ -77,7 +79,12 @@ pub fn tokenize(src: &str) -> Result<Vec<Token>, LexError> {
                     strip_tokens,
                 ) {
                     Ok(parser) => parser,
-                    Err(e) => panic!("{e:?}"),
+                    Err(e) => {
+                        for diag in e {
+                            diag.emit();
+                        }
+                        FatalError.raise();
+                    }
                 };
                 let mut tokens = Vec::new();
                 while parser.token.kind != TokenKind::Eof {
@@ -101,14 +108,41 @@ pub fn tokenize(src: &str) -> Result<Vec<Token>, LexError> {
                 tokens
             })
             .map_err(|_| {
-                let message = format!("{}", std::str::from_utf8(&output.lock().unwrap()).unwrap());
+                let mut message = String::new();
+                let errs = &output.lock().unwrap();
+                let json = std::str::from_utf8(errs).unwrap();
+                let mut byte_offset = 0;
+                for err in json.lines() {
+                    let diag: Diagnostic = serde_json::from_str(err).unwrap();
+                    write!(message, "error: {}", diag.rendered);
+                    if byte_offset == 0 {
+                        byte_offset = diag
+                            .spans
+                            .iter()
+                            .find(|sp| sp.is_primary)
+                            .unwrap()
+                            .byte_start;
+                    }
+                }
                 LexError {
-                    byte_offset: 0,
+                    byte_offset: byte_offset as usize,
                     message,
                 }
             })
         },
     )
+}
+
+#[derive(serde::Deserialize)]
+struct Diagnostic {
+    rendered: String,
+    spans: Vec<DiagSpan>,
+}
+
+#[derive(serde::Deserialize)]
+struct DiagSpan {
+    is_primary: bool,
+    byte_start: u32,
 }
 
 pub fn normalize(tokens: &[Token], src: &str) -> Vec<Token> {

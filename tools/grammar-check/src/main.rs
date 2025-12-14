@@ -21,6 +21,7 @@ use std::sync::Mutex;
 use std::sync::mpsc::{Receiver, Sender, channel};
 use std::time::Duration;
 use std::time::Instant;
+use std::cell::RefCell;
 use walkdir::WalkDir;
 
 mod rustc;
@@ -249,12 +250,39 @@ fn main() {
 //     }
 // }
 
+thread_local! {
+    static PANIC_OUTPUT: RefCell<Option<String>> = RefCell::new(None);
+}
+
 fn compare_parallel(matches: &ArgMatches) {
     let start = Instant::now();
     let (opts, receiver) = CommonOptions::new(matches, &TOOLS[1..]);
     if opts.tools.iter().any(|t| t == "reference") {
         panic!("can't compare reference to itself");
     }
+
+    std::panic::set_hook(Box::new(|info| {
+        let payload = info.payload();
+        let msg = if let Some(s) = payload.downcast_ref::<&str>() {
+            s
+        } else if let Some(s) = payload.downcast_ref::<String>() {
+            s.as_str()
+        } else {
+            "Box<dyn Any>"
+        };
+        let location = info.location().map(|l| format!("{}:{}:{}", l.file(), l.line(), l.column())).unwrap_or_else(|| "unknown".to_string());
+        let thread = std::thread::current();
+        let name = thread.name().unwrap_or("<unnamed>");
+        let output = format!("thread '{name}' panicked at {location}:\n{msg}");
+        
+        // We print it here as well to ensure it is seen if the thread dies unexpectedly.
+        // eprintln!("{}", output);
+
+        PANIC_OUTPUT.with(|c| {
+            *c.borrow_mut() = Some(output);
+        });
+    }));
+
     let sender = opts.channel.clone();
     let mut thread_count = opts.thread_count;
     let opts = Arc::new(Mutex::new(opts));
@@ -332,11 +360,14 @@ fn compare_loop(opts: Arc<Mutex<CommonOptions>>) {
                     opts_l.errors.push(e);
                     opts_l.set_progress_err_msg();
                 }
-                Err(e) => {
+                Err(_) => {
+                    let panic_msg = PANIC_OUTPUT.with(|c| {
+                        c.borrow_mut().take().unwrap_or_else(|| "unknown panic".to_string())
+                    });
                     let mut opts_l = opts.lock().unwrap();
                     opts_l
                         .errors
-                        .push(format!("test {name} for tool {tool} panicked"));
+                        .push(format!("test {name} for tool {tool} panicked:\n{panic_msg}"));
                     opts_l.set_progress_err_msg();
                 }
             }
