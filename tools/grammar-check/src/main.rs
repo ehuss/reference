@@ -3,6 +3,7 @@
 
 extern crate rustc_span;
 
+use lexer::LexError;
 use clap::ArgMatches;
 use clap::{Command, arg};
 use indicatif::ProgressBar;
@@ -380,9 +381,9 @@ fn compare_loop(opts: Arc<Mutex<CommonOptions>>) {
 
 fn compare_src(name: &str, src: &str, tool: &str) -> Result<(), String> {
     let lexer_result = lexer::tokenize(src);
-    let (tool_result, lexer_result) = match tool {
+    let (tool_result, mut lexer_result) = match tool {
         "rustc_parse" => {
-            let lexer_result = lexer_result.map(|ts| rustc::normalize(&ts, src));
+            let lexer_result = lexer_result.and_then(|ts| rustc::normalize(&ts, src));
             (rustc::tokenize(src), lexer_result)
         }
         "proc-macro2" => {
@@ -391,6 +392,15 @@ fn compare_src(name: &str, src: &str, tool: &str) -> Result<(), String> {
         }
         _ => unreachable!(),
     };
+    if let Ok(tokens) = &lexer_result {
+        if let Some(reserved) = tokens.iter().find(|token| token.name == "RESERVED_TOKEN") {
+            lexer_result = Err(LexError {
+                byte_offset: reserved.range.start,
+                message: "reserved token".to_string(),
+            });
+        }
+    }
+
     match (lexer_result, tool_result) {
         (Ok(lex_tokens), Ok(tool_tokens)) => {
             let mut lex_iter = lex_tokens.iter();
@@ -473,8 +483,7 @@ fn compare_src(name: &str, src: &str, tool: &str) -> Result<(), String> {
                 src:\n\
                 ----------\n\
                 {src}\n\
-                ----------\n\
-                lexer tokens:",
+                ----------",
             ));
             //TODO
             // for token in tokens {

@@ -3,9 +3,11 @@ use lexer::Token;
 use proc_macro2::Spacing;
 use proc_macro2::TokenStream;
 use proc_macro2::TokenTree;
+use regex::Regex;
 use std::error::Error;
 use std::ops::Range;
 use std::str::FromStr;
+use std::sync::LazyLock;
 
 pub fn tokenize(src: &str) -> Result<Vec<Token>, LexError> {
     let mut tokens = Vec::new();
@@ -13,11 +15,39 @@ pub fn tokenize(src: &str) -> Result<Vec<Token>, LexError> {
         byte_offset: 0,
         message: e.to_string(),
     })?;
-    tokens_from_ts(stream, &mut tokens);
+    tokens_from_ts(stream, &mut tokens)?;
     Ok(tokens)
 }
 
-fn tokens_from_ts(ts: TokenStream, output: &mut Vec<Token>) {
+// proc-macro2 does not reject literals starting with E.
+// We'll need to do that to match behavior.
+// https://github.com/dtolnay/proc-macro2/issues/506
+static SUFFIX_NO_E: LazyLock<Regex> = LazyLock::new(|| {
+    Regex::new(
+        r"(?x)
+        ^
+          ([0-9][0-9_]*[eE])  # DEC_LITERAL
+        | (0b([01]|_)*?[01]([01]|_)*[eE]) # BIN_LITERL
+        | (0o([0-7]|_)*?[0-7]([0-7]|_)*[eE]) # OCT_LITERAL
+        | ([0-9]([0-9]|_)*\.[0-9]([0-9]|_)*[eE]) # FLOAT_LITERAL
+        ",
+    )
+    .unwrap()
+});
+
+static FLOAT_EXPONENT: LazyLock<Regex> = LazyLock::new(|| {
+    Regex::new(
+        r"(?x)
+        ^
+          [0-9]([0-9]|_)*
+          (\. [0-9]([0-9]|_)*)?
+          [eE] [+-]? ([0-9]|_)*? [0-9] ([0-9]|_)*
+        ",
+    )
+    .unwrap()
+});
+
+fn tokens_from_ts(ts: TokenStream, output: &mut Vec<Token>) -> Result<(), LexError> {
     let trees: Vec<TokenTree> = ts.into_iter().collect();
     let mut i = 0;
     while i < trees.len() {
@@ -70,7 +100,16 @@ fn tokens_from_ts(ts: TokenStream, output: &mut Vec<Token>) {
                 output.push(Token { name: s, range });
                 i += last_valid_len;
             }
-            TokenTree::Literal(_) => {
+            TokenTree::Literal(lit) => {
+                let s = lit.to_string();
+                if SUFFIX_NO_E.is_match(&s) {
+                    if !FLOAT_EXPONENT.is_match(&s) {
+                        return Err(LexError {
+                            message: "bad E suffix".to_string(),
+                            byte_offset: range.start,
+                        });
+                    }
+                }
                 output.push(Token {
                     name: format!("{tt:?}"),
                     range,
@@ -108,16 +147,37 @@ fn tokens_from_ts(ts: TokenStream, output: &mut Vec<Token>) {
             }
         }
     }
+    Ok(())
 }
 
 fn is_valid_punctuation(s: &str) -> bool {
     matches!(
         s,
-        // 2-char
-        "&&" | "||" | "<<" | ">>" | "+=" | "-=" | "*=" | "/=" | "%=" | "^=" | "&=" | "|="
-            | "==" | "!=" | ">=" | "<=" | ".." | "::" | "->" | "=>" |
-            // 3-char
-            "<<=" | ">>=" | "..=" | "..."
+        "..."
+            | "..="
+            | "<<="
+            | ">>="
+            | "!="
+            | "%="
+            | "&&"
+            | "&="
+            | "*="
+            | "+="
+            | "-="
+            | "->"
+            | ".."
+            | "/="
+            | "::"
+            | "<-"
+            | "<<"
+            | "<="
+            | "=="
+            | "=>"
+            | ">="
+            | ">>"
+            | "^="
+            | "|="
+            | "||"
     )
 }
 
@@ -128,8 +188,7 @@ pub fn normalize(tokens: &[Token], src: &str) -> Vec<Token> {
         .cloned()
         .fold(Vec::with_capacity(tokens.len()), |mut acc, token| {
             // proc-macro2 does not handle ## reserved tokens (treats them as individual punctuation)
-            if token.name == "RESERVED_TOKEN"
-                && src[token.range.clone()].chars().all(|c| c == '#')
+            if token.name == "RESERVED_TOKEN" && src[token.range.clone()].chars().all(|c| c == '#')
             {
                 let count = token.range.len();
                 for i in 0..count {
@@ -164,7 +223,11 @@ pub fn normalize(tokens: &[Token], src: &str) -> Vec<Token> {
                         name: String::from("]"),
                         range: Range {
                             start: token.range.end
-                                - src[..token.range.end].chars().next_back().unwrap().len_utf8(),
+                                - src[..token.range.end]
+                                    .chars()
+                                    .next_back()
+                                    .unwrap()
+                                    .len_utf8(),
                             end: token.range.end,
                         },
                     });

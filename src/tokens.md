@@ -648,7 +648,7 @@ FLOAT_LITERAL ->
     | DEC_LITERAL `.` _not immediately followed by `.`, `_` or an XID_Start character_
 
 FLOAT_EXPONENT ->
-    (`e`|`E`) (`+`|`-`)? (DEC_DIGIT|`_`)* DEC_DIGIT (DEC_DIGIT|`_`)*
+    (`e`|`E`) (`+`|`-`)? (DEC_DIGIT|`_`)*? DEC_DIGIT (DEC_DIGIT|`_`)*
 ```
 
 r[lex.token.literal.float.form]
@@ -749,12 +749,12 @@ r[lex.token.life]
 r[lex.token.life.syntax]
 ```grammar,lexer
 LIFETIME_TOKEN ->
-      `'` IDENTIFIER_OR_KEYWORD _not immediately followed by `'`_
-    | RAW_LIFETIME
+      RAW_LIFETIME
+    | `'` IDENTIFIER_OR_KEYWORD _not immediately followed by `'`_
 
 LIFETIME_OR_LABEL ->
-      `'` NON_KEYWORD_IDENTIFIER _not immediately followed by `'`_
-    | RAW_LIFETIME
+      RAW_LIFETIME
+    | `'` NON_KEYWORD_IDENTIFIER _not immediately followed by `'`_
 
 RAW_LIFETIME ->
     `'r#` IDENTIFIER_OR_KEYWORD _not immediately followed by `'`_

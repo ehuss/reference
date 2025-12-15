@@ -105,15 +105,18 @@ pub fn tokenize(src: &str) -> Result<Vec<Token>, LexError> {
                     tokens.push(token);
                     parser.bump();
                 }
+                let diags = diagnostics(&output.lock().unwrap());
+                if diags.iter().any(|diag| diag.level.starts_with("error")) {
+                    FatalError.raise();
+                }
                 tokens
             })
             .map_err(|_| {
                 let mut message = String::new();
-                let errs = &output.lock().unwrap();
-                let json = std::str::from_utf8(errs).unwrap();
+                let out = &output.lock().unwrap();
+                let diags = diagnostics(out);
                 let mut byte_offset = 0;
-                for err in json.lines() {
-                    let diag: Diagnostic = serde_json::from_str(err).unwrap();
+                for diag in diags {
                     write!(message, "error: {}", diag.rendered);
                     if byte_offset == 0 {
                         byte_offset = diag
@@ -133,9 +136,17 @@ pub fn tokenize(src: &str) -> Result<Vec<Token>, LexError> {
     )
 }
 
+fn diagnostics(output: &[u8]) -> Vec<Diagnostic> {
+    let json = std::str::from_utf8(output).unwrap();
+    json.lines()
+        .map(|line| serde_json::from_str(line).unwrap())
+        .collect()
+}
+
 #[derive(serde::Deserialize)]
 struct Diagnostic {
     rendered: String,
+    level: String,
     spans: Vec<DiagSpan>,
 }
 
@@ -145,32 +156,14 @@ struct DiagSpan {
     byte_start: u32,
 }
 
-pub fn normalize(tokens: &[Token], src: &str) -> Vec<Token> {
-    tokens
+pub fn normalize(tokens: &[Token], src: &str) -> Result<Vec<Token>, LexError> {
+    let new_ts = tokens
         .iter()
         // rustc_parse does not retain comments.
         .filter(|token| !matches!(token.name.as_str(), "LINE_COMMENT" | "BLOCK_COMMENT"))
-        // rustc_parse only keeps 2 continuous ## characters. Odd-number
-        // leaves a punctuation as the last character.
         .flat_map(|token| {
-            if token.name == "RESERVED_TOKEN" {
-                let val = &src[token.range.clone()];
-                if val.chars().all(|c| c == '#') {
-                    let mut new_tokens = Vec::new();
-                    let mut current_pos = token.range.start;
-                    let end_pos = token.range.end;
-                    while current_pos < end_pos {
-                        let next_pos = std::cmp::min(current_pos + 2, end_pos);
-                        new_tokens.push(Token {
-                            name: token.name.clone(),
-                            range: current_pos..next_pos,
-                        });
-                        current_pos = next_pos;
-                    }
-                    return new_tokens;
-                }
-            }
             vec![token.clone()]
         })
-        .collect()
+        .collect();
+    Ok(new_ts)
 }

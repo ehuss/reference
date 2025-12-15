@@ -56,6 +56,7 @@ pub fn tokenize(src: &str) -> Result<Vec<Token>, LexError> {
     .map(|comment| grammar.productions.get(comment).unwrap())
     .collect();
 
+    // Collect the expressions from the Token alternation.
     let token = grammar.productions.get("Token").unwrap();
     let ExpressionKind::Alt(es) = &token.expression.kind else {
         panic!("expected alts");
@@ -82,6 +83,11 @@ pub fn tokenize(src: &str) -> Result<Vec<Token>, LexError> {
     let whitespace = &grammar.productions.get("WHITESPACE").unwrap().expression;
 
     let mut index = 0;
+    // Remove BOM
+    if src.starts_with('\u{FEFF}') {
+        index += 3;
+    }
+
     while index < src.len() {
         if let Some(i) = parse_expression(
             &grammar,
@@ -137,6 +143,45 @@ pub fn tokenize(src: &str) -> Result<Vec<Token>, LexError> {
                 });
             }
         }
+    }
+
+    let mut stack = Vec::new();
+    for token in &tokens {
+        let text = &src[token.range.clone()];
+        match text {
+            "(" | "[" | "{" => stack.push((text, token.range.start)),
+            ")" => {
+                if stack.pop().map(|(s, _)| s) != Some("(") {
+                    return Err(LexError {
+                        byte_offset: token.range.start,
+                        message: "unbalanced `)`".to_string(),
+                    });
+                }
+            }
+            "]" => {
+                if stack.pop().map(|(s, _)| s) != Some("[") {
+                    return Err(LexError {
+                        byte_offset: token.range.start,
+                        message: "unbalanced `]`".to_string(),
+                    });
+                }
+            }
+            "}" => {
+                if stack.pop().map(|(s, _)| s) != Some("{") {
+                    return Err(LexError {
+                        byte_offset: token.range.start,
+                        message: "unbalanced `}`".to_string(),
+                    });
+                }
+            }
+            _ => {}
+        }
+    }
+    if let Some((_, offset)) = stack.pop() {
+        return Err(LexError {
+            byte_offset: offset,
+            message: "unclosed delimiter".to_string(),
+        });
     }
 
     Ok(tokens)
