@@ -116,7 +116,9 @@ A suffix is a sequence of characters following the primary part of a literal (wi
 
 r[lex.token.literal.suffix.syntax]
 ```grammar,lexer
-SUFFIX -> IDENTIFIER_OR_KEYWORD _except `_`_
+SUFFIX ->
+      `_` ^ XID_Continue+
+    | XID_Start XID_Continue*
 
 SUFFIX_NO_E -> SUFFIX _not beginning with `e` or `E`_
 ```

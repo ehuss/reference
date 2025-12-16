@@ -60,17 +60,41 @@ pub fn tokenize(src: &str) -> Result<Vec<Token>, LexError> {
         |offset: usize| -> usize { offset + removed_indices.partition_point(|&x| x < offset) };
 
     let mut tokens = Vec::new();
-    let mut top_prods: Vec<_> = [
-        "LINE_COMMENT",
-        "BLOCK_COMMENT",
-        "OUTER_BLOCK_DOC",
-        "INNER_LINE_DOC",
-        "INNER_BLOCK_DOC",
-        "OUTER_LINE_DOC",
-    ]
-    .into_iter()
-    .map(|comment| grammar.productions.get(comment).unwrap())
-    .collect();
+    let mut top_prods = Vec::new();
+    let comment = grammar.productions.get("COMMENT").unwrap();
+    let ExpressionKind::Alt(es) = &comment.expression.kind else {
+        panic!("expected alts");
+    };
+    for e in es {
+        let nt = match &e.kind {
+            ExpressionKind::Sequence(es) => {
+                let seq: Vec<_> = es
+                    .iter()
+                    .filter_map(|e| match &e.kind {
+                        ExpressionKind::Nt(nt) => Some(nt),
+                        kind => panic!("unexpected kind {kind:?}"),
+                    })
+                    .collect();
+                assert_eq!(seq.len(), 1);
+                seq[0]
+            }
+            ExpressionKind::Nt(nt) => nt,
+            kind => panic!("unexpected kind {kind:?}"),
+        };
+        top_prods.push(grammar.productions.get(nt).unwrap());
+    }
+
+    // let mut top_prods: Vec<_> = [
+    //     "LINE_COMMENT",
+    //     "BLOCK_COMMENT",
+    //     "OUTER_BLOCK_DOC",
+    //     "INNER_LINE_DOC",
+    //     "INNER_BLOCK_DOC",
+    //     "OUTER_LINE_DOC",
+    // ]
+    // .into_iter()
+    // .map(|comment| grammar.productions.get(comment).unwrap())
+    // .collect();
 
     // Collect the expressions from the Token alternation.
     let token = grammar.productions.get("Token").unwrap();
@@ -490,6 +514,11 @@ fn parse_expression(
                 }
                 Some("immediately followed by LF") => {
                     if src[index + l..].chars().next() != Some('\n') {
+                        return Ok(None);
+                    }
+                }
+                Some("not immediately followed by `*`") => {
+                    if src[index + l..].chars().next() == Some('*') {
                         return Ok(None);
                     }
                 }

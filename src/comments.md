@@ -4,35 +4,45 @@ r[comments]
 <!-- TODO: can remove / ! from LINE_COMMENT? Think about if adding comments/doc comments to token, or if there would be a common COMMENT or how this would be handle -->
 r[comments.syntax]
 ```grammar,lexer
-@root LINE_COMMENT ->
+@root COMMENT ->
+      LINE_COMMENT
+    | INNER_LINE_DOC
+    | OUTER_LINE_DOC
+    | INNER_BLOCK_DOC
+    | OUTER_BLOCK_DOC
+    | BLOCK_COMMENT
+
+LINE_COMMENT ->
       `//` (~[`/` `!` LF] | `//`) ~LF*
     | `//` ~CHAR
     | `//` _immediately followed by LF_
 
 BLOCK_COMMENT ->
-      `/*`
+      `/**/`
+    | `/***/`
+    | `/*`
+        ^
         ( ~[`*` `!`] | `**` | BLOCK_COMMENT_OR_DOC )
         ( BLOCK_COMMENT_OR_DOC | ~`*/` )*
       `*/`
-    | `/**/`
-    | `/***/`
 
-@root INNER_LINE_DOC ->
+INNER_LINE_DOC ->
     `//!` ~[LF CR]*
 
 INNER_BLOCK_DOC ->
     `/*!` ^ ( BLOCK_COMMENT_OR_DOC | ~[`*/` CR] )* `*/`
 
-@root OUTER_LINE_DOC ->
+OUTER_LINE_DOC ->
     `///` (~[LF CR]*)?
 
 OUTER_BLOCK_DOC ->
-    `/**`
+    `/**` _not immediately followed by `*`_
+      ^
       ( ~`*` | BLOCK_COMMENT_OR_DOC )
       ( BLOCK_COMMENT_OR_DOC | ~[`*/` CR] )*
     `*/`
 
-@root BLOCK_COMMENT_OR_DOC ->
+BLOCK_COMMENT_OR_DOC ->
       BLOCK_COMMENT
     | OUTER_BLOCK_DOC
     | INNER_BLOCK_DOC
