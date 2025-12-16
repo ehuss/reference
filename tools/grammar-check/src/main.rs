@@ -3,26 +3,24 @@
 
 extern crate rustc_span;
 
-use lexer::LexError;
 use clap::ArgMatches;
 use clap::{Command, arg};
 use indicatif::ProgressBar;
 use indicatif::ProgressStyle;
+use lexer::LexError;
 use rustc_span::edition::Edition;
+use std::cell::RefCell;
 use std::cmp::min;
 use std::io::IsTerminal;
 use std::io::Read;
-use std::num::NonZero;
 use std::ops::Range;
-use std::path::Path;
 use std::path::PathBuf;
 use std::sync::Arc;
-use std::sync::Condvar;
 use std::sync::Mutex;
 use std::sync::mpsc::{Receiver, Sender, channel};
 use std::time::Duration;
 use std::time::Instant;
-use std::cell::RefCell;
+use tracing_subscriber::{layer::SubscriberExt, util::SubscriberInitExt};
 use walkdir::WalkDir;
 
 mod rustc;
@@ -139,7 +137,7 @@ impl CommonOptions {
             test_count,
             std::thread::available_parallelism().unwrap().get() as u32,
         );
-        let mut progress = ProgressBar::new(test_count as u64);
+        let progress = ProgressBar::new(test_count as u64);
         progress.enable_steady_tick(Duration::from_millis(200));
         progress.set_message("0");
         let (channel, receiver) = channel();
@@ -217,6 +215,20 @@ fn common_args() -> Vec<clap::Arg> {
 }
 
 fn main() {
+    let filter = tracing_subscriber::EnvFilter::builder()
+        .with_env_var("GRAMMAR_LOG")
+        .with_default_directive(tracing_subscriber::filter::LevelFilter::INFO.into())
+        .from_env_lossy();
+
+    tracing_subscriber::registry()
+        .with(filter)
+        .with(
+            tracing_tree::HierarchicalLayer::new(2)
+                .with_writer(std::io::stderr)
+                .with_ansi(std::io::IsTerminal::is_terminal(&std::io::stderr())),
+        )
+        .init();
+
     let matches = Command::new("lex-compare")
         .subcommand_required(true)
         .arg_required_else_help(true)
@@ -271,11 +283,14 @@ fn compare_parallel(matches: &ArgMatches) {
         } else {
             "Box<dyn Any>"
         };
-        let location = info.location().map(|l| format!("{}:{}:{}", l.file(), l.line(), l.column())).unwrap_or_else(|| "unknown".to_string());
+        let location = info
+            .location()
+            .map(|l| format!("{}:{}:{}", l.file(), l.line(), l.column()))
+            .unwrap_or_else(|| "unknown".to_string());
         let thread = std::thread::current();
         let name = thread.name().unwrap_or("<unnamed>");
         let output = format!("thread '{name}' panicked at {location}:\n{msg}");
-        
+
         // We print it here as well to ensure it is seen if the thread dies unexpectedly.
         // eprintln!("{}", output);
 
@@ -295,7 +310,8 @@ fn compare_parallel(matches: &ArgMatches) {
     }
     ctrlc::set_handler(move || {
         sender.send(Message::CtrlC).unwrap();
-    });
+    })
+    .unwrap();
     loop {
         match receiver.recv().unwrap() {
             Message::ThreadComplete => {
@@ -363,16 +379,18 @@ fn compare_loop(opts: Arc<Mutex<CommonOptions>>) {
                 }
                 Err(_) => {
                     let panic_msg = PANIC_OUTPUT.with(|c| {
-                        c.borrow_mut().take().unwrap_or_else(|| "unknown panic".to_string())
+                        c.borrow_mut()
+                            .take()
+                            .unwrap_or_else(|| "unknown panic".to_string())
                     });
                     let mut opts_l = opts.lock().unwrap();
-                    opts_l
-                        .errors
-                        .push(format!("test {name} for tool {tool} panicked:\n{panic_msg}"));
+                    opts_l.errors.push(format!(
+                        "test {name} for tool {tool} panicked:\n{panic_msg}"
+                    ));
                     opts_l.set_progress_err_msg();
                 }
             }
-            let mut opts_l = opts.lock().unwrap();
+            let opts_l = opts.lock().unwrap();
             opts_l.progress.inc(1);
         }
     }
@@ -491,6 +509,7 @@ fn compare_src(name: &str, src: &str, tool: &str) -> Result<(), String> {
             // }
         }
         (Err(lex_e), Err(tool_e)) => {
+            // TODO: Should this check the offset is the same?
             return Ok(());
         }
     }

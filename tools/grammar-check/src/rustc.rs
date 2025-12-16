@@ -11,7 +11,6 @@ use lexer::LexError;
 use lexer::Token;
 use rustc_errors::emitter::HumanReadableErrorType;
 use rustc_errors::json::JsonEmitter;
-use rustc_errors::translation::Translator;
 use rustc_errors::{ColorConfig, DiagCtxt};
 use rustc_span::FileName;
 use rustc_span::fatal_error::FatalError;
@@ -19,12 +18,10 @@ use rustc_span::source_map::{FilePathMapping, SourceMap};
 use std::ops::Range;
 use std::sync::{Arc, Mutex};
 // use std::path::Path;
-use rustc_driver::DEFAULT_LOCALE_RESOURCE;
 // use rustc_lexer::FrontmatterAllowed;
 use rustc_ast::token::TokenKind;
 use rustc_parse::lexer::StripTokens;
 use rustc_session::parse::ParseSess;
-use std::error::Error;
 use std::io;
 use std::io::Write;
 // use rustc_ast::token::Token;
@@ -117,7 +114,7 @@ pub fn tokenize(src: &str) -> Result<Vec<Token>, LexError> {
                 let diags = diagnostics(out);
                 let mut byte_offset = 0;
                 for diag in diags {
-                    write!(message, "error: {}", diag.rendered);
+                    write!(message, "error: {}", diag.rendered).unwrap();
                     if byte_offset == 0 {
                         byte_offset = diag
                             .spans
@@ -156,7 +153,7 @@ struct DiagSpan {
     byte_start: u32,
 }
 
-pub fn normalize(tokens: &[Token], src: &str) -> Result<Vec<Token>, LexError> {
+pub fn normalize(tokens: &[Token], _src: &str) -> Result<Vec<Token>, LexError> {
     let new_ts = tokens
         .iter()
         // rustc_parse does not retain comments.

@@ -21,7 +21,7 @@ BLOCK_COMMENT ->
     `//!` ~[LF CR]*
 
 INNER_BLOCK_DOC ->
-    `/*!` ( BLOCK_COMMENT_OR_DOC | ~[`*/` CR] )* `*/`
+    `/*!` ^ ( BLOCK_COMMENT_OR_DOC | ~[`*/` CR] )* `*/`
 
 @root OUTER_LINE_DOC ->
     `///` (~[LF CR]*)?

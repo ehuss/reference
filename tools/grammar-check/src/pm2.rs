@@ -4,7 +4,6 @@ use proc_macro2::Spacing;
 use proc_macro2::TokenStream;
 use proc_macro2::TokenTree;
 use regex::Regex;
-use std::error::Error;
 use std::ops::Range;
 use std::str::FromStr;
 use std::sync::LazyLock;
@@ -130,7 +129,7 @@ fn tokens_from_ts(ts: TokenStream, output: &mut Vec<Token>) -> Result<(), LexErr
                         range: group.span_open().byte_range(),
                     });
                 }
-                tokens_from_ts(group.stream(), output);
+                tokens_from_ts(group.stream(), output)?;
                 if !delim_str.is_empty() {
                     let close_delim = match delim_str {
                         "(" => ")",

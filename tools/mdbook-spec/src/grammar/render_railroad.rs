@@ -78,7 +78,8 @@ fn render_expression(expr: &Expression, cx: &RenderCtx, stack: bool) -> Option<B
         state_ref = 'cont: {
             break 'l match state_ref {
                 // Render grouped nodes and `e{1..1}` repeats directly.
-                ExpressionKind::Grouped(e) | ExpressionKind::RepeatRange(e, _, Some(1), Some(1)) => {
+                ExpressionKind::Grouped(e)
+                | ExpressionKind::RepeatRange(e, _, Some(1), Some(1)) => {
                     render_expression(e, cx, stack)?
                 }
                 ExpressionKind::Alt(es) => {
@@ -158,7 +159,8 @@ fn render_expression(expr: &Expression, cx: &RenderCtx, stack: bool) -> Option<B
                     Box::new(lbox)
                 }
                 // Treat `e+` and `e{1..}` equally.
-                ExpressionKind::RepeatPlus(e) | ExpressionKind::RepeatRange(e, _, Some(1), None) => {
+                ExpressionKind::RepeatPlus(e)
+                | ExpressionKind::RepeatRange(e, _, Some(1), None) => {
                     let n = render_expression(e, cx, stack)?;
                     Box::new(Repeat::new(n, railroad::Empty))
                 }
@@ -220,6 +222,12 @@ fn render_expression(expr: &Expression, cx: &RenderCtx, stack: bool) -> Option<B
                     let n = render_expression(e, cx, stack)?;
                     let ch = node_for_nt(cx, "CHAR");
                     Box::new(Except::new(Box::new(ch), n))
+                }
+                ExpressionKind::Cut(e1, e2) => {
+                    let n1 = render_expression(e1, cx, stack)?;
+                    let n2 = render_expression(e2, cx, stack)?;
+                    let lbox = LabeledBox::new(n2, Comment::new("no backtracking".to_string()));
+                    Box::new(Sequence::new(vec![n1, Box::new(lbox)]))
                 }
                 ExpressionKind::Unicode(s) => Box::new(Terminal::new(format!("U+{}", s))),
             };

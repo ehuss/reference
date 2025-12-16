@@ -79,6 +79,8 @@ pub enum ExpressionKind {
     Charset(Vec<Characters>),
     /// ``~[` ` LF]``
     NegExpression(Box<Expression>),
+    /// `A ^ B`
+    Cut(Box<Expression>, Box<Expression>),
     /// `U+0060`
     Unicode(String),
 }
@@ -122,6 +124,10 @@ impl Expression {
             | ExpressionKind::RepeatRangeNamed(e, _)
             | ExpressionKind::NegExpression(e) => {
                 e.visit_nt(callback);
+            }
+            ExpressionKind::Cut(e1, e2) => {
+                e1.visit_nt(callback);
+                e2.visit_nt(callback);
             }
             ExpressionKind::Alt(es) | ExpressionKind::Sequence(es) => {
                 for e in es {
