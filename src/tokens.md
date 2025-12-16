@@ -164,7 +164,7 @@ ASCII_ESCAPE ->
     | `\n` | `\r` | `\t` | `\\` | `\0`
 
 UNICODE_ESCAPE ->
-    `\u{` ( HEX_DIGIT `_`* ){1..6} `}`
+    `\u{` ( HEX_DIGIT `_`* ){1..6} _valid hex char value_ `}`
 ```
 
 r[lex.token.literal.char.intro]
@@ -178,7 +178,7 @@ r[lex.token.literal.str]
 r[lex.token.literal.str.syntax]
 ```grammar,lexer
 STRING_LITERAL ->
-    `"` (
+    `"` ^ (
         ~[`"` `\` CR]
       | QUOTE_ESCAPE
       | ASCII_ESCAPE

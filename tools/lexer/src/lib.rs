@@ -329,7 +329,6 @@ fn parse_expression(
             todo!()
         }
         ExpressionKind::RepeatRange(r, name, min, max) => {
-            assert_eq!(e.suffix, None);
             let mut i = 0;
             let mut count = 0;
             while i < src.len() {
@@ -354,6 +353,26 @@ fn parse_expression(
             if let Some(name) = name {
                 assert!(env.map.insert(name.clone(), count).is_none());
             }
+
+            match e.suffix.as_deref() {
+                Some("valid hex char value") => {
+                    let hex = &src[index..index+i];
+                    let hex_no_underscores = hex.replace('_', "");
+                    let value = u32::from_str_radix(&hex_no_underscores, 16).map_err(|_| LexError {
+                        byte_offset: index,
+                        message: format!("invalid hex value: {hex}"),
+                    })?;
+                    if char::from_u32(value).is_none() {
+                        return Err(LexError {
+                            byte_offset: index,
+                            message: format!("invalid Unicode scalar value: {hex}"),
+                        });
+                    }
+                }
+                Some(s) => panic!("unknown suffix {s:?}"),
+                None => {}
+            }
+
             Ok(Some(i))
         }
         ExpressionKind::RepeatRangeNamed(r, name) => {

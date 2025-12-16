@@ -110,6 +110,7 @@ pub fn tokenize(src: &str) -> Result<Vec<Token>, LexError> {
                             .emit_err(rustc_interface::errors::EmojiIdentifier { spans, ident });
                     }
                 });
+                psess.dcx().emit_stashed_diagnostics();
                 let diags = diagnostics(&output.lock().unwrap());
                 if diags.iter().any(|diag| diag.level.starts_with("error")) {
                     FatalError.raise();
