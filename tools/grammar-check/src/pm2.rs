@@ -24,11 +24,12 @@ pub fn tokenize(src: &str) -> Result<Vec<Token>, LexError> {
 static SUFFIX_NO_E: LazyLock<Regex> = LazyLock::new(|| {
     Regex::new(
         r"(?x)
-        ^
+        ^(
           ([0-9][0-9_]*[eE])  # DEC_LITERAL
         | (0b([01]|_)*?[01]([01]|_)*[eE]) # BIN_LITERL
         | (0o([0-7]|_)*?[0-7]([0-7]|_)*[eE]) # OCT_LITERAL
         | ([0-9]([0-9]|_)*\.[0-9]([0-9]|_)*[eE]) # FLOAT_LITERAL
+        )
         ",
     )
     .unwrap()
@@ -63,41 +64,42 @@ fn tokens_from_ts(ts: TokenStream, output: &mut Vec<Token>) -> Result<(), LexErr
                 i += 1;
             }
             TokenTree::Punct(p) => {
+                // In order to be consistent with rustc which uses joined tokens,
+                // this looks to join multiple punctuation tokens.
+
+                // s accumulates the punctuation string.
                 let mut s = p.as_char().to_string();
-                let mut j = i + 1;
-                let mut last_valid_len = 1;
+                // j is the current index into the token trees.
+                i += 1;
                 let mut current_spacing = p.spacing();
 
                 // Try to consume subsequent punctuation if it is joint and
                 // forms a valid operator.
-                while current_spacing == Spacing::Joint && j < trees.len() {
-                    match &trees[j] {
+                while current_spacing == Spacing::Joint && i < trees.len() {
+                    match &trees[i] {
                         TokenTree::Punct(next_p) => {
                             s.push(next_p.as_char());
                             if is_valid_punctuation(&s) {
-                                last_valid_len = s.len();
                                 range.end = next_p.span().byte_range().end;
                                 current_spacing = next_p.spacing();
-                                j += 1;
+                                i += 1;
                             } else {
+                                s.pop();
                                 break;
                             }
                         }
                         TokenTree::Ident(ident) => {
                             // lifetime
-                            last_valid_len = s.len() + 1;
                             s.push_str(&ident.to_string());
                             range.end = ident.span().byte_range().end;
+                            i += 1;
                             break;
                         }
                         _ => break,
                     }
                 }
 
-                // Truncate to the longest valid operator found
-                s.truncate(last_valid_len);
                 output.push(Token { name: s, range });
-                i += last_valid_len;
             }
             TokenTree::Literal(lit) => {
                 let s = lit.to_string();

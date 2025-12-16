@@ -238,7 +238,9 @@ r[lex.token.literal.str-raw]
 
 r[lex.token.literal.str-raw.syntax]
 ```grammar,lexer
-RAW_STRING_LITERAL -> `r` `#`{n:0..255} `"` ^ ( ~CR )*? (`"` `#`{n}) SUFFIX?
+RAW_STRING_LITERAL ->
+      `r` `"` ^ ( ~CR )*? `"` SUFFIX?
+    | `r` `#`{n:1..255} ^ `"` ( ~CR )*? (`"` `#`{n}) SUFFIX?
 ```
 
 r[lex.token.literal.str-raw.intro]

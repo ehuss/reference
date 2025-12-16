@@ -102,6 +102,14 @@ pub fn tokenize(src: &str) -> Result<Vec<Token>, LexError> {
                     tokens.push(token);
                     parser.bump();
                 }
+                // Unfortunately this is handled outside of normal lexing.
+                psess.bad_unicode_identifiers.with_lock(|idents| {
+                    for (ident, mut spans) in idents.drain(..) {
+                        psess
+                            .dcx()
+                            .emit_err(rustc_interface::errors::EmojiIdentifier { spans, ident });
+                    }
+                });
                 let diags = diagnostics(&output.lock().unwrap());
                 if diags.iter().any(|diag| diag.level.starts_with("error")) {
                     FatalError.raise();
@@ -158,9 +166,7 @@ pub fn normalize(tokens: &[Token], _src: &str) -> Result<Vec<Token>, LexError> {
         .iter()
         // rustc_parse does not retain comments.
         .filter(|token| !matches!(token.name.as_str(), "LINE_COMMENT" | "BLOCK_COMMENT"))
-        .flat_map(|token| {
-            vec![token.clone()]
-        })
+        .map(|token| token.clone())
         .collect();
     Ok(new_ts)
 }

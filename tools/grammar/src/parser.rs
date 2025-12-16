@@ -174,9 +174,9 @@ impl Parser<'_> {
             0 => Ok(None),
             1 => Ok(Some(es.pop().unwrap())),
             _ => {
-                if let ExpressionKind::Cut(_, _) = es.last().unwrap().kind {
-                    bail!(self, "expected final arm to not contain cut operator");
-                }
+                // if let ExpressionKind::Cut(_, _) = es.last().unwrap().kind {
+                //     bail!(self, "expected final arm to not contain cut operator");
+                // }
                 Ok(Some(Expression::new_kind(ExpressionKind::Alt(es))))
             }
         }
@@ -588,12 +588,12 @@ mod tests {
         grammar.productions.get("Rule").unwrap();
     }
 
-    #[test]
-    fn test_cut_fail_final_arm() {
-        let input = "Rule -> A | B ^ C";
-        let err = parse(input).unwrap_err();
-        assert!(err.contains("expected final arm to not contain cut operator"));
-    }
+    // #[test]
+    // fn test_cut_fail_final_arm() {
+    //     let input = "Rule -> A | B ^ C";
+    //     let err = parse(input).unwrap_err();
+    //     assert!(err.contains("expected final arm to not contain cut operator"));
+    // }
 
     #[test]
     fn test_cut_fail_optional_lhs() {

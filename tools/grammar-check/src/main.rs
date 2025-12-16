@@ -2,6 +2,7 @@
 #![allow(unused)]
 
 extern crate rustc_span;
+extern crate rustc_interface;
 
 use clap::ArgMatches;
 use clap::{Command, arg};
@@ -497,11 +498,16 @@ fn compare_src(name: &str, src: &str, tool: &str) -> Result<(), String> {
             return Err(format!(
                 "error: {tool} failed, lexer passed\n\
                 test: {name}\n\
-                {tool} error: {e:?}\n\
-                src:\n\
-                ----------\n\
-                {src}\n\
-                ----------",
+                {tool} error: {}\n\
+                {}",
+                e.display(src),
+                display_line(
+                    src,
+                    &Range {
+                        start: e.byte_offset,
+                        end: e.byte_offset + 1
+                    }
+                )
             ));
             //TODO
             // for token in tokens {

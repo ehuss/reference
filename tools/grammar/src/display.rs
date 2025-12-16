@@ -59,6 +59,9 @@ impl Display for Expression {
             ExpressionKind::Cut(a, b) => write!(f, "{a} ^ {b}")?,
             ExpressionKind::Unicode(s) => write!(f, "U+{s}")?,
         }
+        if let Some(suffix) = &self.suffix {
+            write!(f, " _{suffix}_")?;
+        }
         Ok(())
     }
 }
