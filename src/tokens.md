@@ -473,7 +473,8 @@ r[lex.token.str-c-raw]
 r[lex.token.str-c-raw.syntax]
 ```grammar,lexer
 RAW_C_STRING_LITERAL ->
-    `cr` `#`{n:0..255} `"` ^ ( ~[CR NUL] )*? (`"` `#`{n}) SUFFIX?
+      `cr` `"` ^ ( ~[CR NUL] )*? `"` SUFFIX?
+    | `cr` `#`{n:1..255} ^ `"` ( ~[CR NUL] )*? (`"` `#`{n}) SUFFIX?
 ```
 
 r[lex.token.str-c-raw.intro]
