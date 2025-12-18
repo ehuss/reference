@@ -406,16 +406,16 @@ fn compare_src(name: &str, src: &str, tool: &str) -> Result<(), String> {
             (rustc::tokenize(src), lexer_result)
         }
         "proc-macro2" => {
-            let lexer_result = lexer_result.map(|ts| pm2::normalize(&ts, src));
-            (pm2::tokenize(src), lexer_result)
+            let pm2_result = pm2::tokenize(src);
+            pm2::normalize(pm2_result, lexer_result, src)
         }
         _ => unreachable!(),
     };
     if let Ok(tokens) = &lexer_result {
-        if let Some(reserved) = tokens.iter().find(|token| token.name == "RESERVED_TOKEN") {
+        if let Some(invalid) = tokens.iter().find(|token| token.name == "RESERVED_TOKEN" || token.name.starts_with("INVALID_")) {
             lexer_result = Err(LexError {
-                byte_offset: reserved.range.start,
-                message: "reserved token".to_string(),
+                byte_offset: invalid.range.start,
+                message: format!("invalid token {}", invalid.name),
             });
         }
     }
@@ -435,15 +435,17 @@ fn compare_src(name: &str, src: &str, tool: &str) -> Result<(), String> {
                             return Err(format!(
                                 "error: token mismatch\n\
                                 test: {name}\n\
-                                lexer token: {:?} {:?}\n\
+                                reference token: {:?} {:?} {:?}\n\
                                 {}\n\
-                                {tool} token: {:?} {:?}\n\
+                                {tool} token: {:?} {:?} {:?}\n\
                                 {}",
                                 lex_token.name,
                                 lex_text,
+                                lex_token.range,
                                 display_line(src, &lex_token.range),
                                 tool_token.name,
                                 tool_text,
+                                tool_token.range,
                                 display_line(src, &tool_token.range),
                             ));
                         }
@@ -451,9 +453,9 @@ fn compare_src(name: &str, src: &str, tool: &str) -> Result<(), String> {
                     (None, None) => break,
                     (Some(lex_token), None) => {
                         return Err(format!(
-                            "error: lexer has more tokens (compared to {tool})\n\
+                            "error: reference has more tokens (compared to {tool})\n\
                             test: {name}\n\
-                            lexer token: {:?} {:?}\n\
+                            reference token: {:?} {:?}\n\
                             {}",
                             lex_token.name,
                             &src[lex_token.range.clone()],
@@ -477,9 +479,9 @@ fn compare_src(name: &str, src: &str, tool: &str) -> Result<(), String> {
         }
         (Err(e), Ok(tokens)) => {
             return Err(format!(
-                "error: lexer failed, {tool} passed\n\
+                "error: reference failed, {tool} passed\n\
                 test: {name}\n\
-                lexer error: {}\n\
+                reference error: {}\n\
                 {}",
                 e.display(src),
                 display_line(
@@ -496,7 +498,7 @@ fn compare_src(name: &str, src: &str, tool: &str) -> Result<(), String> {
         }
         (Ok(tokens), Err(e)) => {
             return Err(format!(
-                "error: {tool} failed, lexer passed\n\
+                "error: {tool} failed, reference passed\n\
                 test: {name}\n\
                 {tool} error: {}\n\
                 {}",
@@ -587,6 +589,6 @@ fn tokenize_src(src: &str, tool: &str) {
         }
     };
     for token in tokens {
-        println!("{}: {}", &src[token.range], token.name);
+        println!("{:?}: {}", &src[token.range], token.name);
     }
 }

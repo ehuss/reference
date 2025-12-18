@@ -517,8 +517,13 @@ fn parse_expression(
                         return Ok(None);
                     }
                 }
-                Some("not immediately followed by `*`") => {
-                    if src[index + l..].chars().next() == Some('*') {
+                Some("not immediately followed by `*` or `/`") => {
+                    if matches!(src[index + l..].chars().next(), Some('*' | '/')) {
+                        return Ok(None);
+                    }
+                }
+                Some("not immediately followed by `/`") => {
+                    if src[index + l..].chars().next() == Some('/') {
                         return Ok(None);
                     }
                 }
@@ -542,15 +547,16 @@ fn parse_expression(
                 match ch {
                     Characters::Named(name) => {
                         let prod = grammar.productions.get(name).unwrap();
-                        let l = parse_expression(
+                        if let Some(l) = parse_expression(
                             grammar,
                             &prod.expression,
                             None,
                             src,
                             index,
                             &mut Environment::default(),
-                        )?;
-                        return Ok(l);
+                        )? {
+                            return Ok(Some(l));
+                        }
                     }
                     Characters::Terminal(s) => {
                         if src[index..].starts_with(s) {

@@ -5,12 +5,17 @@ r[comments]
 r[comments.syntax]
 ```grammar,lexer
 @root COMMENT ->
-      LINE_COMMENT
+      INVALID_COMMENT
+    | LINE_COMMENT
     | INNER_LINE_DOC
     | OUTER_LINE_DOC
     | INNER_BLOCK_DOC
     | OUTER_BLOCK_DOC
     | BLOCK_COMMENT
+
+INVALID_COMMENT ->
+      INVALID_OUTER_LINE_DOC
+    | INVALID_INNER_LINE_DOC
 
 LINE_COMMENT ->
       `//` (~[`/` `!` LF] | `//`) ~LF*
@@ -27,16 +32,22 @@ BLOCK_COMMENT ->
       `*/`
 
 INNER_LINE_DOC ->
-    `//!` ~[LF CR]*
+    `//!` ~[LF]*
+
+INVALID_INNER_LINE_DOC ->
+    `//!` ~[LF CR]* CR
 
 INNER_BLOCK_DOC ->
     `/*!` ^ ( BLOCK_COMMENT_OR_DOC | ~[`*/` CR] )* `*/`
 
 OUTER_LINE_DOC ->
-    `///` (~[LF CR]*)?
+    `///` ~[LF]*
+
+INVALID_OUTER_LINE_DOC ->
+    `///` _not immediately followed by `/`_ ~[LF CR]* CR
 
 OUTER_BLOCK_DOC ->
-    `/**` _not immediately followed by `*`_
+    `/**` _not immediately followed by `*` or `/`_
       ^
       ( ~`*` | BLOCK_COMMENT_OR_DOC )
       ( BLOCK_COMMENT_OR_DOC | ~[`*/` CR] )*
