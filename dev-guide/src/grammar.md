@@ -37,19 +37,21 @@ Expression -> Sequence (` `* `|` ` `* Sequence)*
 
 Sequence -> (` `* AdornedExpr)+
 
-AdornedExpr -> ExprRepeat Suffix? Footnote?
+AdornedExpr -> Prefix? Expr1 Repeat? Suffix? Footnote?
+
+Prefix -> `!`
 
 Suffix -> ` _` <not underscore, unless in backtick>* `_`
 
 Footnote -> `[^` ~[`]` LF]+ `]`
 
-ExprRepeat ->
-      Expr1 `?`
-    | Expr1 `*?`
-    | Expr1 `*`
-    | Expr1 `+?`
-    | Expr1 `+`
-    | Expr1 `{` Range? `..` Range? `}`
+Repeat ->
+      `?`
+    | `*?`
+    | `*`
+    | `+?`
+    | `+`
+    | `{` Range? `..` Range? `}`
 
 Range -> [0-9]+
 
@@ -115,6 +117,7 @@ The general format is a series of productions separated by blank lines. The expr
 | Suffix | \_except \[LazyBooleanExpression\]\_  | Adds a suffix to the previous expression to provide an additional English description, rendered in subscript. This can contain limited Markdown, but try to avoid anything except basics like links. |
 | Footnote | \[^extern-safe\] | Adds a footnote, which can supply extra information that may be helpful to the user. The footnote itself should be defined outside of the code block like a normal Markdown footnote. |
 | Optional | Expr? | The preceding expression is optional. |
+| Not | !Expr | Matches if Expr does not follow, without consuming any input |
 | Repeat | Expr* | The preceding expression is repeated 0 or more times. |
 | Repeat (non-greedy) | Expr*? | The preceding expression is repeated 0 or more times without being greedy. |
 | RepeatPlus | Expr+ | The preceding expression is repeated 1 or more times. |

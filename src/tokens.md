@@ -22,13 +22,14 @@ Token ->
 ```
 
 ```grammar,lexer
-@root SHEBANG -> `#!` ~`[` ~LF* LF
+@root SHEBANG ->
+    `#!` !((WHITESPACE | LINE_COMMENT | BLOCK_COMMENT)* `[`) ~LF* (LF | <end of input>)
 
 @root FRONTMATTER ->
       (WHITESPACE*? LF)*
       `-`{n:3..255} ^ HORIZONTAL_WHITESPACE* INFOSTRING? HORIZONTAL_WHITESPACE* LF
       FRONTMATTER_INNER
-      HORIZONTAL_WHITESPACE* LF
+      HORIZONTAL_WHITESPACE* ( LF | <end of input> )
 
 FRONTMATTER_INNER ->
       `-`{n}

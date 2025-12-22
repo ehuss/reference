@@ -269,6 +269,8 @@ impl Parser<'_> {
             self.parse_grouped()?
         } else if next == b'~' {
             self.parse_neg_expression()?
+        } else if next == b'!' {
+            self.parse_not()?
         } else {
             return Ok(None);
         };
@@ -403,6 +405,15 @@ impl Parser<'_> {
             })?,
         };
         Ok(ExpressionKind::NegExpression(box_kind(kind)))
+    }
+
+    fn parse_not(&mut self) -> Result<ExpressionKind> {
+        self.expect("!", "expected !")?;
+        self.space0();
+        let Some(e) = self.parse_expr1()? else {
+            bail!(self, "expected expression after !");
+        };
+        Ok(ExpressionKind::Not(Box::new(e)))
     }
 
     /// Parse e.g. `F00F` after `U+`.
