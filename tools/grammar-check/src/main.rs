@@ -1,8 +1,8 @@
 #![feature(rustc_private)]
 #![allow(unused)]
 
-extern crate rustc_span;
 extern crate rustc_interface;
+extern crate rustc_span;
 
 use clap::ArgMatches;
 use clap::{Command, arg};
@@ -88,13 +88,18 @@ impl CommonOptions {
                 }
             }
         }
-        fn map_path(path: &String) -> impl Iterator<Item = PathBuf> {
+        fn map_path(path: &String) -> Result<Vec<PathBuf>, walkdir::Error> {
             WalkDir::new(path)
                 .into_iter()
-                .filter_map(|e| e.ok())
-                .filter(|e| e.file_type().is_file())
-                .filter(|e| e.path().extension().map(|ext| ext == "rs").unwrap_or(false))
-                .map(|e| e.into_path())
+                .collect::<Result<Vec<_>, _>>()
+                .map(|entries| {
+                    entries
+                        .into_iter()
+                        .filter(|e| e.file_type().is_file())
+                        .filter(|e| e.path().extension().map(|ext| ext == "rs").unwrap_or(false))
+                        .map(|e| e.into_path())
+                        .collect()
+                })
         }
         let mut strings: Vec<_> = matches
             .get_many("string")
@@ -118,7 +123,17 @@ impl CommonOptions {
         }
         let paths: Vec<_> = matches
             .get_many("path")
-            .map(|ps| ps.flat_map(map_path).collect())
+            .map(|ps| {
+                ps.map(map_path)
+                    .collect::<Result<Vec<_>, _>>()
+                    .unwrap_or_else(|e| {
+                        eprintln!("error: failed to read path: {}", e);
+                        std::process::exit(1);
+                    })
+                    .into_iter()
+                    .flatten()
+                    .collect()
+            })
             .unwrap_or_default();
         if strings.is_empty() && paths.is_empty() {
             strings.extend(map_case(&"all".to_string()));
@@ -412,7 +427,10 @@ fn compare_src(name: &str, src: &str, tool: &str) -> Result<(), String> {
         _ => unreachable!(),
     };
     if let Ok(tokens) = &lexer_result {
-        if let Some(invalid) = tokens.iter().find(|token| token.name == "RESERVED_TOKEN" || token.name.starts_with("INVALID_")) {
+        if let Some(invalid) = tokens
+            .iter()
+            .find(|token| token.name == "RESERVED_TOKEN" || token.name.starts_with("INVALID_"))
+        {
             lexer_result = Err(LexError {
                 byte_offset: invalid.range.start,
                 message: format!("invalid token {}", invalid.name),

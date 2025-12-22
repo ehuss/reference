@@ -21,6 +21,30 @@ Token ->
     | IDENTIFIER_OR_KEYWORD
 ```
 
+```grammar,lexer
+@root SHEBANG -> `#!` ~`[` ~LF* LF
+
+@root FRONTMATTER ->
+      (WHITESPACE*? LF)*
+      `-`{n:3..255} ^ HORIZONTAL_WHITESPACE* INFOSTRING? HORIZONTAL_WHITESPACE* LF
+      FRONTMATTER_INNER
+      HORIZONTAL_WHITESPACE* LF
+
+FRONTMATTER_INNER ->
+      `-`{n}
+    | FRONTMATTER_LINE LF FRONTMATTER_INNER
+
+INFOSTRING -> (XID_Start | `_`) ( XID_Continue | `-` | `.` )*
+
+FRONTMATTER_LINE -> ~LF*
+
+HORIZONTAL_WHITESPACE ->
+      U+0009  // horizontal tab, `'\t'`
+    | U+0020  // space, `' '`
+
+@root INVALID_FRONTMATTER -> WHITESPACE+ `---`
+```
+
 r[lex.token.intro]
 Tokens are primitive productions in the grammar defined by regular (non-recursive) languages.  Rust source input can be broken down into the following kinds of tokens:
 
