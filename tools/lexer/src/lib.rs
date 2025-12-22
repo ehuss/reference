@@ -136,7 +136,8 @@ pub fn tokenize(src: &str) -> Result<Vec<Token>, LexError> {
         &normalized_src,
         index,
         &mut Environment::default(),
-    ).map_err(|mut e| {
+    )
+    .map_err(|mut e| {
         e.byte_offset = map_offset(e.byte_offset);
         e
     })? {
@@ -167,10 +168,11 @@ pub fn tokenize(src: &str) -> Result<Vec<Token>, LexError> {
             &normalized_src,
             index,
             &mut Environment::default(),
-        ).map_err(|mut e| {
-        e.byte_offset = map_offset(e.byte_offset);
-        e
-    })? {
+        )
+        .map_err(|mut e| {
+            e.byte_offset = map_offset(e.byte_offset);
+            e
+        })? {
             return Err(LexError {
                 message: "invalid frontmatter".to_string(),
                 byte_offset: index,
@@ -330,9 +332,9 @@ fn parse_expression(
             assert_eq!(e.suffix, None);
             for e in es {
                 if let Some(l) = parse_expression(grammar, e, None, src, index, env)? {
-                    if l != 0 {
+                    // if l != 0 {
                         return Ok(Some(l));
-                    }
+                    // }
                 }
             }
             Ok(None)
@@ -357,6 +359,13 @@ fn parse_expression(
             match parse_expression(grammar, opt, None, src, index, env)? {
                 Some(l) => Ok(Some(l)),
                 None => Ok(Some(0)),
+            }
+        }
+        ExpressionKind::Not(n) => {
+            assert_eq!(e.suffix, None);
+            match parse_expression(grammar, n, None, src, index, env) {
+                Ok(Some(_)) | Err(_) => Ok(None),
+                Ok(None) => Ok(Some(0)),
             }
         }
         ExpressionKind::Repeat(r) => {
@@ -466,14 +475,7 @@ fn parse_expression(
         }
         ExpressionKind::Nt(s) => {
             let prod = grammar.productions.get(s).unwrap();
-            let l = parse_expression(
-                grammar,
-                &prod.expression,
-                None,
-                src,
-                index,
-                env,
-            )?;
+            let l = parse_expression(grammar, &prod.expression, None, src, index, env)?;
             let l = match l {
                 Some(l) => l,
                 None => return Ok(None),
@@ -598,14 +600,9 @@ fn parse_expression(
                 match ch {
                     Characters::Named(name) => {
                         let prod = grammar.productions.get(name).unwrap();
-                        if let Some(l) = parse_expression(
-                            grammar,
-                            &prod.expression,
-                            None,
-                            src,
-                            index,
-                            env,
-                        )? {
+                        if let Some(l) =
+                            parse_expression(grammar, &prod.expression, None, src, index, env)?
+                        {
                             return Ok(Some(l));
                         }
                     }
@@ -729,12 +726,10 @@ fn match_prose(
                 Ok(None)
             }
         }
-        "end of input" => {
-            match ch {
-                Some(_) => Ok(None),
-                None => Ok(Some(0))
-            }
-        }
+        "end of input" => match ch {
+            Some(_) => Ok(None),
+            None => Ok(Some(0)),
+        },
 
         p => panic!("unknown prose {p}"),
     }
@@ -762,6 +757,7 @@ fn remove_break_expr(e: &mut Expression) {
             }
         }
         ExpressionKind::Optional(e) => remove_break_expr(e),
+        ExpressionKind::Not(e) => remove_break_expr(e),
         ExpressionKind::Repeat(e) => remove_break_expr(e),
         ExpressionKind::RepeatNonGreedy(e) => remove_break_expr(e),
         ExpressionKind::RepeatPlus(e) => remove_break_expr(e),
