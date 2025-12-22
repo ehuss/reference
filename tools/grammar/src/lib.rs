@@ -51,6 +51,8 @@ pub enum ExpressionKind {
     Sequence(Vec<Expression>),
     /// `A?`
     Optional(Box<Expression>),
+    /// `!A`
+    Not(Box<Expression>),
     /// `A*`
     Repeat(Box<Expression>),
     /// `A*?`
@@ -116,6 +118,7 @@ impl Expression {
         match &self.kind {
             ExpressionKind::Grouped(e)
             | ExpressionKind::Optional(e)
+            | ExpressionKind::Not(e)
             | ExpressionKind::Repeat(e)
             | ExpressionKind::RepeatNonGreedy(e)
             | ExpressionKind::RepeatPlus(e)

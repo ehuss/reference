@@ -146,6 +146,12 @@ fn render_expression(expr: &Expression, cx: &RenderCtx, stack: bool) -> Option<B
                     let n = render_expression(e, cx, stack)?;
                     Box::new(Optional::new(n))
                 }
+                ExpressionKind::Not(e) => {
+                    let forward = render_expression(e, cx, stack)?;
+                    let lbox =
+                        LabeledBox::new(forward, Comment::new("not followed by".to_string()));
+                    Box::new(lbox)
+                }
                 // Treat `e*` and `e{..}` / `e{0..}` equally.
                 ExpressionKind::Repeat(e)
                 | ExpressionKind::RepeatRange(e, _, None | Some(0), None) => {
