@@ -128,6 +128,56 @@ pub fn tokenize(src: &str) -> Result<Vec<Token>, LexError> {
         index += 3;
     }
 
+    let shebang = grammar.productions.get("SHEBANG").unwrap();
+    if let Some(i) = parse_expression(
+        &grammar,
+        &shebang.expression,
+        None,
+        &normalized_src,
+        index,
+        &mut Environment::default(),
+    ).map_err(|mut e| {
+        e.byte_offset = map_offset(e.byte_offset);
+        e
+    })? {
+        index += i;
+    }
+
+    // TODO: Is frontmatter before/after crlf normalization?
+    let frontmatter = grammar.productions.get("FRONTMATTER").unwrap();
+    if let Some(i) = parse_expression(
+        &grammar,
+        &frontmatter.expression,
+        None,
+        &normalized_src,
+        index,
+        &mut Environment::default(),
+    )
+    .map_err(|mut e| {
+        e.byte_offset = map_offset(e.byte_offset);
+        e
+    })? {
+        index += i;
+    } else {
+        let invalid_frontmatter = grammar.productions.get("INVALID_FRONTMATTER").unwrap();
+        if let Some(_) = parse_expression(
+            &grammar,
+            &invalid_frontmatter.expression,
+            None,
+            &normalized_src,
+            index,
+            &mut Environment::default(),
+        ).map_err(|mut e| {
+        e.byte_offset = map_offset(e.byte_offset);
+        e
+    })? {
+            return Err(LexError {
+                message: "invalid frontmatter".to_string(),
+                byte_offset: index,
+            });
+        }
+    }
+
     while index < normalized_src.len() {
         if let Some(i) = parse_expression(
             &grammar,
@@ -380,12 +430,13 @@ fn parse_expression(
 
             match e.suffix.as_deref() {
                 Some("valid hex char value") => {
-                    let hex = &src[index..index+i];
+                    let hex = &src[index..index + i];
                     let hex_no_underscores = hex.replace('_', "");
-                    let value = u32::from_str_radix(&hex_no_underscores, 16).map_err(|_| LexError {
-                        byte_offset: index,
-                        message: format!("invalid hex value: {hex}"),
-                    })?;
+                    let value =
+                        u32::from_str_radix(&hex_no_underscores, 16).map_err(|_| LexError {
+                            byte_offset: index,
+                            message: format!("invalid hex value: {hex}"),
+                        })?;
                     if char::from_u32(value).is_none() {
                         return Err(LexError {
                             byte_offset: index,
@@ -421,7 +472,7 @@ fn parse_expression(
                 None,
                 src,
                 index,
-                &mut Environment::default(),
+                env,
             )?;
             let l = match l {
                 Some(l) => l,
@@ -553,7 +604,7 @@ fn parse_expression(
                             None,
                             src,
                             index,
-                            &mut Environment::default(),
+                            env,
                         )? {
                             return Ok(Some(l));
                         }
@@ -676,6 +727,12 @@ fn match_prose(
                 Ok(Some(ch.len_utf8()))
             } else {
                 Ok(None)
+            }
+        }
+        "end of input" => {
+            match ch {
+                Some(_) => Ok(None),
+                None => Ok(Some(0))
             }
         }
 

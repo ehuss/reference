@@ -21,6 +21,30 @@ Token ->
     | IDENTIFIER_OR_KEYWORD
 ```
 
+```grammar,lexer
+@root SHEBANG -> `#!` ~`[` ~LF* LF
+
+@root FRONTMATTER ->
+      (WHITESPACE*? LF)*
+      `-`{n:3..255} ^ HORIZONTAL_WHITESPACE* INFOSTRING? HORIZONTAL_WHITESPACE* LF
+      FRONTMATTER_INNER
+      HORIZONTAL_WHITESPACE* LF
+
+FRONTMATTER_INNER ->
+      `-`{n}
+    | FRONTMATTER_LINE LF FRONTMATTER_INNER
+
+INFOSTRING -> (XID_Start | `_`) ( XID_Continue | `-` | `.` )*
+
+FRONTMATTER_LINE -> ~LF*
+
+HORIZONTAL_WHITESPACE ->
+      U+0009  // horizontal tab, `'\t'`
+    | U+0020  // space, `' '`
+
+@root INVALID_FRONTMATTER -> WHITESPACE+ `---`
+```
+
 r[lex.token.intro]
 Tokens are primitive productions in the grammar defined by regular (non-recursive) languages.  Rust source input can be broken down into the following kinds of tokens:
 
@@ -438,11 +462,11 @@ INTEGER_LITERAL ->
 
 DEC_LITERAL -> DEC_DIGIT (DEC_DIGIT|`_`)*
 
-BIN_LITERAL -> `0b` (BIN_DIGIT|`_`)*? BIN_DIGIT (BIN_DIGIT|`_`)*
+BIN_LITERAL -> `0b` `_`* BIN_DIGIT (BIN_DIGIT|`_`)*
 
-OCT_LITERAL -> `0o` (OCT_DIGIT|`_`)*? OCT_DIGIT (OCT_DIGIT|`_`)*
+OCT_LITERAL -> `0o` `_`* OCT_DIGIT (OCT_DIGIT|`_`)*
 
-HEX_LITERAL -> `0x` (HEX_DIGIT|`_`)*? HEX_DIGIT (HEX_DIGIT|`_`)*
+HEX_LITERAL -> `0x` `_`* HEX_DIGIT (HEX_DIGIT|`_`)*
 
 BIN_DIGIT -> [`0`-`1`]
 
@@ -554,7 +578,7 @@ FLOAT_LITERAL ->
     | DEC_LITERAL `.` _not immediately followed by `.`, `_` or an XID_Start character_
 
 FLOAT_EXPONENT ->
-    (`e`|`E`) (`+`|`-`)? (DEC_DIGIT|`_`)*? DEC_DIGIT (DEC_DIGIT|`_`)*
+    (`e`|`E`) (`+`|`-`)? `_`* DEC_DIGIT (DEC_DIGIT|`_`)*
 ```
 
 r[lex.token.literal.float.form]

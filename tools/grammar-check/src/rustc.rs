@@ -70,7 +70,7 @@ pub fn tokenize(src: &str) -> Result<Vec<Token>, LexError> {
             let psess = ParseSess::with_dcx(dcx, source_map);
             let strip_tokens = StripTokens::Nothing;
             // TODO: Switch to ShebangAndFrontmatter when shebang/frontmatter is supported in reference lexer.
-            // let strip_tokens = StripTokens::ShebangAndFrontmatter;
+            let strip_tokens = StripTokens::ShebangAndFrontmatter;
             let source = String::from(src);
             let filename = FileName::Custom("internal".into());
             rustc_driver::catch_fatal_errors(|| {
@@ -134,8 +134,8 @@ pub fn tokenize(src: &str) -> Result<Vec<Token>, LexError> {
                             .spans
                             .iter()
                             .find(|sp| sp.is_primary)
-                            .unwrap()
-                            .byte_start;
+                            .map(|sp| sp.byte_start)
+                            .unwrap_or_default();
                     }
                 }
                 LexError {
