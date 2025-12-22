@@ -22,7 +22,7 @@ The following notations are used by the *Lexer* and *Syntax* grammar snippets:
 | \[ ]               | \[`b` `B`]                     | Any of the characters listed              |
 | \[ - ]             | \[`a`-`z`]                     | Any of the characters in the range        |
 | ~\[ ]              | ~\[`b` `B`]                    | Any characters, except those listed       |
-| ~`string`         | ~`\n`, ~`*/`                  | Any characters, except this sequence      |
+| ~`string`         | ~`\n`, ~`*/`                  | Any character if the given expression does not match |
 | ( )               | (`,` _Parameter_)<sup>?</sup> | Groups items                              |
 | ^                 | `c"` ^ _CStringRest_          | Commit to an alternative ([cut operator]) |
 | U+xxxx            | U+0060                        | A single unicode character                |

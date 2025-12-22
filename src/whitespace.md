@@ -3,7 +3,7 @@ r[lex.whitespace]
 
 r[whitespace.syntax]
 ```grammar,lexer
-@root WHITESPACE ->
+WHITESPACE ->
       U+0009 // Horizontal tab, `'\t'`
     | U+000A // Line feed, `'\n'`
     | U+000B // Vertical tab
