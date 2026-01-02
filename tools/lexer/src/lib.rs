@@ -352,11 +352,22 @@ fn parse_expression(
             assert_eq!(e.suffix, None);
             let mut i = 0;
             let mut es_i = es.iter().peekable();
+            let mut cut = false;
             while let Some(e) = es_i.next() {
+                if matches!(e.kind, ExpressionKind::Cut) {
+                    cut = true;
+                    continue;
+                }
                 let next = es_i.peek().map(|e| *e);
                 match parse_expression(grammar, e, next, &src, index + i, env)? {
                     Some(l) => {
                         i += l;
+                    }
+                    None if cut => {
+                        return Err(LexError {
+                            byte_offset: index + i,
+                            message: format!("expected {e}"),
+                        });
                     }
                     None => return Ok(None),
                 }
@@ -616,19 +627,8 @@ fn parse_expression(
                 }
             }
         }
-        ExpressionKind::Cut(e1, e2) => {
-            assert_eq!(e.suffix, None);
-            let e1_len = match parse_expression(grammar, e1, None, src, index, env)? {
-                Some(l) => l,
-                None => return Ok(None),
-            };
-            match parse_expression(grammar, e2, None, src, index + e1_len, env)? {
-                Some(e2_len) => Ok(Some(e1_len + e2_len)),
-                None => Err(LexError {
-                    byte_offset: index + e1_len,
-                    message: format!("expected {}", e2),
-                }),
-            }
+        ExpressionKind::Cut => {
+            panic!("unexpected cut operator");
         }
         ExpressionKind::Unicode(s) => {
             assert_eq!(e.suffix, None);
@@ -728,10 +728,7 @@ fn remove_break_expr(e: &mut Expression) {
         ExpressionKind::Comment(_) => {}
         ExpressionKind::Charset(_) => {}
         ExpressionKind::NegExpression(e) => remove_break_expr(e),
-        ExpressionKind::Cut(e1, e2) => {
-            remove_break_expr(e1);
-            remove_break_expr(e2);
-        }
+        ExpressionKind::Cut => {}
         ExpressionKind::Unicode(_) => {}
     }
 }

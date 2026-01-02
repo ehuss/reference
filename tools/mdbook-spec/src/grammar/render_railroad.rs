@@ -229,11 +229,9 @@ fn render_expression(expr: &Expression, cx: &RenderCtx, stack: bool) -> Option<B
                     let ch = node_for_nt(cx, "CHAR");
                     Box::new(Except::new(Box::new(ch), n))
                 }
-                ExpressionKind::Cut(e1, e2) => {
-                    let n1 = render_expression(e1, cx, stack)?;
-                    let n2 = render_expression(e2, cx, stack)?;
-                    let lbox = LabeledBox::new(n2, Comment::new("no backtracking".to_string()));
-                    Box::new(Sequence::new(vec![n1, Box::new(lbox)]))
+                ExpressionKind::Cut => {
+                    let comment = Comment::new("no backtracking".to_string());
+                    Box::new(comment)
                 }
                 ExpressionKind::Unicode(s) => Box::new(Terminal::new(format!("U+{}", s))),
             };

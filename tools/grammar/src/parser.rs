@@ -186,9 +186,6 @@ impl Parser<'_> {
         let mut es = Vec::new();
         loop {
             self.space0();
-            if self.peek() == Some(b'^') {
-                return Ok(Some(self.parse_cut(es)?));
-            }
             let Some(e) = self.parse_expr1()? else {
                 break;
             };
@@ -203,34 +200,6 @@ impl Parser<'_> {
                 footnote: None,
             })),
         }
-    }
-
-    /// Parse cut (`^`) operator.
-    fn parse_cut(&mut self, mut es: Vec<Expression>) -> Result<Expression> {
-        self.expect("^", "expected `^`")?;
-        let Some(last_expr) = es.last() else {
-            bail!(self, "expected expression before cut operator");
-        };
-        match last_expr.kind {
-            ExpressionKind::Optional(_)
-            | ExpressionKind::Repeat(_)
-            | ExpressionKind::RepeatNonGreedy(_)
-            | ExpressionKind::RepeatRange(_, _, None | Some(0), _) => {
-                bail!(self, "expected non-optional expression before cut operator");
-            }
-            _ => {}
-        }
-        let Some(rhs) = self.parse_seq()? else {
-            bail!(self, "expected expression after cut operator");
-        };
-        let lhs = match es.len() {
-            1 => es.pop().unwrap(),
-            _ => Expression::new_kind(ExpressionKind::Sequence(es)),
-        };
-        Ok(Expression::new_kind(ExpressionKind::Cut(
-            Box::new(lhs),
-            Box::new(rhs),
-        )))
     }
 
     fn parse_expr1(&mut self) -> Result<Option<Expression>> {
@@ -271,6 +240,9 @@ impl Parser<'_> {
             self.parse_neg_expression()?
         } else if next == b'!' {
             self.parse_not()?
+        } else if next == b'^' {
+            self.index += 1;
+            ExpressionKind::Cut
         } else {
             return Ok(None);
         };

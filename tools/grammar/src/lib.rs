@@ -81,8 +81,8 @@ pub enum ExpressionKind {
     Charset(Vec<Characters>),
     /// ``~[` ` LF]``
     NegExpression(Box<Expression>),
-    /// `A ^ B`
-    Cut(Box<Expression>, Box<Expression>),
+    /// `^`
+    Cut,
     /// `U+0060`
     Unicode(String),
 }
@@ -128,10 +128,6 @@ impl Expression {
             | ExpressionKind::NegExpression(e) => {
                 e.visit_nt(callback);
             }
-            ExpressionKind::Cut(e1, e2) => {
-                e1.visit_nt(callback);
-                e2.visit_nt(callback);
-            }
             ExpressionKind::Alt(es) | ExpressionKind::Sequence(es) => {
                 for e in es {
                     e.visit_nt(callback);
@@ -144,7 +140,8 @@ impl Expression {
             | ExpressionKind::Prose(_)
             | ExpressionKind::Break(_)
             | ExpressionKind::Comment(_)
-            | ExpressionKind::Unicode(_) => {}
+            | ExpressionKind::Unicode(_)
+            | ExpressionKind::Cut => {}
             ExpressionKind::Charset(set) => {
                 for ch in set {
                     match ch {

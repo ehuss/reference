@@ -57,7 +57,7 @@ impl Display for Expression {
                 write!(f, "]")?;
             }
             ExpressionKind::NegExpression(e) => write!(f, "~{e}")?,
-            ExpressionKind::Cut(a, b) => write!(f, "{a} ^ {b}")?,
+            ExpressionKind::Cut => write!(f, "^")?,
             ExpressionKind::Unicode(s) => write!(f, "U+{s}")?,
         }
         if let Some(suffix) = &self.suffix {
