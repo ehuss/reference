@@ -578,7 +578,7 @@ r[lex.token.literal.float.syntax]
 FLOAT_LITERAL ->
       DEC_LITERAL (`.` DEC_LITERAL)? FLOAT_EXPONENT SUFFIX?
     | DEC_LITERAL `.` DEC_LITERAL SUFFIX_NO_E?
-    | DEC_LITERAL `.` _not immediately followed by `.`, `_` or an XID_Start character_
+    | DEC_LITERAL `.` !(`.` | `_` | XID_Start)
 
 FLOAT_EXPONENT ->
     (`e`|`E`) (`+`|`-`)? `_`* DEC_DIGIT (DEC_DIGIT|`_`)*
@@ -627,7 +627,7 @@ r[lex.token.literal.reserved.syntax]
 RESERVED_NUMBER ->
       BIN_LITERAL [`2`-`9`]
     | OCT_LITERAL [`8`-`9`]
-    | ( BIN_LITERAL | OCT_LITERAL | HEX_LITERAL ) `.` _not immediately followed by `.`, `_` or an XID_Start character_
+    | ( BIN_LITERAL | OCT_LITERAL | HEX_LITERAL ) `.` !(`.` | `_` | XID_Start)
     | ( BIN_LITERAL | OCT_LITERAL ) (`e`|`E`)
     | `0b` `_`* !BIN_DIGIT
     | `0o` `_`* !OCT_DIGIT
@@ -676,16 +676,16 @@ r[lex.token.life.syntax]
 ```grammar,lexer
 LIFETIME_TOKEN ->
       RAW_LIFETIME
-    | `'` IDENTIFIER_OR_KEYWORD _not immediately followed by `'`_
+    | `'` IDENTIFIER_OR_KEYWORD !`'`
 
 LIFETIME_OR_LABEL ->
       RAW_LIFETIME
-    | `'` NON_KEYWORD_IDENTIFIER _not immediately followed by `'`_
+    | `'` NON_KEYWORD_IDENTIFIER !`'`
 
 RAW_LIFETIME ->
-    `'r#` IDENTIFIER_OR_KEYWORD _not immediately followed by `'`_
+    `'r#` IDENTIFIER_OR_KEYWORD !`'`
 
-RESERVED_RAW_LIFETIME -> `'r#` (`_` | `crate` | `self` | `Self` | `super`) _not immediately followed by `'`_
+RESERVED_RAW_LIFETIME -> `'r#` (`_` | `crate` | `self` | `Self` | `super`) !`'`
 ```
 
 r[lex.token.life.intro]
