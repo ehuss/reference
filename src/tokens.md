@@ -23,13 +23,13 @@ Token ->
 
 ```grammar,lexer
 @root SHEBANG ->
-    `#!` !((WHITESPACE | LINE_COMMENT | BLOCK_COMMENT)* `[`) ~LF* (LF | <end of input>)
+    `#!` !((WHITESPACE | LINE_COMMENT | BLOCK_COMMENT)* `[`) ~LF* (LF | EOF)
 
 @root FRONTMATTER ->
       (WHITESPACE*? LF)*
       `-`{n:3..255} ^ HORIZONTAL_WHITESPACE* INFOSTRING? HORIZONTAL_WHITESPACE* LF
       FRONTMATTER_INNER
-      HORIZONTAL_WHITESPACE* ( LF | <end of input> )
+      HORIZONTAL_WHITESPACE* ( LF | EOF )
 
 FRONTMATTER_INNER ->
       `-`{n}
@@ -629,10 +629,10 @@ RESERVED_NUMBER ->
     | OCT_LITERAL [`8`-`9`]
     | ( BIN_LITERAL | OCT_LITERAL | HEX_LITERAL ) `.` _not immediately followed by `.`, `_` or an XID_Start character_
     | ( BIN_LITERAL | OCT_LITERAL ) (`e`|`E`)
-    | `0b` `_`* <end of input or not BIN_DIGIT>
-    | `0o` `_`* <end of input or not OCT_DIGIT>
-    | `0x` `_`* <end of input or not HEX_DIGIT>
-    | DEC_LITERAL ( `.` DEC_LITERAL )? (`e` | `E`) (`+` | `-`)? <end of input or not DEC_DIGIT>
+    | `0b` `_`* !BIN_DIGIT
+    | `0o` `_`* !OCT_DIGIT
+    | `0x` `_`* !HEX_DIGIT
+    | DEC_LITERAL ( `.` DEC_LITERAL )? (`e` | `E`) (`+` | `-`)? !DEC_DIGIT
 
 ```
 

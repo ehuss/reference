@@ -363,9 +363,9 @@ fn parse_expression(
         }
         ExpressionKind::Not(n) => {
             assert_eq!(e.suffix, None);
-            match parse_expression(grammar, n, None, src, index, env) {
-                Ok(Some(_)) | Err(_) => Ok(None),
-                Ok(None) => Ok(Some(0)),
+            match parse_expression(grammar, n, None, src, index, env)? {
+                Some(_) => Ok(None),
+                None => Ok(Some(0)),
             }
         }
         ExpressionKind::Repeat(r) => {
@@ -668,23 +668,6 @@ fn match_prose(
     env: &mut Environment,
 ) -> Result<Option<usize>, LexError> {
     let ch = src[index..].chars().next();
-    let mut eof_but_not_digit = |prod| match ch {
-        Some(ch) => {
-            let p = grammar.productions.get(prod).unwrap();
-            match parse_expression(
-                grammar,
-                &p.expression,
-                None,
-                src,
-                index,
-                &mut Environment::default(),
-            )? {
-                Some(_) => Ok(None),
-                None => Ok(Some(0)),
-            }
-        }
-        None => Ok(Some(0)),
-    };
     let ascii_but = |except: &dyn Fn(char) -> bool| {
         if let Some(ch) = ch {
             Ok((ch >= '\0' && ch <= '\x7f' && !except(ch)).then_some(1))
@@ -715,10 +698,6 @@ fn match_prose(
         "any ASCII (i.e 0x00 to 0x7F) except `\"`, `\\`, or CR" => {
             ascii_but(&|ch| matches!(ch, '\"' | '\\' | '\r'))
         }
-        "end of input or not BIN_DIGIT" => eof_but_not_digit("BIN_DIGIT"),
-        "end of input or not DEC_DIGIT" => eof_but_not_digit("DEC_DIGIT"),
-        "end of input or not HEX_DIGIT" => eof_but_not_digit("HEX_DIGIT"),
-        "end of input or not OCT_DIGIT" => eof_but_not_digit("OCT_DIGIT"),
         "a Unicode scalar value" => {
             if let Some(ch) = ch {
                 Ok(Some(ch.len_utf8()))
@@ -726,10 +705,6 @@ fn match_prose(
                 Ok(None)
             }
         }
-        "end of input" => match ch {
-            Some(_) => Ok(None),
-            None => Ok(Some(0)),
-        },
 
         p => panic!("unknown prose {p}"),
     }

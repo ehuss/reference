@@ -3,9 +3,11 @@ r[input]
 
 r[input.syntax]
 ```grammar,lexer
-@root CHAR -> <a Unicode scalar value>
+CHAR -> <a Unicode scalar value>
 
 NUL -> U+0000
+
+EOF -> !CHAR  // End of file or input
 ```
 
 r[input.intro]
