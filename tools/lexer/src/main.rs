@@ -24,7 +24,7 @@ fn main() {
             std::process::exit(1);
         }
     };
-    for token in ts {
+    for token in ts.tokens {
         eprintln!(
             "{} {:?}: `{}`",
             token.name,
