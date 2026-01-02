@@ -9,6 +9,7 @@ use clap::{Command, arg};
 use indicatif::ProgressBar;
 use indicatif::ProgressStyle;
 use lexer::LexError;
+use lexer::Tokens;
 use rustc_span::edition::Edition;
 use std::cell::RefCell;
 use std::cmp::min;
@@ -417,11 +418,39 @@ fn compare_src(name: &str, src: &str, tool: &str) -> Result<(), String> {
     let lexer_result = lexer::tokenize(src);
     let (tool_result, mut lexer_result) = match tool {
         "rustc_parse" => {
-            let lexer_result = lexer_result.and_then(|ts| rustc::normalize(&ts, src));
+            let lexer_result = lexer_result.and_then(|ts| rustc::normalize(&ts.tokens, src));
             (rustc::tokenize(src), lexer_result)
         }
         "proc-macro2" => {
-            let pm2_result = pm2::tokenize(src);
+            // Unfortunately proc-macro2 does not handle shebang or
+            // frontmatter. In order to handle files with that, this replaces
+            // those with whitespace in order to retain the original byte
+            // positions.
+            if let Err(LexError { message, .. }) = &lexer_result
+                && message.contains("invalid frontmatter")
+            {
+                return Ok(());
+            }
+            let mut stripped_src = String::from(src);
+            let mut replace = |range: &Range<usize>| {
+                let replacement = "\n".repeat(range.end - range.start);
+                stripped_src.replace_range(range.clone(), &replacement);
+            };
+            if let Ok(Tokens {
+                shebang: Some(shebang),
+                ..
+            }) = &lexer_result
+            {
+                replace(shebang);
+            }
+            if let Ok(Tokens {
+                frontmatter: Some(frontmatter),
+                ..
+            }) = &lexer_result
+            {
+                replace(frontmatter);
+            }
+            let pm2_result = pm2::tokenize(&stripped_src);
             pm2::normalize(pm2_result, lexer_result, src)
         }
         _ => unreachable!(),
@@ -583,7 +612,24 @@ fn tokenize(matches: &ArgMatches) {
 
 fn tokenize_src(src: &str, tool: &str) {
     let tokens = match tool {
-        "reference" => lexer::tokenize(src),
+        "reference" => {
+            let tokens = lexer::tokenize(src);
+            if let Ok(Tokens {
+                shebang: Some(shebang),
+                ..
+            }) = &tokens
+            {
+                println!("Shebang in range: {:?}", shebang);
+            }
+            if let Ok(Tokens {
+                frontmatter: Some(frontmatter),
+                ..
+            }) = &tokens
+            {
+                println!("Frontmatter in range: {:?}", frontmatter);
+            }
+            tokens.map(|ts| ts.tokens)
+        }
         "rustc_parse" => rustc::tokenize(src),
         "proc-macro2" => pm2::tokenize(src),
         _ => unreachable!(),

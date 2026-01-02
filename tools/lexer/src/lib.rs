@@ -39,7 +39,20 @@ struct Environment {
     map: HashMap<String, u32>,
 }
 
-pub fn tokenize(src: &str) -> Result<Vec<Token>, LexError> {
+#[derive(Default)]
+pub struct Tokens {
+    pub tokens: Vec<Token>,
+    /// Byte range of the shebang.
+    ///
+    /// The reference lexer is the only tool that sets this.
+    pub shebang: Option<Range<usize>>,
+    /// Byte range of the frontmatter.
+    ///
+    /// The reference lexer is the only tool that sets this.
+    pub frontmatter: Option<Range<usize>>,
+}
+
+pub fn tokenize(src: &str) -> Result<Tokens, LexError> {
     let mut diag = Diagnostics::new();
     let mut grammar = grammar::load_grammar(&mut diag);
     remove_breaks(&mut grammar);
@@ -59,7 +72,7 @@ pub fn tokenize(src: &str) -> Result<Vec<Token>, LexError> {
     let map_offset =
         |offset: usize| -> usize { offset + removed_indices.partition_point(|&x| x < offset) };
 
-    let mut tokens = Vec::new();
+    let mut tokens = Tokens::default();
     let mut top_prods = Vec::new();
     let comment = grammar.productions.get("COMMENT").unwrap();
     let ExpressionKind::Alt(es) = &comment.expression.kind else {
@@ -141,6 +154,10 @@ pub fn tokenize(src: &str) -> Result<Vec<Token>, LexError> {
         e.byte_offset = map_offset(e.byte_offset);
         e
     })? {
+        tokens.shebang = Some(Range {
+            start: map_offset(index),
+            end: map_offset(index + i),
+        });
         index += i;
     }
 
@@ -156,8 +173,15 @@ pub fn tokenize(src: &str) -> Result<Vec<Token>, LexError> {
     )
     .map_err(|mut e| {
         e.byte_offset = map_offset(e.byte_offset);
-        e
+        LexError {
+            message: format!("invalid frontmatter: {}", e.message),
+            byte_offset: e.byte_offset,
+        }
     })? {
+        tokens.frontmatter = Some(Range {
+            start: map_offset(index),
+            end: map_offset(index + i),
+        });
         index += i;
     } else {
         let invalid_frontmatter = grammar.productions.get("INVALID_FRONTMATTER").unwrap();
@@ -234,7 +258,7 @@ pub fn tokenize(src: &str) -> Result<Vec<Token>, LexError> {
         match matched_token {
             Some((l, t)) => {
                 index += l;
-                tokens.push(t);
+                tokens.tokens.push(t);
             }
             None => {
                 return Err(LexError {
@@ -246,7 +270,7 @@ pub fn tokenize(src: &str) -> Result<Vec<Token>, LexError> {
     }
 
     let mut stack = Vec::new();
-    for token in &tokens {
+    for token in &tokens.tokens {
         let text = &src[token.range.clone()];
         match text {
             "(" | "[" | "{" => stack.push((text, token.range.start)),
@@ -333,7 +357,7 @@ fn parse_expression(
             for e in es {
                 if let Some(l) = parse_expression(grammar, e, None, src, index, env)? {
                     // if l != 0 {
-                        return Ok(Some(l));
+                    return Ok(Some(l));
                     // }
                 }
             }

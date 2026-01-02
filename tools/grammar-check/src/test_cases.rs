@@ -8,7 +8,7 @@ macro_rules! cases {
     };
 }
 
-cases!{
+cases! {
     empty =>
         ""
 

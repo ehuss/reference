@@ -467,11 +467,11 @@ impl Parser<'_> {
         let name = match (self.index == start, self.peek()) {
             (false, Some(b':')) => {
                 self.index += 1;
-                Some(self.input[start..self.index-1].to_string())
+                Some(self.input[start..self.index - 1].to_string())
             }
             (false, Some(b'}')) => {
                 self.index += 1;
-                let name = self.input[start..self.index-1].to_string();
+                let name = self.input[start..self.index - 1].to_string();
                 return Ok(ExpressionKind::RepeatRangeNamed(box_kind(kind), name));
             }
             _ => {
