@@ -96,10 +96,13 @@ fn tokens_from_ts(src: &str, ts: TokenStream, output: &mut Vec<Token>) -> Result
                 }
 
                 i += 1;
-                output.push(Token {
-                    name: format!("{tt:?}"),
-                    range,
-                });
+                let name = if src[range.start..].starts_with("r#") {
+                    "RAW_IDENTIFIER"
+                } else {
+                    "IDENTIFIER_OR_KEYWORD"
+                }
+                .to_string();
+                output.push(Token { name, range });
             }
             TokenTree::Punct(p) => {
                 // In order to be consistent with rustc which uses joined tokens,
@@ -163,7 +166,13 @@ fn tokens_from_ts(src: &str, ts: TokenStream, output: &mut Vec<Token>) -> Result
                     });
                 }
 
-                output.push(Token { name: s, range });
+                let name = if s.starts_with('\'') && s.len() > 1 {
+                    "LIFETIME_TOKEN"
+                } else {
+                    "PUNCTUATION"
+                }
+                .to_string();
+                output.push(Token { name, range });
             }
             TokenTree::Literal(lit) => {
                 let s = lit.to_string();
@@ -199,7 +208,7 @@ fn tokens_from_ts(src: &str, ts: TokenStream, output: &mut Vec<Token>) -> Result
                 }
 
                 output.push(Token {
-                    name: format!("{tt:?}"),
+                    name: lit_to_reference(&s),
                     range,
                 });
                 i += 1;
@@ -214,7 +223,7 @@ fn tokens_from_ts(src: &str, ts: TokenStream, output: &mut Vec<Token>) -> Result
                 };
                 if !delim_str.is_empty() {
                     output.push(Token {
-                        name: delim_str.to_string(),
+                        name: "PUNCTUATION".to_string(),
                         range: group.span_open().byte_range(),
                     });
                 }
@@ -234,7 +243,7 @@ fn tokens_from_ts(src: &str, ts: TokenStream, output: &mut Vec<Token>) -> Result
                         range.end -= 1;
                     }
                     output.push(Token {
-                        name: close_delim.to_string(),
+                        name: "PUNCTUATION".to_string(),
                         range,
                     });
                 }
@@ -243,6 +252,56 @@ fn tokens_from_ts(src: &str, ts: TokenStream, output: &mut Vec<Token>) -> Result
         }
     }
     Ok(())
+}
+
+fn lit_to_reference(lit: &str) -> String {
+    if lit.starts_with("cr") {
+        // Raw C-string literal
+        "RAW_C_STRING_LITERAL".to_string()
+    } else if lit.starts_with('c') {
+        // C-string literal
+        "C_STRING_LITERAL".to_string()
+    } else if lit.starts_with("br") {
+        // Raw byte string literal
+        "RAW_BYTE_STRING_LITERAL".to_string()
+    } else if lit.starts_with("b'") {
+        // Byte literal
+        "BYTE_LITERAL".to_string()
+    } else if lit.starts_with("b\"") {
+        // Byte string literal
+        "BYTE_STRING_LITERAL".to_string()
+    } else if lit.starts_with("r\"") || lit.starts_with("r#") {
+        // Raw string literal
+        "RAW_STRING_LITERAL".to_string()
+    } else if lit.starts_with('\'') {
+        // Character literal
+        "CHAR_LITERAL".to_string()
+    } else if lit.starts_with('"') {
+        // String literal
+        "STRING_LITERAL".to_string()
+    } else if lit.starts_with("0x") || lit.starts_with("0o") || lit.starts_with("0b") {
+        // Integer literal with base prefix (hex, octal, binary)
+        "INTEGER_LITERAL".to_string()
+    } else if lit.contains('.') {
+        // Float literal (has decimal point)
+        "FLOAT_LITERAL".to_string()
+    } else if lit.contains('e') || lit.contains('E') {
+        // Could be float with exponent or integer with suffix starting with 'e'/'E'
+        // Check if there's a valid float exponent pattern
+        if lit
+            .bytes()
+            .position(|b| b == b'e' || b == b'E')
+            .map(|pos| pos > 0 && lit.as_bytes()[pos - 1].is_ascii_digit())
+            .unwrap_or(false)
+        {
+            "FLOAT_LITERAL".to_string()
+        } else {
+            "INTEGER_LITERAL".to_string()
+        }
+    } else {
+        // Integer literal
+        "INTEGER_LITERAL".to_string()
+    }
 }
 
 fn is_valid_punctuation(s: &str) -> bool {
@@ -312,7 +371,7 @@ fn normalize_reference_tokens(tokens: Vec<Token>, src: &str) -> Vec<Token> {
                 let count = token.range.len();
                 for i in 0..count {
                     acc.push(Token {
-                        name: "#".to_string(),
+                        name: String::from("PUNCTUATION"), // #
                         range: Range {
                             start: token.range.start + i,
                             end: token.range.start + i + 1,
@@ -324,22 +383,37 @@ fn normalize_reference_tokens(tokens: Vec<Token>, src: &str) -> Vec<Token> {
             // proc-macro2 converts doc comments into doc attributes.
             match &*token.name {
                 "OUTER_LINE_DOC" | "INNER_LINE_DOC" | "OUTER_BLOCK_DOC" | "INNER_BLOCK_DOC" => {
-                    acc.push(token.clone()); // #
+                    acc.push(Token {
+                        name: String::from("PUNCTUATION"), // #
+                        range: token.range.clone(),
+                    });
                     if token.name.starts_with("INNER") {
-                        acc.push(token.clone()); // !
+                        acc.push(Token {
+                            name: String::from("PUNCTUATION"), // !
+                            range: token.range.clone(),
+                        });
                     }
                     acc.push(Token {
-                        name: String::from("["),
+                        name: String::from("PUNCTUATION"), // [
                         range: Range {
                             start: token.range.start,
                             end: token.range.start + 1,
                         },
                     });
-                    acc.push(token.clone()); // ident
-                    acc.push(token.clone()); // =
-                    acc.push(token.clone()); // literal
                     acc.push(Token {
-                        name: String::from("]"),
+                        name: String::from("IDENTIFIER_OR_KEYWORD"),
+                        range: token.range.clone(),
+                    });
+                    acc.push(Token {
+                        name: String::from("PUNCTUATION"), // =
+                        range: token.range.clone(),
+                    });
+                    acc.push(Token {
+                        name: String::from("STRING_LITERAL"),
+                        range: token.range.clone(),
+                    });
+                    acc.push(Token {
+                        name: String::from("PUNCTUATION"), // ]
                         range: Range {
                             start: token.range.end
                                 - src[..token.range.end]

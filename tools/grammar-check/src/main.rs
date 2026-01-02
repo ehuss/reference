@@ -478,7 +478,7 @@ fn compare_src(name: &str, src: &str, tool: &str) -> Result<(), String> {
                     (Some(lex_token), Some(tool_token)) => {
                         let lex_text = &src[lex_token.range.clone()];
                         let tool_text = &src[tool_token.range.clone()];
-                        if lex_text != tool_text {
+                        if lex_text != tool_text || lex_token.name != tool_token.name {
                             return Err(format!(
                                 "error: token mismatch\n\
                                 test: {name}\n\
