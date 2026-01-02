@@ -19,7 +19,8 @@ use std::ops::Range;
 use std::sync::{Arc, Mutex};
 // use std::path::Path;
 // use rustc_lexer::FrontmatterAllowed;
-use rustc_ast::token::TokenKind;
+use rustc_ast::ast::AttrStyle;
+use rustc_ast::token::{CommentKind, IdentIsRaw, TokenKind};
 use rustc_parse::lexer::StripTokens;
 use rustc_session::parse::ParseSess;
 use std::io;
@@ -101,7 +102,7 @@ pub fn tokenize(src: &str) -> Result<Vec<Token>, LexError> {
                         .0 as usize;
 
                     let token = Token {
-                        name: format!("{:?}", parser.token.kind),
+                        name: to_reference_name(&parser.token.kind),
                         range: Range { start, end },
                     };
                     tokens.push(token);
@@ -145,6 +146,93 @@ pub fn tokenize(src: &str) -> Result<Vec<Token>, LexError> {
             })
         },
     )
+}
+
+fn to_reference_name(kind: &TokenKind) -> String {
+    match kind {
+        TokenKind::Eq
+        | TokenKind::Lt
+        | TokenKind::Le
+        | TokenKind::EqEq
+        | TokenKind::Ne
+        | TokenKind::Ge
+        | TokenKind::Gt
+        | TokenKind::AndAnd
+        | TokenKind::OrOr
+        | TokenKind::Bang
+        | TokenKind::Tilde
+        | TokenKind::Plus
+        | TokenKind::Minus
+        | TokenKind::Star
+        | TokenKind::Slash
+        | TokenKind::Percent
+        | TokenKind::Caret
+        | TokenKind::And
+        | TokenKind::Or
+        | TokenKind::Shl
+        | TokenKind::Shr
+        | TokenKind::PlusEq
+        | TokenKind::MinusEq
+        | TokenKind::StarEq
+        | TokenKind::SlashEq
+        | TokenKind::PercentEq
+        | TokenKind::CaretEq
+        | TokenKind::AndEq
+        | TokenKind::OrEq
+        | TokenKind::ShlEq
+        | TokenKind::ShrEq
+        | TokenKind::At
+        | TokenKind::Dot
+        | TokenKind::DotDot
+        | TokenKind::DotDotDot
+        | TokenKind::DotDotEq
+        | TokenKind::Comma
+        | TokenKind::Semi
+        | TokenKind::Colon
+        | TokenKind::PathSep
+        | TokenKind::RArrow
+        | TokenKind::LArrow
+        | TokenKind::FatArrow
+        | TokenKind::Pound
+        | TokenKind::Dollar
+        | TokenKind::Question
+        | TokenKind::SingleQuote
+        | TokenKind::OpenParen
+        | TokenKind::CloseParen
+        | TokenKind::OpenBrace
+        | TokenKind::CloseBrace
+        | TokenKind::OpenBracket
+        | TokenKind::CloseBracket => "PUNCTUATION",
+        TokenKind::OpenInvisible(_) | TokenKind::CloseInvisible(_) => {
+            panic!("unexpected invisible token")
+        }
+        TokenKind::Literal(lit) => match lit.kind {
+            rustc_ast::token::LitKind::Bool => "IDENTIFIER_OR_KEYWORD",
+            rustc_ast::token::LitKind::Byte => "BYTE_LITERAL",
+            rustc_ast::token::LitKind::Char => "CHAR_LITERAL",
+            rustc_ast::token::LitKind::Integer => "INTEGER_LITERAL",
+            rustc_ast::token::LitKind::Float => "FLOAT_LITERAL",
+            rustc_ast::token::LitKind::Str => "STRING_LITERAL",
+            rustc_ast::token::LitKind::StrRaw(_) => "RAW_STRING_LITERAL",
+            rustc_ast::token::LitKind::ByteStr => "BYTE_STRING_LITERAL",
+            rustc_ast::token::LitKind::ByteStrRaw(_) => "RAW_BYTE_STRING_LITERAL",
+            rustc_ast::token::LitKind::CStr => "C_STRING_LITERAL",
+            rustc_ast::token::LitKind::CStrRaw(_) => "RAW_C_STRING_LITERAL",
+            // Diagnostics handle this below.
+            rustc_ast::token::LitKind::Err(e) => "Literal Error",
+        },
+        TokenKind::Ident(_, IdentIsRaw::No) => "IDENTIFIER_OR_KEYWORD",
+        TokenKind::Ident(_, IdentIsRaw::Yes) => "RAW_IDENTIFIER",
+        TokenKind::NtIdent(..) => panic!("unexpected NtIdent"),
+        TokenKind::Lifetime(..) => "LIFETIME_TOKEN",
+        TokenKind::NtLifetime(..) => panic!("unexpected NtLifetime"),
+        TokenKind::DocComment(CommentKind::Line, AttrStyle::Inner, ..) => "INNER_LINE_DOC",
+        TokenKind::DocComment(CommentKind::Line, AttrStyle::Outer, ..) => "OUTER_LINE_DOC",
+        TokenKind::DocComment(CommentKind::Block, AttrStyle::Inner, ..) => "INNER_BLOCK_DOC",
+        TokenKind::DocComment(CommentKind::Block, AttrStyle::Outer, ..) => "OUTER_BLOCK_DOC",
+        TokenKind::Eof => panic!("unexpected EOF"),
+    }
+    .to_string()
 }
 
 fn diagnostics(output: &[u8]) -> Vec<Diagnostic> {
