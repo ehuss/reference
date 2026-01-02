@@ -26,7 +26,7 @@ Token ->
     `#!` !((WHITESPACE | LINE_COMMENT | BLOCK_COMMENT)* `[`) ~LF* (LF | EOF)
 
 @root FRONTMATTER ->
-      (WHITESPACE*? LF)*
+      ((!LF WHITESPACE)* LF)*
       `-`{n:3..255} ^ HORIZONTAL_WHITESPACE* INFOSTRING? HORIZONTAL_WHITESPACE* LF
       FRONTMATTER_INNER
       HORIZONTAL_WHITESPACE* ( LF | EOF )
@@ -242,8 +242,8 @@ r[lex.token.literal.str-raw]
 r[lex.token.literal.str-raw.syntax]
 ```grammar,lexer
 RAW_STRING_LITERAL ->
-      `r` `"` ^ ( ~CR )*? `"` SUFFIX?
-    | `r` `#`{n:1..255} ^ `"` ( ~CR )*? (`"` `#`{n}) SUFFIX?
+      `r` `"` ^ (!`"` ~CR )* `"` SUFFIX?
+    | `r` `#`{n:1..255} ^ `"` (!(`"` `#`{n}) ~CR )* `"` `#`{n} SUFFIX?
 ```
 
 r[lex.token.literal.str-raw.intro]
@@ -328,7 +328,8 @@ r[lex.token.str-byte-raw]
 r[lex.token.str-byte-raw.syntax]
 ```grammar,lexer
 RAW_BYTE_STRING_LITERAL ->
-    `br` `#`{n:0..255} `"` ^ ASCII_FOR_RAW*? (`"` `#`{n}) SUFFIX?
+      `br` `"` ^ (!`"` ASCII_FOR_RAW )* `"` SUFFIX?
+    | `br` `#`{n:1..255} ^ `"` (!(`"` `#`{n}) ASCII_FOR_RAW )* `"` `#`{n} SUFFIX?
 
 ASCII_FOR_RAW ->
     <any ASCII (i.e. 0x00 to 0x7F) except CR>
@@ -420,8 +421,8 @@ r[lex.token.str-c-raw]
 r[lex.token.str-c-raw.syntax]
 ```grammar,lexer
 RAW_C_STRING_LITERAL ->
-      `cr` `"` ^ ( ~[CR NUL] )*? `"` SUFFIX?
-    | `cr` `#`{n:1..255} ^ `"` ( ~[CR NUL] )*? (`"` `#`{n}) SUFFIX?
+      `cr` `"` ^ (!`"` ~[CR NUL] )* `"` SUFFIX?
+    | `cr` `#`{n:1..255} ^ `"` (!(`"` `#`{n}) ~[CR NUL] )* `"` `#`{n} SUFFIX?
 ```
 
 r[lex.token.str-c-raw.intro]

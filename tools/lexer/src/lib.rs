@@ -399,23 +399,6 @@ fn parse_expression(
             }
             Ok(Some(i))
         }
-        ExpressionKind::RepeatNonGreedy(r) => {
-            assert_eq!(e.suffix, None);
-            let Some(next) = next else {
-                panic!("expected next after non-greedy");
-            };
-            let mut i = 0;
-            while i < src.len() {
-                if let Some(_) = parse_expression(grammar, next, None, src, index + i, env)? {
-                    break;
-                }
-                match parse_expression(grammar, r, None, &src, index + i, env)? {
-                    Some(l) => i += l,
-                    None => break,
-                }
-            }
-            Ok(Some(i))
-        }
         ExpressionKind::RepeatPlus(r) => {
             assert_eq!(e.suffix, None);
             let mut i = 0;
@@ -426,10 +409,6 @@ fn parse_expression(
                 }
             }
             if i == 0 { Ok(None) } else { Ok(Some(i)) }
-        }
-        ExpressionKind::RepeatPlusNonGreedy(r) => {
-            assert_eq!(r.suffix, None);
-            todo!()
         }
         ExpressionKind::RepeatRange(r, name, min, max) => {
             let mut i = 0;
@@ -716,9 +695,7 @@ fn remove_break_expr(e: &mut Expression) {
         ExpressionKind::Optional(e) => remove_break_expr(e),
         ExpressionKind::Not(e) => remove_break_expr(e),
         ExpressionKind::Repeat(e) => remove_break_expr(e),
-        ExpressionKind::RepeatNonGreedy(e) => remove_break_expr(e),
         ExpressionKind::RepeatPlus(e) => remove_break_expr(e),
-        ExpressionKind::RepeatPlusNonGreedy(e) => remove_break_expr(e),
         ExpressionKind::RepeatRange(e, _, _, _) => remove_break_expr(e),
         ExpressionKind::RepeatRangeNamed(e, _) => remove_break_expr(e),
         ExpressionKind::Nt(_) => {}

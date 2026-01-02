@@ -69,9 +69,7 @@ fn last_expr(expr: &Expression) -> &ExpressionKind {
         | ExpressionKind::Optional(_)
         | ExpressionKind::Not(_)
         | ExpressionKind::Repeat(_)
-        | ExpressionKind::RepeatNonGreedy(_)
         | ExpressionKind::RepeatPlus(_)
-        | ExpressionKind::RepeatPlusNonGreedy(_)
         | ExpressionKind::RepeatRange(_, _, _, _)
         | ExpressionKind::RepeatRangeNamed(_, _)
         | ExpressionKind::Nt(_)
@@ -129,17 +127,9 @@ fn render_expression(expr: &Expression, cx: &RenderCtx, output: &mut String) {
             render_expression(e, cx, output);
             output.push_str("<sup>\\*</sup>");
         }
-        ExpressionKind::RepeatNonGreedy(e) => {
-            render_expression(e, cx, output);
-            output.push_str("<sup>\\* (non-greedy)</sup>");
-        }
         ExpressionKind::RepeatPlus(e) => {
             render_expression(e, cx, output);
             output.push_str("<sup>+</sup>");
-        }
-        ExpressionKind::RepeatPlusNonGreedy(e) => {
-            render_expression(e, cx, output);
-            output.push_str("<sup>+ (non-greedy)</sup>");
         }
         ExpressionKind::RepeatRange(e, name, a, b) => {
             render_expression(e, cx, output);

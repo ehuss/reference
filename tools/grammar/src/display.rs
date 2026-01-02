@@ -26,9 +26,7 @@ impl Display for Expression {
             ExpressionKind::Optional(e) => write!(f, "{e}?")?,
             ExpressionKind::Not(e) => write!(f, "-{e}")?,
             ExpressionKind::Repeat(e) => write!(f, "{e}*")?,
-            ExpressionKind::RepeatNonGreedy(e) => write!(f, "{e}*?")?,
             ExpressionKind::RepeatPlus(e) => write!(f, "{e}+")?,
-            ExpressionKind::RepeatPlusNonGreedy(e) => write!(f, "{e}+?")?,
             ExpressionKind::RepeatRange(e, name, min, max) => write!(
                 f,
                 "{e}{{{}{}..{}}}",
