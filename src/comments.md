@@ -19,7 +19,7 @@ INVALID_COMMENT ->
 
 LINE_COMMENT ->
       `//` (~[`/` `!` LF] | `//`) ~LF*
-    | `//` <end of input>
+    | `//` EOF
     | `//` _immediately followed by LF_
 
 BLOCK_COMMENT ->
