@@ -44,10 +44,10 @@ OUTER_LINE_DOC ->
     `///` ~[LF]*
 
 INVALID_OUTER_LINE_DOC ->
-    `///` _not immediately followed by `/`_ ~[LF CR]* CR
+    `///` !`/` ~[LF CR]* CR
 
 OUTER_BLOCK_DOC ->
-    `/**` _not immediately followed by `*` or `/`_
+    `/**` ![`*` `/`]
       ^
       ( ~`*` | BLOCK_COMMENT_OR_DOC )
       ( BLOCK_COMMENT_OR_DOC | ~[`*/` CR] )*

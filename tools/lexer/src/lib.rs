@@ -329,27 +329,12 @@ fn parse_expression(
     }
     match &e.kind {
         ExpressionKind::Grouped(group) => {
+            assert_eq!(e.suffix, None);
             let l = parse_expression(grammar, group, None, src, index, env)?;
             let l = match l {
                 Some(l) => l,
                 None => return Ok(None),
             };
-            match e.suffix.as_deref() {
-                Some("not immediately followed by XID_Continue") => {
-                    if let Some(next_ch) = src[index + l..].chars().next() {
-                        if unicode_ident::is_xid_continue(next_ch) {
-                            return Ok(None);
-                        }
-                    }
-                }
-                Some("not immediately followed by `'`") => {
-                    if src[index + l..].chars().next() == Some('\'') {
-                        return Ok(None);
-                    }
-                }
-                Some(s) => panic!("unknown suffix {s:?}"),
-                None => {}
-            }
             Ok(Some(l))
         }
         ExpressionKind::Alt(es) => {
@@ -561,11 +546,6 @@ fn parse_expression(
                         return Ok(None);
                     }
                 }
-                Some("not immediately followed by `'`") => {
-                    if src[index + l..].chars().next() == Some('\'') {
-                        return Ok(None);
-                    }
-                }
                 Some(s) => panic!("unknown suffix {s:?}"),
                 None => {}
             }
@@ -577,30 +557,8 @@ fn parse_expression(
             }
             let l = s.len();
             match e.suffix.as_deref() {
-                Some("not immediately followed by `.`, `_` or an XID_Start character") => {
-                    if let Some(next_ch) = src[index + l..].chars().next() {
-                        if matches!(next_ch, '.' | '_') || unicode_ident::is_xid_start(next_ch) {
-                            return Ok(None);
-                        }
-                    }
-                }
-                Some("not immediately followed by `#`") => {
-                    if src[index + l..].chars().next() == Some('#') {
-                        return Ok(None);
-                    }
-                }
                 Some("immediately followed by LF") => {
                     if src[index + l..].chars().next() != Some('\n') {
-                        return Ok(None);
-                    }
-                }
-                Some("not immediately followed by `*` or `/`") => {
-                    if matches!(src[index + l..].chars().next(), Some('*' | '/')) {
-                        return Ok(None);
-                    }
-                }
-                Some("not immediately followed by `/`") => {
-                    if src[index + l..].chars().next() == Some('/') {
                         return Ok(None);
                     }
                 }
