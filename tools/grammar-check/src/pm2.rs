@@ -1,5 +1,5 @@
 use lexer::LexError;
-use lexer::Token;
+use lexer::{Token, Tokens};
 use proc_macro2::Spacing;
 use proc_macro2::TokenStream;
 use proc_macro2::TokenTree;
@@ -278,10 +278,11 @@ fn is_valid_punctuation(s: &str) -> bool {
 
 pub fn normalize(
     pm2_result: Result<Vec<Token>, LexError>,
-    reference_result: Result<Vec<Token>, LexError>,
+    reference_result: Result<Tokens, LexError>,
     src: &str,
 ) -> (Result<Vec<Token>, LexError>, Result<Vec<Token>, LexError>) {
-    let reference_result = reference_result.map(|tokens| normalize_reference_tokens(tokens, src));
+    let reference_result =
+        reference_result.map(|tokens| normalize_reference_tokens(tokens.tokens, src));
     let pm2_result = match (&pm2_result, &reference_result) {
         (Ok(_), Err(e)) => {
             // For some reason, proc-macro2 treats NBSP as whitespace.

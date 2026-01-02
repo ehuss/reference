@@ -232,7 +232,8 @@ fn check_unexpected_roots(grammar: &Grammar, diag: &mut Diagnostics) {
     let expected: HashSet<_> = grammar
         .productions
         .values()
-        .filter(|&p| p.is_root).map(|p| p.name.as_str())
+        .filter(|&p| p.is_root)
+        .map(|p| p.name.as_str())
         .collect();
     if set != expected {
         let new: Vec<_> = set.difference(&expected).collect();
