@@ -412,21 +412,13 @@ impl Parser<'_> {
     /// Parse `*` | `*?` after expression.
     fn parse_repeat(&mut self, kind: ExpressionKind) -> Result<ExpressionKind> {
         self.expect("*", "expected `*`")?;
-        Ok(if self.take_str("?") {
-            ExpressionKind::RepeatNonGreedy(box_kind(kind))
-        } else {
-            ExpressionKind::Repeat(box_kind(kind))
-        })
+        Ok(ExpressionKind::Repeat(box_kind(kind)))
     }
 
     /// Parse `+` | `+?` after expression.
     fn parse_repeat_plus(&mut self, kind: ExpressionKind) -> Result<ExpressionKind> {
         self.expect("+", "expected `+`")?;
-        Ok(if self.take_str("?") {
-            ExpressionKind::RepeatPlusNonGreedy(box_kind(kind))
-        } else {
-            ExpressionKind::RepeatPlus(box_kind(kind))
-        })
+        Ok(ExpressionKind::RepeatPlus(box_kind(kind)))
     }
 
     /// Parse `{a..}` | `{..b}` | `{a..b}` after expression.
