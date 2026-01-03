@@ -64,7 +64,7 @@ The resulting sequence of characters is then converted into tokens as described 
 >
 > - Byte order mark removal.
 > - CRLF normalization.
-> - Shebang removal.
+> - Shebang removal (except in expression or statement contexts).
 >
 > The [`include_str!`] and [`include_bytes!`] macros do not apply these transformations.
 
