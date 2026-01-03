@@ -60,7 +60,13 @@ r[input.tokenization]
 The resulting sequence of characters is then converted into tokens as described in the remainder of this chapter.
 
 > [!NOTE]
-> The standard library [`include!`] macro applies byte order mark removal, CRLF normalization, and shebang removal to the file it reads. The [`include_str!`] and [`include_bytes!`] macros do not.
+> The standard library [`include!`] macro applies the following transformations to the file it reads:
+>
+> - Byte order mark removal.
+> - CRLF normalization.
+> - Shebang removal.
+>
+> The [`include_str!`] and [`include_bytes!`] macros do not apply these transformations.
 
 [inner attribute]: attributes.md
 [BYTE ORDER MARK]: https://en.wikipedia.org/wiki/Byte_order_mark#UTF-8
