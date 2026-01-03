@@ -22,9 +22,6 @@ Token ->
 ```
 
 ```grammar,lexer
-@root SHEBANG ->
-    `#!` !((WHITESPACE | LINE_COMMENT | BLOCK_COMMENT)* `[`) ~LF* (LF | EOF)
-
 @root FRONTMATTER ->
       ((!LF WHITESPACE)* LF)*
       `-`{n:3..255} ^ HORIZONTAL_WHITESPACE* INFOSTRING? HORIZONTAL_WHITESPACE* LF
