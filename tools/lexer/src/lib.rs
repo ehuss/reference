@@ -1,16 +1,12 @@
-#![allow(unused)]
 use diagnostics::Diagnostics;
 use grammar::Characters;
 use grammar::Expression;
 use grammar::ExpressionKind;
 use grammar::Grammar;
 use std::collections::HashMap;
-use std::error::Error;
 use std::ops::Range;
 use tracing::debug;
 use tracing::instrument;
-
-// type Result<T> = std::result::Result<T, Box<dyn Error>>;
 
 #[derive(Debug, Clone)]
 pub struct Token {
@@ -145,7 +141,6 @@ pub fn tokenize(src: &str) -> Result<Tokens, LexError> {
     if let Some(i) = parse_expression(
         &grammar,
         &shebang.expression,
-        None,
         &normalized_src,
         index,
         &mut Environment::default(),
@@ -166,7 +161,6 @@ pub fn tokenize(src: &str) -> Result<Tokens, LexError> {
     if let Some(i) = parse_expression(
         &grammar,
         &frontmatter.expression,
-        None,
         &normalized_src,
         index,
         &mut Environment::default(),
@@ -188,7 +182,6 @@ pub fn tokenize(src: &str) -> Result<Tokens, LexError> {
         if let Some(_) = parse_expression(
             &grammar,
             &invalid_frontmatter.expression,
-            None,
             &normalized_src,
             index,
             &mut Environment::default(),
@@ -208,7 +201,6 @@ pub fn tokenize(src: &str) -> Result<Tokens, LexError> {
         if let Some(i) = parse_expression(
             &grammar,
             whitespace,
-            None,
             &normalized_src,
             index,
             &mut Environment::default(),
@@ -227,7 +219,6 @@ pub fn tokenize(src: &str) -> Result<Tokens, LexError> {
             match parse_expression(
                 &grammar,
                 &token_prod.expression,
-                None,
                 &normalized_src,
                 index,
                 &mut Environment::default(),
@@ -311,11 +302,10 @@ pub fn tokenize(src: &str) -> Result<Tokens, LexError> {
     Ok(tokens)
 }
 
-#[instrument(level = "debug", skip(grammar, e, next, src), ret)]
+#[instrument(level = "debug", skip(grammar, e, src), ret)]
 fn parse_expression(
     grammar: &Grammar,
     e: &Expression,
-    next: Option<&Expression>,
     src: &str,
     index: usize,
     env: &mut Environment,
@@ -330,7 +320,7 @@ fn parse_expression(
     match &e.kind {
         ExpressionKind::Grouped(group) => {
             assert_eq!(e.suffix, None);
-            let l = parse_expression(grammar, group, None, src, index, env)?;
+            let l = parse_expression(grammar, group, src, index, env)?;
             let l = match l {
                 Some(l) => l,
                 None => return Ok(None),
@@ -340,7 +330,7 @@ fn parse_expression(
         ExpressionKind::Alt(es) => {
             assert_eq!(e.suffix, None);
             for e in es {
-                if let Some(l) = parse_expression(grammar, e, None, src, index, env)? {
+                if let Some(l) = parse_expression(grammar, e, src, index, env)? {
                     // if l != 0 {
                     return Ok(Some(l));
                     // }
@@ -358,8 +348,7 @@ fn parse_expression(
                     cut = true;
                     continue;
                 }
-                let next = es_i.peek().map(|e| *e);
-                match parse_expression(grammar, e, next, &src, index + i, env)? {
+                match parse_expression(grammar, e, &src, index + i, env)? {
                     Some(l) => {
                         i += l;
                     }
@@ -376,14 +365,14 @@ fn parse_expression(
         }
         ExpressionKind::Optional(opt) => {
             assert_eq!(e.suffix, None);
-            match parse_expression(grammar, opt, None, src, index, env)? {
+            match parse_expression(grammar, opt, src, index, env)? {
                 Some(l) => Ok(Some(l)),
                 None => Ok(Some(0)),
             }
         }
         ExpressionKind::Not(n) => {
             assert_eq!(e.suffix, None);
-            match parse_expression(grammar, n, None, src, index, env)? {
+            match parse_expression(grammar, n, src, index, env)? {
                 Some(_) => Ok(None),
                 None => Ok(Some(0)),
             }
@@ -392,7 +381,7 @@ fn parse_expression(
             assert_eq!(e.suffix, None);
             let mut i = 0;
             while i < src.len() {
-                match parse_expression(grammar, r, None, &src, index + i, env)? {
+                match parse_expression(grammar, r, &src, index + i, env)? {
                     Some(l) => i += l,
                     None => break,
                 }
@@ -403,7 +392,7 @@ fn parse_expression(
             assert_eq!(e.suffix, None);
             let mut i = 0;
             while i < src.len() {
-                match parse_expression(grammar, r, None, &src, index + i, env)? {
+                match parse_expression(grammar, r, &src, index + i, env)? {
                     Some(l) => i += l,
                     None => break,
                 }
@@ -414,7 +403,7 @@ fn parse_expression(
             let mut i = 0;
             let mut count = 0;
             while i < src.len() {
-                match parse_expression(grammar, r, None, &src, index + i, env)? {
+                match parse_expression(grammar, r, &src, index + i, env)? {
                     Some(l) => {
                         i += l;
                         if let Some(max) = max {
@@ -465,7 +454,7 @@ fn parse_expression(
             };
             let mut i = 0;
             for _ in 0..*count {
-                match parse_expression(grammar, r, None, &src, index + i, env)? {
+                match parse_expression(grammar, r, &src, index + i, env)? {
                     Some(l) => i += l,
                     None => return Ok(None),
                 }
@@ -474,7 +463,7 @@ fn parse_expression(
         }
         ExpressionKind::Nt(s) => {
             let prod = grammar.productions.get(s).unwrap();
-            let l = parse_expression(grammar, &prod.expression, None, src, index, env)?;
+            let l = parse_expression(grammar, &prod.expression, src, index, env)?;
             let l = match l {
                 Some(l) => l,
                 None => return Ok(None),
@@ -559,10 +548,10 @@ fn parse_expression(
         }
         ExpressionKind::Prose(s) => {
             assert_eq!(e.suffix, None);
-            match_prose(grammar, s, src, index, env)
+            match_prose(s, src, index)
         }
         ExpressionKind::Break(_) => unreachable!(),
-        ExpressionKind::Comment(s) => Ok(Some(0)),
+        ExpressionKind::Comment(_) => Ok(Some(0)),
         ExpressionKind::Charset(chars) => {
             assert_eq!(e.suffix, None);
             if index >= src.len() {
@@ -573,7 +562,7 @@ fn parse_expression(
                     Characters::Named(name) => {
                         let prod = grammar.productions.get(name).unwrap();
                         if let Some(l) =
-                            parse_expression(grammar, &prod.expression, None, src, index, env)?
+                            parse_expression(grammar, &prod.expression, src, index, env)?
                         {
                             return Ok(Some(l));
                         }
@@ -595,7 +584,7 @@ fn parse_expression(
         }
         ExpressionKind::NegExpression(neg) => {
             assert_eq!(e.suffix, None);
-            match parse_expression(grammar, neg, None, src, index, env)? {
+            match parse_expression(grammar, neg, src, index, env)? {
                 Some(_) => Ok(None),
                 None => {
                     if let Some(ch) = src[index..].chars().next() {
@@ -621,13 +610,7 @@ fn parse_expression(
     }
 }
 
-fn match_prose(
-    grammar: &Grammar,
-    prose: &str,
-    src: &str,
-    index: usize,
-    env: &mut Environment,
-) -> Result<Option<usize>, LexError> {
+fn match_prose(prose: &str, src: &str, index: usize) -> Result<Option<usize>, LexError> {
     let ch = src[index..].chars().next();
     let ascii_but = |except: &dyn Fn(char) -> bool| {
         if let Some(ch) = ch {

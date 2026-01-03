@@ -1,5 +1,4 @@
 #![feature(rustc_private)]
-#![allow(unused)]
 
 extern crate rustc_interface;
 extern crate rustc_span;
@@ -105,7 +104,7 @@ impl CommonOptions {
         let mut strings: Vec<_> = matches
             .get_many("string")
             .map(|ss| {
-                ss.map(|s: &String| ("CLI".to_string(), s.to_string()))
+                ss.map(|s: &String| ("CLI string".to_string(), s.to_string()))
                     .collect()
             })
             .unwrap_or_default();
@@ -142,13 +141,7 @@ impl CommonOptions {
         let tools: Vec<_> = matches
             .get_many("tool")
             .map(|ts| ts.cloned().collect())
-            .unwrap_or_else(|| {
-                default_tools
-                    .iter()
-                    .filter(|t| **t != "rustc_lexer")
-                    .map(|s| String::from(*s))
-                    .collect()
-            });
+            .unwrap_or_else(|| default_tools.iter().map(|s| String::from(*s)).collect());
         let tools = Arc::new(tools);
         let edition = matches
             .get_one::<String>("edition")
@@ -223,14 +216,15 @@ impl CommonOptions {
     }
 }
 
-const TOOLS: [&str; 4] = ["reference", "rustc_parse", "proc-macro2", "rustc_lexer"];
+const ALL_TOOLS: [&str; 4] = ["reference", "rustc_parse", "proc-macro2", "rustc_lexer"];
+const DEFAULT_COMPARE_TOOLS: [&str; 2] = ["rustc_parse", "proc-macro2"];
 
 fn common_args() -> Vec<clap::Arg> {
     vec![
         arg!(--case <CASE> ... "internal test cases to compare"),
         arg!(--string <STRING> ... "source string to tokenize"),
         arg!(--path <PATH> ... "path of rust files to compare"),
-        arg!(--tool <TOOLS> ... "tool to compare").value_parser(TOOLS),
+        arg!(--tool <TOOLS> ... "tool to compare").value_parser(ALL_TOOLS),
         arg!(--edition <EDITION> "edition to use"),
         arg!(--coverage "record coverage data"),
         arg!(--stdin "read input from stdin"),
@@ -283,7 +277,7 @@ thread_local! {
 
 fn compare_parallel(matches: &ArgMatches) {
     let start = Instant::now();
-    let (opts, receiver) = CommonOptions::new(matches, &TOOLS[1..]);
+    let (opts, receiver) = CommonOptions::new(matches, &DEFAULT_COMPARE_TOOLS);
     if opts.tools.iter().any(|t| t == "reference") {
         panic!("can't compare reference to itself");
     }
@@ -520,7 +514,7 @@ fn compare_src(name: &str, src: &str, tool: &str) -> Result<(), String> {
             }
             return Ok(());
         }
-        (Err(e), Ok(tokens)) => {
+        (Err(e), Ok(_)) => {
             return Err(format!(
                 "error: reference failed, {tool} passed\n\
                 test: {name}\n\
@@ -535,11 +529,8 @@ fn compare_src(name: &str, src: &str, tool: &str) -> Result<(), String> {
                     }
                 )
             ));
-            // for tool_token in tokens {
-            //     eprintln!("{:?} {:?}", tool_token.name, &src[tool_token.range.clone()]);
-            // }
         }
-        (Ok(tokens), Err(e)) => {
+        (Ok(_), Err(e)) => {
             return Err(format!(
                 "error: {tool} failed, reference passed\n\
                 test: {name}\n\
@@ -554,13 +545,12 @@ fn compare_src(name: &str, src: &str, tool: &str) -> Result<(), String> {
                     }
                 )
             ));
-            //TODO
-            // for token in tokens {
-            //     eprintln!("{} {}", token.name, &src[token.range]);
-            // }
         }
-        (Err(lex_e), Err(tool_e)) => {
-            // TODO: Should this check the offset is the same?
+        (Err(_), Err(_)) => {
+            // Unfortunately getting the error byte offsets to match between
+            // the reference lexer and the tools is probably just too much
+            // effort. This means that they could be reporting errors for
+            // different reasons, but we wouldn't know.
             return Ok(());
         }
     }
@@ -601,7 +591,10 @@ fn tokenize(matches: &ArgMatches) {
     opts.progress.finish_and_clear();
     for tool in &*opts.tools.clone() {
         while let Some((name, src)) = opts.next() {
+            println!("------------------------------------------------------------");
+            println!("tool `{tool}` token results for `{name}`:");
             tokenize_src(&src, &tool);
+            println!("------------------------------------------------------------");
         }
     }
 }
