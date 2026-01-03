@@ -6,6 +6,7 @@ extern crate rustc_parse;
 extern crate rustc_session;
 extern crate rustc_span;
 
+use lexer::LexError;
 use lexer::Token;
 use rustc_errors::emitter::HumanReadableErrorType;
 use rustc_errors::json::JsonEmitter;
@@ -41,7 +42,7 @@ impl<T: Write> Write for Shared<T> {
     }
 }
 
-pub fn tokenize(src: &str) -> Result<Vec<Token>, Box<dyn Error>> {
+pub fn tokenize(src: &str) -> Result<Vec<Token>, LexError> {
     let mut pos = 0;
     let ts: Vec<_> = rustc_lexer::tokenize(src, FrontmatterAllowed::Yes)
         .filter_map(|token| {

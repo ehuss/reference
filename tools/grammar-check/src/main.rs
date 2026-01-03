@@ -25,9 +25,9 @@ use std::time::Instant;
 use tracing_subscriber::{layer::SubscriberExt, util::SubscriberInitExt};
 use walkdir::WalkDir;
 
-mod rustc;
-// mod rustc_lexer;
 mod pm2;
+mod rustc;
+mod rustc_lexer;
 mod test_cases;
 
 enum Message {
@@ -142,7 +142,13 @@ impl CommonOptions {
         let tools: Vec<_> = matches
             .get_many("tool")
             .map(|ts| ts.cloned().collect())
-            .unwrap_or_else(|| default_tools.iter().map(|s| String::from(*s)).collect());
+            .unwrap_or_else(|| {
+                default_tools
+                    .iter()
+                    .filter(|t| **t != "rustc_lexer")
+                    .map(|s| String::from(*s))
+                    .collect()
+            });
         let tools = Arc::new(tools);
         let edition = matches
             .get_one::<String>("edition")
@@ -217,7 +223,7 @@ impl CommonOptions {
     }
 }
 
-const TOOLS: [&str; 3] = ["reference", "rustc_parse", "proc-macro2"];
+const TOOLS: [&str; 4] = ["reference", "rustc_parse", "proc-macro2", "rustc_lexer"];
 
 fn common_args() -> Vec<clap::Arg> {
     vec![
@@ -270,15 +276,6 @@ fn main() {
         _ => unreachable!(),
     }
 }
-
-// fn compare(opts: Arc<Mutex<CommonOptions>>) {
-//     let mut opts = opts.lock().unwrap();
-//     for tool in std::mem::take(&mut opts.tools) {
-//         while let Some((name, src)) = opts.next() {
-//             compare_src(&src, &tool);
-//         }
-//     }
-// }
 
 thread_local! {
     static PANIC_OUTPUT: RefCell<Option<String>> = RefCell::new(None);
@@ -386,7 +383,6 @@ fn compare_loop(opts: Arc<Mutex<CommonOptions>>) {
         let tools = opts_l.tools.clone();
         drop(opts_l);
         for tool in &*tools {
-            // TODO: get the panic output somehow?
             match std::panic::catch_unwind(|| compare_src(&name, &src, tool)) {
                 Ok(Ok(())) => {}
                 Ok(Err(e)) => {
@@ -632,6 +628,7 @@ fn tokenize_src(src: &str, tool: &str) {
         }
         "rustc_parse" => rustc::tokenize(src),
         "proc-macro2" => pm2::tokenize(src),
+        "rustc_lexer" => rustc_lexer::tokenize(src),
         _ => unreachable!(),
     };
     let tokens = match tokens {
