@@ -1,4 +1,3 @@
-#![allow(unused)]
 use super::{Expression, ExpressionKind};
 use std::fmt::Display;
 use std::fmt::Formatter;
@@ -38,8 +37,8 @@ impl Display for Expression {
             ExpressionKind::Nt(s) => write!(f, "{s}")?,
             ExpressionKind::Terminal(s) => write!(f, "`{s}`")?,
             ExpressionKind::Prose(s) => write!(f, "<{s}>")?,
-            ExpressionKind::Break(n) => write!(f, " ")?,
-            ExpressionKind::Comment(s) => {}
+            ExpressionKind::Break(_) => write!(f, " ")?,
+            ExpressionKind::Comment(_) => {}
             ExpressionKind::Charset(chars) => {
                 write!(f, "[")?;
                 for (i, c) in chars.iter().enumerate() {

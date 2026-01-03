@@ -17,15 +17,12 @@ use rustc_span::fatal_error::FatalError;
 use rustc_span::source_map::{FilePathMapping, SourceMap};
 use std::ops::Range;
 use std::sync::{Arc, Mutex};
-// use std::path::Path;
-// use rustc_lexer::FrontmatterAllowed;
 use rustc_ast::ast::AttrStyle;
 use rustc_ast::token::{CommentKind, IdentIsRaw, TokenKind};
 use rustc_parse::lexer::StripTokens;
 use rustc_session::parse::ParseSess;
 use std::io;
 use std::io::Write;
-// use rustc_ast::token::Token;
 
 struct Shared<T> {
     data: Arc<Mutex<T>>,
@@ -69,8 +66,9 @@ pub fn tokenize(src: &str) -> Result<Vec<Token>, LexError> {
 
             let dcx = DiagCtxt::new(Box::new(je));
             let psess = ParseSess::with_dcx(dcx, source_map);
-            let strip_tokens = StripTokens::Nothing;
-            // TODO: Switch to ShebangAndFrontmatter when shebang/frontmatter is supported in reference lexer.
+            // TODO: Use StripTokens::Nothing before frontmatter is
+            // stabilized. Use StripTokens::ShebangAndFrontmatter after it is
+            // stabilized.
             let strip_tokens = StripTokens::ShebangAndFrontmatter;
             let source = String::from(src);
             let filename = FileName::Custom("internal".into());
@@ -110,7 +108,7 @@ pub fn tokenize(src: &str) -> Result<Vec<Token>, LexError> {
                 }
                 // Unfortunately this is handled outside of normal lexing.
                 psess.bad_unicode_identifiers.with_lock(|idents| {
-                    for (ident, mut spans) in idents.drain(..) {
+                    for (ident, spans) in idents.drain(..) {
                         psess
                             .dcx()
                             .emit_err(rustc_interface::errors::EmojiIdentifier { spans, ident });
@@ -219,7 +217,7 @@ fn to_reference_name(kind: &TokenKind) -> String {
             rustc_ast::token::LitKind::CStr => "C_STRING_LITERAL",
             rustc_ast::token::LitKind::CStrRaw(_) => "RAW_C_STRING_LITERAL",
             // Diagnostics handle this below.
-            rustc_ast::token::LitKind::Err(e) => "Literal Error",
+            rustc_ast::token::LitKind::Err(_) => "Literal Error",
         },
         TokenKind::Ident(_, IdentIsRaw::No) => "IDENTIFIER_OR_KEYWORD",
         TokenKind::Ident(_, IdentIsRaw::Yes) => "RAW_IDENTIFIER",
