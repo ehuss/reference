@@ -1,12 +1,12 @@
 [package]
 name = "lexer"
-edition.workspace = true
-license.workspace = true
+edition = "2024"
+license = "MIT OR Apache-2.0"
 
 [dependencies]
-diagnostics.workspace = true
-grammar.workspace = true
-tracing.workspace = true
-tracing-subscriber.workspace = true
+diagnostics = { path = "../diagnostics" }
+grammar = { path = "../grammar" }
+tracing = "0.1.43"
+tracing-subscriber = { version = "0.3.22", features = ["env-filter"] }
 tracing-tree = "0.4.1"
-unicode-ident.workspace = true
+unicode-ident = "1.0.22"
