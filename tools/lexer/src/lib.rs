@@ -157,7 +157,6 @@ pub fn tokenize(src: &str) -> Result<Tokens, LexError> {
         index += i;
     }
 
-    // TODO: Is frontmatter before/after crlf normalization?
     let frontmatter = grammar.productions.get("FRONTMATTER").unwrap();
     if let Some(i) = parse_expression(
         &grammar,
