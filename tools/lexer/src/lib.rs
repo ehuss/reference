@@ -342,21 +342,10 @@ fn parse_expression(
             assert_eq!(e.suffix, None);
             let mut i = 0;
             let mut es_i = es.iter().peekable();
-            let mut cut = false;
             while let Some(e) = es_i.next() {
-                if matches!(e.kind, ExpressionKind::Cut) {
-                    cut = true;
-                    continue;
-                }
                 match parse_expression(grammar, e, &src, index + i, env)? {
                     Some(l) => {
                         i += l;
-                    }
-                    None if cut => {
-                        return Err(LexError {
-                            byte_offset: index + i,
-                            message: format!("expected {e}"),
-                        });
                     }
                     None => return Ok(None),
                 }
@@ -605,8 +594,15 @@ fn parse_expression(
                 }
             }
         }
-        ExpressionKind::Cut => {
-            panic!("unexpected cut operator");
+        ExpressionKind::Cut(e) => {
+            assert_eq!(e.suffix, None);
+            match parse_expression(grammar, e, src, index, env)? {
+                Some(l) => Ok(Some(l)),
+                None => Err(LexError {
+                    byte_offset: index,
+                    message: format!("expected {}", e),
+                }),
+            }
         }
         ExpressionKind::Unicode(s) => {
             assert_eq!(e.suffix, None);
@@ -672,7 +668,6 @@ fn remove_breaks(grammar: &mut Grammar) {
 
 fn remove_break_expr(e: &mut Expression) {
     match &mut e.kind {
-        ExpressionKind::Grouped(e) => remove_break_expr(e),
         ExpressionKind::Alt(es) => {
             es.retain(|e| !matches!(e.kind, ExpressionKind::Break(_)));
             for e in es {
@@ -685,20 +680,21 @@ fn remove_break_expr(e: &mut Expression) {
                 remove_break_expr(e);
             }
         }
-        ExpressionKind::Optional(e) => remove_break_expr(e),
-        ExpressionKind::Not(e) => remove_break_expr(e),
-        ExpressionKind::Repeat(e) => remove_break_expr(e),
-        ExpressionKind::RepeatPlus(e) => remove_break_expr(e),
-        ExpressionKind::RepeatRange { expr: e, .. } => remove_break_expr(e),
-        ExpressionKind::RepeatRangeNamed(e, _) => remove_break_expr(e),
+        ExpressionKind::Grouped(e)
+        | ExpressionKind::Optional(e)
+        | ExpressionKind::Not(e)
+        | ExpressionKind::Repeat(e)
+        | ExpressionKind::RepeatPlus(e)
+        | ExpressionKind::RepeatRange { expr: e, .. }
+        | ExpressionKind::RepeatRangeNamed(e, _)
+        | ExpressionKind::NegExpression(e)
+        | ExpressionKind::Cut(e) => remove_break_expr(e),
         ExpressionKind::Nt(_) => {}
         ExpressionKind::Terminal(_) => {}
         ExpressionKind::Prose(_) => {}
         ExpressionKind::Break(_) => panic!("unvisitable"),
         ExpressionKind::Comment(_) => {}
         ExpressionKind::Charset(_) => {}
-        ExpressionKind::NegExpression(e) => remove_break_expr(e),
-        ExpressionKind::Cut => {}
         ExpressionKind::Unicode(_) => {}
     }
 }

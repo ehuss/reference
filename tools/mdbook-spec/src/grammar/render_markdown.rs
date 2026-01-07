@@ -79,7 +79,7 @@ fn last_expr(expr: &Expression) -> &ExpressionKind {
         | ExpressionKind::Comment(_)
         | ExpressionKind::Charset(_)
         | ExpressionKind::NegExpression(_)
-        | ExpressionKind::Cut
+        | ExpressionKind::Cut(_)
         | ExpressionKind::Unicode(_) => &expr.kind,
     }
 }
@@ -179,8 +179,9 @@ fn render_expression(expr: &Expression, cx: &RenderCtx, output: &mut String) {
             output.push('~');
             render_expression(e, cx, output);
         }
-        ExpressionKind::Cut => {
-            output.push('^');
+        ExpressionKind::Cut(e) => {
+            output.push_str("^ ");
+            render_expression(e, cx, output);
         }
         ExpressionKind::Unicode(s) => {
             output.push_str("U+");
