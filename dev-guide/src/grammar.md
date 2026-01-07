@@ -37,19 +37,32 @@ Expression -> Sequence (` `* `|` ` `* Sequence)*
 
 Sequence -> (` `* AdornedExpr)+
 
-AdornedExpr -> Prefix? Expr1 Repeat? Suffix? Footnote?
+AdornedExpr -> Prefix? Expr1 Quantifier? Suffix? Footnote?
 
-Prefix -> `!`
+Prefix -> Not
+
+Not -> `!`
 
 Suffix -> ` _` <not underscore, unless in backtick>* `_`
 
 Footnote -> `[^` ~[`]` LF]+ `]`
 
-Repeat ->
-      `?`
-    | `*`
-    | `+`
-    | `{` Range? `..` Range? `}`
+Quantifier ->
+      Optional
+    | Repeat
+    | RepeatPlus
+    | RepeatRange
+    | RepeatRangeInclusive
+
+Optional -> `?`
+
+Repeat -> `*`
+
+RepeatPlus -> `+`
+
+RepeatRange -> `{` Range? `..` Range? `}`
+
+RepeatRangeInclusive -> `{` Range `..=` Range `}`
 
 Range -> [0-9]+
 
@@ -119,6 +132,7 @@ The general format is a series of productions separated by blank lines. The expr
 | Repeat | Expr* | The preceding expression is repeated 0 or more times. |
 | RepeatPlus | Expr+ | The preceding expression is repeated 1 or more times. |
 | RepeatRange | Expr{2..4} | The preceding expression is repeated between the range of times specified. Either bound can be excluded, which works just like Rust ranges. |
+| RepeatRangeInclusive | Expr{2..=4} | The preceding expression is repeated between the range of times specified (inclusive). |
 
 ## Automatic linking
 

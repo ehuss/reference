@@ -26,9 +26,9 @@ impl Display for Expression {
             ExpressionKind::Not(e) => write!(f, "-{e}")?,
             ExpressionKind::Repeat(e) => write!(f, "{e}*")?,
             ExpressionKind::RepeatPlus(e) => write!(f, "{e}+")?,
-            ExpressionKind::RepeatRange(e, name, min, max) => write!(
+            ExpressionKind::RepeatRange{expr, name, min, max, limit} => write!(
                 f,
-                "{e}{{{}{}..{}}}",
+                "{expr}{{{}{}{limit}{}}}",
                 name.as_ref().map(|n| format!("{n}:")).unwrap_or_default(),
                 min.map(|v| v.to_string()).unwrap_or_default(),
                 max.map(|v| v.to_string()).unwrap_or_default(),

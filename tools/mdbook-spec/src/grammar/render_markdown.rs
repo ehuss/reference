@@ -70,7 +70,7 @@ fn last_expr(expr: &Expression) -> &ExpressionKind {
         | ExpressionKind::Not(_)
         | ExpressionKind::Repeat(_)
         | ExpressionKind::RepeatPlus(_)
-        | ExpressionKind::RepeatRange(_, _, _, _)
+        | ExpressionKind::RepeatRange { .. }
         | ExpressionKind::RepeatRangeNamed(_, _)
         | ExpressionKind::Nt(_)
         | ExpressionKind::Terminal(_)
@@ -131,14 +131,20 @@ fn render_expression(expr: &Expression, cx: &RenderCtx, output: &mut String) {
             render_expression(e, cx, output);
             output.push_str("<sup>+</sup>");
         }
-        ExpressionKind::RepeatRange(e, name, a, b) => {
-            render_expression(e, cx, output);
+        ExpressionKind::RepeatRange {
+            expr,
+            name,
+            min,
+            max,
+            limit,
+        } => {
+            render_expression(expr, cx, output);
             write!(
                 output,
-                "<sup>{}{}..{}</sup>",
-                name.as_ref().map(|n| format!("{n}:")).unwrap_or_default(),
-                a.map(|v| v.to_string()).unwrap_or_default(),
-                b.map(|v| v.to_string()).unwrap_or_default(),
+                "<sup>{name}{min}{limit}{max}</sup>",
+                name = name.as_ref().map(|n| format!("{n}:")).unwrap_or_default(),
+                min = min.map(|v| v.to_string()).unwrap_or_default(),
+                max = max.map(|v| v.to_string()).unwrap_or_default(),
             )
             .unwrap();
         }

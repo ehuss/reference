@@ -1,6 +1,6 @@
 //! A parser of the ENBF-like grammar.
 
-use super::{Characters, Expression, ExpressionKind, Grammar, Production};
+use super::{Characters, Expression, ExpressionKind, Grammar, Production, RangeLimit};
 use std::fmt;
 use std::fmt::Display;
 use std::path::Path;
@@ -421,7 +421,7 @@ impl Parser<'_> {
         Ok(ExpressionKind::RepeatPlus(box_kind(kind)))
     }
 
-    /// Parse `{a..}` | `{..b}` | `{a..b}` after expression.
+    /// Parse `{a..b}` | `{a..=b}` | `{name}` after expression.
     //
     // `name:` before the range is a named binding. `{name}` refers to that binding.
     fn parse_repeat_range(&mut self, kind: ExpressionKind) -> Result<ExpressionKind> {
@@ -443,21 +443,35 @@ impl Parser<'_> {
                 None
             }
         };
-        let a = self.take_while(&|x| x.is_ascii_digit());
-        let Ok(a) = (!a.is_empty()).then(|| a.parse::<u32>()).transpose() else {
+        let min = self.take_while(&|x| x.is_ascii_digit());
+        let Ok(min) = (!min.is_empty()).then(|| min.parse::<u32>()).transpose() else {
             bail!(self, "malformed range start");
         };
-        self.expect("..", "expected `..`")?;
-        let b = self.take_while(&|x| x.is_ascii_digit());
-        let Ok(b) = (!b.is_empty()).then(|| b.parse::<u32>()).transpose() else {
+        self.expect("..", "expected `..` or `..=`")?;
+        let limit = if self.take_str("=") {
+            RangeLimit::Closed
+        } else {
+            RangeLimit::HalfOpen
+        };
+        let max = self.take_while(&|x| x.is_ascii_digit());
+        let Ok(max) = (!max.is_empty()).then(|| max.parse::<u32>()).transpose() else {
             bail!(self, "malformed range end");
         };
-        match (a, b) {
-            (Some(a), Some(b)) if b < a => bail!(self, "range {a}..{b} is malformed"),
+        match (min, max, limit) {
+            (Some(min), Some(max), _) if max < min => {
+                bail!(self, "range {min}{limit}{max} is malformed")
+            }
+            (_, None, RangeLimit::Closed) => bail!(self, "closed range must have an upper bound"),
             _ => {}
         }
         self.expect("}", "expected `}`")?;
-        Ok(ExpressionKind::RepeatRange(box_kind(kind), name, a, b))
+        Ok(ExpressionKind::RepeatRange {
+            expr: box_kind(kind),
+            name,
+            min,
+            max,
+            limit,
+        })
     }
 
     fn parse_suffix(&mut self) -> Result<Option<String>> {

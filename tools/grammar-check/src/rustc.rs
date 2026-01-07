@@ -9,20 +9,20 @@ extern crate rustc_span;
 
 use lexer::LexError;
 use lexer::Token;
+use rustc_ast::ast::AttrStyle;
+use rustc_ast::token::{CommentKind, IdentIsRaw, TokenKind};
 use rustc_errors::emitter::HumanReadableErrorType;
 use rustc_errors::json::JsonEmitter;
 use rustc_errors::{ColorConfig, DiagCtxt};
+use rustc_parse::lexer::StripTokens;
+use rustc_session::parse::ParseSess;
 use rustc_span::FileName;
 use rustc_span::fatal_error::FatalError;
 use rustc_span::source_map::{FilePathMapping, SourceMap};
-use std::ops::Range;
-use std::sync::{Arc, Mutex};
-use rustc_ast::ast::AttrStyle;
-use rustc_ast::token::{CommentKind, IdentIsRaw, TokenKind};
-use rustc_parse::lexer::StripTokens;
-use rustc_session::parse::ParseSess;
 use std::io;
 use std::io::Write;
+use std::ops::Range;
+use std::sync::{Arc, Mutex};
 
 struct Shared<T> {
     data: Arc<Mutex<T>>,

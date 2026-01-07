@@ -3,6 +3,7 @@ use grammar::Characters;
 use grammar::Expression;
 use grammar::ExpressionKind;
 use grammar::Grammar;
+use grammar::RangeLimit;
 use std::collections::HashMap;
 use std::ops::Range;
 use tracing::debug;
@@ -399,7 +400,17 @@ fn parse_expression(
             }
             if i == 0 { Ok(None) } else { Ok(Some(i)) }
         }
-        ExpressionKind::RepeatRange(r, name, min, max) => {
+        ExpressionKind::RepeatRange {
+            expr: r,
+            name,
+            min,
+            max,
+            limit,
+        } => {
+            let max = max.map(|max| match limit {
+                RangeLimit::HalfOpen => max - 1,
+                RangeLimit::Closed => max,
+            });
             let mut i = 0;
             let mut count = 0;
             while i < src.len() {
@@ -407,7 +418,7 @@ fn parse_expression(
                     Some(l) => {
                         i += l;
                         if let Some(max) = max {
-                            if count + 1 == *max {
+                            if count + 1 == max {
                                 break;
                             }
                         }
@@ -679,7 +690,7 @@ fn remove_break_expr(e: &mut Expression) {
         ExpressionKind::Not(e) => remove_break_expr(e),
         ExpressionKind::Repeat(e) => remove_break_expr(e),
         ExpressionKind::RepeatPlus(e) => remove_break_expr(e),
-        ExpressionKind::RepeatRange(e, _, _, _) => remove_break_expr(e),
+        ExpressionKind::RepeatRange { expr: e, .. } => remove_break_expr(e),
         ExpressionKind::RepeatRangeNamed(e, _) => remove_break_expr(e),
         ExpressionKind::Nt(_) => {}
         ExpressionKind::Terminal(_) => {}
