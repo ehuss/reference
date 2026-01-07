@@ -173,12 +173,7 @@ impl Parser<'_> {
         match es.len() {
             0 => Ok(None),
             1 => Ok(Some(es.pop().unwrap())),
-            _ => {
-                if let ExpressionKind::Cut(_, _) = es.last().unwrap().kind {
-                    bail!(self, "expected final arm to not contain cut operator");
-                }
-                Ok(Some(Expression::new_kind(ExpressionKind::Alt(es))))
-            }
+            _ => Ok(Some(Expression::new_kind(ExpressionKind::Alt(es)))),
         }
     }
 
@@ -187,7 +182,9 @@ impl Parser<'_> {
         loop {
             self.space0();
             if self.peek() == Some(b'^') {
-                return Ok(Some(self.parse_cut(es)?));
+                let cut = self.parse_cut()?;
+                es.push(cut);
+                break;
             }
             let Some(e) = self.parse_expr1()? else {
                 break;
@@ -206,31 +203,16 @@ impl Parser<'_> {
     }
 
     /// Parse cut (`^`) operator.
-    fn parse_cut(&mut self, mut es: Vec<Expression>) -> Result<Expression> {
+    fn parse_cut(&mut self) -> Result<Expression> {
         self.expect("^", "expected `^`")?;
-        let Some(last_expr) = es.last() else {
-            bail!(self, "expected expression before cut operator");
-        };
-        match last_expr.kind {
-            ExpressionKind::Optional(_)
-            | ExpressionKind::Repeat(_)
-            | ExpressionKind::RepeatNonGreedy(_)
-            | ExpressionKind::RepeatRange(_, None | Some(0), _) => {
-                bail!(self, "expected non-optional expression before cut operator");
-            }
-            _ => {}
-        }
         let Some(rhs) = self.parse_seq()? else {
             bail!(self, "expected expression after cut operator");
         };
-        let lhs = match es.len() {
-            1 => es.pop().unwrap(),
-            _ => Expression::new_kind(ExpressionKind::Sequence(es)),
-        };
-        Ok(Expression::new_kind(ExpressionKind::Cut(
-            Box::new(lhs),
-            Box::new(rhs),
-        )))
+        Ok(Expression {
+            kind: ExpressionKind::Cut(Box::new(rhs)),
+            suffix: None,
+            footnote: None,
+        })
     }
 
     fn parse_expr1(&mut self) -> Result<Option<Expression>> {
@@ -567,27 +549,6 @@ mod tests {
         let input = "Rule -> A ^ B | C";
         let grammar = parse(input).unwrap();
         grammar.productions.get("Rule").unwrap();
-    }
-
-    #[test]
-    fn test_cut_fail_final_arm() {
-        let input = "Rule -> A | B ^ C";
-        let err = parse(input).unwrap_err();
-        assert!(err.contains("expected final arm to not contain cut operator"));
-    }
-
-    #[test]
-    fn test_cut_fail_optional_lhs() {
-        let input = "Rule -> A* ^ B";
-        let err = parse(input).unwrap_err();
-        assert!(err.contains("expected non-optional expression before cut operator"));
-    }
-
-    #[test]
-    fn test_cut_fail_optional_lhs_group() {
-        let input = "Rule -> (A B)* ^ C";
-        let err = parse(input).unwrap_err();
-        assert!(err.contains("expected non-optional expression before cut operator"));
     }
 
     #[test]
