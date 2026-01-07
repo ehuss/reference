@@ -186,6 +186,11 @@ impl Parser<'_> {
         let mut es = Vec::new();
         loop {
             self.space0();
+            if self.peek() == Some(b'^') {
+                let cut = self.parse_cut()?;
+                es.push(cut);
+                break;
+            }
             let Some(e) = self.parse_expr1()? else {
                 break;
             };
@@ -200,6 +205,19 @@ impl Parser<'_> {
                 footnote: None,
             })),
         }
+    }
+
+    /// Parse cut (`^`) operator.
+    fn parse_cut(&mut self) -> Result<Expression> {
+        self.expect("^", "expected `^`")?;
+        let Some(rhs) = self.parse_seq()? else {
+            bail!(self, "expected expression after cut operator");
+        };
+        Ok(Expression {
+            kind: ExpressionKind::Cut(Box::new(rhs)),
+            suffix: None,
+            footnote: None,
+        })
     }
 
     fn parse_expr1(&mut self) -> Result<Option<Expression>> {
@@ -240,9 +258,6 @@ impl Parser<'_> {
             self.parse_neg_expression()?
         } else if next == b'!' {
             self.parse_not()?
-        } else if next == b'^' {
-            self.index += 1;
-            ExpressionKind::Cut
         } else {
             return Ok(None);
         };
@@ -575,27 +590,6 @@ mod tests {
         let input = "Rule -> A ^ B | C";
         let grammar = parse(input).unwrap();
         grammar.productions.get("Rule").unwrap();
-    }
-
-    // #[test]
-    // fn test_cut_fail_final_arm() {
-    //     let input = "Rule -> A | B ^ C";
-    //     let err = parse(input).unwrap_err();
-    //     assert!(err.contains("expected final arm to not contain cut operator"));
-    // }
-
-    #[test]
-    fn test_cut_fail_optional_lhs() {
-        let input = "Rule -> A* ^ B";
-        let err = parse(input).unwrap_err();
-        assert!(err.contains("expected non-optional expression before cut operator"));
-    }
-
-    #[test]
-    fn test_cut_fail_optional_lhs_group() {
-        let input = "Rule -> (A B)* ^ C";
-        let err = parse(input).unwrap_err();
-        assert!(err.contains("expected non-optional expression before cut operator"));
     }
 
     #[test]

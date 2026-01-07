@@ -35,7 +35,9 @@ Name -> <Alphanumeric or `_`>+
 
 Expression -> Sequence (` `* `|` ` `* Sequence)*
 
-Sequence -> (` `* AdornedExpr)+
+Sequence ->
+        (` `* AdornedExpr)* ` `* Cut
+      | (` `* AdornedExpr)+
 
 AdornedExpr -> Prefix? Expr1 Quantifier? Suffix? Footnote?
 
@@ -105,6 +107,8 @@ Prose -> `<` ~[`>` LF]+ `>`
 Group -> `(` ` `* Expression ` `* `)`
 
 NegativeExpression -> `~` ( Charset | Terminal | NonTerminal )
+
+Cut -> `^` Sequence
 ```
 
 The general format is a series of productions separated by blank lines. The expressions are:
@@ -123,6 +127,7 @@ The general format is a series of productions separated by blank lines. The expr
 | Prose | \<any ASCII character except CR\> | This is an English description of what should be matched, surrounded in angle brackets. |
 | Group | (\`,\` Parameter)+ | This groups an expression for the purpose of precedence, such as applying a repetition operator to a sequence of other expressions.
 | NegativeExpression | ~[\` \` LF] | Matches anything except the given Charset, Terminal, or Nonterminal. |
+| Cut | Expr1 ^ Expr2 \| Expr3 | The cut operator. Commits to the current alternative if parsing has reached the cut operator. It is a syntax error if the remaining expressions in the sequence do not match. |
 | Sequence | \`fn\` Name Parameters | A sequence of expressions, where they must match in order. |
 | Alternation | Expr1 \| Expr2 | Matches only one of the given expressions, separated by the vertical pipe character. |
 | Suffix | \_except \[LazyBooleanExpression\]\_  | This adds a suffix to the previous expression to provide an additional English description to it, rendered in subscript. This can have limited markdown, but try to avoid anything except basics like links. |

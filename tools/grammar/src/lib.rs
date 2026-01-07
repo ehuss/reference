@@ -85,7 +85,7 @@ pub enum ExpressionKind {
     /// ``~[` ` LF]``
     NegExpression(Box<Expression>),
     /// `^`
-    Cut,
+    Cut(Box<Expression>),
     /// `U+0060`
     Unicode(String),
 }
@@ -144,7 +144,8 @@ impl Expression {
             | ExpressionKind::RepeatPlus(e)
             | ExpressionKind::RepeatRange { expr: e, .. }
             | ExpressionKind::RepeatRangeNamed(e, _)
-            | ExpressionKind::NegExpression(e) => {
+            | ExpressionKind::NegExpression(e)
+            | ExpressionKind::Cut(e) => {
                 e.visit_nt(callback);
             }
             ExpressionKind::Alt(es) | ExpressionKind::Sequence(es) => {
@@ -159,8 +160,7 @@ impl Expression {
             | ExpressionKind::Prose(_)
             | ExpressionKind::Break(_)
             | ExpressionKind::Comment(_)
-            | ExpressionKind::Unicode(_)
-            | ExpressionKind::Cut => {}
+            | ExpressionKind::Unicode(_) => {}
             ExpressionKind::Charset(set) => {
                 for ch in set {
                     match ch {
