@@ -1,4 +1,5 @@
-use tracing_subscriber::{layer::SubscriberExt, util::SubscriberInitExt};
+use tracing_subscriber::layer::SubscriberExt;
+use tracing_subscriber::util::SubscriberInitExt;
 
 fn main() {
     let filter = tracing_subscriber::EnvFilter::builder()

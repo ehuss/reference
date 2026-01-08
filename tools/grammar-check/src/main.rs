@@ -3,25 +3,20 @@
 extern crate rustc_interface;
 extern crate rustc_span;
 
-use clap::ArgMatches;
-use clap::{Command, arg};
-use indicatif::ProgressBar;
-use indicatif::ProgressStyle;
-use lexer::LexError;
-use lexer::Tokens;
+use clap::{ArgMatches, Command, arg};
+use indicatif::{ProgressBar, ProgressStyle};
+use lexer::{LexError, Tokens};
 use rustc_span::edition::Edition;
 use std::cell::RefCell;
 use std::cmp::min;
-use std::io::IsTerminal;
-use std::io::Read;
+use std::io::{IsTerminal, Read};
 use std::ops::Range;
 use std::path::PathBuf;
-use std::sync::Arc;
-use std::sync::Mutex;
 use std::sync::mpsc::{Receiver, Sender, channel};
-use std::time::Duration;
-use std::time::Instant;
-use tracing_subscriber::{layer::SubscriberExt, util::SubscriberInitExt};
+use std::sync::{Arc, Mutex};
+use std::time::{Duration, Instant};
+use tracing_subscriber::layer::SubscriberExt;
+use tracing_subscriber::util::SubscriberInitExt;
 use walkdir::WalkDir;
 
 mod pm2;

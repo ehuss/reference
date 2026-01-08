@@ -1,9 +1,7 @@
 extern crate rustc_lexer;
 
-use lexer::LexError;
-use lexer::Token;
-use rustc_lexer::FrontmatterAllowed;
-use rustc_lexer::TokenKind;
+use lexer::{LexError, Token};
+use rustc_lexer::{FrontmatterAllowed, TokenKind};
 use std::ops::Range;
 
 pub fn tokenize(src: &str) -> Result<Vec<Token>, LexError> {
