@@ -1,13 +1,8 @@
 use diagnostics::Diagnostics;
-use grammar::Characters;
-use grammar::Expression;
-use grammar::ExpressionKind;
-use grammar::Grammar;
-use grammar::RangeLimit;
+use grammar::{Characters, Expression, ExpressionKind, Grammar, RangeLimit};
 use std::collections::HashMap;
 use std::ops::Range;
-use tracing::debug;
-use tracing::instrument;
+use tracing::{debug, instrument};
 
 #[derive(Debug, Clone)]
 pub struct Token {

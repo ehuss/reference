@@ -1,8 +1,5 @@
-use lexer::LexError;
-use lexer::{Token, Tokens};
-use proc_macro2::Spacing;
-use proc_macro2::TokenStream;
-use proc_macro2::TokenTree;
+use lexer::{LexError, Token, Tokens};
+use proc_macro2::{Spacing, TokenStream, TokenTree};
 use regex::Regex;
 use std::ops::Range;
 use std::str::FromStr;

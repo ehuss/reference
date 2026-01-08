@@ -3,8 +3,7 @@
 use anyhow::{Result, bail};
 use diagnostics::{Diagnostics, bug, warn_or_err};
 use mdbook_markdown::pulldown_cmark::{BrokenLink, CowStr, Event, LinkType, Options, Parser, Tag};
-use mdbook_preprocessor::book::BookItem;
-use mdbook_preprocessor::book::{Book, Chapter};
+use mdbook_preprocessor::book::{Book, BookItem, Chapter};
 use once_cell::sync::Lazy;
 use regex::Regex;
 use std::collections::HashMap;

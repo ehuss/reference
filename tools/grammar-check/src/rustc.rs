@@ -7,8 +7,7 @@ extern crate rustc_parse;
 extern crate rustc_session;
 extern crate rustc_span;
 
-use lexer::LexError;
-use lexer::Token;
+use lexer::{LexError, Token};
 use rustc_ast::ast::AttrStyle;
 use rustc_ast::token::{CommentKind, IdentIsRaw, TokenKind};
 use rustc_errors::emitter::HumanReadableErrorType;

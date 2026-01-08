@@ -1,6 +1,5 @@
 use super::{Expression, ExpressionKind};
-use std::fmt::Display;
-use std::fmt::Formatter;
+use std::fmt::{Display, Formatter};
 
 impl Display for Expression {
     fn fmt(&self, f: &mut Formatter<'_>) -> Result<(), std::fmt::Error> {
@@ -26,7 +25,13 @@ impl Display for Expression {
             ExpressionKind::Not(e) => write!(f, "-{e}")?,
             ExpressionKind::Repeat(e) => write!(f, "{e}*")?,
             ExpressionKind::RepeatPlus(e) => write!(f, "{e}+")?,
-            ExpressionKind::RepeatRange{expr, name, min, max, limit} => write!(
+            ExpressionKind::RepeatRange {
+                expr,
+                name,
+                min,
+                max,
+                limit,
+            } => write!(
                 f,
                 "{expr}{{{}{}{limit}{}}}",
                 name.as_ref().map(|n| format!("{n}:")).unwrap_or_default(),
