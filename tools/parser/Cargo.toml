@@ -1,5 +1,5 @@
 [package]
-name = "lexer"
+name = "parser"
 edition = "2024"
 license = "MIT OR Apache-2.0"
 

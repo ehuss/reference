@@ -5,7 +5,8 @@ extern crate rustc_span;
 
 use clap::{ArgMatches, Command, arg};
 use indicatif::{ProgressBar, ProgressStyle};
-use lexer::{LexError, Tokens};
+use parser::ParseError;
+use parser::lexer::Tokens;
 use rustc_span::edition::Edition;
 use std::cell::RefCell;
 use std::cmp::min;
@@ -400,7 +401,7 @@ fn compare_loop(opts: Arc<Mutex<CommonOptions>>) {
 }
 
 fn compare_src(name: &str, src: &str, tool: &str) -> Result<(), String> {
-    let lexer_result = lexer::tokenize(src);
+    let lexer_result = parser::lexer::tokenize(src);
     let (tool_result, mut lexer_result) = match tool {
         "rustc_parse" => {
             let lexer_result = lexer_result.and_then(|ts| rustc::normalize(&ts.tokens, src));
@@ -411,7 +412,7 @@ fn compare_src(name: &str, src: &str, tool: &str) -> Result<(), String> {
             // frontmatter. In order to handle files with that, this replaces
             // those with whitespace in order to retain the original byte
             // positions.
-            if let Err(LexError { message, .. }) = &lexer_result
+            if let Err(ParseError { message, .. }) = &lexer_result
                 && message.contains("invalid frontmatter")
             {
                 return Ok(());
@@ -445,7 +446,7 @@ fn compare_src(name: &str, src: &str, tool: &str) -> Result<(), String> {
             .iter()
             .find(|token| token.name == "RESERVED_TOKEN" || token.name.starts_with("INVALID_"))
         {
-            lexer_result = Err(LexError {
+            lexer_result = Err(ParseError {
                 byte_offset: invalid.range.start,
                 message: format!("invalid token {}", invalid.name),
             });
@@ -597,7 +598,7 @@ fn tokenize(matches: &ArgMatches) {
 fn tokenize_src(src: &str, tool: &str) {
     let tokens = match tool {
         "reference" => {
-            let tokens = lexer::tokenize(src);
+            let tokens = parser::lexer::tokenize(src);
             if let Ok(Tokens {
                 shebang: Some(shebang),
                 ..

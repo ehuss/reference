@@ -1,10 +1,11 @@
 extern crate rustc_lexer;
 
-use lexer::{LexError, Token};
+use parser::ParseError;
+use parser::lexer::Token;
 use rustc_lexer::{FrontmatterAllowed, TokenKind};
 use std::ops::Range;
 
-pub fn tokenize(src: &str) -> Result<Vec<Token>, LexError> {
+pub fn tokenize(src: &str) -> Result<Vec<Token>, ParseError> {
     let mut pos = 0;
     let ts: Vec<_> = rustc_lexer::tokenize(src, FrontmatterAllowed::Yes)
         .filter_map(|token| {

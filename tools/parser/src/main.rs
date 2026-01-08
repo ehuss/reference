@@ -18,7 +18,7 @@ fn main() {
 
     let src = r###"r"test""###;
 
-    let ts = match lexer::tokenize(src) {
+    let ts = match parser::lexer::tokenize(src) {
         Ok(ts) => ts,
         Err(e) => {
             eprintln!("error: {}", e.display(src));
