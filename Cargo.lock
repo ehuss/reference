@@ -239,7 +239,7 @@ dependencies = [
  "clap",
  "ctrlc",
  "indicatif",
- "lexer",
+ "parser",
  "proc-macro2",
  "regex",
  "serde",
@@ -306,18 +306,6 @@ name = "lazy_static"
 version = "1.5.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "bbd2bcb4c963f2ddae06a2efc7e9f3591312473c50c6685e1f298068316e66fe"
-
-[[package]]
-name = "lexer"
-version = "0.0.0"
-dependencies = [
- "diagnostics",
- "grammar",
- "tracing",
- "tracing-subscriber",
- "tracing-tree",
- "unicode-ident",
-]
 
 [[package]]
 name = "libc"
@@ -455,6 +443,18 @@ name = "once_cell_polyfill"
 version = "1.70.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "384b8ab6d37215f3c5301a95a4accb5d64aa607f1fcb26a11b5303878451b4fe"
+
+[[package]]
+name = "parser"
+version = "0.0.0"
+dependencies = [
+ "diagnostics",
+ "grammar",
+ "tracing",
+ "tracing-subscriber",
+ "tracing-tree",
+ "unicode-ident",
+]
 
 [[package]]
 name = "pathdiff"

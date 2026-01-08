@@ -7,7 +7,7 @@ license = "MIT OR Apache-2.0"
 clap = "4.5.53"
 ctrlc = "3.5.1"
 indicatif = "0.18.3"
-lexer = { path = "../lexer" }
+parser = { path = "../parser" }
 proc-macro2 = { version = "1.0.103", features = ["span-locations"] }
 regex = "1.12.2"
 serde = { version = "1.0.228", features = ["derive"] }

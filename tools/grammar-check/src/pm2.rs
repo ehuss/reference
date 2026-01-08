@@ -1,13 +1,14 @@
-use lexer::{LexError, Token, Tokens};
+use parser::ParseError;
+use parser::lexer::{Token, Tokens};
 use proc_macro2::{Spacing, TokenStream, TokenTree};
 use regex::Regex;
 use std::ops::Range;
 use std::str::FromStr;
 use std::sync::LazyLock;
 
-pub fn tokenize(src: &str) -> Result<Vec<Token>, LexError> {
+pub fn tokenize(src: &str) -> Result<Vec<Token>, ParseError> {
     let mut tokens = Vec::new();
-    let stream = TokenStream::from_str(src).map_err(|e| LexError {
+    let stream = TokenStream::from_str(src).map_err(|e| ParseError {
         byte_offset: 0,
         message: e.to_string(),
     })?;
@@ -58,7 +59,7 @@ static NUM_DOT: LazyLock<Regex> = LazyLock::new(|| {
     .unwrap()
 });
 
-fn tokens_from_ts(src: &str, ts: TokenStream, output: &mut Vec<Token>) -> Result<(), LexError> {
+fn tokens_from_ts(src: &str, ts: TokenStream, output: &mut Vec<Token>) -> Result<(), ParseError> {
     let trees: Vec<TokenTree> = ts.into_iter().collect();
     let mut i = 0;
     while i < trees.len() {
@@ -79,14 +80,14 @@ fn tokens_from_ts(src: &str, ts: TokenStream, output: &mut Vec<Token>) -> Result
                 if src[range.end..].chars().next() == Some('"')
                     && !matches!(&src[range.clone()], "b" | "c" | "r" | "br" | "cr")
                 {
-                    return Err(LexError {
+                    return Err(ParseError {
                         message: "RESERVED_TOKEN_DOUBLE_QUOTE".to_string(),
                         byte_offset: range.end,
                     });
                 }
 
                 if src[range.end..].chars().next() == Some('#') {
-                    return Err(LexError {
+                    return Err(ParseError {
                         message: "RESERVED_TOKEN_POUND".to_string(),
                         byte_offset: range.start,
                     });
@@ -138,7 +139,7 @@ fn tokens_from_ts(src: &str, ts: TokenStream, output: &mut Vec<Token>) -> Result
                                 if let TokenTree::Ident(_) = prev_tt
                                     && prev_range.end == range.start
                                 {
-                                    return Err(LexError {
+                                    return Err(ParseError {
                                         message: "RESERVED_TOKEN_SINGLE_QUOTE".to_string(),
                                         byte_offset: prev_range.start,
                                     });
@@ -157,7 +158,7 @@ fn tokens_from_ts(src: &str, ts: TokenStream, output: &mut Vec<Token>) -> Result
                     && lit.to_string().starts_with('"')
                     && trees[i].span().byte_range().start == range.start + 1
                 {
-                    return Err(LexError {
+                    return Err(ParseError {
                         message: "RESERVED_GUARDED_STRING_LITERAL".to_string(),
                         byte_offset: range.start,
                     });
@@ -175,7 +176,7 @@ fn tokens_from_ts(src: &str, ts: TokenStream, output: &mut Vec<Token>) -> Result
                 let s = lit.to_string();
                 if SUFFIX_NO_E.is_match(&s) {
                     if !FLOAT_EXPONENT.is_match(&s) {
-                        return Err(LexError {
+                        return Err(ParseError {
                             message: "bad E suffix".to_string(),
                             byte_offset: range.start,
                         });
@@ -183,7 +184,7 @@ fn tokens_from_ts(src: &str, ts: TokenStream, output: &mut Vec<Token>) -> Result
                 }
 
                 if matches!(s.as_bytes().last_chunk::<2>(), Some(b"'_" | b"\"_" | b"#_")) {
-                    return Err(LexError {
+                    return Err(ParseError {
                         message: "underscore suffix not allowed".to_string(),
                         byte_offset: range.start,
                     });
@@ -197,7 +198,7 @@ fn tokens_from_ts(src: &str, ts: TokenStream, output: &mut Vec<Token>) -> Result
                             .map(|ch| unicode_ident::is_xid_start(ch))
                             .unwrap_or(false)
                     {
-                        return Err(LexError {
+                        return Err(ParseError {
                             message: "reserved bin/oct/hex literal followed by .".to_string(),
                             byte_offset: range.start,
                         });
@@ -333,17 +334,20 @@ fn is_valid_punctuation(s: &str) -> bool {
 }
 
 pub fn normalize(
-    pm2_result: Result<Vec<Token>, LexError>,
-    reference_result: Result<Tokens, LexError>,
+    pm2_result: Result<Vec<Token>, ParseError>,
+    reference_result: Result<Tokens, ParseError>,
     src: &str,
-) -> (Result<Vec<Token>, LexError>, Result<Vec<Token>, LexError>) {
+) -> (
+    Result<Vec<Token>, ParseError>,
+    Result<Vec<Token>, ParseError>,
+) {
     let reference_result =
         reference_result.map(|tokens| normalize_reference_tokens(tokens.tokens, src));
     let pm2_result = match (&pm2_result, &reference_result) {
         (Ok(_), Err(e)) => {
             // For some reason, proc-macro2 treats NBSP as whitespace.
             if src[e.byte_offset..].chars().next() == Some('\u{a0}') {
-                Err(LexError {
+                Err(ParseError {
                     message: "unexpected NBSP whitespace".to_string(),
                     byte_offset: e.byte_offset,
                 })

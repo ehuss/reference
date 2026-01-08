@@ -7,7 +7,8 @@ extern crate rustc_parse;
 extern crate rustc_session;
 extern crate rustc_span;
 
-use lexer::{LexError, Token};
+use parser::ParseError;
+use parser::lexer::Token;
 use rustc_ast::ast::AttrStyle;
 use rustc_ast::token::{CommentKind, IdentIsRaw, TokenKind};
 use rustc_errors::emitter::HumanReadableErrorType;
@@ -37,7 +38,7 @@ impl<T: Write> Write for Shared<T> {
     }
 }
 
-pub fn tokenize(src: &str) -> Result<Vec<Token>, LexError> {
+pub fn tokenize(src: &str) -> Result<Vec<Token>, ParseError> {
     rustc_span::create_session_globals_then(
         rustc_span::edition::Edition::Edition2024,
         &[],
@@ -136,7 +137,7 @@ pub fn tokenize(src: &str) -> Result<Vec<Token>, LexError> {
                             .unwrap_or_default();
                     }
                 }
-                LexError {
+                ParseError {
                     byte_offset: byte_offset as usize,
                     message,
                 }
@@ -252,7 +253,7 @@ struct DiagSpan {
     byte_start: u32,
 }
 
-pub fn normalize(tokens: &[Token], _src: &str) -> Result<Vec<Token>, LexError> {
+pub fn normalize(tokens: &[Token], _src: &str) -> Result<Vec<Token>, ParseError> {
     let new_ts = tokens
         .iter()
         // rustc_parse does not retain comments.
