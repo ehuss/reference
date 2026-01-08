@@ -1,4 +1,5 @@
 use grammar::{Expression, ExpressionKind, Grammar};
+use std::ops::Range;
 
 pub mod ast;
 pub mod lexer;
@@ -18,6 +19,13 @@ impl ParseError {
             None => format!("{} at `{s}`", self.message),
         }
     }
+}
+
+#[derive(Debug, Default)]
+pub struct Node {
+    pub name: String,
+    pub range: Range<usize>,
+    pub children: Vec<Node>,
 }
 
 fn remove_breaks(grammar: &mut Grammar) {

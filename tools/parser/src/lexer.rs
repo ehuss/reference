@@ -24,14 +24,14 @@ pub struct Tokens {
     pub frontmatter: Option<Range<usize>>,
 }
 
-pub fn tokenize(src: &str) -> Result<Tokens, ParseError> {
+pub fn tokenize(original_src: &str) -> Result<Tokens, ParseError> {
     let mut diag = Diagnostics::new();
     let mut grammar = grammar::load_grammar(&mut diag);
     super::remove_breaks(&mut grammar);
 
-    let mut normalized_src = String::with_capacity(src.len());
+    let mut normalized_src = String::with_capacity(original_src.len());
     let mut removed_indices = Vec::new();
-    let mut chars = src.chars().peekable();
+    let mut chars = original_src.chars().peekable();
     while let Some(ch) = chars.next() {
         if ch == '\r' {
             if let Some(&'\n') = chars.peek() {
@@ -41,6 +41,7 @@ pub fn tokenize(src: &str) -> Result<Tokens, ParseError> {
         }
         normalized_src.push(ch);
     }
+    let src = &*normalized_src;
     let map_offset =
         |offset: usize| -> usize { offset + removed_indices.partition_point(|&x| x < offset) };
 
@@ -114,8 +115,8 @@ pub fn tokenize(src: &str) -> Result<Tokens, ParseError> {
     }
 
     let shebang = grammar.productions.get("SHEBANG").unwrap();
-    if let Some(i) = parse_expression(&grammar, &shebang.expression, &normalized_src, index)
-        .map_err(|mut e| {
+    if let Some(i) =
+        parse_expression(&grammar, &shebang.expression, &src, index).map_err(|mut e| {
             e.byte_offset = map_offset(e.byte_offset);
             e
         })?
@@ -128,8 +129,8 @@ pub fn tokenize(src: &str) -> Result<Tokens, ParseError> {
     }
 
     let frontmatter = grammar.productions.get("FRONTMATTER").unwrap();
-    if let Some(i) = parse_expression(&grammar, &frontmatter.expression, &normalized_src, index)
-        .map_err(|mut e| {
+    if let Some(i) =
+        parse_expression(&grammar, &frontmatter.expression, &src, index).map_err(|mut e| {
             e.byte_offset = map_offset(e.byte_offset);
             ParseError {
                 message: format!("invalid frontmatter: {}", e.message),
@@ -144,16 +145,12 @@ pub fn tokenize(src: &str) -> Result<Tokens, ParseError> {
         index += i;
     } else {
         let invalid_frontmatter = grammar.productions.get("INVALID_FRONTMATTER").unwrap();
-        if let Some(_) = parse_expression(
-            &grammar,
-            &invalid_frontmatter.expression,
-            &normalized_src,
-            index,
-        )
-        .map_err(|mut e| {
-            e.byte_offset = map_offset(e.byte_offset);
-            e
-        })? {
+        if let Some(_) = parse_expression(&grammar, &invalid_frontmatter.expression, &src, index)
+            .map_err(|mut e| {
+                e.byte_offset = map_offset(e.byte_offset);
+                e
+            })?
+        {
             return Err(ParseError {
                 message: "invalid frontmatter".to_string(),
                 byte_offset: index,
@@ -161,13 +158,11 @@ pub fn tokenize(src: &str) -> Result<Tokens, ParseError> {
         }
     }
 
-    while index < normalized_src.len() {
-        if let Some(i) =
-            parse_expression(&grammar, whitespace, &normalized_src, index).map_err(|mut e| {
-                e.byte_offset = map_offset(e.byte_offset);
-                e
-            })?
-        {
+    while index < src.len() {
+        if let Some(i) = parse_expression(&grammar, whitespace, &src, index).map_err(|mut e| {
+            e.byte_offset = map_offset(e.byte_offset);
+            e
+        })? {
             index += i;
             continue;
         }
@@ -175,11 +170,12 @@ pub fn tokenize(src: &str) -> Result<Tokens, ParseError> {
         let mut matched_token = None;
         for token_prod in &top_prods {
             debug!("try top-level token `{}`", token_prod.name);
-            match parse_expression(&grammar, &token_prod.expression, &normalized_src, index)
-                .map_err(|mut e| {
+            match parse_expression(&grammar, &token_prod.expression, &src, index).map_err(
+                |mut e| {
                     e.byte_offset = map_offset(e.byte_offset);
                     e
-                })? {
+                },
+            )? {
                 Some(l) => {
                     if l > 0 {
                         matched_token = Some((
