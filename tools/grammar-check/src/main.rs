@@ -19,7 +19,7 @@ use walkdir::WalkDir;
 
 mod test_cases;
 mod commands {
-    pub mod compare;
+    pub mod lex_compare;
     pub mod tokenize;
     pub mod tree;
 }
@@ -245,11 +245,11 @@ fn main() {
         )
         .init();
 
-    let matches = Command::new("lex-compare")
+    let matches = Command::new("grammar-check")
         .subcommand_required(true)
         .arg_required_else_help(true)
         .subcommand(
-            Command::new("compare")
+            Command::new("lex-compare")
                 .about("Compare tokenization between implementations")
                 .args(common_args()),
         )
@@ -268,8 +268,8 @@ fn main() {
         )
         .get_matches();
     match matches.subcommand() {
-        Some(("compare", sub_matches)) => {
-            commands::compare::compare_parallel(sub_matches);
+        Some(("lex-compare", sub_matches)) => {
+            commands::lex_compare::compare_parallel(sub_matches);
         }
         Some(("tokenize", sub_matches)) => {
             commands::tokenize::tokenize(sub_matches);
