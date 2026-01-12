@@ -21,7 +21,7 @@ impl Source for TokenSource<'_> {
         })
     }
 
-    fn get_next(&self, offset: SourceIndex) -> Option<(&str, Range<usize>)> {
+    fn get_element(&self, offset: SourceIndex) -> Option<(&str, Range<usize>)> {
         self.tokens.get(offset.0).map(|t| {
             let s = &self.src[t.range.clone()];
             (s, t.range.clone())
