@@ -1,27 +1,21 @@
-use super::ParseError;
-use crate::parser::parse_expression;
+use super::{Node, ParseError};
+use crate::parser::{SourceIndex, parse_production};
 use diagnostics::Diagnostics;
-use grammar::ExpressionKind;
-use std::ops::Range;
+use grammar::{ExpressionKind, Grammar};
+// use std::ops::Range;
 use tracing::debug;
-
-#[derive(Debug, Clone)]
-pub struct Token {
-    pub name: String,
-    pub range: Range<usize>,
-}
 
 #[derive(Default)]
 pub struct Tokens {
-    pub tokens: Vec<Token>,
+    pub tokens: Vec<Node>,
     /// Byte range of the shebang.
     ///
     /// The reference lexer is the only tool that sets this.
-    pub shebang: Option<Range<usize>>,
+    pub shebang: Option<Node>,
     /// Byte range of the frontmatter.
     ///
     /// The reference lexer is the only tool that sets this.
-    pub frontmatter: Option<Range<usize>>,
+    pub frontmatter: Option<Node>,
 }
 
 pub fn tokenize(original_src: &str) -> Result<Tokens, ParseError> {
@@ -41,10 +35,37 @@ pub fn tokenize(original_src: &str) -> Result<Tokens, ParseError> {
         }
         normalized_src.push(ch);
     }
-    let src = &*normalized_src;
-    let map_offset =
-        |offset: usize| -> usize { offset + removed_indices.partition_point(|&x| x < offset) };
+    fn map_offset(removed_indices: &[usize], offset: usize) -> usize {
+        offset + removed_indices.partition_point(|&x| x < offset)
+    }
+    fn adjust_node(removed_indices: &[usize], node: &mut Node) {
+        node.range.start = map_offset(removed_indices, node.range.start);
+        node.range.end = map_offset(removed_indices, node.range.end);
+        for child in &mut node.children.0 {
+            adjust_node(removed_indices, child);
+        }
+    }
 
+    tokenize_normalized(&grammar, &normalized_src)
+        .map(|mut tokens| {
+            for token in &mut tokens.tokens {
+                adjust_node(&removed_indices, token);
+            }
+            if let Some(shebang) = &mut tokens.shebang {
+                adjust_node(&removed_indices, shebang);
+            }
+            if let Some(frontmatter) = &mut tokens.frontmatter {
+                adjust_node(&removed_indices, frontmatter);
+            }
+            tokens
+        })
+        .map_err(|mut err| {
+            err.byte_offset = map_offset(&removed_indices, err.byte_offset);
+            err
+        })
+}
+
+fn tokenize_normalized(grammar: &Grammar, src: &str) -> Result<Tokens, ParseError> {
     let mut tokens = Tokens::default();
     let mut top_prods = Vec::new();
     let comment = grammar.productions.get("COMMENT").unwrap();
@@ -106,88 +127,53 @@ pub fn tokenize(original_src: &str) -> Result<Tokens, ParseError> {
         top_prods.push(grammar.productions.get(nt).unwrap());
     }
 
-    let whitespace = &grammar.productions.get("WHITESPACE").unwrap().expression;
+    let whitespace = &grammar.productions.get("WHITESPACE").unwrap();
 
-    let mut index = 0;
+    let mut index = SourceIndex(0);
     // Remove BOM
-    if normalized_src.starts_with('\u{FEFF}') {
-        index += 3;
+    if src.starts_with('\u{FEFF}') {
+        index.0 += 3;
     }
 
     let shebang = grammar.productions.get("SHEBANG").unwrap();
-    if let Some(i) =
-        parse_expression(&grammar, &shebang.expression, &src, index).map_err(|mut e| {
-            e.byte_offset = map_offset(e.byte_offset);
-            e
-        })?
-    {
-        tokens.shebang = Some(Range {
-            start: map_offset(index),
-            end: map_offset(index + i),
-        });
-        index += i;
+    if let Some((node, next_index)) = parse_production(&grammar, &shebang, &src, index)? {
+        index = next_index;
+        tokens.shebang = Some(node);
     }
 
     let frontmatter = grammar.productions.get("FRONTMATTER").unwrap();
-    if let Some(i) =
-        parse_expression(&grammar, &frontmatter.expression, &src, index).map_err(|mut e| {
-            e.byte_offset = map_offset(e.byte_offset);
-            ParseError {
-                message: format!("invalid frontmatter: {}", e.message),
-                byte_offset: e.byte_offset,
-            }
+    if let Some((node, next_index)) = parse_production(&grammar, &frontmatter, &src, index)
+        .map_err(|e| ParseError {
+            message: format!("invalid frontmatter: {}", e.message),
+            byte_offset: e.byte_offset,
         })?
     {
-        tokens.frontmatter = Some(Range {
-            start: map_offset(index),
-            end: map_offset(index + i),
-        });
-        index += i;
+        index = next_index;
+        tokens.frontmatter = Some(node);
     } else {
         let invalid_frontmatter = grammar.productions.get("INVALID_FRONTMATTER").unwrap();
-        if let Some(_) = parse_expression(&grammar, &invalid_frontmatter.expression, &src, index)
-            .map_err(|mut e| {
-                e.byte_offset = map_offset(e.byte_offset);
-                e
-            })?
-        {
+        if let Some(_) = parse_production(&grammar, &invalid_frontmatter, &src, index)? {
             return Err(ParseError {
                 message: "invalid frontmatter".to_string(),
-                byte_offset: index,
+                byte_offset: index.0,
             });
         }
     }
 
-    while index < src.len() {
-        if let Some(i) = parse_expression(&grammar, whitespace, &src, index).map_err(|mut e| {
-            e.byte_offset = map_offset(e.byte_offset);
-            e
-        })? {
-            index += i;
+    while index.0 < src.len() {
+        if let Some((_node, next_index)) = parse_production(&grammar, whitespace, &src, index)? {
+            index = next_index;
             continue;
         }
 
         let mut matched_token = None;
         for token_prod in &top_prods {
             debug!("try top-level token `{}`", token_prod.name);
-            match parse_expression(&grammar, &token_prod.expression, &src, index).map_err(
-                |mut e| {
-                    e.byte_offset = map_offset(e.byte_offset);
-                    e
-                },
-            )? {
-                Some(l) => {
-                    if l > 0 {
-                        matched_token = Some((
-                            l,
-                            Token {
-                                name: token_prod.name.clone(),
-                                range: Range {
-                                    start: map_offset(index),
-                                    end: map_offset(index + l),
-                                },
-                            },
-                        ));
+            match parse_production(&grammar, &token_prod, &src, index)? {
+                Some((node, next_index)) => {
+                    if node.byte_len() > 0 {
+                        index = next_index;
+                        matched_token = Some(node);
                         break;
                     }
                 }
@@ -196,13 +182,12 @@ pub fn tokenize(original_src: &str) -> Result<Tokens, ParseError> {
         }
 
         match matched_token {
-            Some((l, t)) => {
-                index += l;
-                tokens.tokens.push(t);
+            Some(node) => {
+                tokens.tokens.push(node);
             }
             None => {
                 return Err(ParseError {
-                    byte_offset: map_offset(index),
+                    byte_offset: index.0,
                     message: String::from("no tokens matched"),
                 });
             }
@@ -247,6 +232,8 @@ pub fn tokenize(original_src: &str) -> Result<Tokens, ParseError> {
             message: "unclosed delimiter".to_string(),
         });
     }
+
+    debug!("lexing complete");
 
     Ok(tokens)
 }

@@ -1,12 +1,12 @@
-use parser::ParseError;
-use parser::lexer::{Token, Tokens};
+use parser::lexer::Tokens;
+use parser::{Node, ParseError};
 use proc_macro2::{Spacing, TokenStream, TokenTree};
 use regex::Regex;
 use std::ops::Range;
 use std::str::FromStr;
 use std::sync::LazyLock;
 
-pub fn tokenize(src: &str) -> Result<Vec<Token>, ParseError> {
+pub fn tokenize(src: &str) -> Result<Vec<Node>, ParseError> {
     let mut tokens = Vec::new();
     let stream = TokenStream::from_str(src).map_err(|e| ParseError {
         byte_offset: 0,
@@ -59,7 +59,7 @@ static NUM_DOT: LazyLock<Regex> = LazyLock::new(|| {
     .unwrap()
 });
 
-fn tokens_from_ts(src: &str, ts: TokenStream, output: &mut Vec<Token>) -> Result<(), ParseError> {
+fn tokens_from_ts(src: &str, ts: TokenStream, output: &mut Vec<Node>) -> Result<(), ParseError> {
     let trees: Vec<TokenTree> = ts.into_iter().collect();
     let mut i = 0;
     while i < trees.len() {
@@ -100,7 +100,7 @@ fn tokens_from_ts(src: &str, ts: TokenStream, output: &mut Vec<Token>) -> Result
                     "IDENTIFIER_OR_KEYWORD"
                 }
                 .to_string();
-                output.push(Token { name, range });
+                output.push(Node::new(name, range));
             }
             TokenTree::Punct(p) => {
                 // In order to be consistent with rustc which uses joined tokens,
@@ -170,7 +170,7 @@ fn tokens_from_ts(src: &str, ts: TokenStream, output: &mut Vec<Token>) -> Result
                     "PUNCTUATION"
                 }
                 .to_string();
-                output.push(Token { name, range });
+                output.push(Node::new(name, range));
             }
             TokenTree::Literal(lit) => {
                 let s = lit.to_string();
@@ -205,10 +205,7 @@ fn tokens_from_ts(src: &str, ts: TokenStream, output: &mut Vec<Token>) -> Result
                     }
                 }
 
-                output.push(Token {
-                    name: lit_to_reference(&s),
-                    range,
-                });
+                output.push(Node::new(lit_to_reference(&s), range));
                 i += 1;
             }
             TokenTree::Group(group) => {
@@ -220,10 +217,10 @@ fn tokens_from_ts(src: &str, ts: TokenStream, output: &mut Vec<Token>) -> Result
                     proc_macro2::Delimiter::None => "",
                 };
                 if !delim_str.is_empty() {
-                    output.push(Token {
-                        name: "PUNCTUATION".to_string(),
-                        range: group.span_open().byte_range(),
-                    });
+                    output.push(Node::new(
+                        "PUNCTUATION".to_string(),
+                        group.span_open().byte_range(),
+                    ));
                 }
                 tokens_from_ts(src, group.stream(), output)?;
                 if !delim_str.is_empty() {
@@ -240,10 +237,7 @@ fn tokens_from_ts(src: &str, ts: TokenStream, output: &mut Vec<Token>) -> Result
                         range.start -= 1;
                         range.end -= 1;
                     }
-                    output.push(Token {
-                        name: "PUNCTUATION".to_string(),
-                        range,
-                    });
+                    output.push(Node::new("PUNCTUATION".to_string(), range));
                 }
                 i += 1;
             }
@@ -334,13 +328,10 @@ fn is_valid_punctuation(s: &str) -> bool {
 }
 
 pub fn normalize(
-    pm2_result: Result<Vec<Token>, ParseError>,
+    pm2_result: Result<Vec<Node>, ParseError>,
     reference_result: Result<Tokens, ParseError>,
     src: &str,
-) -> (
-    Result<Vec<Token>, ParseError>,
-    Result<Vec<Token>, ParseError>,
-) {
+) -> (Result<Vec<Node>, ParseError>, Result<Vec<Node>, ParseError>) {
     let reference_result =
         reference_result.map(|tokens| normalize_reference_tokens(tokens.tokens, src));
     let pm2_result = match (&pm2_result, &reference_result) {
@@ -360,7 +351,7 @@ pub fn normalize(
     (pm2_result, reference_result)
 }
 
-fn normalize_reference_tokens(tokens: Vec<Token>, src: &str) -> Vec<Token> {
+fn normalize_reference_tokens(tokens: Vec<Node>, src: &str) -> Vec<Node> {
     let len = tokens.len();
     tokens
         .into_iter()
@@ -371,51 +362,51 @@ fn normalize_reference_tokens(tokens: Vec<Token>, src: &str) -> Vec<Token> {
             {
                 let count = token.range.len();
                 for i in 0..count {
-                    acc.push(Token {
-                        name: String::from("PUNCTUATION"), // #
-                        range: Range {
+                    acc.push(Node::new(
+                        String::from("PUNCTUATION"), // #
+                        Range {
                             start: token.range.start + i,
                             end: token.range.start + i + 1,
                         },
-                    });
+                    ));
                 }
                 return acc;
             }
             // proc-macro2 converts doc comments into doc attributes.
             match &*token.name {
                 "OUTER_LINE_DOC" | "INNER_LINE_DOC" | "OUTER_BLOCK_DOC" | "INNER_BLOCK_DOC" => {
-                    acc.push(Token {
-                        name: String::from("PUNCTUATION"), // #
-                        range: token.range.clone(),
-                    });
+                    acc.push(Node::new(
+                        String::from("PUNCTUATION"), // #
+                        token.range.clone(),
+                    ));
                     if token.name.starts_with("INNER") {
-                        acc.push(Token {
-                            name: String::from("PUNCTUATION"), // !
-                            range: token.range.clone(),
-                        });
+                        acc.push(Node::new(
+                            String::from("PUNCTUATION"), // !
+                            token.range.clone(),
+                        ));
                     }
-                    acc.push(Token {
-                        name: String::from("PUNCTUATION"), // [
-                        range: Range {
+                    acc.push(Node::new(
+                        String::from("PUNCTUATION"), // [
+                        Range {
                             start: token.range.start,
                             end: token.range.start + 1,
                         },
-                    });
-                    acc.push(Token {
-                        name: String::from("IDENTIFIER_OR_KEYWORD"),
-                        range: token.range.clone(),
-                    });
-                    acc.push(Token {
-                        name: String::from("PUNCTUATION"), // =
-                        range: token.range.clone(),
-                    });
-                    acc.push(Token {
-                        name: String::from("STRING_LITERAL"),
-                        range: token.range.clone(),
-                    });
-                    acc.push(Token {
-                        name: String::from("PUNCTUATION"), // ]
-                        range: Range {
+                    ));
+                    acc.push(Node::new(
+                        String::from("IDENTIFIER_OR_KEYWORD"),
+                        token.range.clone(),
+                    ));
+                    acc.push(Node::new(
+                        String::from("PUNCTUATION"), // =
+                        token.range.clone(),
+                    ));
+                    acc.push(Node::new(
+                        String::from("STRING_LITERAL"),
+                        token.range.clone(),
+                    ));
+                    acc.push(Node::new(
+                        String::from("PUNCTUATION"), // ]
+                        Range {
                             start: token.range.end
                                 - src[..token.range.end]
                                     .chars()
@@ -424,7 +415,7 @@ fn normalize_reference_tokens(tokens: Vec<Token>, src: &str) -> Vec<Token> {
                                     .len_utf8(),
                             end: token.range.end,
                         },
-                    });
+                    ));
                 }
                 // acc.extend(std::iter::repeat(token).take(7)),
                 _ => acc.push(token),
