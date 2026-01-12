@@ -331,24 +331,6 @@ fn parse(
             let len = nodes.byte_len();
             let matched = src.get_substring(index, len).unwrap();
             match e.suffix.as_deref() {
-                Some("except `\\0` or `\\x00`") => {
-                    if matches!(matched, "\\0" | "\\x00") {
-                        return Ok(None);
-                    }
-                }
-                Some("except `\\u{0}`, `\\u{00}`, …, `\\u{000000}`") => {
-                    if matches!(
-                        matched,
-                        "\\u{0}"
-                            | "\\u{00}"
-                            | "\\u{000}"
-                            | "\\u{0000}"
-                            | "\\u{00000}"
-                            | "\\u{000000}"
-                    ) {
-                        return Ok(None);
-                    }
-                }
                 Some("except `_`") => {
                     if matched == "_" {
                         return Ok(None);
