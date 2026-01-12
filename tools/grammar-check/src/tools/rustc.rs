@@ -7,8 +7,7 @@ extern crate rustc_parse;
 extern crate rustc_session;
 extern crate rustc_span;
 
-use parser::ParseError;
-use parser::lexer::Token;
+use parser::{Node, ParseError};
 use rustc_ast::ast::AttrStyle;
 use rustc_ast::token::{CommentKind, IdentIsRaw, TokenKind};
 use rustc_errors::emitter::HumanReadableErrorType;
@@ -38,7 +37,7 @@ impl<T: Write> Write for Shared<T> {
     }
 }
 
-pub fn tokenize(src: &str) -> Result<Vec<Token>, ParseError> {
+pub fn tokenize(src: &str) -> Result<Vec<Node>, ParseError> {
     rustc_span::create_session_globals_then(
         rustc_span::edition::Edition::Edition2024,
         &[],
@@ -99,10 +98,8 @@ pub fn tokenize(src: &str) -> Result<Vec<Token>, ParseError> {
                         .original_relative_byte_pos(parser.token.span.hi())
                         .0 as usize;
 
-                    let token = Token {
-                        name: to_reference_name(&parser.token.kind),
-                        range: Range { start, end },
-                    };
+                    let token =
+                        Node::new(to_reference_name(&parser.token.kind), Range { start, end });
                     tokens.push(token);
                     parser.bump();
                 }
@@ -253,7 +250,7 @@ struct DiagSpan {
     byte_start: u32,
 }
 
-pub fn normalize(tokens: &[Token], _src: &str) -> Result<Vec<Token>, ParseError> {
+pub fn normalize(tokens: &[Node], _src: &str) -> Result<Vec<Node>, ParseError> {
     let new_ts = tokens
         .iter()
         // rustc_parse does not retain comments.

@@ -1,11 +1,10 @@
 extern crate rustc_lexer;
 
-use parser::ParseError;
-use parser::lexer::Token;
+use parser::{Node, ParseError};
 use rustc_lexer::{FrontmatterAllowed, TokenKind};
 use std::ops::Range;
 
-pub fn tokenize(src: &str) -> Result<Vec<Token>, ParseError> {
+pub fn tokenize(src: &str) -> Result<Vec<Node>, ParseError> {
     let mut pos = 0;
     let ts: Vec<_> = rustc_lexer::tokenize(src, FrontmatterAllowed::Yes)
         .filter_map(|token| {
@@ -15,10 +14,7 @@ pub fn tokenize(src: &str) -> Result<Vec<Token>, ParseError> {
             if matches!(token.kind, TokenKind::Whitespace) {
                 return None;
             }
-            let t = Token {
-                name: format!("{:?}", token.kind),
-                range: Range { start, end },
-            };
+            let t = Node::new(format!("{:?}", token.kind), Range { start, end });
             Some(t)
         })
         .collect();

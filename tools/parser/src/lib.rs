@@ -1,9 +1,9 @@
 use grammar::{Expression, ExpressionKind, Grammar};
 use std::ops::Range;
 
-pub mod ast;
 pub mod lexer;
 mod parser;
+pub mod tree;
 
 #[derive(Debug)]
 pub struct ParseError {
@@ -21,11 +21,76 @@ impl ParseError {
     }
 }
 
-#[derive(Debug, Default)]
+/// A parsed section of source corresponding to some grammar expression.
+#[derive(Clone, Debug, Default)]
 pub struct Node {
     pub name: String,
+    /// Range in bytes of the original source that this node covers.
     pub range: Range<usize>,
-    pub children: Vec<Node>,
+    pub children: Nodes,
+}
+
+impl Node {
+    pub fn new(name: String, range: Range<usize>) -> Node {
+        Node {
+            name,
+            range,
+            children: Nodes::default(),
+        }
+    }
+
+    fn with_children(name: String, start: usize, children: Nodes) -> Node {
+        let range = if children.0.is_empty() {
+            Range { start, end: start }
+        } else {
+            Range {
+                start: children.0.first().unwrap().range.start,
+                end: children.0.last().unwrap().range.end,
+            }
+        };
+        Node {
+            name,
+            range,
+            children,
+        }
+    }
+
+    fn byte_len(&self) -> usize {
+        self.range.end - self.range.start
+    }
+}
+
+#[derive(Clone, Debug, Default)]
+pub struct Nodes(pub Vec<Node>);
+
+impl Nodes {
+    fn new(name: String, start: usize, length: usize) -> Nodes {
+        let node = Node {
+            name,
+            range: Range {
+                start,
+                end: start + length,
+            },
+            children: Nodes::default(),
+        };
+        Nodes(vec![node])
+    }
+
+    fn wrap(self, name: String, start: usize) -> Nodes {
+        Nodes(vec![Node::with_children(name.to_string(), start, self)])
+    }
+
+    fn extend(&mut self, other: Nodes) {
+        self.0.extend(other.0)
+    }
+
+    fn byte_len(&self) -> usize {
+        if self.0.is_empty() {
+            0
+        } else {
+            self.0.last().unwrap().range.end - self.0.first().unwrap().range.start
+        }
+    }
 }
 
 fn remove_breaks(grammar: &mut Grammar) {
