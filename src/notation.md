@@ -18,6 +18,8 @@ The following notations are used by the *Lexer* and *Syntax* grammar snippets:
 | x<sup>+</sup>     |  _MacroMatch_<sup>+</sup>     | 1 or more of x                            |
 | x<sup>a..b</sup>  | HEX_DIGIT<sup>1..6</sup>      | a to b repetitions (exclusive) of x       |
 | x<sup>a..=b</sup> | HEX_DIGIT<sup>1..=6</sup>     | a to b repetitions (inclusive) of x       |
+| x<sup>n:a..=b</sup>| `#`<sup>n:1..=255</sup>      | a labeled repetition that a subsequent rule can refer to |
+| x<sup>n</sup>     | `#`<sup>n</sup>               | repeat the number of times from the previously labeled repetition |
 | Rule1 Rule2       | `fn` _Name_ _Parameters_      | Sequence of rules in order                |
 | \|                | `u8` \| `u16`, Block \| Item  | Either one or another                     |
 | !                 | !COMMENT                      | Matches if the expression does not follow, without consuming any input |
