@@ -1,3 +1,5 @@
+//! The generic interpreter of the Reference grammar.
+
 use super::{Node, Nodes, ParseError};
 use grammar::{Characters, Expression, ExpressionKind, Grammar, Production, RangeLimit};
 use std::collections::HashMap;

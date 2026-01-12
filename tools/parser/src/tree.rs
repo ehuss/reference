@@ -1,3 +1,5 @@
+//! Parser that can take Rust source and generate a parse tree.
+
 use super::{Node, ParseError};
 use crate::lexer::tokenize;
 use crate::parser::parse_production;
@@ -53,6 +55,7 @@ impl Source for TokenSource<'_> {
     }
 }
 
+/// Parse Rust source for the given named production, and return a [`Node`] tree.
 pub fn parse(src: &str, production: &str) -> Result<Node, ParseError> {
     let grammar = super::load_grammar();
 
@@ -60,6 +63,7 @@ pub fn parse(src: &str, production: &str) -> Result<Node, ParseError> {
 
     let tokens = tokenize(src)?;
 
+    // Strip comments.
     let tokens = tokens
         .tokens
         .into_iter()
@@ -72,7 +76,7 @@ pub fn parse(src: &str, production: &str) -> Result<Node, ParseError> {
         Some((node, next_index)) => {
             if next_index < token_source.len() {
                 return Err(ParseError {
-                    message: format!("Crate production failed to parse all tokens"),
+                    message: format!("{production} production failed to parse all tokens"),
                     byte_offset: token_source.index_to_bytes(next_index),
                 });
             }
