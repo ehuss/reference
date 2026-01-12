@@ -11,7 +11,7 @@ pub fn tokenize(matches: &ArgMatches) {
         while let Some((name, src)) = opts.next() {
             println!("------------------------------------------------------------");
             println!("tool `{tool}` token results for `{name}`:");
-            tokenize_src(&src, &tool);
+            tokenize_src(&src, tool);
             println!("------------------------------------------------------------");
         }
     }

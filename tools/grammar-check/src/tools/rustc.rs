@@ -255,7 +255,7 @@ pub fn normalize(tokens: &[Node], _src: &str) -> Result<Vec<Node>, ParseError> {
         .iter()
         // rustc_parse does not retain comments.
         .filter(|token| !matches!(token.name.as_str(), "LINE_COMMENT" | "BLOCK_COMMENT"))
-        .map(|token| token.clone())
+        .cloned()
         .collect();
     Ok(new_ts)
 }

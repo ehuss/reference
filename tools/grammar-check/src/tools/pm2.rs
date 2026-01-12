@@ -174,13 +174,11 @@ fn tokens_from_ts(src: &str, ts: TokenStream, output: &mut Vec<Node>) -> Result<
             }
             TokenTree::Literal(lit) => {
                 let s = lit.to_string();
-                if SUFFIX_NO_E.is_match(&s) {
-                    if !FLOAT_EXPONENT.is_match(&s) {
-                        return Err(ParseError {
-                            message: "bad E suffix".to_string(),
-                            byte_offset: range.start,
-                        });
-                    }
+                if SUFFIX_NO_E.is_match(&s) && !FLOAT_EXPONENT.is_match(&s) {
+                    return Err(ParseError {
+                        message: "bad E suffix".to_string(),
+                        byte_offset: range.start,
+                    });
                 }
 
                 if matches!(s.as_bytes().last_chunk::<2>(), Some(b"'_" | b"\"_" | b"#_")) {
