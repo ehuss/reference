@@ -405,12 +405,8 @@ fn parse(
                 Some(suffix) => panic!("unknown suffix {suffix:?}"),
                 None => {}
             }
-            let node = Node {
-                name: format!("Terminal {s:?}"),
-                range,
-                children: Nodes::default(),
-            };
-            Ok(Some((Nodes(vec![node]), next_index)))
+            let nodes = Nodes::new(format!("Terminal {s:?}"), range);
+            Ok(Some((nodes, next_index)))
         }
         ExpressionKind::Prose(s) => {
             assert_eq!(e.suffix, None);
@@ -436,12 +432,8 @@ fn parse(
                             && next_s == s
                         {
                             let next_index = src.advance(index, s.len());
-                            let node = Node {
-                                name: format!("Terminal {s:?}"),
-                                range,
-                                children: Nodes::default(),
-                            };
-                            return Ok(Some((Nodes(vec![node]), next_index)));
+                            let nodes = Nodes::new(format!("Terminal {s:?}"), range);
+                            return Ok(Some((nodes, next_index)));
                         }
                     }
                     Characters::Range(a, b) => {
@@ -450,12 +442,8 @@ fn parse(
                             let ch = next.chars().next().unwrap();
                             if ch >= *a && ch <= *b {
                                 let next_index = src.advance(index, ch.len_utf8());
-                                let node = Node {
-                                    name: format!("Range {a:?} to {b:?}"),
-                                    range,
-                                    children: Nodes::default(),
-                                };
-                                return Ok(Some((Nodes(vec![node]), next_index)));
+                                let nodes = Nodes::new(format!("Range {a:?} to {b:?}"), range);
+                                return Ok(Some((nodes, next_index)));
                             }
                         }
                     }
@@ -470,12 +458,8 @@ fn parse(
                 None => {
                     if let Some((s, range)) = src.get_next(index) {
                         let next_index = src.advance(index, s.len());
-                        let node = Node {
-                            name: format!("NegExpression {neg}"),
-                            range,
-                            children: Nodes::default(),
-                        };
-                        Ok(Some((Nodes(vec![node]), next_index)))
+                        let nodes = Nodes::new(format!("NegExpression {neg}"), range);
+                        Ok(Some((nodes, next_index)))
                     } else {
                         Ok(None)
                     }
