@@ -1,9 +1,7 @@
-#![allow(unused)]
 use super::{Node, ParseError};
 use crate::lexer::tokenize;
 use crate::parser::parse_production;
 use crate::parser::{Source, SourceIndex};
-use diagnostics::Diagnostics;
 use std::ops::Range;
 
 struct TokenSource<'src> {
@@ -59,9 +57,7 @@ impl Source for TokenSource<'_> {
 }
 
 pub fn parse(src: &str, production: &str) -> Result<Node, ParseError> {
-    let mut diag = Diagnostics::new();
-    let mut grammar = grammar::load_grammar(&mut diag);
-    super::remove_breaks(&mut grammar);
+    let grammar = super::load_grammar();
 
     let krate = grammar.productions.get(production).unwrap();
 
