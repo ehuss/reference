@@ -4,17 +4,12 @@ r[comments]
 r[comments.syntax]
 ```grammar,lexer
 @root COMMENT ->
-      INVALID_COMMENT
-    | LINE_COMMENT
+      LINE_COMMENT
     | INNER_LINE_DOC
     | OUTER_LINE_DOC
     | INNER_BLOCK_DOC
     | OUTER_BLOCK_DOC
     | BLOCK_COMMENT
-
-INVALID_COMMENT ->
-      INVALID_OUTER_LINE_DOC
-    | INVALID_INNER_LINE_DOC
 
 LINE_COMMENT ->
       `//` (~[`/` `!` LF] | `//`) ~LF*
@@ -31,19 +26,15 @@ BLOCK_COMMENT ->
       `*/`
 
 INNER_LINE_DOC ->
-    `//!` ~[LF]*
+    `//!` ^ LINE_DOC_COMMENT_CONTENT (LF | EOF)
 
-INVALID_INNER_LINE_DOC ->
-    `//!` ~[LF CR]* CR
+LINE_DOC_COMMENT_CONTENT -> (!CR ~LF)*
 
 INNER_BLOCK_DOC ->
     `/*!` ^ ( BLOCK_COMMENT_OR_DOC | ~[`*/` CR] )* `*/`
 
 OUTER_LINE_DOC ->
-    `///` ~[LF]*
-
-INVALID_OUTER_LINE_DOC ->
-    `///` !`/` ~[LF CR]* CR
+    `///` ^ LINE_DOC_COMMENT_CONTENT (LF | EOF)
 
 OUTER_BLOCK_DOC ->
     `/**` ![`*` `/`]
@@ -71,9 +62,9 @@ r[comments.doc]
 
 r[comments.doc.syntax]
 Line doc comments beginning with exactly _three_ slashes (`///`), and block doc comments (`/** ... */`), both outer doc comments, are interpreted as a special syntax for [`doc` attributes].
-
+ß
 r[comments.doc.attributes]
-That is, they are equivalent to writing `#[doc="..."]` around the body of the comment, i.e., `/// Foo` turns into `#[doc="Foo"]` and `/** Bar */` turns into `#[doc="Bar"]`. They must therefore appear before something that accepts an outer attribute.
+That is, they are equivalent to writing `#[doc="..."]` around the body of the comment, i.e., `/// Foo` turns into `#[doc=" Foo"]` and `/** Bar */` turns into `#[doc=" Bar "]`. They must therefore appear before something that accepts an outer attribute.
 
 r[comments.doc.inner-syntax]
 Line comments beginning with `//!` and block comments `/*! ... */` are doc comments that apply to the parent of the comment, rather than the item that follows.

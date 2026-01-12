@@ -213,7 +213,8 @@ fn parse_tokens(
         }
 
         match matched_token {
-            Some(node) => {
+            Some(mut node) => {
+                normalize_line_doc(&mut node, src);
                 tokens.tokens.push(node);
             }
             None => {
@@ -267,4 +268,21 @@ fn validate_delimiters_balanced(tokens: &Tokens, src: &str) -> Result<(), ParseE
         });
     }
     Ok(())
+}
+
+/// Fix line doc comment range.
+///
+/// The Reference models line doc comments as *content* followed by a
+/// linefeed. However, rustc and proc-macro2 model it as everything excluding
+/// the linefeed. For convenience, this normalizes the range so that it
+/// matches the other tools.
+///
+/// A real implementation using the Reference lexer would extract the content
+/// from `LINE_DOC_COMMENT_CONTENT`, which does not include the linefeed.
+fn normalize_line_doc(node: &mut Node, src: &str) {
+    if matches!(node.name.as_str(), "INNER_LINE_DOC" | "OUTER_LINE_DOC")
+        && src[node.range.clone()].ends_with('\n')
+    {
+        node.range.end -= 1;
+    }
 }
