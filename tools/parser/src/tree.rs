@@ -72,7 +72,7 @@ pub fn parse(src: &str, production: &str) -> Result<Node, ParseError> {
 
     let token_source = TokenSource { src, tokens };
 
-    match parse_production(&grammar, &krate, &token_source, SourceIndex(0))? {
+    match parse_production(&grammar, krate, &token_source, SourceIndex(0))? {
         Some((node, next_index)) => {
             if next_index < token_source.len() {
                 return Err(ParseError {

@@ -12,7 +12,7 @@ use std::time::Instant;
 const DEFAULT_COMPARE_TOOLS: [&str; 2] = ["rustc_parse", "proc-macro2"];
 
 thread_local! {
-    static PANIC_OUTPUT: RefCell<Option<String>> = RefCell::new(None);
+    static PANIC_OUTPUT: RefCell<Option<String>> = const { RefCell::new(None) };
 }
 
 pub fn compare_parallel(matches: &ArgMatches) {
@@ -192,16 +192,15 @@ fn compare_src(name: &str, src: &str, tool: &str) -> Result<(), String> {
         }
         _ => unreachable!(),
     };
-    if let Ok(tokens) = &lexer_result {
-        if let Some(invalid) = tokens
+    if let Ok(tokens) = &lexer_result
+        && let Some(invalid) = tokens
             .iter()
             .find(|token| token.name == "RESERVED_TOKEN" || token.name.starts_with("INVALID_"))
-        {
-            lexer_result = Err(ParseError {
-                byte_offset: invalid.range.start,
-                message: format!("invalid token {}", invalid.name),
-            });
-        }
+    {
+        lexer_result = Err(ParseError {
+            byte_offset: invalid.range.start,
+            message: format!("invalid token {}", invalid.name),
+        });
     }
 
     match (lexer_result, tool_result) {

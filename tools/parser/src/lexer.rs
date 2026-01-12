@@ -47,11 +47,11 @@ fn normalize_crlf(src: &str) -> (String, Vec<usize>) {
     let mut removed_indices = Vec::new();
     let mut chars = src.chars().peekable();
     while let Some(ch) = chars.next() {
-        if ch == '\r' {
-            if let Some(&'\n') = chars.peek() {
-                removed_indices.push(normalized_src.len());
-                continue;
-            }
+        if ch == '\r'
+            && let Some(&'\n') = chars.peek()
+        {
+            removed_indices.push(normalized_src.len());
+            continue;
         }
         normalized_src.push(ch);
     }
@@ -105,8 +105,8 @@ fn get_top_prods(grammar: &Grammar) -> Vec<&Production> {
             ExpressionKind::Sequence(es) => {
                 let seq: Vec<_> = es
                     .iter()
-                    .filter_map(|e| match &e.kind {
-                        ExpressionKind::Nt(nt) => Some(nt),
+                    .map(|e| match &e.kind {
+                        ExpressionKind::Nt(nt) => nt,
                         kind => panic!("unexpected kind {kind:?}"),
                     })
                     .collect();
@@ -129,8 +129,8 @@ fn get_top_prods(grammar: &Grammar) -> Vec<&Production> {
             ExpressionKind::Sequence(es) => {
                 let seq: Vec<_> = es
                     .iter()
-                    .filter_map(|e| match &e.kind {
-                        ExpressionKind::Nt(nt) => Some(nt),
+                    .map(|e| match &e.kind {
+                        ExpressionKind::Nt(nt) => nt,
                         kind => panic!("unexpected kind {kind:?}"),
                     })
                     .collect();
@@ -152,7 +152,7 @@ fn parse_shebang(
     tokens: &mut Tokens,
 ) -> Result<SourceIndex, ParseError> {
     let shebang = grammar.productions.get("SHEBANG").unwrap();
-    if let Some((node, next_index)) = parse_production(&grammar, &shebang, &src, index)? {
+    if let Some((node, next_index)) = parse_production(grammar, shebang, &src, index)? {
         tokens.shebang = Some(node);
         Ok(next_index)
     } else {
@@ -167,8 +167,8 @@ fn parse_frontmatter(
     tokens: &mut Tokens,
 ) -> Result<SourceIndex, ParseError> {
     let frontmatter = grammar.productions.get("FRONTMATTER").unwrap();
-    if let Some((node, next_index)) = parse_production(&grammar, &frontmatter, &src, index)
-        .map_err(|e| ParseError {
+    if let Some((node, next_index)) =
+        parse_production(grammar, frontmatter, &src, index).map_err(|e| ParseError {
             message: format!("invalid frontmatter: {}", e.message),
             byte_offset: e.byte_offset,
         })?
@@ -177,7 +177,7 @@ fn parse_frontmatter(
         Ok(next_index)
     } else {
         let invalid_frontmatter = grammar.productions.get("INVALID_FRONTMATTER").unwrap();
-        if let Some(_) = parse_production(&grammar, &invalid_frontmatter, &src, index)? {
+        if parse_production(grammar, invalid_frontmatter, &src, index)?.is_some() {
             return Err(ParseError {
                 message: "invalid frontmatter".to_string(),
                 byte_offset: index.0,
@@ -198,7 +198,7 @@ fn parse_tokens(
     let whitespace = &grammar.productions.get("WHITESPACE").unwrap();
 
     while index.0 < src.len() {
-        if let Some((_node, next_index)) = parse_production(&grammar, whitespace, &src, index)? {
+        if let Some((_node, next_index)) = parse_production(grammar, whitespace, &src, index)? {
             index = next_index;
             continue;
         }
@@ -206,15 +206,12 @@ fn parse_tokens(
         let mut matched_token = None;
         for token_prod in top_prods {
             debug!("try top-level token `{}`", token_prod.name);
-            match parse_production(&grammar, &token_prod, &src, index)? {
-                Some((node, next_index)) => {
-                    if node.byte_len() > 0 {
-                        index = next_index;
-                        matched_token = Some(node);
-                        break;
-                    }
-                }
-                None => {}
+            if let Some((node, next_index)) = parse_production(grammar, token_prod, &src, index)?
+                && node.byte_len() > 0
+            {
+                index = next_index;
+                matched_token = Some(node);
+                break;
             }
         }
 

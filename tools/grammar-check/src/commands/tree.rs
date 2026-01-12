@@ -10,7 +10,7 @@ pub fn tree(matches: &ArgMatches) {
         while let Some((name, src)) = opts.next() {
             println!("------------------------------------------------------------");
             println!("tool `{tool}` tree results for `{name}`:");
-            display_tree(&src, &tool, &production);
+            display_tree(&src, tool, production);
             println!("------------------------------------------------------------");
         }
     }

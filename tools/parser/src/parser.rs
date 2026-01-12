@@ -55,7 +55,7 @@ pub(crate) trait Source {
     fn index_to_bytes(&self, index: SourceIndex) -> usize;
 }
 
-impl<'a> Source for &'a str {
+impl Source for &str {
     fn get_substring(&self, offset: SourceIndex, bytes: usize) -> Option<(&str, Range<usize>)> {
         let end = offset.0.checked_add(bytes)?;
         if end > (*self).len() {
@@ -257,20 +257,20 @@ fn parse(
                     Some((nodes, next_index)) => {
                         current = next_index;
                         children.extend(nodes);
-                        if let Some(max) = max {
-                            if count + 1 == max {
-                                break;
-                            }
+                        if let Some(max) = max
+                            && count + 1 == max
+                        {
+                            break;
                         }
                         count += 1;
                     }
                     None => break,
                 }
             }
-            if let Some(min) = min {
-                if count < *min {
-                    return Ok(None);
-                }
+            if let Some(min) = min
+                && count < *min
+            {
+                return Ok(None);
             }
             if let Some(name) = name {
                 assert!(env.map.insert(name.clone(), count).is_none());
