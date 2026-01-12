@@ -29,8 +29,8 @@ pub(crate) trait Source {
     /// If this does not match an entire token, it returns None.
     fn get_substring(&self, offset: SourceIndex, bytes: usize) -> Option<(&str, Range<usize>)>;
 
-    /// Returns the next element at the given offset.
-    fn get_next(&self, offset: SourceIndex) -> Option<(&str, Range<usize>)>;
+    /// Returns the element at the given offset.
+    fn get_element(&self, offset: SourceIndex) -> Option<(&str, Range<usize>)>;
 
     /// Returns the number of elements in the source.
     fn len(&self) -> SourceIndex;
@@ -70,7 +70,7 @@ impl<'a> Source for &'a str {
         Some((s, range))
     }
 
-    fn get_next(&self, offset: SourceIndex) -> Option<(&str, Range<usize>)> {
+    fn get_element(&self, offset: SourceIndex) -> Option<(&str, Range<usize>)> {
         let ch = self[offset.0..].chars().next()?;
         let len = ch.len_utf8();
         let s = &self[offset.0..offset.0 + len];
@@ -140,7 +140,7 @@ fn parse(
 ) -> Result<Option<(Nodes, SourceIndex)>, ParseError> {
     tracing::debug!("e={e}");
     if index < src.len() {
-        tracing::debug!("next={:?}", src.get_next(index));
+        tracing::debug!("next={:?}", src.get_element(index));
     } else {
         tracing::debug!("eof");
     }
@@ -396,7 +396,7 @@ fn parse(
             let next_index = src.advance(index, s.len());
             match e.suffix.as_deref() {
                 Some("immediately followed by LF") => {
-                    if let Some((next_s, _)) = src.get_next(next_index)
+                    if let Some((next_s, _)) = src.get_element(next_index)
                         && next_s != "\n"
                     {
                         return Ok(None);
@@ -437,7 +437,7 @@ fn parse(
                         }
                     }
                     Characters::Range(a, b) => {
-                        let (next, range) = src.get_next(index).unwrap();
+                        let (next, range) = src.get_element(index).unwrap();
                         if next.chars().count() == 1 {
                             let ch = next.chars().next().unwrap();
                             if ch >= *a && ch <= *b {
@@ -456,7 +456,7 @@ fn parse(
             match parse(grammar, neg, src, index, env)? {
                 Some(_) => Ok(None),
                 None => {
-                    if let Some((s, range)) = src.get_next(index) {
+                    if let Some((s, range)) = src.get_element(index) {
                         let next_index = src.advance(index, s.len());
                         let nodes = Nodes::new(format!("NegExpression {neg}"), range);
                         Ok(Some((nodes, next_index)))
@@ -481,7 +481,7 @@ fn parse(
             let c = char::from_u32(u32::from_str_radix(s, 16).unwrap()).unwrap();
             let mut buf = [0u8; 4];
             let c_str = c.encode_utf8(&mut buf);
-            if let Some((next_s, range)) = src.get_next(index)
+            if let Some((next_s, range)) = src.get_element(index)
                 && next_s == c_str
             {
                 let next_index = src.advance(index, c.len_utf8());
@@ -529,7 +529,7 @@ fn match_prose(
     index: SourceIndex,
 ) -> Result<Option<(Nodes, SourceIndex)>, ParseError> {
     let next_as_ch = || {
-        src.get_next(index).and_then(|(next, range)| {
+        src.get_element(index).and_then(|(next, range)| {
             let mut chars = next.chars();
             let ch = chars.next().unwrap();
             if chars.next().is_some() {
