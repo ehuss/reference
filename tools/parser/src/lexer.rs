@@ -1,7 +1,6 @@
 use super::{Node, ParseError};
 use crate::parser::{SourceIndex, parse_production};
-use diagnostics::Diagnostics;
-use grammar::{ExpressionKind, Grammar};
+use grammar::{ExpressionKind, Grammar, Production};
 // use std::ops::Range;
 use tracing::debug;
 
@@ -19,32 +18,9 @@ pub struct Tokens {
 }
 
 pub fn tokenize(original_src: &str) -> Result<Tokens, ParseError> {
-    let mut diag = Diagnostics::new();
-    let mut grammar = grammar::load_grammar(&mut diag);
-    super::remove_breaks(&mut grammar);
+    let grammar = super::load_grammar();
 
-    let mut normalized_src = String::with_capacity(original_src.len());
-    let mut removed_indices = Vec::new();
-    let mut chars = original_src.chars().peekable();
-    while let Some(ch) = chars.next() {
-        if ch == '\r' {
-            if let Some(&'\n') = chars.peek() {
-                removed_indices.push(normalized_src.len());
-                continue;
-            }
-        }
-        normalized_src.push(ch);
-    }
-    fn map_offset(removed_indices: &[usize], offset: usize) -> usize {
-        offset + removed_indices.partition_point(|&x| x < offset)
-    }
-    fn adjust_node(removed_indices: &[usize], node: &mut Node) {
-        node.range.start = map_offset(removed_indices, node.range.start);
-        node.range.end = map_offset(removed_indices, node.range.end);
-        for child in &mut node.children.0 {
-            adjust_node(removed_indices, child);
-        }
-    }
+    let (normalized_src, removed_indices) = normalize_crlf(original_src);
 
     tokenize_normalized(&grammar, &normalized_src)
         .map(|mut tokens| {
@@ -65,8 +41,55 @@ pub fn tokenize(original_src: &str) -> Result<Tokens, ParseError> {
         })
 }
 
+fn normalize_crlf(src: &str) -> (String, Vec<usize>) {
+    let mut normalized_src = String::with_capacity(src.len());
+    let mut removed_indices = Vec::new();
+    let mut chars = src.chars().peekable();
+    while let Some(ch) = chars.next() {
+        if ch == '\r' {
+            if let Some(&'\n') = chars.peek() {
+                removed_indices.push(normalized_src.len());
+                continue;
+            }
+        }
+        normalized_src.push(ch);
+    }
+    (normalized_src, removed_indices)
+}
+
+fn map_offset(removed_indices: &[usize], offset: usize) -> usize {
+    offset + removed_indices.partition_point(|&x| x < offset)
+}
+
+fn adjust_node(removed_indices: &[usize], node: &mut Node) {
+    node.range.start = map_offset(removed_indices, node.range.start);
+    node.range.end = map_offset(removed_indices, node.range.end);
+    for child in &mut node.children.0 {
+        adjust_node(removed_indices, child);
+    }
+}
+
 fn tokenize_normalized(grammar: &Grammar, src: &str) -> Result<Tokens, ParseError> {
     let mut tokens = Tokens::default();
+    let top_prods = get_top_prods(grammar);
+
+    let mut index = SourceIndex(0);
+    // Remove BOM
+    if src.starts_with('\u{FEFF}') {
+        index.0 += 3;
+    }
+
+    index = parse_shebang(grammar, src, index, &mut tokens)?;
+    index = parse_frontmatter(grammar, src, index, &mut tokens)?;
+    parse_tokens(grammar, &top_prods, src, index, &mut tokens)?;
+    validate_delimiters_balanced(&tokens, src)?;
+
+    debug!("lexing complete");
+
+    Ok(tokens)
+}
+
+fn get_top_prods(grammar: &Grammar) -> Vec<&Production> {
     let mut top_prods = Vec::new();
     let comment = grammar.productions.get("COMMENT").unwrap();
     let ExpressionKind::Alt(es) = &comment.expression.kind else {
@@ -91,18 +114,6 @@ fn tokenize_normalized(grammar: &Grammar, src: &str) -> Result<Tokens, ParseErro
         top_prods.push(grammar.productions.get(nt).unwrap());
     }
 
-    // let mut top_prods: Vec<_> = [
-    //     "LINE_COMMENT",
-    //     "BLOCK_COMMENT",
-    //     "OUTER_BLOCK_DOC",
-    //     "INNER_LINE_DOC",
-    //     "INNER_BLOCK_DOC",
-    //     "OUTER_LINE_DOC",
-    // ]
-    // .into_iter()
-    // .map(|comment| grammar.productions.get(comment).unwrap())
-    // .collect();
-
     // Collect the expressions from the Token alternation.
     let token = grammar.productions.get("Token").unwrap();
     let ExpressionKind::Alt(es) = &token.expression.kind else {
@@ -126,21 +137,30 @@ fn tokenize_normalized(grammar: &Grammar, src: &str) -> Result<Tokens, ParseErro
         };
         top_prods.push(grammar.productions.get(nt).unwrap());
     }
+    top_prods
+}
 
-    let whitespace = &grammar.productions.get("WHITESPACE").unwrap();
-
-    let mut index = SourceIndex(0);
-    // Remove BOM
-    if src.starts_with('\u{FEFF}') {
-        index.0 += 3;
-    }
-
+fn parse_shebang(
+    grammar: &Grammar,
+    src: &str,
+    index: SourceIndex,
+    tokens: &mut Tokens,
+) -> Result<SourceIndex, ParseError> {
     let shebang = grammar.productions.get("SHEBANG").unwrap();
     if let Some((node, next_index)) = parse_production(&grammar, &shebang, &src, index)? {
-        index = next_index;
         tokens.shebang = Some(node);
+        Ok(next_index)
+    } else {
+        Ok(index)
     }
+}
 
+fn parse_frontmatter(
+    grammar: &Grammar,
+    src: &str,
+    index: SourceIndex,
+    tokens: &mut Tokens,
+) -> Result<SourceIndex, ParseError> {
     let frontmatter = grammar.productions.get("FRONTMATTER").unwrap();
     if let Some((node, next_index)) = parse_production(&grammar, &frontmatter, &src, index)
         .map_err(|e| ParseError {
@@ -148,8 +168,8 @@ fn tokenize_normalized(grammar: &Grammar, src: &str) -> Result<Tokens, ParseErro
             byte_offset: e.byte_offset,
         })?
     {
-        index = next_index;
         tokens.frontmatter = Some(node);
+        Ok(next_index)
     } else {
         let invalid_frontmatter = grammar.productions.get("INVALID_FRONTMATTER").unwrap();
         if let Some(_) = parse_production(&grammar, &invalid_frontmatter, &src, index)? {
@@ -158,7 +178,18 @@ fn tokenize_normalized(grammar: &Grammar, src: &str) -> Result<Tokens, ParseErro
                 byte_offset: index.0,
             });
         }
+        Ok(index)
     }
+}
+
+fn parse_tokens(
+    grammar: &Grammar,
+    top_prods: &[&Production],
+    src: &str,
+    mut index: SourceIndex,
+    tokens: &mut Tokens,
+) -> Result<(), ParseError> {
+    let whitespace = &grammar.productions.get("WHITESPACE").unwrap();
 
     while index.0 < src.len() {
         if let Some((_node, next_index)) = parse_production(&grammar, whitespace, &src, index)? {
@@ -167,7 +198,7 @@ fn tokenize_normalized(grammar: &Grammar, src: &str) -> Result<Tokens, ParseErro
         }
 
         let mut matched_token = None;
-        for token_prod in &top_prods {
+        for token_prod in top_prods {
             debug!("try top-level token `{}`", token_prod.name);
             match parse_production(&grammar, &token_prod, &src, index)? {
                 Some((node, next_index)) => {
@@ -193,7 +224,10 @@ fn tokenize_normalized(grammar: &Grammar, src: &str) -> Result<Tokens, ParseErro
             }
         }
     }
+    Ok(())
+}
 
+fn validate_delimiters_balanced(tokens: &Tokens, src: &str) -> Result<(), ParseError> {
     let mut stack = Vec::new();
     for token in &tokens.tokens {
         let text = &src[token.range.clone()];
@@ -232,8 +266,5 @@ fn tokenize_normalized(grammar: &Grammar, src: &str) -> Result<Tokens, ParseErro
             message: "unclosed delimiter".to_string(),
         });
     }
-
-    debug!("lexing complete");
-
-    Ok(tokens)
+    Ok(())
 }

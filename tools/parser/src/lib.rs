@@ -1,3 +1,4 @@
+use diagnostics::Diagnostics;
 use grammar::{Expression, ExpressionKind, Grammar};
 use std::ops::Range;
 
@@ -91,6 +92,13 @@ impl Nodes {
             self.0.last().unwrap().range.end - self.0.first().unwrap().range.start
         }
     }
+}
+
+fn load_grammar() -> Grammar {
+    let mut diag = Diagnostics::new();
+    let mut grammar = grammar::load_grammar(&mut diag);
+    remove_breaks(&mut grammar);
+    grammar
 }
 
 fn remove_breaks(grammar: &mut Grammar) {
