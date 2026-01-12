@@ -1,7 +1,8 @@
+//! Parser that can take Rust source and generates a sequence of tokens.
+
 use super::{Node, ParseError};
 use crate::parser::{SourceIndex, parse_production};
 use grammar::{ExpressionKind, Grammar, Production};
-// use std::ops::Range;
 use tracing::debug;
 
 #[derive(Default)]
@@ -61,6 +62,8 @@ fn map_offset(removed_indices: &[usize], offset: usize) -> usize {
     offset + removed_indices.partition_point(|&x| x < offset)
 }
 
+/// Adjusts the node range for CRLF normalization so that the range matches
+/// the original source with the carriage returns.
 fn adjust_node(removed_indices: &[usize], node: &mut Node) {
     node.range.start = map_offset(removed_indices, node.range.start);
     node.range.end = map_offset(removed_indices, node.range.end);
@@ -69,6 +72,7 @@ fn adjust_node(removed_indices: &[usize], node: &mut Node) {
     }
 }
 
+/// Tokenize source after it has been normalized.
 fn tokenize_normalized(grammar: &Grammar, src: &str) -> Result<Tokens, ParseError> {
     let mut tokens = Tokens::default();
     let top_prods = get_top_prods(grammar);
@@ -89,6 +93,7 @@ fn tokenize_normalized(grammar: &Grammar, src: &str) -> Result<Tokens, ParseErro
     Ok(tokens)
 }
 
+/// Returns the [`Production`]s that correspond to top-level tokens.
 fn get_top_prods(grammar: &Grammar) -> Vec<&Production> {
     let mut top_prods = Vec::new();
     let comment = grammar.productions.get("COMMENT").unwrap();
@@ -114,7 +119,7 @@ fn get_top_prods(grammar: &Grammar) -> Vec<&Production> {
         top_prods.push(grammar.productions.get(nt).unwrap());
     }
 
-    // Collect the expressions from the Token alternation.
+    // Collect the productions from the Token alternation.
     let token = grammar.productions.get("Token").unwrap();
     let ExpressionKind::Alt(es) = &token.expression.kind else {
         panic!("expected alts");
@@ -182,6 +187,7 @@ fn parse_frontmatter(
     }
 }
 
+/// Performs the actual parsing of all the tokens in the source.
 fn parse_tokens(
     grammar: &Grammar,
     top_prods: &[&Production],

@@ -21,6 +21,13 @@ pub fn compare_parallel(matches: &ArgMatches) {
     if opts.tools.iter().any(|t| t == "reference") {
         panic!("can't compare reference to itself");
     }
+    if let Some(t) = opts
+        .tools
+        .iter()
+        .find(|t| !DEFAULT_COMPARE_TOOLS.contains(&t.as_str()))
+    {
+        panic!("tool {t} is not supported for comparison");
+    }
 
     std::panic::set_hook(Box::new(|info| {
         let payload = info.payload();
