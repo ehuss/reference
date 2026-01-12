@@ -4,11 +4,16 @@ use std::collections::HashMap;
 use std::ops::Range;
 use tracing::instrument;
 
+/// This stores named repetitions.
+///
+/// The key is the name, and the value is the number of repetitions that
+/// happened.
 #[derive(Debug, Default)]
 struct Environment {
     map: HashMap<String, u32>,
 }
 
+/// A wrapper around an index for referring to elements in a [`Source`].
 #[derive(Debug, Ord, PartialOrd, Eq, PartialEq, Copy, Clone)]
 pub(crate) struct SourceIndex(pub(crate) usize);
 
@@ -17,15 +22,15 @@ pub(crate) struct SourceIndex(pub(crate) usize);
 /// This allows the parser to be used for both string sources and tokenized
 /// sources. String sources work in elements of bytes of a string, whereas
 /// token sources work in elements of tokens. The offsets are based on
-/// elements in the sequence.
+/// elements in the sequence represented with [`SourceIndex`].
 pub(crate) trait Source {
     /// Returns a substring from the given offset of the given length in bytes.
     ///
     /// If this does not match an entire token, it returns None.
-    fn get_substring(&self, offset: SourceIndex, bytes: usize) -> Option<&str>;
+    fn get_substring(&self, offset: SourceIndex, bytes: usize) -> Option<(&str, Range<usize>)>;
 
     /// Returns the next element at the given offset.
-    fn get_next(&self, offset: SourceIndex) -> Option<&str>;
+    fn get_next(&self, offset: SourceIndex) -> Option<(&str, Range<usize>)>;
 
     /// Returns the number of elements in the source.
     fn len(&self) -> SourceIndex;
@@ -33,13 +38,6 @@ pub(crate) trait Source {
     /// Returns what the next index should be when advanced from the current
     /// index with the given number of bytes.
     fn advance(&self, index: SourceIndex, bytes: usize) -> SourceIndex;
-
-    /// Returns a range representing something starting at the given index and
-    /// is `bytes` long.
-    ///
-    /// This should only be paired with `get_substring` or `get_next`.
-    /// (TODO: This can probably be improved/simplified.)
-    fn index_to_range(&self, index: SourceIndex, bytes: usize) -> Range<usize>;
 
     /// If this is a token source, returns the node at the given index.
     ///
@@ -56,7 +54,7 @@ pub(crate) trait Source {
 }
 
 impl<'a> Source for &'a str {
-    fn get_substring(&self, offset: SourceIndex, bytes: usize) -> Option<&str> {
+    fn get_substring(&self, offset: SourceIndex, bytes: usize) -> Option<(&str, Range<usize>)> {
         let end = offset.0.checked_add(bytes)?;
         if end > (*self).len() {
             return None;
@@ -64,12 +62,23 @@ impl<'a> Source for &'a str {
         if !self.is_char_boundary(offset.0) || !self.is_char_boundary(end) {
             return None;
         }
-        Some(&self[offset.0..end])
+        let s = &self[offset.0..end];
+        let range = Range {
+            start: offset.0,
+            end,
+        };
+        Some((s, range))
     }
 
-    fn get_next(&self, offset: SourceIndex) -> Option<&str> {
+    fn get_next(&self, offset: SourceIndex) -> Option<(&str, Range<usize>)> {
         let ch = self[offset.0..].chars().next()?;
-        Some(&self[offset.0..offset.0 + ch.len_utf8()])
+        let len = ch.len_utf8();
+        let s = &self[offset.0..offset.0 + len];
+        let range = Range {
+            start: offset.0,
+            end: offset.0 + len,
+        };
+        Some((s, range))
     }
 
     fn len(&self) -> SourceIndex {
@@ -78,13 +87,6 @@ impl<'a> Source for &'a str {
 
     fn advance(&self, index: SourceIndex, bytes: usize) -> SourceIndex {
         SourceIndex(index.0 + bytes)
-    }
-
-    fn index_to_range(&self, index: SourceIndex, bytes: usize) -> Range<usize> {
-        Range {
-            start: index.0,
-            end: index.0 + bytes,
-        }
     }
 
     fn get_node(&self, _index: SourceIndex) -> Option<&Node> {
@@ -277,7 +279,7 @@ fn parse(
                 Some("valid hex char value") => {
                     let end = src.index_to_bytes(current);
                     let len = end - start_byte_offset;
-                    let hex = src.get_substring(index, len).unwrap();
+                    let (hex, _) = src.get_substring(index, len).unwrap();
                     let hex_no_underscores = hex.replace('_', "");
                     let value =
                         u32::from_str_radix(&hex_no_underscores, 16).map_err(|_| ParseError {
@@ -329,7 +331,7 @@ fn parse(
                 return Ok(None);
             };
             let len = nodes.byte_len();
-            let matched = src.get_substring(index, len).unwrap();
+            let (matched, _) = src.get_substring(index, len).unwrap();
             match e.suffix.as_deref() {
                 Some("except `_`") => {
                     if matched == "_" {
@@ -385,16 +387,18 @@ fn parse(
             Ok(Some((nodes, next_index)))
         }
         ExpressionKind::Terminal(s) => {
-            if !src
-                .get_substring(index, s.len())
-                .map_or(false, |next| next == s)
-            {
+            let Some((next_s, range)) = src.get_substring(index, s.len()) else {
+                return Ok(None);
+            };
+            if next_s != s {
                 return Ok(None);
             }
             let next_index = src.advance(index, s.len());
             match e.suffix.as_deref() {
                 Some("immediately followed by LF") => {
-                    if src.get_next(next_index) != Some("\n") {
+                    if let Some((next_s, _)) = src.get_next(next_index)
+                        && next_s != "\n"
+                    {
                         return Ok(None);
                     }
                 }
@@ -403,7 +407,7 @@ fn parse(
             }
             let node = Node {
                 name: format!("Terminal {s:?}"),
-                range: src.index_to_range(index, s.len()),
+                range,
                 children: Nodes::default(),
             };
             Ok(Some((Nodes(vec![node]), next_index)))
@@ -428,25 +432,27 @@ fn parse(
                         }
                     }
                     Characters::Terminal(s) => {
-                        if src.get_substring(index, s.len()) == Some(s) {
+                        if let Some((next_s, range)) = src.get_substring(index, s.len())
+                            && next_s == s
+                        {
                             let next_index = src.advance(index, s.len());
                             let node = Node {
                                 name: format!("Terminal {s:?}"),
-                                range: src.index_to_range(index, s.len()),
+                                range,
                                 children: Nodes::default(),
                             };
                             return Ok(Some((Nodes(vec![node]), next_index)));
                         }
                     }
                     Characters::Range(a, b) => {
-                        let next = src.get_next(index).unwrap();
+                        let (next, range) = src.get_next(index).unwrap();
                         if next.chars().count() == 1 {
                             let ch = next.chars().next().unwrap();
                             if ch >= *a && ch <= *b {
                                 let next_index = src.advance(index, ch.len_utf8());
                                 let node = Node {
                                     name: format!("Range {a:?} to {b:?}"),
-                                    range: src.index_to_range(index, ch.len_utf8()),
+                                    range,
                                     children: Nodes::default(),
                                 };
                                 return Ok(Some((Nodes(vec![node]), next_index)));
@@ -462,11 +468,11 @@ fn parse(
             match parse(grammar, neg, src, index, env)? {
                 Some(_) => Ok(None),
                 None => {
-                    if let Some(s) = src.get_next(index) {
+                    if let Some((s, range)) = src.get_next(index) {
                         let next_index = src.advance(index, s.len());
                         let node = Node {
                             name: format!("NegExpression {neg}"),
-                            range: src.index_to_range(index, s.len()),
+                            range,
                             children: Nodes::default(),
                         };
                         Ok(Some((Nodes(vec![node]), next_index)))
@@ -491,14 +497,12 @@ fn parse(
             let c = char::from_u32(u32::from_str_radix(s, 16).unwrap()).unwrap();
             let mut buf = [0u8; 4];
             let c_str = c.encode_utf8(&mut buf);
-            if src.get_next(index) == Some(c_str) {
+            if let Some((next_s, range)) = src.get_next(index)
+                && next_s == c_str
+            {
                 let next_index = src.advance(index, c.len_utf8());
                 Ok(Some((
-                    Nodes::new(
-                        format!("Unicode {s}"),
-                        src.index_to_bytes(index),
-                        c.len_utf8(),
-                    ),
+                    Nodes::new(format!("Unicode {s}"), range),
                     next_index,
                 )))
             } else {
@@ -541,21 +545,21 @@ fn match_prose(
     index: SourceIndex,
 ) -> Result<Option<(Nodes, SourceIndex)>, ParseError> {
     let next_as_ch = || {
-        src.get_next(index).and_then(|next| {
+        src.get_next(index).and_then(|(next, range)| {
             let mut chars = next.chars();
             let ch = chars.next().unwrap();
             if chars.next().is_some() {
                 None
             } else {
-                Some(ch)
+                Some((ch, range))
             }
         })
     };
 
     let ascii_but = |except: &dyn Fn(char) -> bool| {
-        if let Some(ch) = next_as_ch() {
+        if let Some((ch, range)) = next_as_ch() {
             Ok((ch >= '\0' && ch <= '\x7f' && !except(ch)).then(|| {
-                let nodes = Nodes::new(format!("Prose {prose}"), src.index_to_bytes(index), 1);
+                let nodes = Nodes::new(format!("Prose {prose}"), range);
                 let next = src.advance(index, 1);
                 (nodes, next)
             }))
@@ -566,13 +570,9 @@ fn match_prose(
 
     match prose {
         "`XID_Start` defined by Unicode" => {
-            if let Some(ch) = next_as_ch() {
+            if let Some((ch, range)) = next_as_ch() {
                 Ok(unicode_ident::is_xid_start(ch).then(|| {
-                    let nodes = Nodes::new(
-                        format!("Prose: {prose}"),
-                        src.index_to_bytes(index),
-                        ch.len_utf8(),
-                    );
+                    let nodes = Nodes::new(format!("Prose: {prose}"), range);
                     (nodes, src.advance(index, ch.len_utf8()))
                 }))
             } else {
@@ -580,13 +580,9 @@ fn match_prose(
             }
         }
         "`XID_Continue` defined by Unicode" => {
-            if let Some(ch) = next_as_ch() {
+            if let Some((ch, range)) = next_as_ch() {
                 Ok(unicode_ident::is_xid_continue(ch).then(|| {
-                    let nodes = Nodes::new(
-                        format!("Prose: {prose}"),
-                        src.index_to_bytes(index),
-                        ch.len_utf8(),
-                    );
+                    let nodes = Nodes::new(format!("Prose: {prose}"), range);
                     (nodes, src.advance(index, ch.len_utf8()))
                 }))
             } else {
@@ -601,12 +597,8 @@ fn match_prose(
             ascii_but(&|ch| matches!(ch, '\"' | '\\' | '\r'))
         }
         "a Unicode scalar value" => {
-            if let Some(ch) = next_as_ch() {
-                let nodes = Nodes::new(
-                    format!("Prose: {prose}"),
-                    src.index_to_bytes(index),
-                    ch.len_utf8(),
-                );
+            if let Some((ch, range)) = next_as_ch() {
+                let nodes = Nodes::new(format!("Prose: {prose}"), range);
                 Ok(Some((nodes, src.advance(index, ch.len_utf8()))))
             } else {
                 Ok(None)

@@ -10,17 +10,22 @@ struct TokenSource<'src> {
 }
 
 impl Source for TokenSource<'_> {
-    fn get_substring(&self, offset: SourceIndex, bytes: usize) -> Option<&str> {
+    fn get_substring(&self, offset: SourceIndex, bytes: usize) -> Option<(&str, Range<usize>)> {
         self.tokens.get(offset.0).and_then(|t| {
             let s = &self.src[t.range.clone()];
-            if !s.len() == bytes { None } else { Some(s) }
+            if !s.len() == bytes {
+                None
+            } else {
+                Some((s, t.range.clone()))
+            }
         })
     }
 
-    fn get_next(&self, offset: SourceIndex) -> Option<&str> {
-        self.tokens
-            .get(offset.0)
-            .map(|t| &self.src[t.range.clone()])
+    fn get_next(&self, offset: SourceIndex) -> Option<(&str, Range<usize>)> {
+        self.tokens.get(offset.0).map(|t| {
+            let s = &self.src[t.range.clone()];
+            (s, t.range.clone())
+        })
     }
 
     fn len(&self) -> SourceIndex {
@@ -33,14 +38,6 @@ impl Source for TokenSource<'_> {
             panic!("advancing {bytes} at {index:?} is not equal to {token:?}");
         }
         SourceIndex(index.0 + 1)
-    }
-
-    fn index_to_range(&self, index: SourceIndex, bytes: usize) -> Range<usize> {
-        let start = self.tokens[index.0].range.start;
-        Range {
-            start,
-            end: start + bytes,
-        }
     }
 
     fn get_node(&self, index: SourceIndex) -> Option<&Node> {

@@ -65,13 +65,10 @@ impl Node {
 pub struct Nodes(pub Vec<Node>);
 
 impl Nodes {
-    fn new(name: String, start: usize, length: usize) -> Nodes {
+    fn new(name: String, range: Range<usize>) -> Nodes {
         let node = Node {
             name,
-            range: Range {
-                start,
-                end: start + length,
-            },
+            range,
             children: Nodes::default(),
         };
         Nodes(vec![node])
