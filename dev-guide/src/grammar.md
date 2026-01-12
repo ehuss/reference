@@ -55,6 +55,7 @@ Quantifier ->
     | RepeatPlus
     | RepeatRange
     | RepeatRangeInclusive
+    | RepeatRangeNamed
 
 Optional -> `?`
 
@@ -62,9 +63,11 @@ Repeat -> `*`
 
 RepeatPlus -> `+`
 
-RepeatRange -> `{` Range? `..` Range? `}`
+RepeatRange -> `{` ( Name `:` )? Range? `..` Range? `}`
 
-RepeatRangeInclusive -> `{` Range `..=` Range `}`
+RepeatRangeInclusive -> `{` ( Name `:` )? Range `..=` Range `}`
+
+RepeatRangeNamed -> `{` Name `}`
 
 Range -> [0-9]+
 
@@ -138,6 +141,8 @@ The general format is a series of productions separated by blank lines. The expr
 | RepeatPlus | Expr+ | The preceding expression is repeated 1 or more times. |
 | RepeatRange | Expr{2..4} | The preceding expression is repeated between the range of times specified. Either bound can be excluded, which works just like Rust ranges. |
 | RepeatRangeInclusive | Expr{2..=4} | The preceding expression is repeated between the range of times specified (inclusive). |
+| Named Range | Expr{name:2..=4} | If a name precedes the range, then the number of repetitions are stored in a variable with that name that subsequent rules can refer to. |
+| RepeatRangeNamed | Expr{name} | Repeat the number of times from the previously labeled repetition. |
 
 ## Automatic linking
 
