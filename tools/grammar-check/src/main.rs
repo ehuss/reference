@@ -173,19 +173,6 @@ impl CommonOptions {
         (opts, receiver)
     }
 
-    // fn iter(&self) -> impl Iterator<Item = (String, String)> + '_ {
-    //     self.strings.iter()
-    //         .map(|(name, src)| (name.clone(), src.clone()))
-    //         .chain(
-    //             self.paths.iter()
-    //             .map(|path| {
-    //                 let contents = std::fs::read_to_string(&path).unwrap();
-    //                 let display = format!("{}", path.display());
-    //                 (display, contents)
-    //             })
-    //     )
-    // }
-
     fn next(&mut self) -> Option<(String, String)> {
         if let Some((name, src)) = self.strings.pop() {
             return Some((name, src));
