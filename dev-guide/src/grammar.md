@@ -82,7 +82,7 @@ Expr1 ->
     | Group
     | NegativeExpression
 
-Unicode -> `U+` [`A`-`Z` `0`-`9`]4..4
+Unicode -> `U+` [`A`-`Z` `0`-`9`]4..=6
 
 NonTerminal -> Name
 

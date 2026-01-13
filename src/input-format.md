@@ -3,7 +3,7 @@ r[input]
 
 r[input.syntax]
 ```grammar,lexer
-CHAR -> <a Unicode scalar value>
+CHAR -> [U+0000-U+D7FF U+E000-U+10FFFF] // a Unicode scalar value
 
 ASCII -> [U+0000-U+007F]
 

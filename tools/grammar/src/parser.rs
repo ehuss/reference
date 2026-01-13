@@ -413,14 +413,23 @@ impl Parser<'_> {
 
     /// Parse e.g. `F00F` after `U+`.
     fn parse_unicode(&mut self) -> Result<(char, String)> {
-        let mut xs = Vec::with_capacity(4);
-        for _ in 0..4 {
+        let mut xs = Vec::with_capacity(6);
+        let mut push_next = || {
             match self.peek() {
                 Some(x @ (b'0'..=b'9' | b'A'..=b'F')) => {
                     xs.push(x);
                     self.index += 1;
                 }
                 _ => bail!(self, "expected 4 uppercase hexadecimal digits after `U+`"),
+            }
+            Ok(())
+        };
+        for _ in 0..4 {
+            push_next()?;
+        }
+        for _ in 0..2 {
+            if push_next().is_err() {
+                break;
             }
         }
         let s = String::from_utf8(xs).unwrap();
