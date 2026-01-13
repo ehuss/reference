@@ -335,11 +335,6 @@ fn parse(
             let len = nodes.byte_len();
             let (matched, _) = src.get_substring(index, len).unwrap();
             match e.suffix.as_deref() {
-                Some("except `_`") => {
-                    if matched == "_" {
-                        return Ok(None);
-                    }
-                }
                 Some("except `b` or `c` or `r` or `br` or `cr`") => {
                     if matches!(matched, "b" | "c" | "r" | "br" | "cr") {
                         return Ok(None);
