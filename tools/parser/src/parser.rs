@@ -564,14 +564,6 @@ fn match_prose(
                 Ok(None)
             }
         }
-        "a Unicode scalar value" => {
-            if let Some((ch, range)) = next_as_ch() {
-                let nodes = Nodes::new(format!("Prose: {prose}"), range);
-                Ok(Some((nodes, src.advance(index, ch.len_utf8()))))
-            } else {
-                Ok(None)
-            }
-        }
 
         p => panic!("unknown prose {p}"),
     }
