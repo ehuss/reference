@@ -99,7 +99,11 @@ Characters ->
     | CharacterTerminal
     | CharacterName
 
-CharacterRange -> BACKTICK <any char> BACKTICK `-` BACKTICK <any char> BACKTICK
+CharacterRange -> Character `-` Character
+
+Character ->
+        BACKTICK <any char> BACKTICK
+      | Unicode
 
 CharacterTerminal -> Terminal
 

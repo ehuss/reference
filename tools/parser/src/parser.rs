@@ -4,7 +4,7 @@ use super::{Node, Nodes, ParseError};
 use grammar::{Characters, Expression, ExpressionKind, Grammar, Production, RangeLimit};
 use std::collections::HashMap;
 use std::ops::Range;
-use tracing::instrument;
+use tracing::{debug, instrument};
 
 /// This stores named repetitions.
 ///
@@ -422,6 +422,7 @@ fn parse(
                 return Ok(None);
             }
             for ch in chars {
+                debug!("try {ch:?}");
                 match ch {
                     Characters::Named(name) => {
                         if let Some((nodes, next_index)) = parse_nt(grammar, name, src, index, env)?
@@ -442,7 +443,7 @@ fn parse(
                         let (next, range) = src.get_element(index).unwrap();
                         if next.chars().count() == 1 {
                             let ch = next.chars().next().unwrap();
-                            if ch >= *a && ch <= *b {
+                            if ch >= a.get_ch() && ch <= b.get_ch() {
                                 let next_index = src.advance(index, ch.len_utf8());
                                 let nodes = Nodes::new(format!("Range {a:?} to {b:?}"), range);
                                 return Ok(Some((nodes, next_index)));
@@ -542,18 +543,6 @@ fn match_prose(
         })
     };
 
-    let ascii_but = |except: &dyn Fn(char) -> bool| {
-        if let Some((ch, range)) = next_as_ch() {
-            Ok((ch >= '\0' && ch <= '\x7f' && !except(ch)).then(|| {
-                let nodes = Nodes::new(format!("Prose {prose}"), range);
-                let next = src.advance(index, 1);
-                (nodes, next)
-            }))
-        } else {
-            Ok(None)
-        }
-    };
-
     match prose {
         "`XID_Start` defined by Unicode" => {
             if let Some((ch, range)) = next_as_ch() {
@@ -574,13 +563,6 @@ fn match_prose(
             } else {
                 Ok(None)
             }
-        }
-        "any ASCII (i.e. 0x00 to 0x7F) except CR" => ascii_but(&|ch| ch == '\r'),
-        "any ASCII (i.e. 0x00 to 0x7F) except `'`, `\\`, LF, CR, or TAB" => {
-            ascii_but(&|ch| matches!(ch, '\'' | '\\' | '\n' | '\r' | '\t'))
-        }
-        "any ASCII (i.e 0x00 to 0x7F) except `\"`, `\\`, or CR" => {
-            ascii_but(&|ch| matches!(ch, '\"' | '\\' | '\r'))
         }
         "a Unicode scalar value" => {
             if let Some((ch, range)) = next_as_ch() {
