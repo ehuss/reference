@@ -53,7 +53,7 @@ impl Display for Expression {
                     match c {
                         super::Characters::Named(s) => write!(f, "{s}")?,
                         super::Characters::Terminal(s) => write!(f, "`{s}`")?,
-                        super::Characters::Range(start, end) => write!(f, "`{start}`-`{end}`")?,
+                        super::Characters::Range(start, end) => write!(f, "{start}-{end}")?,
                     }
                 }
                 write!(f, "]")?;

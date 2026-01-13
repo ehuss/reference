@@ -5,6 +5,8 @@ r[input.syntax]
 ```grammar,lexer
 CHAR -> <a Unicode scalar value>
 
+ASCII -> [U+0000-U+007F]
+
 NUL -> U+0000
 
 EOF -> !CHAR  // End of file or input

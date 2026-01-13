@@ -115,7 +115,31 @@ pub enum Characters {
     /// `` `_` ``
     Terminal(String),
     /// `` `A`-`Z` ``
-    Range(char, char),
+    Range(Character, Character),
+}
+
+#[derive(Clone, Debug)]
+pub enum Character {
+    Char(char),
+    Unicode((char, String)),
+}
+
+impl Character {
+    pub fn get_ch(&self) -> char {
+        match self {
+            Character::Char(ch) => *ch,
+            Character::Unicode((ch, _)) => *ch,
+        }
+    }
+}
+
+impl Display for Character {
+    fn fmt(&self, f: &mut Formatter<'_>) -> Result<(), std::fmt::Error> {
+        match self {
+            Character::Char(ch) => write!(f, "`{ch}`"),
+            Character::Unicode((_, s)) => write!(f, "U+{s}"),
+        }
+    }
 }
 
 impl Grammar {

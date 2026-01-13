@@ -3,7 +3,7 @@
 use super::RenderCtx;
 use crate::grammar::Grammar;
 use anyhow::bail;
-use grammar::{Characters, Expression, ExpressionKind, Production, RangeLimit};
+use grammar::{Character, Characters, Expression, ExpressionKind, Production, RangeLimit};
 use railroad::*;
 use regex::Regex;
 use std::fmt::Write;
@@ -311,7 +311,17 @@ fn render_characters(chars: &Characters, cx: &RenderCtx) -> Box<dyn Node> {
     match chars {
         Characters::Named(s) => node_for_nt(cx, s),
         Characters::Terminal(s) => Box::new(Terminal::new(s.clone())),
-        Characters::Range(a, b) => Box::new(Terminal::new(format!("{a}-{b}"))),
+        Characters::Range(a, b) => {
+            let mut s = String::new();
+            let write_ch = |ch: &Character, output: &mut String| match ch {
+                Character::Char(ch) => output.push(*ch),
+                Character::Unicode((_, s)) => write!(output, "U+{s}").unwrap(),
+            };
+            write_ch(a, &mut s);
+            s.push('-');
+            write_ch(b, &mut s);
+            Box::new(Terminal::new(s))
+        }
     }
 }
 

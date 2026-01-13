@@ -271,8 +271,7 @@ r[lex.token.byte.syntax]
 BYTE_LITERAL ->
     `b'` ^ ( ASCII_FOR_CHAR | BYTE_ESCAPE )  `'` SUFFIX?
 
-ASCII_FOR_CHAR ->
-    <any ASCII (i.e. 0x00 to 0x7F) except `'`, `\`, LF, CR, or TAB>
+ASCII_FOR_CHAR -> ![`'` `\` LF CR TAB] ASCII
 
 BYTE_ESCAPE ->
       `\x` HEX_DIGIT HEX_DIGIT
@@ -290,8 +289,7 @@ r[lex.token.str-byte.syntax]
 BYTE_STRING_LITERAL ->
     `b"` ^ ( ASCII_FOR_STRING | BYTE_ESCAPE | STRING_CONTINUE )* `"` SUFFIX?
 
-ASCII_FOR_STRING ->
-    <any ASCII (i.e 0x00 to 0x7F) except `"`, `\`, or CR>
+ASCII_FOR_STRING -> ![`"` `\` CR] ASCII
 ```
 
 r[lex.token.str-byte.intro]
@@ -324,8 +322,7 @@ RAW_BYTE_STRING_LITERAL ->
       `br` `"` ^ (!`"` ASCII_FOR_RAW )* `"` SUFFIX?
     | `br` `#`{n:1..=255} ^ `"` (!(`"` `#`{n}) ASCII_FOR_RAW )* `"` `#`{n} SUFFIX?
 
-ASCII_FOR_RAW ->
-    <any ASCII (i.e. 0x00 to 0x7F) except CR>
+ASCII_FOR_RAW -> !CR ASCII
 ```
 
 r[lex.token.str-byte-raw.intro]
