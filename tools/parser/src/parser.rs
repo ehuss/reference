@@ -355,11 +355,6 @@ fn parse(
                         return Ok(None);
                     }
                 }
-                Some("not beginning with `e` or `E`") => {
-                    if matched.starts_with('e') || matched.starts_with('E') {
-                        return Ok(None);
-                    }
-                }
                 Some(
                     "except a [strict][lex.keywords.strict] or [reserved][lex.keywords.reserved] keyword",
                 ) => {

@@ -135,7 +135,7 @@ SUFFIX ->
       `_` ^ XID_Continue+
     | XID_Start XID_Continue*
 
-SUFFIX_NO_E -> SUFFIX _not beginning with `e` or `E`_
+SUFFIX_NO_E -> ![`e` `E`] SUFFIX
 ```
 
 r[lex.token.literal.suffix.validity]
