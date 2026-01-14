@@ -2,6 +2,7 @@ use crate::CommonOptions;
 use crate::tools::{pm2, rustc};
 use crate::{Message, display_line};
 use clap::ArgMatches;
+use parser::Edition;
 use parser::ParseError;
 use parser::lexer::Tokens;
 use std::cell::RefCell;
@@ -112,6 +113,7 @@ pub fn compare_parallel(matches: &ArgMatches) {
 
 fn compare_loop(opts: Arc<Mutex<CommonOptions>>) {
     let channel = opts.lock().unwrap().channel.clone();
+    let edition = opts.lock().unwrap().edition();
     loop {
         let mut opts_l = opts.lock().unwrap();
         let Some((name, src)) = opts_l.next() else {
@@ -120,7 +122,7 @@ fn compare_loop(opts: Arc<Mutex<CommonOptions>>) {
         let tools = opts_l.tools.clone();
         drop(opts_l);
         for tool in &*tools {
-            match std::panic::catch_unwind(|| compare_src(&name, &src, tool)) {
+            match std::panic::catch_unwind(|| compare_src(&name, &src, tool, edition)) {
                 Ok(Ok(())) => {}
                 Ok(Err(e)) => {
                     let mut opts_l = opts.lock().unwrap();
@@ -147,12 +149,12 @@ fn compare_loop(opts: Arc<Mutex<CommonOptions>>) {
     channel.send(Message::ThreadComplete).unwrap();
 }
 
-fn compare_src(name: &str, src: &str, tool: &str) -> Result<(), String> {
+fn compare_src(name: &str, src: &str, tool: &str, edition: Edition) -> Result<(), String> {
     let lexer_result = parser::lexer::tokenize(src);
     let (tool_result, mut lexer_result) = match tool {
         "rustc_parse" => {
             let lexer_result = lexer_result.and_then(|ts| rustc::normalize(&ts.tokens, src));
-            (rustc::tokenize(src), lexer_result)
+            (rustc::tokenize(src, edition), lexer_result)
         }
         "proc-macro2" => {
             // Unfortunately proc-macro2 does not handle shebang or

@@ -5,7 +5,7 @@ extern crate rustc_span;
 
 use clap::{Command, arg};
 use indicatif::{ProgressBar, ProgressStyle};
-use rustc_span::edition::Edition;
+use parser::Edition;
 use std::cmp::min;
 use std::io::{IsTerminal, Read};
 use std::ops::Range;
@@ -146,6 +146,16 @@ impl CommonOptions {
         let edition = matches
             .get_one::<String>("edition")
             .map(|e| e.parse::<Edition>().unwrap());
+        for tool in &*tools {
+            match (tool.as_str(), edition) {
+                ("rustc_parse", _) => {}
+                ("reference", Some(_)) => panic!("reference does not yet support editions"),
+                ("proc-macro2", Some(_)) => panic!("proc-macro2 does not support editions"),
+                ("rustc_lexer", Some(_)) => panic!("rustc_lexer is edition agnostic"),
+                (_, None) => {}
+                (s, _) => panic!("unexpected tool {s}"),
+            }
+        }
         let coverage = matches.get_flag("coverage");
         // TODO: handle zero
         let test_count = ((strings.len() + paths.len()) as u32) * tools.len() as u32;
@@ -200,6 +210,10 @@ impl CommonOptions {
     fn set_progress_err_msg(&self) {
         self.progress.set_message(format!("{}", self.errors.len()));
         self.set_progress_style();
+    }
+
+    fn edition(&self) -> Edition {
+        self.edition.unwrap_or(Edition::Edition2024)
     }
 }
 

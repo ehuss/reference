@@ -1,6 +1,7 @@
 use crate::tools::{pm2, rustc, rustc_lexer};
 use crate::{CommonOptions, display_line};
 use clap::ArgMatches;
+use parser::Edition;
 use parser::lexer::Tokens;
 use std::ops::Range;
 
@@ -11,13 +12,13 @@ pub fn tokenize(matches: &ArgMatches) {
         while let Some((name, src)) = opts.next() {
             println!("------------------------------------------------------------");
             println!("tool `{tool}` token results for `{name}`:");
-            tokenize_src(&src, tool);
+            tokenize_src(&src, tool, opts.edition());
             println!("------------------------------------------------------------");
         }
     }
 }
 
-fn tokenize_src(src: &str, tool: &str) {
+fn tokenize_src(src: &str, tool: &str, edition: Edition) {
     let tokens = match tool {
         "reference" => {
             let tokens = parser::lexer::tokenize(src);
@@ -37,7 +38,7 @@ fn tokenize_src(src: &str, tool: &str) {
             }
             tokens.map(|ts| ts.tokens)
         }
-        "rustc_parse" => rustc::tokenize(src),
+        "rustc_parse" => rustc::tokenize(src, edition),
         "proc-macro2" => pm2::tokenize(src),
         "rustc_lexer" => rustc_lexer::tokenize(src),
         _ => unreachable!(),
