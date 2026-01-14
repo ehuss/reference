@@ -1,26 +1,26 @@
 use crate::tools::{pm2, rustc, rustc_lexer};
-use crate::{CommonOptions, display_line};
+use crate::{CommonOptions, Tool, display_line};
 use clap::ArgMatches;
 use parser::Edition;
 use parser::lexer::Tokens;
 use std::ops::Range;
 
 pub fn tokenize(matches: &ArgMatches) {
-    let (mut opts, _) = CommonOptions::new(matches, &["reference"]);
+    let (mut opts, _) = CommonOptions::new(matches, &[Tool::Reference]);
     opts.progress.finish_and_clear();
     for tool in &*opts.tools.clone() {
         while let Some((name, src)) = opts.next() {
             println!("------------------------------------------------------------");
             println!("tool `{tool}` token results for `{name}`:");
-            tokenize_src(&src, tool, opts.edition());
+            tokenize_src(&src, *tool, opts.edition());
             println!("------------------------------------------------------------");
         }
     }
 }
 
-fn tokenize_src(src: &str, tool: &str, edition: Edition) {
+fn tokenize_src(src: &str, tool: Tool, edition: Edition) {
     let tokens = match tool {
-        "reference" => {
+        Tool::Reference => {
             let tokens = parser::lexer::tokenize(src);
             if let Ok(Tokens {
                 shebang: Some(shebang),
@@ -38,10 +38,9 @@ fn tokenize_src(src: &str, tool: &str, edition: Edition) {
             }
             tokens.map(|ts| ts.tokens)
         }
-        "rustc_parse" => rustc::tokenize(src, edition),
-        "proc-macro2" => pm2::tokenize(src),
-        "rustc_lexer" => rustc_lexer::tokenize(src),
-        _ => unreachable!(),
+        Tool::RustcParse => rustc::tokenize(src, edition),
+        Tool::ProcMacro2 => pm2::tokenize(src),
+        Tool::RustcLexer => rustc_lexer::tokenize(src),
     };
     let tokens = match tokens {
         Ok(tokens) => tokens,

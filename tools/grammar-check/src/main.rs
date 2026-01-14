@@ -7,9 +7,11 @@ use clap::{Command, arg};
 use indicatif::{ProgressBar, ProgressStyle};
 use parser::Edition;
 use std::cmp::min;
+use std::fmt::Display;
 use std::io::{IsTerminal, Read};
 use std::ops::Range;
 use std::path::PathBuf;
+use std::str::FromStr;
 use std::sync::Arc;
 use std::sync::mpsc::{Receiver, Sender, channel};
 use std::time::Duration;
@@ -29,6 +31,38 @@ mod tools {
     pub mod rustc_lexer;
 }
 
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+enum Tool {
+    Reference,
+    RustcParse,
+    ProcMacro2,
+    RustcLexer,
+}
+
+impl FromStr for Tool {
+    type Err = String;
+    fn from_str(s: &str) -> Result<Self, String> {
+        match s {
+            "reference" => Ok(Tool::Reference),
+            "rustc_parse" => Ok(Tool::RustcParse),
+            "proc-macro2" => Ok(Tool::ProcMacro2),
+            "rustc_lexer" => Ok(Tool::RustcLexer),
+            _ => Err(format!("invalid tool: {s}")),
+        }
+    }
+}
+
+impl Display for Tool {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> Result<(), std::fmt::Error> {
+        match self {
+            Tool::Reference => write!(f, "reference"),
+            Tool::RustcParse => write!(f, "rustc_parse"),
+            Tool::ProcMacro2 => write!(f, "proc-macro2"),
+            Tool::RustcLexer => write!(f, "rustc_lexer"),
+        }
+    }
+}
+
 enum Message {
     ThreadComplete,
     CtrlC,
@@ -37,7 +71,7 @@ enum Message {
 struct CommonOptions {
     strings: Vec<(String, String)>,
     paths: Vec<PathBuf>,
-    tools: Arc<Vec<String>>,
+    tools: Arc<Vec<Tool>>,
     edition: Option<Edition>,
     coverage: bool,
     test_count: u32,
@@ -50,7 +84,7 @@ struct CommonOptions {
 impl CommonOptions {
     fn new(
         matches: &clap::ArgMatches,
-        default_tools: &[&str],
+        default_tools: &[Tool],
     ) -> (CommonOptions, Receiver<Message>) {
         fn map_case(case: &String) -> Vec<(String, String)> {
             match case.as_ref() {
@@ -141,19 +175,18 @@ impl CommonOptions {
         let tools: Vec<_> = matches
             .get_many("tool")
             .map(|ts| ts.cloned().collect())
-            .unwrap_or_else(|| default_tools.iter().map(|s| String::from(*s)).collect());
+            .unwrap_or_else(|| default_tools.to_vec());
         let tools = Arc::new(tools);
         let edition = matches
             .get_one::<String>("edition")
             .map(|e| e.parse::<Edition>().unwrap());
         for tool in &*tools {
-            match (tool.as_str(), edition) {
-                ("rustc_parse", _) => {}
-                ("reference", Some(_)) => panic!("reference does not yet support editions"),
-                ("proc-macro2", Some(_)) => panic!("proc-macro2 does not support editions"),
-                ("rustc_lexer", Some(_)) => panic!("rustc_lexer is edition agnostic"),
+            match (tool, edition) {
+                (Tool::RustcParse, _) => {}
+                (Tool::Reference, Some(_)) => panic!("reference does not yet support editions"),
+                (Tool::ProcMacro2, Some(_)) => panic!("proc-macro2 does not support editions"),
+                (Tool::RustcLexer, Some(_)) => panic!("rustc_lexer is edition agnostic"),
                 (_, None) => {}
-                (s, _) => panic!("unexpected tool {s}"),
             }
         }
         let coverage = matches.get_flag("coverage");
@@ -217,14 +250,12 @@ impl CommonOptions {
     }
 }
 
-const ALL_TOOLS: [&str; 4] = ["reference", "rustc_parse", "proc-macro2", "rustc_lexer"];
-
 fn common_args() -> Vec<clap::Arg> {
     vec![
         arg!(--case <CASE> ... "internal test cases to compare"),
         arg!(--string <STRING> ... "source string to tokenize"),
         arg!(--path <PATH> ... "path of rust files to compare"),
-        arg!(--tool <TOOLS> ... "tool to compare").value_parser(ALL_TOOLS),
+        arg!(--tool <TOOLS> ... "tool to compare").value_parser(clap::value_parser!(Tool)),
         arg!(--edition <EDITION> "edition to use"),
         arg!(--coverage "record coverage data"),
         arg!(--stdin "read input from stdin"),
