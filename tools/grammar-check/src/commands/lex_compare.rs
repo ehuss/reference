@@ -80,11 +80,7 @@ pub fn compare_parallel(matches: &ArgMatches) {
             }
         }
     }
-    // let opts_l = opts.lock().unwrap();
-    // let (lock, cvar) = &*opts_l.thread_count.clone();
-    // drop(opts_l);
-    // cvar.wait_while(lock.lock().unwrap(), |count| *count > 0)
-    //     .unwrap();
+
     let opts_l = opts.lock().unwrap();
     opts_l.progress.finish_and_clear();
     if !opts_l.errors.is_empty() {
