@@ -1,6 +1,6 @@
 use crate::CommonOptions;
 use crate::tools::{pm2, rustc};
-use crate::{Message, display_line};
+use crate::{Message, Tool, display_line};
 use clap::ArgMatches;
 use parser::Edition;
 use parser::ParseError;
@@ -10,7 +10,7 @@ use std::ops::Range;
 use std::sync::{Arc, Mutex};
 use std::time::Instant;
 
-const DEFAULT_COMPARE_TOOLS: [&str; 2] = ["rustc_parse", "proc-macro2"];
+const DEFAULT_COMPARE_TOOLS: [Tool; 2] = [Tool::RustcParse, Tool::ProcMacro2];
 
 thread_local! {
     static PANIC_OUTPUT: RefCell<Option<String>> = const { RefCell::new(None) };
@@ -19,13 +19,13 @@ thread_local! {
 pub fn compare_parallel(matches: &ArgMatches) {
     let start = Instant::now();
     let (opts, receiver) = CommonOptions::new(matches, &DEFAULT_COMPARE_TOOLS);
-    if opts.tools.iter().any(|t| t == "reference") {
+    if opts.tools.iter().any(|t| *t == Tool::Reference) {
         panic!("can't compare reference to itself");
     }
     if let Some(t) = opts
         .tools
         .iter()
-        .find(|t| !DEFAULT_COMPARE_TOOLS.contains(&t.as_str()))
+        .find(|t| !DEFAULT_COMPARE_TOOLS.contains(t))
     {
         panic!("tool {t} is not supported for comparison");
     }
@@ -122,7 +122,7 @@ fn compare_loop(opts: Arc<Mutex<CommonOptions>>) {
         let tools = opts_l.tools.clone();
         drop(opts_l);
         for tool in &*tools {
-            match std::panic::catch_unwind(|| compare_src(&name, &src, tool, edition)) {
+            match std::panic::catch_unwind(|| compare_src(&name, &src, *tool, edition)) {
                 Ok(Ok(())) => {}
                 Ok(Err(e)) => {
                     let mut opts_l = opts.lock().unwrap();
@@ -149,14 +149,14 @@ fn compare_loop(opts: Arc<Mutex<CommonOptions>>) {
     channel.send(Message::ThreadComplete).unwrap();
 }
 
-fn compare_src(name: &str, src: &str, tool: &str, edition: Edition) -> Result<(), String> {
+fn compare_src(name: &str, src: &str, tool: Tool, edition: Edition) -> Result<(), String> {
     let lexer_result = parser::lexer::tokenize(src);
     let (tool_result, mut lexer_result) = match tool {
-        "rustc_parse" => {
+        Tool::RustcParse => {
             let lexer_result = lexer_result.and_then(|ts| rustc::normalize(&ts.tokens, src));
             (rustc::tokenize(src, edition), lexer_result)
         }
-        "proc-macro2" => {
+        Tool::ProcMacro2 => {
             // Unfortunately proc-macro2 does not handle shebang or
             // frontmatter. In order to handle files with that, this replaces
             // those with whitespace in order to retain the original byte

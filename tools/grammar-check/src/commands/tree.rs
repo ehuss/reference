@@ -1,24 +1,24 @@
-use crate::{CommonOptions, display_line};
+use crate::{CommonOptions, Tool, display_line};
 use clap::ArgMatches;
 use std::ops::Range;
 
 pub fn tree(matches: &ArgMatches) {
-    let (mut opts, _) = CommonOptions::new(matches, &["reference"]);
+    let (mut opts, _) = CommonOptions::new(matches, &[Tool::Reference]);
     opts.progress.finish_and_clear();
     let production = matches.get_one::<String>("production").unwrap();
     for tool in &*opts.tools.clone() {
         while let Some((name, src)) = opts.next() {
             println!("------------------------------------------------------------");
             println!("tool `{tool}` tree results for `{name}`:");
-            display_tree(&src, tool, production);
+            display_tree(&src, *tool, production);
             println!("------------------------------------------------------------");
         }
     }
 }
 
-fn display_tree(src: &str, tool: &str, production: &str) {
+fn display_tree(src: &str, tool: Tool, production: &str) {
     match tool {
-        "reference" => display_reference_tree(src, production),
+        Tool::Reference => display_reference_tree(src, production),
         _ => unimplemented!("{tool} not implemented yet"),
     }
 }
