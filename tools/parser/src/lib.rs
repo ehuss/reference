@@ -1,6 +1,7 @@
 use diagnostics::Diagnostics;
 use grammar::{Expression, ExpressionKind, Grammar};
 use std::ops::Range;
+use std::str::FromStr;
 
 pub mod lexer;
 mod parser;
@@ -18,6 +19,27 @@ impl ParseError {
         match s.char_indices().nth(100) {
             Some((i, _)) => format!("{} at `{}…`", self.message, &s[..i]),
             None => format!("{} at `{s}`", self.message),
+        }
+    }
+}
+
+#[derive(Clone, Copy, PartialEq, PartialOrd, Debug, Eq)]
+pub enum Edition {
+    Edition2015,
+    Edition2018,
+    Edition2021,
+    Edition2024,
+}
+
+impl FromStr for Edition {
+    type Err = ();
+    fn from_str(s: &str) -> Result<Self, ()> {
+        match s {
+            "2015" => Ok(Edition::Edition2015),
+            "2018" => Ok(Edition::Edition2018),
+            "2021" => Ok(Edition::Edition2021),
+            "2024" => Ok(Edition::Edition2024),
+            _ => Err(()),
         }
     }
 }

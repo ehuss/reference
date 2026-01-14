@@ -7,7 +7,7 @@ extern crate rustc_parse;
 extern crate rustc_session;
 extern crate rustc_span;
 
-use parser::{Node, ParseError};
+use parser::{Edition, Node, ParseError};
 use rustc_ast::ast::AttrStyle;
 use rustc_ast::token::{CommentKind, IdentIsRaw, TokenKind};
 use rustc_errors::emitter::HumanReadableErrorType;
@@ -37,110 +37,113 @@ impl<T: Write> Write for Shared<T> {
     }
 }
 
-pub fn tokenize(src: &str) -> Result<Vec<Node>, ParseError> {
-    rustc_span::create_session_globals_then(
-        rustc_span::edition::Edition::Edition2024,
-        &[],
-        None,
-        || {
-            let source_map = Arc::new(SourceMap::new(FilePathMapping::empty()));
-            // TODO: probably not needed?
-            // source_map.new_source_file(Path::new("test.rs").to_owned().into(), "".to_owned());
-            // let translator = Translator::with_fallback_bundle(vec![DEFAULT_LOCALE_RESOURCE], false);
-            let translator = rustc_driver::default_translator();
-            let output = Arc::new(Mutex::new(Vec::new()));
-            let je = JsonEmitter::new(
-                Box::new(Shared {
-                    data: output.clone(),
-                }),
-                Some(source_map.clone()),
-                translator,
-                false, // pretty
-                HumanReadableErrorType {
-                    short: true,
-                    unicode: true,
-                },
-                ColorConfig::Never,
-            );
+fn to_rustc_edition(edition: Edition) -> rustc_span::edition::Edition {
+    match edition {
+        Edition::Edition2015 => rustc_span::edition::Edition::Edition2015,
+        Edition::Edition2018 => rustc_span::edition::Edition::Edition2018,
+        Edition::Edition2021 => rustc_span::edition::Edition::Edition2021,
+        Edition::Edition2024 => rustc_span::edition::Edition::Edition2024,
+    }
+}
 
-            let dcx = DiagCtxt::new(Box::new(je));
-            let psess = ParseSess::with_dcx(dcx, source_map);
-            // TODO: Use StripTokens::Nothing before frontmatter is
-            // stabilized. Use StripTokens::ShebangAndFrontmatter after it is
-            // stabilized.
-            let strip_tokens = StripTokens::ShebangAndFrontmatter;
-            let source = String::from(src);
-            let filename = FileName::Custom("internal".into());
-            rustc_driver::catch_fatal_errors(|| {
-                let mut parser = match rustc_parse::new_parser_from_source_str(
-                    &psess,
-                    filename,
-                    source,
-                    strip_tokens,
-                ) {
-                    Ok(parser) => parser,
-                    Err(e) => {
-                        for diag in e {
-                            diag.emit();
-                        }
-                        FatalError.raise();
-                    }
-                };
-                let mut tokens = Vec::new();
-                while parser.token.kind != TokenKind::Eof {
-                    let source_file = psess
-                        .source_map()
-                        .lookup_source_file(parser.token.span.lo());
-                    let start = source_file
-                        .original_relative_byte_pos(parser.token.span.lo())
-                        .0 as usize;
-                    let end = source_file
-                        .original_relative_byte_pos(parser.token.span.hi())
-                        .0 as usize;
+pub fn tokenize(src: &str, edition: Edition) -> Result<Vec<Node>, ParseError> {
+    rustc_span::create_session_globals_then(to_rustc_edition(edition), &[], None, || {
+        let source_map = Arc::new(SourceMap::new(FilePathMapping::empty()));
+        // TODO: probably not needed?
+        // source_map.new_source_file(Path::new("test.rs").to_owned().into(), "".to_owned());
+        // let translator = Translator::with_fallback_bundle(vec![DEFAULT_LOCALE_RESOURCE], false);
+        let translator = rustc_driver::default_translator();
+        let output = Arc::new(Mutex::new(Vec::new()));
+        let je = JsonEmitter::new(
+            Box::new(Shared {
+                data: output.clone(),
+            }),
+            Some(source_map.clone()),
+            translator,
+            false, // pretty
+            HumanReadableErrorType {
+                short: true,
+                unicode: true,
+            },
+            ColorConfig::Never,
+        );
 
-                    let token =
-                        Node::new(to_reference_name(&parser.token.kind), Range { start, end });
-                    tokens.push(token);
-                    parser.bump();
-                }
-                // Unfortunately this is handled outside of normal lexing.
-                psess.bad_unicode_identifiers.with_lock(|idents| {
-                    for (ident, spans) in idents.drain(..) {
-                        psess
-                            .dcx()
-                            .emit_err(rustc_interface::errors::EmojiIdentifier { spans, ident });
+        let dcx = DiagCtxt::new(Box::new(je));
+        let psess = ParseSess::with_dcx(dcx, source_map);
+        // TODO: Use StripTokens::Nothing before frontmatter is
+        // stabilized. Use StripTokens::ShebangAndFrontmatter after it is
+        // stabilized.
+        let strip_tokens = StripTokens::ShebangAndFrontmatter;
+        let source = String::from(src);
+        let filename = FileName::Custom("internal".into());
+        rustc_driver::catch_fatal_errors(|| {
+            let mut parser = match rustc_parse::new_parser_from_source_str(
+                &psess,
+                filename,
+                source,
+                strip_tokens,
+            ) {
+                Ok(parser) => parser,
+                Err(e) => {
+                    for diag in e {
+                        diag.emit();
                     }
-                });
-                psess.dcx().emit_stashed_diagnostics();
-                let diags = diagnostics(&output.lock().unwrap());
-                if diags.iter().any(|diag| diag.level.starts_with("error")) {
                     FatalError.raise();
                 }
-                tokens
-            })
-            .map_err(|_| {
-                let mut message = String::new();
-                let out = &output.lock().unwrap();
-                let diags = diagnostics(out);
-                let mut byte_offset = 0;
-                for diag in diags {
-                    write!(message, "error: {}", diag.rendered).unwrap();
-                    if byte_offset == 0 {
-                        byte_offset = diag
-                            .spans
-                            .iter()
-                            .find(|sp| sp.is_primary)
-                            .map(|sp| sp.byte_start)
-                            .unwrap_or_default();
-                    }
+            };
+            let mut tokens = Vec::new();
+            while parser.token.kind != TokenKind::Eof {
+                let source_file = psess
+                    .source_map()
+                    .lookup_source_file(parser.token.span.lo());
+                let start = source_file
+                    .original_relative_byte_pos(parser.token.span.lo())
+                    .0 as usize;
+                let end = source_file
+                    .original_relative_byte_pos(parser.token.span.hi())
+                    .0 as usize;
+
+                let token = Node::new(to_reference_name(&parser.token.kind), Range { start, end });
+                tokens.push(token);
+                parser.bump();
+            }
+            // Unfortunately this is handled outside of normal lexing.
+            psess.bad_unicode_identifiers.with_lock(|idents| {
+                for (ident, spans) in idents.drain(..) {
+                    psess
+                        .dcx()
+                        .emit_err(rustc_interface::errors::EmojiIdentifier { spans, ident });
                 }
-                ParseError {
-                    byte_offset: byte_offset as usize,
-                    message,
+            });
+            psess.dcx().emit_stashed_diagnostics();
+            let diags = diagnostics(&output.lock().unwrap());
+            if diags.iter().any(|diag| diag.level.starts_with("error")) {
+                FatalError.raise();
+            }
+            tokens
+        })
+        .map_err(|_| {
+            let mut message = String::new();
+            let out = &output.lock().unwrap();
+            let diags = diagnostics(out);
+            let mut byte_offset = 0;
+            for diag in diags {
+                write!(message, "error: {}", diag.rendered).unwrap();
+                if byte_offset == 0 {
+                    byte_offset = diag
+                        .spans
+                        .iter()
+                        .find(|sp| sp.is_primary)
+                        .map(|sp| sp.byte_start)
+                        .unwrap_or_default();
                 }
-            })
-        },
-    )
+            }
+            ParseError {
+                byte_offset: byte_offset as usize,
+                message,
+            }
+        })
+    })
 }
 
 fn to_reference_name(kind: &TokenKind) -> String {
