@@ -8,6 +8,7 @@ use std::path::Path;
 struct Parser<'a> {
     input: &'a str,
     index: usize,
+    grammar: &'a mut Grammar,
 }
 
 pub struct Error {
@@ -44,11 +45,15 @@ pub fn parse_grammar(
     category: &str,
     path: &Path,
 ) -> Result<()> {
-    let mut parser = Parser { input, index: 0 };
+    let mut parser = Parser {
+        input,
+        index: 0,
+        grammar,
+    };
     loop {
         let p = parser.parse_production(category, path)?;
-        grammar.name_order.push(p.name.clone());
-        if let Some(dupe) = grammar.productions.insert(p.name.clone(), p) {
+        parser.grammar.name_order.push(p.name.clone());
+        if let Some(dupe) = parser.grammar.productions.insert(p.name.clone(), p) {
             bail!(parser, "duplicate production {} in grammar", dupe.name);
         }
         parser.take_while(&|ch| ch == '\n');
@@ -60,6 +65,12 @@ pub fn parse_grammar(
 }
 
 impl Parser<'_> {
+    /// Helper to create a new expression with a unique ID.
+    fn new_expr(&mut self, kind: ExpressionKind) -> Expression {
+        let id = self.grammar.next_id();
+        Expression::new_kind(kind, id)
+    }
+
     fn take_while(&mut self, f: &dyn Fn(char) -> bool) -> &str {
         let mut upper = 0;
         let i = self.index;
@@ -124,8 +135,8 @@ impl Parser<'_> {
         let mut comments = Vec::new();
         while let Ok(comment) = self.parse_comment() {
             self.expect("\n", "expected newline")?;
-            comments.push(Expression::new_kind(comment));
-            comments.push(Expression::new_kind(ExpressionKind::Break(0)));
+            comments.push(self.new_expr(comment));
+            comments.push(self.new_expr(ExpressionKind::Break(0)));
         }
         let is_root = self.parse_is_root();
         self.space0();
@@ -175,7 +186,7 @@ impl Parser<'_> {
                 // if let ExpressionKind::Cut(_, _) = es.last().unwrap().kind {
                 //     bail!(self, "expected final arm to not contain cut operator");
                 // }
-                Ok(Some(Expression::new_kind(ExpressionKind::Alt(es))))
+                Ok(Some(self.new_expr(ExpressionKind::Alt(es))))
             }
         }
     }
@@ -197,11 +208,7 @@ impl Parser<'_> {
         match es.len() {
             0 => Ok(None),
             1 => Ok(Some(es.pop().unwrap())),
-            _ => Ok(Some(Expression {
-                kind: ExpressionKind::Sequence(es),
-                suffix: None,
-                footnote: None,
-            })),
+            _ => Ok(Some(self.new_expr(ExpressionKind::Sequence(es)))),
         }
     }
 
@@ -211,11 +218,7 @@ impl Parser<'_> {
         let Some(rhs) = self.parse_seq()? else {
             bail!(self, "expected expression after cut operator");
         };
-        Ok(Expression {
-            kind: ExpressionKind::Cut(Box::new(rhs)),
-            suffix: None,
-            footnote: None,
-        })
+        Ok(self.new_expr(ExpressionKind::Cut(Box::new(rhs))))
     }
 
     fn parse_expr1(&mut self) -> Result<Option<Expression>> {
@@ -270,11 +273,10 @@ impl Parser<'_> {
         let suffix = self.parse_suffix()?;
         let footnote = self.parse_footnote()?;
 
-        Ok(Some(Expression {
-            kind,
-            suffix,
-            footnote,
-        }))
+        let mut expr = self.new_expr(kind);
+        expr.suffix = suffix;
+        expr.footnote = footnote;
+        Ok(Some(expr))
     }
 
     fn parse_nonterminal(&mut self) -> Option<ExpressionKind> {
@@ -399,7 +401,8 @@ impl Parser<'_> {
                 self.error("expected a charset, terminal, or name after ~ negation".to_string())
             })?,
         };
-        Ok(ExpressionKind::NegExpression(box_kind(kind)))
+        let inner_expr = self.new_expr(kind);
+        Ok(ExpressionKind::NegExpression(Box::new(inner_expr)))
     }
 
     fn parse_not(&mut self) -> Result<ExpressionKind> {
@@ -440,19 +443,22 @@ impl Parser<'_> {
     /// Parse `?` after expression.
     fn parse_optional(&mut self, kind: ExpressionKind) -> Result<ExpressionKind> {
         self.expect("?", "expected `?`")?;
-        Ok(ExpressionKind::Optional(box_kind(kind)))
+        let inner_expr = self.new_expr(kind);
+        Ok(ExpressionKind::Optional(Box::new(inner_expr)))
     }
 
     /// Parse `*` | `*?` after expression.
     fn parse_repeat(&mut self, kind: ExpressionKind) -> Result<ExpressionKind> {
         self.expect("*", "expected `*`")?;
-        Ok(ExpressionKind::Repeat(box_kind(kind)))
+        let inner_expr = self.new_expr(kind);
+        Ok(ExpressionKind::Repeat(Box::new(inner_expr)))
     }
 
     /// Parse `+` | `+?` after expression.
     fn parse_repeat_plus(&mut self, kind: ExpressionKind) -> Result<ExpressionKind> {
         self.expect("+", "expected `+`")?;
-        Ok(ExpressionKind::RepeatPlus(box_kind(kind)))
+        let inner_expr = self.new_expr(kind);
+        Ok(ExpressionKind::RepeatPlus(Box::new(inner_expr)))
     }
 
     /// Parse `{a..b}` | `{a..=b}` | `{name}` after expression.
@@ -470,7 +476,8 @@ impl Parser<'_> {
             (false, Some(b'}')) => {
                 self.index += 1;
                 let name = self.input[start..self.index - 1].to_string();
-                return Ok(ExpressionKind::RepeatRangeNamed(box_kind(kind), name));
+                let inner_expr = self.new_expr(kind);
+                return Ok(ExpressionKind::RepeatRangeNamed(Box::new(inner_expr), name));
             }
             _ => {
                 self.index = start;
@@ -499,8 +506,9 @@ impl Parser<'_> {
             _ => {}
         }
         self.expect("}", "expected `}`")?;
+        let inner_expr = self.new_expr(kind);
         Ok(ExpressionKind::RepeatRange {
-            expr: box_kind(kind),
+            expr: Box::new(inner_expr),
             name,
             min,
             max,
@@ -549,14 +557,6 @@ impl Parser<'_> {
         self.expect("]", "expected closing `]`")?;
         Ok(Some(id))
     }
-}
-
-fn box_kind(kind: ExpressionKind) -> Box<Expression> {
-    Box::new(Expression {
-        kind,
-        suffix: None,
-        footnote: None,
-    })
 }
 
 /// Helper to translate a byte index to a `(line, line_no, col_no)` (1-based).

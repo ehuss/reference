@@ -1,3 +1,5 @@
+use diagnostics::Diagnostics;
+use parser::coverage::Coverage;
 use tracing_subscriber::layer::SubscriberExt;
 use tracing_subscriber::util::SubscriberInitExt;
 
@@ -18,7 +20,10 @@ fn main() {
 
     let src = r###"r"test""###;
 
-    let ts = match parser::lexer::tokenize(src) {
+    let mut diag = Diagnostics::new();
+    let grammar = grammar::load_grammar(&mut diag);
+    let mut coverage = Coverage::default();
+    let ts = match parser::lexer::tokenize(&grammar, &mut coverage, src) {
         Ok(ts) => ts,
         Err(e) => {
             eprintln!("error: {}", e.display(src));

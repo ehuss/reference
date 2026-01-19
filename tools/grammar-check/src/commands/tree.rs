@@ -1,5 +1,6 @@
 use crate::{CommonOptions, Tool, display_line};
 use clap::ArgMatches;
+use diagnostics::Diagnostics;
 use std::ops::Range;
 
 pub fn tree(matches: &ArgMatches) {
@@ -24,7 +25,9 @@ fn display_tree(src: &str, tool: Tool, production: &str) {
 }
 
 fn display_reference_tree(src: &str, production: &str) {
-    let node = match parser::tree::parse(src, production) {
+    let mut diag = Diagnostics::new();
+    let grammar = grammar::load_grammar(&mut diag);
+    let node = match parser::tree::parse(&grammar, src, production) {
         Ok(node) => node,
         Err(e) => {
             eprintln!(

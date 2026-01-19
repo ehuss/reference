@@ -238,6 +238,8 @@ version = "0.0.0"
 dependencies = [
  "clap",
  "ctrlc",
+ "diagnostics",
+ "grammar",
  "indicatif",
  "parser",
  "proc-macro2",

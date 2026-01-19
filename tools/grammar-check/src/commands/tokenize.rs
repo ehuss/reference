@@ -1,7 +1,9 @@
 use crate::tools::{pm2, rustc, rustc_lexer};
 use crate::{CommonOptions, Tool, display_line};
 use clap::ArgMatches;
+use diagnostics::Diagnostics;
 use parser::Edition;
+use parser::coverage::Coverage;
 use parser::lexer::Tokens;
 use std::ops::Range;
 
@@ -21,7 +23,10 @@ pub fn tokenize(matches: &ArgMatches) {
 fn tokenize_src(src: &str, tool: Tool, edition: Edition) {
     let tokens = match tool {
         Tool::Reference => {
-            let tokens = parser::lexer::tokenize(src);
+            let mut diag = Diagnostics::new();
+            let grammar = grammar::load_grammar(&mut diag);
+            let mut coverage = Coverage::default();
+            let tokens = parser::lexer::tokenize(&grammar, &mut coverage, src);
             if let Ok(Tokens {
                 shebang: Some(shebang),
                 ..

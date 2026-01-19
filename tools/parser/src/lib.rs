@@ -1,13 +1,12 @@
-use diagnostics::Diagnostics;
-use grammar::{Expression, ExpressionKind, Grammar};
 use std::ops::Range;
 use std::str::FromStr;
 
+pub mod coverage;
 pub mod lexer;
 mod parser;
 pub mod tree;
 
-#[derive(Debug)]
+#[derive(Clone, Debug)]
 pub struct ParseError {
     pub byte_offset: usize,
     pub message: String,
@@ -110,51 +109,5 @@ impl Nodes {
         } else {
             self.0.last().unwrap().range.end - self.0.first().unwrap().range.start
         }
-    }
-}
-
-fn load_grammar() -> Grammar {
-    let mut diag = Diagnostics::new();
-    let mut grammar = grammar::load_grammar(&mut diag);
-    remove_breaks(&mut grammar);
-    grammar
-}
-
-fn remove_breaks(grammar: &mut Grammar) {
-    for prod in grammar.productions.values_mut() {
-        remove_break_expr(&mut prod.expression);
-    }
-}
-
-fn remove_break_expr(e: &mut Expression) {
-    match &mut e.kind {
-        ExpressionKind::Alt(es) => {
-            es.retain(|e| !matches!(e.kind, ExpressionKind::Break(_)));
-            for e in es {
-                remove_break_expr(e);
-            }
-        }
-        ExpressionKind::Sequence(es) => {
-            es.retain(|e| !matches!(e.kind, ExpressionKind::Break(_)));
-            for e in es {
-                remove_break_expr(e);
-            }
-        }
-        ExpressionKind::Grouped(e)
-        | ExpressionKind::Optional(e)
-        | ExpressionKind::Not(e)
-        | ExpressionKind::Repeat(e)
-        | ExpressionKind::RepeatPlus(e)
-        | ExpressionKind::RepeatRange { expr: e, .. }
-        | ExpressionKind::RepeatRangeNamed(e, _)
-        | ExpressionKind::NegExpression(e)
-        | ExpressionKind::Cut(e) => remove_break_expr(e),
-        ExpressionKind::Nt(_) => {}
-        ExpressionKind::Terminal(_) => {}
-        ExpressionKind::Prose(_) => {}
-        ExpressionKind::Break(_) => panic!("unvisitable"),
-        ExpressionKind::Comment(_) => {}
-        ExpressionKind::Charset(_) => {}
-        ExpressionKind::Unicode(_) => {}
     }
 }

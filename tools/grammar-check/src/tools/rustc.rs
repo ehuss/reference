@@ -253,7 +253,7 @@ struct DiagSpan {
     byte_start: u32,
 }
 
-pub fn normalize(tokens: &[Node], _src: &str) -> Result<Vec<Node>, ParseError> {
+pub fn normalize(tokens: &[Node]) -> Result<Vec<Node>, ParseError> {
     let new_ts = tokens
         .iter()
         // rustc_parse does not retain comments.
