@@ -1,11 +1,12 @@
 //! Parser that can take Rust source and generates a sequence of tokens.
 
 use super::{Node, ParseError};
+use crate::coverage::Coverage;
 use crate::parser::{SourceIndex, parse_production};
 use grammar::{ExpressionKind, Grammar, Production};
 use tracing::debug;
 
-#[derive(Default)]
+#[derive(Clone)]
 pub struct Tokens {
     pub tokens: Vec<Node>,
     /// Byte range of the shebang.
@@ -18,12 +19,14 @@ pub struct Tokens {
     pub frontmatter: Option<Node>,
 }
 
-pub fn tokenize(original_src: &str) -> Result<Tokens, ParseError> {
-    let grammar = super::load_grammar();
-
+pub fn tokenize(
+    grammar: &Grammar,
+    coverage: &mut Coverage,
+    original_src: &str,
+) -> Result<Tokens, ParseError> {
     let (normalized_src, removed_indices) = normalize_crlf(original_src);
 
-    tokenize_normalized(&grammar, &normalized_src)
+    tokenize_normalized(grammar, coverage, &normalized_src)
         .map(|mut tokens| {
             for token in &mut tokens.tokens {
                 adjust_node(&removed_indices, token);
@@ -73,8 +76,11 @@ fn adjust_node(removed_indices: &[usize], node: &mut Node) {
 }
 
 /// Tokenize source after it has been normalized.
-fn tokenize_normalized(grammar: &Grammar, src: &str) -> Result<Tokens, ParseError> {
-    let mut tokens = Tokens::default();
+fn tokenize_normalized(
+    grammar: &Grammar,
+    coverage: &mut Coverage,
+    src: &str,
+) -> Result<Tokens, ParseError> {
     let top_prods = get_top_prods(grammar);
 
     let mut index = SourceIndex(0);
@@ -83,12 +89,20 @@ fn tokenize_normalized(grammar: &Grammar, src: &str) -> Result<Tokens, ParseErro
         index.0 += 3;
     }
 
-    index = parse_shebang(grammar, src, index, &mut tokens)?;
-    index = parse_frontmatter(grammar, src, index, &mut tokens)?;
-    parse_tokens(grammar, &top_prods, src, index, &mut tokens)?;
+    let shebang;
+    (shebang, index) = parse_shebang(grammar, coverage, src, index)?;
+    let frontmatter;
+    (frontmatter, index) = parse_frontmatter(grammar, coverage, src, index)?;
+    let tokens = parse_tokens(grammar, coverage, &top_prods, src, index)?;
     validate_delimiters_balanced(&tokens, src)?;
 
     debug!("lexing complete");
+
+    let tokens = Tokens {
+        tokens,
+        shebang,
+        frontmatter,
+    };
 
     Ok(tokens)
 }
@@ -96,109 +110,91 @@ fn tokenize_normalized(grammar: &Grammar, src: &str) -> Result<Tokens, ParseErro
 /// Returns the [`Production`]s that correspond to top-level tokens.
 fn get_top_prods(grammar: &Grammar) -> Vec<&Production> {
     let mut top_prods = Vec::new();
-    let comment = grammar.productions.get("COMMENT").unwrap();
-    let ExpressionKind::Alt(es) = &comment.expression.kind else {
-        panic!("expected alts");
-    };
-    for e in es {
-        let nt = match &e.kind {
-            ExpressionKind::Sequence(es) => {
-                let seq: Vec<_> = es
-                    .iter()
-                    .map(|e| match &e.kind {
-                        ExpressionKind::Nt(nt) => nt,
-                        kind => panic!("unexpected kind {kind:?}"),
-                    })
-                    .collect();
-                assert_eq!(seq.len(), 1);
-                seq[0]
-            }
-            ExpressionKind::Nt(nt) => nt,
-            kind => panic!("unexpected kind {kind:?}"),
+    let mut collect = |name| {
+        let prod = grammar.productions.get(name).unwrap();
+        let ExpressionKind::Alt(es) = &prod.expression.kind else {
+            panic!("expected alts");
         };
-        top_prods.push(grammar.productions.get(nt).unwrap());
-    }
-
-    // Collect the productions from the Token alternation.
-    let token = grammar.productions.get("Token").unwrap();
-    let ExpressionKind::Alt(es) = &token.expression.kind else {
-        panic!("expected alts");
+        for e in es {
+            let nt = match &e.kind {
+                ExpressionKind::Sequence(es) => {
+                    let seq: Vec<_> = es
+                        .iter()
+                        .filter_map(|e| match &e.kind {
+                            ExpressionKind::Nt(nt) => Some(nt),
+                            ExpressionKind::Break(_) | ExpressionKind::Comment(_) => None,
+                            kind => panic!("unexpected kind {kind:?}"),
+                        })
+                        .collect();
+                    assert_eq!(seq.len(), 1);
+                    seq[0]
+                }
+                ExpressionKind::Nt(nt) => nt,
+                kind => panic!("unexpected kind {kind:?}"),
+            };
+            top_prods.push(grammar.productions.get(nt).unwrap());
+        }
     };
-    for e in es {
-        let nt = match &e.kind {
-            ExpressionKind::Sequence(es) => {
-                let seq: Vec<_> = es
-                    .iter()
-                    .map(|e| match &e.kind {
-                        ExpressionKind::Nt(nt) => nt,
-                        kind => panic!("unexpected kind {kind:?}"),
-                    })
-                    .collect();
-                assert_eq!(seq.len(), 1);
-                seq[0]
-            }
-            ExpressionKind::Nt(nt) => nt,
-            kind => panic!("unexpected kind {kind:?}"),
-        };
-        top_prods.push(grammar.productions.get(nt).unwrap());
-    }
+    collect("COMMENT");
+    collect("Token");
     top_prods
 }
 
 fn parse_shebang(
     grammar: &Grammar,
+    coverage: &mut Coverage,
     src: &str,
     index: SourceIndex,
-    tokens: &mut Tokens,
-) -> Result<SourceIndex, ParseError> {
+) -> Result<(Option<Node>, SourceIndex), ParseError> {
     let shebang = grammar.productions.get("SHEBANG").unwrap();
-    if let Some((node, next_index)) = parse_production(grammar, shebang, &src, index)? {
-        tokens.shebang = Some(node);
-        Ok(next_index)
+    if let Some((node, next_index)) = parse_production(grammar, coverage, shebang, &src, index)? {
+        Ok((Some(node), next_index))
     } else {
-        Ok(index)
+        Ok((None, index))
     }
 }
 
 fn parse_frontmatter(
     grammar: &Grammar,
+    coverage: &mut Coverage,
     src: &str,
     index: SourceIndex,
-    tokens: &mut Tokens,
-) -> Result<SourceIndex, ParseError> {
+) -> Result<(Option<Node>, SourceIndex), ParseError> {
     let frontmatter = grammar.productions.get("FRONTMATTER").unwrap();
-    if let Some((node, next_index)) =
-        parse_production(grammar, frontmatter, &src, index).map_err(|e| ParseError {
+    if let Some((node, next_index)) = parse_production(grammar, coverage, frontmatter, &src, index)
+        .map_err(|e| ParseError {
             message: format!("invalid frontmatter: {}", e.message),
             byte_offset: e.byte_offset,
         })?
     {
-        tokens.frontmatter = Some(node);
-        Ok(next_index)
+        Ok((Some(node), next_index))
     } else {
         let invalid_frontmatter = grammar.productions.get("INVALID_FRONTMATTER").unwrap();
-        if parse_production(grammar, invalid_frontmatter, &src, index)?.is_some() {
+        if parse_production(grammar, coverage, invalid_frontmatter, &src, index)?.is_some() {
             return Err(ParseError {
                 message: "invalid frontmatter".to_string(),
                 byte_offset: index.0,
             });
         }
-        Ok(index)
+        Ok((None, index))
     }
 }
 
 /// Performs the actual parsing of all the tokens in the source.
 fn parse_tokens(
     grammar: &Grammar,
+    coverage: &mut Coverage,
     top_prods: &[&Production],
     src: &str,
     mut index: SourceIndex,
-    tokens: &mut Tokens,
-) -> Result<(), ParseError> {
-    let whitespace = &grammar.productions.get("WHITESPACE").unwrap();
+) -> Result<Vec<Node>, ParseError> {
+    let mut tokens = Vec::new();
+    let whitespace = grammar.productions.get("WHITESPACE").unwrap();
 
     while index.0 < src.len() {
-        if let Some((_node, next_index)) = parse_production(grammar, whitespace, &src, index)? {
+        if let Some((_node, next_index)) =
+            parse_production(grammar, coverage, whitespace, &src, index)?
+        {
             index = next_index;
             continue;
         }
@@ -206,7 +202,8 @@ fn parse_tokens(
         let mut matched_token = None;
         for token_prod in top_prods {
             debug!("try top-level token `{}`", token_prod.name);
-            if let Some((node, next_index)) = parse_production(grammar, token_prod, &src, index)?
+            if let Some((node, next_index)) =
+                parse_production(grammar, coverage, token_prod, &src, index)?
                 && node.byte_len() > 0
             {
                 index = next_index;
@@ -218,7 +215,7 @@ fn parse_tokens(
         match matched_token {
             Some(mut node) => {
                 normalize_line_doc(&mut node, src);
-                tokens.tokens.push(node);
+                tokens.push(node);
             }
             None => {
                 return Err(ParseError {
@@ -228,12 +225,12 @@ fn parse_tokens(
             }
         }
     }
-    Ok(())
+    Ok(tokens)
 }
 
-fn validate_delimiters_balanced(tokens: &Tokens, src: &str) -> Result<(), ParseError> {
+fn validate_delimiters_balanced(tokens: &[Node], src: &str) -> Result<(), ParseError> {
     let mut stack = Vec::new();
-    for token in &tokens.tokens {
+    for token in tokens {
         let text = &src[token.range.clone()];
         match text {
             "(" | "[" | "{" => stack.push((text, token.range.start)),

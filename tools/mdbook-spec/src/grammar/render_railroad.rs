@@ -209,6 +209,7 @@ fn render_expression(expr: &Expression, cx: &RenderCtx, stack: bool) -> Option<B
                             max: Some(*b),
                             limit: *limit,
                         },
+                        0, // Synthetic expression for rendering
                     )));
                     break 'cont &state;
                 }
@@ -252,13 +253,16 @@ fn render_expression(expr: &Expression, cx: &RenderCtx, stack: bool) -> Option<B
                     for _ in 0..(a - 1) {
                         es.push(*e.clone());
                     }
-                    es.push(Expression::new_kind(ExpressionKind::RepeatRange {
-                        expr: e.clone(),
-                        name: name.clone(),
-                        min: Some(1),
-                        max: b.map(|x| x - (a - 1)),
-                        limit: *limit,
-                    }));
+                    es.push(Expression::new_kind(
+                        ExpressionKind::RepeatRange {
+                            expr: e.clone(),
+                            name: name.clone(),
+                            min: Some(1),
+                            max: b.map(|x| x - (a - 1)),
+                            limit: *limit,
+                        },
+                        0,
+                    )); // Synthetic expression for rendering
                     state = ExpressionKind::Sequence(es);
                     break 'cont &state;
                 }

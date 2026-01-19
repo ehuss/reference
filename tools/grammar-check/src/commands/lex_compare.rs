@@ -2,8 +2,11 @@ use crate::CommonOptions;
 use crate::tools::{pm2, rustc};
 use crate::{Message, Tool, display_line};
 use clap::ArgMatches;
+use diagnostics::Diagnostics;
+use grammar::Grammar;
 use parser::Edition;
 use parser::ParseError;
+use parser::coverage::Coverage;
 use parser::lexer::Tokens;
 use std::cell::RefCell;
 use std::ops::Range;
@@ -55,19 +58,27 @@ pub fn compare_parallel(matches: &ArgMatches) {
         });
     }));
 
+    let mut diag = Diagnostics::new();
+    let grammar = Arc::new(grammar::load_grammar(&mut diag));
+    let coverage = Arc::new(Mutex::new(Coverage::default()));
+
+    // Spawn threads to run the tests.
     let sender = opts.channel.clone();
     let mut thread_count = opts.thread_count;
     let opts = Arc::new(Mutex::new(opts));
     for _ in 0..thread_count {
         let opts_c = opts.clone();
+        let grammar = grammar.clone();
+        let coverage = coverage.clone();
         std::thread::spawn(move || {
-            compare_loop(opts_c);
+            compare_loop(opts_c, grammar, coverage);
         });
     }
     ctrlc::set_handler(move || {
         sender.send(Message::CtrlC).unwrap();
     })
     .unwrap();
+    // Receive results from the threads.
     loop {
         match receiver.recv().unwrap() {
             Message::ThreadComplete => {
@@ -82,36 +93,18 @@ pub fn compare_parallel(matches: &ArgMatches) {
         }
     }
 
-    let opts_l = opts.lock().unwrap();
-    opts_l.progress.finish_and_clear();
-    if !opts_l.errors.is_empty() {
-        eprintln!("------------------------------------------------------------");
-        for error in &opts_l.errors {
-            eprintln!(
-                "{error}\n\
-                 ------------------------------------------------------------"
-            );
-        }
+    if opts.lock().unwrap().coverage {
+        coverage.lock().unwrap().save(&grammar);
     }
-    let n_errs = opts_l.errors.len() as u32;
-    eprintln!("passed: {}", opts_l.test_count - n_errs);
-    eprintln!("failed: {n_errs}");
-    let elapsed = start.elapsed();
-    if elapsed.as_secs() < 60 {
-        eprintln!("finished in {:.1} seconds", elapsed.as_secs_f64());
-    } else {
-        eprintln!(
-            "finished in {} minutes {} seconds",
-            elapsed.as_secs() / 60,
-            elapsed.as_secs() % 60
-        );
-    }
-    if !opts_l.errors.is_empty() {
-        std::process::exit(1);
-    }
+    print_final_summary(&opts, start);
 }
 
-fn compare_loop(opts: Arc<Mutex<CommonOptions>>) {
+fn compare_loop(
+    opts: Arc<Mutex<CommonOptions>>,
+    grammar: Arc<Grammar>,
+    final_coverage: Arc<Mutex<Coverage>>,
+) {
+    let mut coverage = Coverage::default();
     let channel = opts.lock().unwrap().channel.clone();
     let edition = opts.lock().unwrap().edition();
     loop {
@@ -121,8 +114,12 @@ fn compare_loop(opts: Arc<Mutex<CommonOptions>>) {
         };
         let tools = opts_l.tools.clone();
         drop(opts_l);
+        let lexer_result = parser::lexer::tokenize(&grammar, &mut coverage, &src);
+
         for tool in &*tools {
-            match std::panic::catch_unwind(|| compare_src(&name, &src, *tool, edition)) {
+            match std::panic::catch_unwind(|| {
+                compare_src(lexer_result.clone(), &name, &src, *tool, edition)
+            }) {
                 Ok(Ok(())) => {}
                 Ok(Err(e)) => {
                     let mut opts_l = opts.lock().unwrap();
@@ -146,14 +143,20 @@ fn compare_loop(opts: Arc<Mutex<CommonOptions>>) {
             opts_l.progress.inc(1);
         }
     }
+    final_coverage.lock().unwrap().merge(coverage);
     channel.send(Message::ThreadComplete).unwrap();
 }
 
-fn compare_src(name: &str, src: &str, tool: Tool, edition: Edition) -> Result<(), String> {
-    let lexer_result = parser::lexer::tokenize(src);
+fn compare_src(
+    lexer_result: Result<Tokens, ParseError>,
+    name: &str,
+    src: &str,
+    tool: Tool,
+    edition: Edition,
+) -> Result<(), String> {
     let (tool_result, mut lexer_result) = match tool {
         Tool::RustcParse => {
-            let lexer_result = lexer_result.and_then(|ts| rustc::normalize(&ts.tokens, src));
+            let lexer_result = lexer_result.and_then(|ts| rustc::normalize(&ts.tokens));
             (rustc::tokenize(src, edition), lexer_result)
         }
         Tool::ProcMacro2 => {
@@ -297,5 +300,35 @@ fn compare_src(name: &str, src: &str, tool: Tool, edition: Edition) -> Result<()
             // different reasons, but we wouldn't know.
             return Ok(());
         }
+    }
+}
+
+fn print_final_summary(opts: &Arc<Mutex<CommonOptions>>, start: Instant) {
+    let opts_l = opts.lock().unwrap();
+    opts_l.progress.finish_and_clear();
+    if !opts_l.errors.is_empty() {
+        eprintln!("------------------------------------------------------------");
+        for error in &opts_l.errors {
+            eprintln!(
+                "{error}\n\
+                 ------------------------------------------------------------"
+            );
+        }
+    }
+    let n_errs = opts_l.errors.len() as u32;
+    eprintln!("passed: {}", opts_l.test_count - n_errs);
+    eprintln!("failed: {n_errs}");
+    let elapsed = start.elapsed();
+    if elapsed.as_secs() < 60 {
+        eprintln!("finished in {:.1} seconds", elapsed.as_secs_f64());
+    } else {
+        eprintln!(
+            "finished in {} minutes {} seconds",
+            elapsed.as_secs() / 60,
+            elapsed.as_secs() % 60
+        );
+    }
+    if !opts_l.errors.is_empty() {
+        std::process::exit(1);
     }
 }

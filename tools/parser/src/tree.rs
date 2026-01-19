@@ -1,9 +1,11 @@
 //! Parser that can take Rust source and generate a parse tree.
 
 use super::{Node, ParseError};
+use crate::coverage::Coverage;
 use crate::lexer::tokenize;
 use crate::parser::parse_production;
 use crate::parser::{Source, SourceIndex};
+use grammar::Grammar;
 use std::ops::Range;
 
 struct TokenSource<'src> {
@@ -56,12 +58,12 @@ impl Source for TokenSource<'_> {
 }
 
 /// Parse Rust source for the given named production, and return a [`Node`] tree.
-pub fn parse(src: &str, production: &str) -> Result<Node, ParseError> {
-    let grammar = super::load_grammar();
+pub fn parse(grammar: &Grammar, src: &str, production: &str) -> Result<Node, ParseError> {
+    let mut coverage = Coverage::default();
 
     let krate = grammar.productions.get(production).unwrap();
 
-    let tokens = tokenize(src)?;
+    let tokens = tokenize(&grammar, &mut coverage, src)?;
 
     // Strip comments.
     let tokens = tokens
@@ -72,7 +74,13 @@ pub fn parse(src: &str, production: &str) -> Result<Node, ParseError> {
 
     let token_source = TokenSource { src, tokens };
 
-    match parse_production(&grammar, krate, &token_source, SourceIndex(0))? {
+    match parse_production(
+        &grammar,
+        &mut coverage,
+        krate,
+        &token_source,
+        SourceIndex(0),
+    )? {
         Some((node, next_index)) => {
             if next_index < token_source.len() {
                 return Err(ParseError {
