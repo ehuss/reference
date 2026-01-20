@@ -246,42 +246,36 @@ fn tokens_from_ts(src: &str, ts: TokenStream, output: &mut Vec<Node>) -> Result<
 
 fn lit_to_reference(lit: &str) -> String {
     if lit.starts_with("cr") {
-        // Raw C-string literal
         "RAW_C_STRING_LITERAL".to_string()
     } else if lit.starts_with('c') {
-        // C-string literal
         "C_STRING_LITERAL".to_string()
     } else if lit.starts_with("br") {
-        // Raw byte string literal
         "RAW_BYTE_STRING_LITERAL".to_string()
     } else if lit.starts_with("b'") {
-        // Byte literal
         "BYTE_LITERAL".to_string()
     } else if lit.starts_with("b\"") {
-        // Byte string literal
         "BYTE_STRING_LITERAL".to_string()
     } else if lit.starts_with("r\"") || lit.starts_with("r#") {
-        // Raw string literal
         "RAW_STRING_LITERAL".to_string()
     } else if lit.starts_with('\'') {
-        // Character literal
         "CHAR_LITERAL".to_string()
     } else if lit.starts_with('"') {
-        // String literal
         "STRING_LITERAL".to_string()
     } else if lit.starts_with("0x") || lit.starts_with("0o") || lit.starts_with("0b") {
-        // Integer literal with base prefix (hex, octal, binary)
         "INTEGER_LITERAL".to_string()
     } else if lit.contains('.') {
-        // Float literal (has decimal point)
         "FLOAT_LITERAL".to_string()
     } else if lit.contains('e') || lit.contains('E') {
-        // Could be float with exponent or integer with suffix starting with 'e'/'E'
+        // Could be float with exponent or integer with suffix containing 'e'/'E'
         // Check if there's a valid float exponent pattern
         if lit
             .bytes()
             .position(|b| b == b'e' || b == b'E')
-            .map(|pos| pos > 0 && lit.as_bytes()[pos - 1].is_ascii_digit())
+            .map(|pos| {
+                lit.as_bytes()
+                    .get(pos - 1)
+                    .map_or(false, |&ch| ch.is_ascii_digit() || ch == b'_')
+            })
             .unwrap_or(false)
         {
             "FLOAT_LITERAL".to_string()
@@ -289,7 +283,6 @@ fn lit_to_reference(lit: &str) -> String {
             "INTEGER_LITERAL".to_string()
         }
     } else {
-        // Integer literal
         "INTEGER_LITERAL".to_string()
     }
 }
