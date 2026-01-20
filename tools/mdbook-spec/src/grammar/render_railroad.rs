@@ -296,7 +296,7 @@ fn render_expression(expr: &Expression, cx: &RenderCtx, stack: bool) -> Option<B
                     let lbox = LabeledBox::new(rhs, Comment::new("no backtracking".to_string()));
                     Box::new(lbox)
                 }
-                ExpressionKind::Unicode(s) => Box::new(Terminal::new(format!("U+{}", s))),
+                ExpressionKind::Unicode((_, s)) => Box::new(Terminal::new(format!("U+{}", s))),
             };
         }
     };

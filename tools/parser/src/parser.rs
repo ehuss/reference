@@ -557,15 +557,14 @@ fn parse(
                 }
             }
         }
-        ExpressionKind::Unicode(s) => {
+        ExpressionKind::Unicode((ch, s)) => {
             assert_eq!(e.suffix, None);
-            let c = char::from_u32(u32::from_str_radix(s, 16).unwrap()).unwrap();
             let mut buf = [0u8; 4];
-            let c_str = c.encode_utf8(&mut buf);
+            let c_str = ch.encode_utf8(&mut buf);
             if let Some((next_s, range)) = src.get_element(index)
                 && next_s == c_str
             {
-                let next_index = src.advance(index, c.len_utf8());
+                let next_index = src.advance(index, ch.len_utf8());
                 cov_match(coverage, 1);
                 Ok(Some((
                     Nodes::new(format!("Unicode {s}"), range),
