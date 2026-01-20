@@ -674,7 +674,7 @@ LIFETIME_OR_LABEL ->
 RAW_LIFETIME ->
     `'r#` IDENTIFIER_OR_KEYWORD !`'`
 
-RESERVED_RAW_LIFETIME -> `'r#` (`_` | `crate` | `self` | `Self` | `super`) !`'`
+RESERVED_RAW_LIFETIME -> `'r#` (`_` | `crate` | `self` | `Self` | `super`) !(`'` | XID_Continue)
 ```
 
 r[lex.token.life.intro]
