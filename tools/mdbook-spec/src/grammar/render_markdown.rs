@@ -183,7 +183,7 @@ fn render_expression(expr: &Expression, cx: &RenderCtx, output: &mut String) {
             output.push_str("^ ");
             render_expression(e, cx, output);
         }
-        ExpressionKind::Unicode(s) => {
+        ExpressionKind::Unicode((_, s)) => {
             output.push_str("U+");
             output.push_str(s);
         }

@@ -227,8 +227,7 @@ impl Parser<'_> {
         };
 
         let kind = if self.take_str("U+") {
-            let (_, s) = self.parse_unicode()?;
-            ExpressionKind::Unicode(s)
+            ExpressionKind::Unicode(self.parse_unicode()?)
         } else if self.input[self.index..]
             .chars()
             .next()

@@ -415,7 +415,7 @@ impl Coverage {
                 output.push_str("^ ");
                 self.render_expression(e, output, depth);
             }
-            ExpressionKind::Unicode(s) => {
+            ExpressionKind::Unicode((_, s)) => {
                 output.push_str(&format!("U+{}", html_escape(s)));
             }
         }

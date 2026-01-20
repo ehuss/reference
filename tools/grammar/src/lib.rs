@@ -91,7 +91,9 @@ pub enum ExpressionKind {
     /// `^`
     Cut(Box<Expression>),
     /// `U+0060`
-    Unicode(String),
+    ///
+    /// The `String` is the hex digits after `U+`.
+    Unicode((char, String)),
 }
 
 #[derive(Copy, Clone, Debug)]
@@ -125,6 +127,9 @@ pub enum Characters {
 #[derive(Clone, Debug)]
 pub enum Character {
     Char(char),
+    /// `U+0060`
+    ///
+    /// The `String` is the hex digits after `U+`.
     Unicode((char, String)),
 }
 
