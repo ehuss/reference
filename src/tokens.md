@@ -572,7 +572,7 @@ FLOAT_LITERAL ->
     | DEC_LITERAL `.` !(`.` | `_` | XID_Start)
 
 FLOAT_EXPONENT ->
-    (`e`|`E`) (`+`|`-`)? `_`* DEC_DIGIT (DEC_DIGIT|`_`)*
+    (`e`|`E`) ^ (`+`|`-`)? `_`* DEC_DIGIT (DEC_DIGIT|`_`)*
 ```
 
 r[lex.token.literal.float.form]
@@ -623,8 +623,6 @@ RESERVED_NUMBER ->
     | `0b` `_`* !BIN_DIGIT
     | `0o` `_`* !OCT_DIGIT
     | `0x` `_`* !HEX_DIGIT
-    | DEC_LITERAL ( `.` DEC_LITERAL )? (`e` | `E`) (`+` | `-`)? !DEC_DIGIT
-
 ```
 
 r[lex.token.literal.reserved.intro]
