@@ -369,8 +369,8 @@ r[items.use.restrictions]
 
 The following rules are restrictions for valid `use` declarations.
 
-r[items.use.restrictions.crate]
-Importing the crate root (`crate`) must use `as` to define the name to which to bind it.
+r[items.use.restrictions.crate-alias]
+When using `crate` to import the current crate, you must use `as` to define the binding name.
 
 > [!EXAMPLE]
 > ```rust
@@ -382,8 +382,8 @@ Importing the crate root (`crate`) must use `as` to define the name to which to 
 > // use crate::{self};
 > ```
 
-r[items.use.restrictions.macro-crate]
-Within a macro transcriber, `$crate` may be used in `use` paths as the first segment (see `$crate` in the paths chapter). Importing `$crate` as an entity must use `as` to define the binding name.
+r[items.use.restrictions.macro-crate-alias]
+When using [`$crate`] in a macro transcriber to import the current crate, you must use `as` to define the binding name.
 
 > [!EXAMPLE]
 > ```rust
@@ -395,8 +395,8 @@ Within a macro transcriber, `$crate` may be used in `use` paths as the first seg
 > }
 > ```
 
-r[items.use.restrictions.self]
-Importing `self` as an entity must use `as` to define the binding name (this does not affect `self` used within a prefixed brace import like `use a::b::{self, c};`).
+r[items.use.restrictions.self-alias]
+When using `self` to import the current module, you must use `as` to define the binding name.
 
 > [!EXAMPLE]
 > ```rust
@@ -410,8 +410,8 @@ Importing `self` as an entity must use `as` to define the binding name (this doe
 > // use self::{self};
 > ```
 
-r[items.use.restrictions.super]
-Importing `super` (including repeated `super::super`) as an entity must use `as` to define the binding name (this does not affect importing items from ancestors like `use super::item;`).
+r[items.use.restrictions.super-alias]
+When using `super` to import a parent module, you must use `as` to define the binding name.
 
 > [!EXAMPLE]
 > ```rust
@@ -444,6 +444,7 @@ r[items.use.restrictions.variant]
 > use TypeAlias::MyVariant; //~ ERROR
 > ```
 
+[`$crate`]: paths.qualifiers.macro-crate
 [Attributes]: ../attributes.md
 [Built-in types]: ../types.md
 [Derive macros]: macro.proc.derive
