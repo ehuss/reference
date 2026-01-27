@@ -305,6 +305,8 @@ fn compare_src(
 
 fn print_final_summary(opts: &Arc<Mutex<CommonOptions>>, start: Instant) {
     let opts_l = opts.lock().unwrap();
+    // Get the actual count of tests run from progress position.
+    let actual_test_count = opts_l.progress.position() as u32;
     opts_l.progress.finish_and_clear();
     if !opts_l.errors.is_empty() {
         eprintln!("------------------------------------------------------------");
@@ -316,7 +318,9 @@ fn print_final_summary(opts: &Arc<Mutex<CommonOptions>>, start: Instant) {
         }
     }
     let n_errs = opts_l.errors.len() as u32;
-    eprintln!("passed: {}", opts_l.test_count - n_errs);
+    // Use actual test count (from progress) when test_count is 0 (spinner mode).
+    let total = if opts_l.test_count == 0 { actual_test_count } else { opts_l.test_count };
+    eprintln!("passed: {}", total.saturating_sub(n_errs));
     eprintln!("failed: {n_errs}");
     let elapsed = start.elapsed();
     if elapsed.as_secs() < 60 {

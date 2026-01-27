@@ -4,6 +4,7 @@ extern crate rustc_interface;
 extern crate rustc_span;
 
 use clap::{Command, arg};
+use diagnostics::Diagnostics;
 use indicatif::{ProgressBar, ProgressStyle};
 use parser::Edition;
 use std::cmp::min;
@@ -13,12 +14,14 @@ use std::ops::Range;
 use std::path::PathBuf;
 use std::str::FromStr;
 use std::sync::Arc;
+use std::sync::Mutex;
 use std::sync::mpsc::{Receiver, Sender, channel};
 use std::time::Duration;
 use tracing_subscriber::layer::SubscriberExt;
 use tracing_subscriber::util::SubscriberInitExt;
 use walkdir::WalkDir;
 
+mod permute;
 mod test_cases;
 mod commands {
     pub mod lex_compare;
@@ -71,6 +74,7 @@ enum Message {
 struct CommonOptions {
     strings: Vec<(String, String)>,
     paths: Vec<PathBuf>,
+    permute_iter: Option<Mutex<permute::PermutationIterator>>,
     tools: Arc<Vec<Tool>>,
     edition: Option<Edition>,
     coverage: bool,
@@ -79,6 +83,7 @@ struct CommonOptions {
     errors: Vec<String>,
     progress: ProgressBar,
     channel: Sender<Message>,
+    use_spinner: bool,
 }
 
 impl CommonOptions {
@@ -169,7 +174,24 @@ impl CommonOptions {
                     .collect()
             })
             .unwrap_or_default();
-        if strings.is_empty() && paths.is_empty() {
+
+        // Handle --permute flag to generate test cases from grammar productions.
+        let permute_iter = matches.get_one::<String>("permute").map(|permute_name| {
+            let mut diag = Diagnostics::new();
+            let grammar = Arc::new(grammar::load_grammar(&mut diag));
+            let include_negative = matches.get_flag("negative");
+
+            let config = permute::PermuteConfig {
+                grammar: grammar.clone(),
+                production_name: permute_name.clone(),
+                include_negative,
+            };
+            Mutex::new(permute::PermutationIterator::new(config))
+        });
+
+        let use_spinner = permute_iter.is_some();
+
+        if strings.is_empty() && paths.is_empty() && permute_iter.is_none() {
             strings.extend(map_case(&"all".to_string()));
         }
         let tools: Vec<_> = matches
@@ -190,19 +212,33 @@ impl CommonOptions {
             }
         }
         let coverage = matches.get_flag("coverage");
-        // TODO: handle zero
-        let test_count = ((strings.len() + paths.len()) as u32) * tools.len() as u32;
-        let thread_count = min(
-            test_count,
-            std::thread::available_parallelism().unwrap().get() as u32,
-        );
-        let progress = ProgressBar::new(test_count as u64);
-        progress.enable_steady_tick(Duration::from_millis(200));
+        // When using permute, we don't know the total count upfront.
+        let test_count = if use_spinner {
+            0
+        } else {
+            ((strings.len() + paths.len()) as u32) * tools.len() as u32
+        };
+        let available_parallelism = std::thread::available_parallelism().unwrap().get() as u32;
+        let thread_count = if use_spinner {
+            available_parallelism
+        } else {
+            min(test_count.max(1), available_parallelism)
+        };
+        let progress = if use_spinner {
+            let p = ProgressBar::new_spinner();
+            p.enable_steady_tick(Duration::from_millis(100));
+            p
+        } else {
+            let p = ProgressBar::new(test_count as u64);
+            p.enable_steady_tick(Duration::from_millis(200));
+            p
+        };
         progress.set_message("0");
         let (channel, receiver) = channel();
         let opts = CommonOptions {
             strings,
             paths,
+            permute_iter,
             tools,
             edition,
             coverage,
@@ -211,6 +247,7 @@ impl CommonOptions {
             errors: Vec::new(),
             progress,
             channel,
+            use_spinner,
         };
         opts.set_progress_style();
         (opts, receiver)
@@ -226,18 +263,36 @@ impl CommonOptions {
             let display = format!("{}", path.display());
             return Some((display, contents));
         }
+        if let Some(ref iter) = self.permute_iter {
+            if let Ok(mut iter) = iter.lock() {
+                if let Some(perm) = iter.next() {
+                    return Some((perm.name, perm.content));
+                }
+            }
+        }
         None
     }
 
     fn set_progress_style(&self) {
-        let color = if self.errors.len() == 0 {
+        let color = if self.errors.is_empty() {
             "green"
         } else {
             "red"
         };
-        self.progress.set_style(ProgressStyle::with_template(&format!("{{spinner:.green}} [{{elapsed_precise}}] [{{wide_bar:.blue}}] {{pos}}/{{len}} — {{msg:.{color}}} failures")).unwrap()
-            .progress_chars("█▉▊▋▌▍▎▏  ")
-            .tick_chars("🌑🌒🌓🌔🌕🌖🌗🌘"));
+        let tick_chars = "🌑🌒🌓🌔🌕🌖🌗🌘";
+        if self.use_spinner {
+            self.progress.set_style(
+                ProgressStyle::with_template(&format!(
+                    "{{spinner:.green}} [{{elapsed_precise}}] {{pos}} tests — {{msg:.{color}}} failures"
+                ))
+                .unwrap()
+                .tick_chars(tick_chars),
+            );
+        } else {
+            self.progress.set_style(ProgressStyle::with_template(&format!("{{spinner:.green}} [{{elapsed_precise}}] [{{wide_bar:.blue}}] {{pos}}/{{len}} — {{msg:.{color}}} failures")).unwrap()
+                .progress_chars("█▉▊▋▌▍▎▏  ")
+                .tick_chars(tick_chars));
+        }
     }
 
     fn set_progress_err_msg(&self) {
@@ -255,6 +310,8 @@ fn common_args() -> Vec<clap::Arg> {
         arg!(--case <CASE> ... "internal test cases to compare"),
         arg!(--string <STRING> ... "source string to tokenize"),
         arg!(--path <PATH> ... "path of rust files to compare"),
+        arg!(--permute <NAME> "grammar production to generate permutations for"),
+        arg!(--negative "include negative test cases when using --permute"),
         arg!(--tool <TOOLS> ... "tool to compare").value_parser(clap::value_parser!(Tool)),
         arg!(--edition <EDITION> "edition to use"),
         arg!(--coverage "record coverage data"),
