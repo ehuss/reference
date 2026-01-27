@@ -358,7 +358,7 @@ C_STRING_LITERAL ->
     `c"` ^ (
         ~[`"` `\` CR NUL]
       | !(`\0` | `\x00`) BYTE_ESCAPE
-      | !(`\u{` `0`{1..=6} `}`) UNICODE_ESCAPE
+      | !(`\u{` (`0` `_`*){1..=6} `}`) UNICODE_ESCAPE
       | STRING_CONTINUE
     )* `"` SUFFIX?
 
@@ -672,7 +672,7 @@ LIFETIME_OR_LABEL ->
     | `'` NON_KEYWORD_IDENTIFIER !`'`
 
 RAW_LIFETIME ->
-    `'r#` IDENTIFIER_OR_KEYWORD !`'`
+    `'r#` ^ IDENTIFIER_OR_KEYWORD !`'`
 
 RESERVED_RAW_LIFETIME -> `'r#` (`_` | `crate` | `self` | `Self` | `super`) !(`'` | XID_Continue)
 ```
