@@ -24,6 +24,7 @@ use walkdir::WalkDir;
 mod permute;
 mod test_cases;
 mod commands {
+    pub mod count;
     pub mod lex_compare;
     pub mod tokenize;
     pub mod tree;
@@ -353,6 +354,10 @@ fn main() {
                 )
                 .args(common_args()),
         )
+        .subcommand(
+            Command::new("count")
+            .about("Count permutations")
+            .arg(arg!(production: <NAME> "the production name").required(true)))
         .get_matches();
     match matches.subcommand() {
         Some(("lex-compare", sub_matches)) => {
@@ -363,6 +368,9 @@ fn main() {
         }
         Some(("tree", sub_matches)) => {
             commands::tree::tree(sub_matches);
+        }
+        Some(("count", sub_matches)) => {
+            commands::count::count(sub_matches);
         }
         _ => unreachable!(),
     }
