@@ -42,6 +42,9 @@ foo().x;
 (mystruct.function_field)() // Call expression containing a field expression
 ```
 
+r[expr.field.diverging]
+A field expression [diverges] if its expression operand diverges.
+
 r[expr.field.autoref-deref]
 ## Automatic dereferencing
 
@@ -71,6 +74,7 @@ let d: String = x.f3;           // Move out of x.f3
 [`drop`]: ../special-types-and-traits.md#drop
 [identifier]: ../identifiers.md
 [call expression]: call-expr.md
+[diverges]: ../divergence.md
 [method call expression]: method-call-expr.md
 [mutable]: ../expressions.md#mutability
 [parenthesized expression]: grouped-expr.md

@@ -72,6 +72,9 @@ const EMPTY: Vec<i32> = Vec::new();
 [EMPTY; 2];
 ```
 
+r[expr.array.diverging]
+An array expression [diverges] if any of its operands diverges.
+
 r[expr.array.index]
 ## Array and slice indexing expressions
 
@@ -113,6 +116,9 @@ arr[10];                  // warning: index out of bounds
 r[expr.array.index.trait-impl]
 The array index expression can be implemented for types other than arrays and slices by implementing the [Index] and [IndexMut] traits.
 
+r[expr.array.index.diverging]
+An index expression [diverges] if any of its operands diverges.
+
 [`Copy`]: ../special-types-and-traits.md#copy
 [IndexMut]: std::ops::IndexMut
 [Index]: std::ops::Index
@@ -121,6 +127,7 @@ The array index expression can be implemented for types other than arrays and sl
 [const block expression]: expr.block.const
 [constant expression]: ../const_eval.md#constant-expressions
 [constant item]: ../items/constant-items.md
+[diverges]: ../divergence.md
 [inferred const]: items.generics.const.inferred
 [literal]: ../tokens.md#literals
 [memory location]: ../expressions.md#place-expressions-and-value-expressions

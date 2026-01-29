@@ -34,6 +34,10 @@ let slice_reverse = <[i32]>::reverse;
 r[expr.path.const]
 Evaluation of associated constants is handled the same way as [`const` blocks].
 
+r[expr.path.diverging]
+A path expression [diverges] if the path resolves to a value with type `!` and it is a place expression that is guaranteed to constitute a read.
+
+[diverges]: ../divergence.md
 [place expressions]: ../expressions.md#place-expressions-and-value-expressions
 [value expressions]: ../expressions.md#place-expressions-and-value-expressions
 [path]: ../paths.md
