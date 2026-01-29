@@ -297,12 +297,12 @@ fn parse(
                     Some((nodes, next_index)) => {
                         current = next_index;
                         children.extend(nodes);
+                        count += 1;
                         if let Some(max) = max
-                            && count + 1 == max
+                            && count == max
                         {
                             break;
                         }
-                        count += 1;
                     }
                     None => break,
                 }
