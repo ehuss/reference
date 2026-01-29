@@ -4,8 +4,8 @@
 //! by traversing grammar productions and creating many possible variations.
 //!
 //! Use the `--permute <NAME>` flag with commands like `lex-compare` to generate
-//! test cases from a grammar production. Add `--negative` to also include
-//! negative test cases (expected to fail parsing).
+//! test cases from a grammar production. Both positive permutations (valid inputs)
+//! and negative permutations (invalid inputs) are generated.
 
 use grammar::{Characters, Expression, ExpressionKind, Grammar, RangeLimit};
 use std::collections::HashMap;
@@ -35,7 +35,6 @@ mod placeholders {
 pub struct PermuteConfig {
     pub grammar: Arc<Grammar>,
     pub production_name: String,
-    pub include_negative: bool,
 }
 
 /// A streaming iterator that yields permutations.
@@ -98,22 +97,22 @@ impl Iterator for PermutationIterator {
                             self.positive_count += 1;
                             return Some(Permutation { name, content });
                         }
-                    } else if !self.in_negative_phase && self.config.include_negative {
-                        // Switch to negative phase.
-                        self.in_negative_phase = true;
-                        let grammar = self.config.grammar.clone();
-                        if let Some(production) =
-                            grammar.productions.get(&self.config.production_name)
-                        {
-                            let expr = production.expression.clone();
-                            self.state = IterState::Generating(Box::new(PermuteExprIter::new(
-                                grammar, expr, true,
-                            )));
-                            continue;
-                        } else {
-                            self.state = IterState::Done;
-                            return None;
-                        }
+                    // } else if !self.in_negative_phase {
+                    //     // Switch to negative phase.
+                    //     self.in_negative_phase = true;
+                    //     let grammar = self.config.grammar.clone();
+                    //     if let Some(production) =
+                    //         grammar.productions.get(&self.config.production_name)
+                    //     {
+                    //         let expr = production.expression.clone();
+                    //         self.state = IterState::Generating(Box::new(PermuteExprIter::new(
+                    //             grammar, expr, true,
+                    //         )));
+                    //         continue;
+                    //     } else {
+                    //         self.state = IterState::Done;
+                    //         return None;
+                    //     }
                     } else {
                         self.state = IterState::Done;
                         return None;
@@ -237,6 +236,8 @@ fn build_positive_iter(
             let min_count = min.unwrap_or(0);
             let max_count = effective_max.unwrap_or(min_count + 2);
 
+            //TODO: This is supposed to be storing the count in the environment
+
             // Generate for min and max counts.
             let mut counts = vec![min_count];
             if max_count != min_count {
@@ -246,14 +247,6 @@ fn build_positive_iter(
             if min.is_none() && min_count == 0 && max_count > 1 && !counts.contains(&1) {
                 counts.push(1);
             }
-
-            let mut env = env;
-            if let Some(name) = name {
-                // For simplicity, use min_count in env. A more sophisticated approach
-                // would track per-permutation.
-                env.insert(name, min_count);
-            }
-
             Box::new(RepeatCountsIter::new(grammar, *inner, env, counts))
         }
 
@@ -502,66 +495,238 @@ fn collect_limited<I: Iterator<Item = String>>(iter: I, limit: usize) -> Vec<Str
     iter.take(limit).collect()
 }
 
+/// Build a fair iterator that samples from all alternatives in an Alt expression.
+/// This ensures all alternatives get representation, not just the first one.
+fn build_fair_iter(
+    grammar: &Arc<Grammar>,
+    expr: &Expression,
+    env: &HashMap<String, u32>,
+) -> Box<dyn Iterator<Item = String> + Send> {
+    // Unwrap Grouped expressions to find the inner Alt.
+    let inner_expr = unwrap_to_alt(expr);
+
+    // If this is an Alt, interleave values from each alternative.
+    if let ExpressionKind::Alt(ref alts) = inner_expr.kind {
+        Box::new(InterleavingAltIter::new(grammar.clone(), alts.clone(), env.clone()))
+    } else {
+        build_positive_iter(grammar.clone(), expr.clone(), env.clone())
+    }
+}
+
+/// Iterator that interleaves values from multiple alternatives fairly.
+struct InterleavingAltIter {
+    iterators: Vec<Box<dyn Iterator<Item = String> + Send>>,
+    current_idx: usize,
+    exhausted: Vec<bool>,
+    all_exhausted: bool,
+}
+
+impl InterleavingAltIter {
+    fn new(grammar: Arc<Grammar>, alts: Vec<Expression>, env: HashMap<String, u32>) -> Self {
+        let iterators: Vec<_> = alts
+            .into_iter()
+            .map(|alt| build_positive_iter(grammar.clone(), alt, env.clone()))
+            .collect();
+        let exhausted = vec![false; iterators.len()];
+        Self {
+            iterators,
+            current_idx: 0,
+            exhausted,
+            all_exhausted: false,
+        }
+    }
+}
+
+impl Iterator for InterleavingAltIter {
+    type Item = String;
+
+    fn next(&mut self) -> Option<Self::Item> {
+        if self.all_exhausted || self.iterators.is_empty() {
+            return None;
+        }
+
+        let start_idx = self.current_idx;
+        loop {
+            if !self.exhausted[self.current_idx] {
+                if let Some(val) = self.iterators[self.current_idx].next() {
+                    self.current_idx = (self.current_idx + 1) % self.iterators.len();
+                    return Some(val);
+                } else {
+                    self.exhausted[self.current_idx] = true;
+                }
+            }
+
+            self.current_idx = (self.current_idx + 1) % self.iterators.len();
+
+            // If we've gone full circle, check if all are exhausted.
+            if self.current_idx == start_idx {
+                if self.exhausted.iter().all(|&e| e) {
+                    self.all_exhausted = true;
+                    return None;
+                }
+            }
+        }
+    }
+}
+
+/// Unwrap Grouped expressions to find an inner Alt, if present.
+fn unwrap_to_alt(expr: &Expression) -> &Expression {
+    match &expr.kind {
+        ExpressionKind::Grouped(inner) => unwrap_to_alt(inner),
+        _ => expr,
+    }
+}
+
 /// Cartesian product iterator for a sequence of expressions.
+/// This streams results without collecting all values into memory.
 struct CartesianProductIter {
     grammar: Arc<Grammar>,
     expressions: Vec<Expression>,
     env: HashMap<String, u32>,
-    /// Current values for each position.
-    current_values: Vec<Vec<String>>,
-    /// Current indices for each position.
-    indices: Vec<usize>,
+    /// Current value at each position (accumulated from iterators).
+    current_values: Vec<String>,
+    /// Iterator for each position.
+    iterators: Vec<Box<dyn Iterator<Item = String> + Send>>,
     /// Whether we've started iterating.
     started: bool,
     /// Whether we're done.
     done: bool,
+    /// Named ranges and their possible counts.
+    named_range_counts: HashMap<String, Vec<u32>>,
+    /// Current index into each named range's counts.
+    named_range_count_idx: HashMap<String, usize>,
+    /// Current env with named range values set.
+    current_named_env: HashMap<String, u32>,
 }
 
 impl CartesianProductIter {
     fn new(grammar: Arc<Grammar>, expressions: Vec<Expression>, env: HashMap<String, u32>) -> Self {
+        // Pre-scan for RepeatRange with names and collect their possible counts.
+        // We need to handle these specially so RepeatRangeNamed can coordinate.
+        let mut named_range_counts: HashMap<String, Vec<u32>> = HashMap::new();
+        for expr in &expressions {
+            if let ExpressionKind::RepeatRange {
+                name: Some(ref name),
+                min,
+                max,
+                limit,
+                ..
+            } = expr.kind
+            {
+                let effective_max = max.map(|m| match limit {
+                    RangeLimit::HalfOpen => m.saturating_sub(1),
+                    RangeLimit::Closed => m,
+                });
+                let min_count = min.unwrap_or(0);
+                let max_count = effective_max.unwrap_or(min_count + 2);
+
+                let mut counts = vec![min_count];
+                if max_count != min_count {
+                    counts.push(max_count);
+                }
+                if min.is_none() && min_count == 0 && max_count > 1 && !counts.contains(&1) {
+                    counts.push(1);
+                }
+                named_range_counts.insert(name.clone(), counts);
+            }
+        }
+
         let n = expressions.len();
         Self {
             grammar,
             expressions,
             env,
-            current_values: Vec::new(),
-            indices: vec![0; n],
+            current_values: vec![String::new(); n],
+            iterators: Vec::new(),
             started: false,
             done: false,
+            named_range_counts,
+            named_range_count_idx: HashMap::new(),
+            current_named_env: HashMap::new(),
         }
     }
 
     fn initialize(&mut self) {
-        // Collect all values for each expression (limited to avoid memory explosion).
-        for expr in &self.expressions {
-            let iter = build_positive_iter(self.grammar.clone(), expr.clone(), self.env.clone());
-            let values: Vec<_> = iter.take(1000).collect();
-            if values.is_empty() {
-                self.done = true;
-                return;
+        // Initialize named range count indices.
+        for name in self.named_range_counts.keys() {
+            self.named_range_count_idx.insert(name.clone(), 0);
+        }
+        self.setup_for_current_named_counts();
+    }
+
+    fn setup_for_current_named_counts(&mut self) {
+        // Build the env with current named range values.
+        self.current_named_env = self.env.clone();
+        for (name, counts) in &self.named_range_counts {
+            let idx = self.named_range_count_idx.get(name).copied().unwrap_or(0);
+            if idx < counts.len() {
+                self.current_named_env.insert(name.clone(), counts[idx]);
             }
-            self.current_values.push(values);
+        }
+
+        // Create fresh iterators for all positions and get first value from each.
+        self.iterators.clear();
+        self.current_values = vec![String::new(); self.expressions.len()];
+
+        for (i, expr) in self.expressions.iter().enumerate() {
+            let mut iter = build_fair_iter(&self.grammar, expr, &self.current_named_env);
+            if let Some(val) = iter.next() {
+                self.current_values[i] = val;
+                self.iterators.push(iter);
+            } else {
+                // This expression produces no values, try next named range combo.
+                if !self.advance_named_counts() {
+                    self.done = true;
+                    return;
+                }
+                return self.setup_for_current_named_counts();
+            }
         }
         self.started = true;
     }
 
-    fn current_string(&self) -> String {
-        let mut result = String::new();
-        for (i, idx) in self.indices.iter().enumerate() {
-            result.push_str(&self.current_values[i][*idx]);
-        }
-        result
-    }
-
-    fn advance(&mut self) -> bool {
-        // Advance indices like a multi-digit counter.
-        for i in (0..self.indices.len()).rev() {
-            self.indices[i] += 1;
-            if self.indices[i] < self.current_values[i].len() {
+    fn advance_named_counts(&mut self) -> bool {
+        // Advance the named range count indices like a multi-digit counter.
+        let names: Vec<_> = self.named_range_counts.keys().cloned().collect();
+        for name in names.iter().rev() {
+            let counts = &self.named_range_counts[name];
+            let idx = self.named_range_count_idx.get_mut(name).unwrap();
+            *idx += 1;
+            if *idx < counts.len() {
                 return true;
             }
-            self.indices[i] = 0;
+            *idx = 0;
         }
+        false
+    }
+
+    fn current_string(&self) -> String {
+        self.current_values.concat()
+    }
+
+    /// Advance to the next combination. Returns true if successful.
+    fn advance(&mut self) -> bool {
+        // Try to advance from the rightmost position.
+        for i in (0..self.expressions.len()).rev() {
+            if let Some(val) = self.iterators[i].next() {
+                self.current_values[i] = val;
+                return true;
+            }
+            // This iterator exhausted, reset it and try the next position.
+            let mut new_iter = build_fair_iter(
+                &self.grammar,
+                &self.expressions[i],
+                &self.current_named_env,
+            );
+            if let Some(val) = new_iter.next() {
+                self.current_values[i] = val;
+                self.iterators[i] = new_iter;
+            } else {
+                // Should not happen if setup succeeded, but handle gracefully.
+                return false;
+            }
+        }
+        // All positions wrapped around, we're done with this combination.
         false
     }
 }
@@ -583,11 +748,21 @@ impl Iterator for CartesianProductIter {
         }
 
         if self.advance() {
-            Some(self.current_string())
-        } else {
-            self.done = true;
-            None
+            return Some(self.current_string());
         }
+
+        // Current cartesian product exhausted, try next named count combination.
+        if self.advance_named_counts() {
+            self.started = false;
+            self.setup_for_current_named_counts();
+            if self.done {
+                return None;
+            }
+            return Some(self.current_string());
+        }
+
+        self.done = true;
+        None
     }
 }
 
@@ -661,16 +836,13 @@ impl RepeatIter {
             return Box::new(std::iter::once(String::new()));
         }
 
-        let base_values: Vec<_> =
-            build_positive_iter(self.grammar.clone(), self.expr.clone(), self.env.clone())
-                .take(100)
-                .collect();
-
-        if base_values.is_empty() {
-            return Box::new(std::iter::empty());
-        }
-
-        Box::new(repeat_n_cartesian(&base_values, count as usize))
+        // Build a streaming cartesian product of `count` copies of the expression.
+        Box::new(RepeatNIter::new(
+            self.grammar.clone(),
+            self.expr.clone(),
+            self.env.clone(),
+            count as usize,
+        ))
     }
 }
 
@@ -692,6 +864,92 @@ impl Iterator for RepeatIter {
             self.current_iter = Some(self.build_iter_for_count(self.current_count));
             self.current_count += 1;
         }
+    }
+}
+
+/// Streaming iterator for N repetitions of an expression (cartesian product).
+struct RepeatNIter {
+    grammar: Arc<Grammar>,
+    expr: Expression,
+    env: HashMap<String, u32>,
+    n: usize,
+    /// Current value at each of the N positions.
+    current_values: Vec<String>,
+    /// Iterator for each of the N positions.
+    iterators: Vec<Box<dyn Iterator<Item = String> + Send>>,
+    started: bool,
+    done: bool,
+}
+
+impl RepeatNIter {
+    fn new(grammar: Arc<Grammar>, expr: Expression, env: HashMap<String, u32>, n: usize) -> Self {
+        Self {
+            grammar,
+            expr,
+            env,
+            n,
+            current_values: vec![String::new(); n],
+            iterators: Vec::new(),
+            started: false,
+            done: false,
+        }
+    }
+
+    fn initialize(&mut self) {
+        for i in 0..self.n {
+            let mut iter = build_fair_iter(&self.grammar, &self.expr, &self.env);
+            if let Some(val) = iter.next() {
+                self.current_values[i] = val;
+                self.iterators.push(iter);
+            } else {
+                self.done = true;
+                return;
+            }
+        }
+        self.started = true;
+    }
+
+    fn advance(&mut self) -> bool {
+        for i in (0..self.n).rev() {
+            if let Some(val) = self.iterators[i].next() {
+                self.current_values[i] = val;
+                return true;
+            }
+            // Reset this iterator and try advancing the next position.
+            let mut new_iter = build_fair_iter(&self.grammar, &self.expr, &self.env);
+            if let Some(val) = new_iter.next() {
+                self.current_values[i] = val;
+                self.iterators[i] = new_iter;
+            } else {
+                return false;
+            }
+        }
+        false
+    }
+}
+
+impl Iterator for RepeatNIter {
+    type Item = String;
+
+    fn next(&mut self) -> Option<Self::Item> {
+        if self.done {
+            return None;
+        }
+
+        if !self.started {
+            self.initialize();
+            if self.done {
+                return None;
+            }
+            return Some(self.current_values.concat());
+        }
+
+        if self.advance() {
+            return Some(self.current_values.concat());
+        }
+
+        self.done = true;
+        None
     }
 }
 
@@ -727,16 +985,13 @@ impl RepeatCountsIter {
             return Box::new(std::iter::once(String::new()));
         }
 
-        let base_values: Vec<_> =
-            build_positive_iter(self.grammar.clone(), self.expr.clone(), self.env.clone())
-                .take(100)
-                .collect();
-
-        if base_values.is_empty() {
-            return Box::new(std::iter::empty());
-        }
-
-        Box::new(repeat_n_cartesian(&base_values, count as usize))
+        // Build a streaming cartesian product of `count` copies of the expression.
+        Box::new(RepeatNIter::new(
+            self.grammar.clone(),
+            self.expr.clone(),
+            self.env.clone(),
+            count as usize,
+        ))
     }
 }
 
@@ -793,12 +1048,8 @@ struct SequenceNegativeIter {
     env: HashMap<String, u32>,
     /// Current fail position (which element is failing).
     fail_pos: usize,
-    /// Cached positive values for each expression.
-    positive_values: Vec<Vec<String>>,
     /// Current iterator for the current fail position.
     current_iter: Option<Box<dyn Iterator<Item = String> + Send>>,
-    /// Whether we've initialized.
-    initialized: bool,
 }
 
 impl SequenceNegativeIter {
@@ -808,42 +1059,14 @@ impl SequenceNegativeIter {
             expressions,
             env,
             fail_pos: 0,
-            positive_values: Vec::new(),
             current_iter: None,
-            initialized: false,
         }
-    }
-
-    fn initialize(&mut self) {
-        // Cache positive values for each expression.
-        for expr in &self.expressions {
-            let iter = build_positive_iter(self.grammar.clone(), expr.clone(), self.env.clone());
-            let values: Vec<_> = iter.take(100).collect();
-            self.positive_values.push(values);
-        }
-        self.initialized = true;
     }
 
     fn build_iter_for_fail_pos(&self) -> Box<dyn Iterator<Item = String> + Send> {
         if self.fail_pos >= self.expressions.len() {
             return Box::new(std::iter::empty());
         }
-
-        // Build prefix: cartesian product of positions 0..fail_pos.
-        let prefix_values = if self.fail_pos == 0 {
-            vec![String::new()]
-        } else {
-            let mut result = self.positive_values[0].clone();
-            for i in 1..self.fail_pos {
-                let next = &self.positive_values[i];
-                result = cartesian_product_vec(&result, next);
-                // Limit to avoid explosion.
-                if result.len() > 1000 {
-                    result.truncate(1000);
-                }
-            }
-            result
-        };
 
         // Get negative permutations for the failing element.
         let fail_expr = &self.expressions[self.fail_pos];
@@ -856,9 +1079,89 @@ impl SequenceNegativeIter {
                 build_negative_iter(self.grammar.clone(), fail_expr.clone(), self.env.clone())
             };
 
-        let fail_values: Vec<_> = fail_iter.take(100).collect();
+        if self.fail_pos == 0 {
+            // No prefix needed.
+            return fail_iter;
+        }
 
-        Box::new(CartesianProductPairIter::new(prefix_values, fail_values))
+        // Build a streaming prefix iterator using cartesian product of positions 0..fail_pos.
+        let prefix_exprs: Vec<_> = self.expressions[0..self.fail_pos].to_vec();
+        let prefix_iter = CartesianProductIter::new(
+            self.grammar.clone(),
+            prefix_exprs,
+            self.env.clone(),
+        );
+
+        // Stream the cartesian product of prefix × fail.
+        Box::new(StreamingPairIter::new(prefix_iter, fail_iter, self.grammar.clone(), fail_expr.clone(), self.env.clone()))
+    }
+}
+
+/// Streaming cartesian product of two iterators where the second can be recreated.
+struct StreamingPairIter {
+    a_iter: Box<dyn Iterator<Item = String> + Send>,
+    current_a: Option<String>,
+    b_iter: Box<dyn Iterator<Item = String> + Send>,
+    grammar: Arc<Grammar>,
+    b_expr: Expression,
+    env: HashMap<String, u32>,
+    done: bool,
+}
+
+impl StreamingPairIter {
+    fn new(
+        a_iter: impl Iterator<Item = String> + Send + 'static,
+        b_iter: Box<dyn Iterator<Item = String> + Send>,
+        grammar: Arc<Grammar>,
+        b_expr: Expression,
+        env: HashMap<String, u32>,
+    ) -> Self {
+        let mut a_iter = Box::new(a_iter) as Box<dyn Iterator<Item = String> + Send>;
+        let current_a = a_iter.next();
+        let done = current_a.is_none();
+        Self {
+            a_iter,
+            current_a,
+            b_iter,
+            grammar,
+            b_expr,
+            env,
+            done,
+        }
+    }
+
+    fn create_b_iter(&self) -> Box<dyn Iterator<Item = String> + Send> {
+        if let ExpressionKind::Not(inner) = &self.b_expr.kind {
+            build_positive_iter(self.grammar.clone(), (**inner).clone(), self.env.clone())
+        } else {
+            build_negative_iter(self.grammar.clone(), self.b_expr.clone(), self.env.clone())
+        }
+    }
+}
+
+impl Iterator for StreamingPairIter {
+    type Item = String;
+
+    fn next(&mut self) -> Option<Self::Item> {
+        if self.done {
+            return None;
+        }
+
+        loop {
+            if let Some(ref a) = self.current_a {
+                if let Some(b) = self.b_iter.next() {
+                    return Some(format!("{}{}", a, b));
+                }
+                // b exhausted, advance a and reset b.
+                self.current_a = self.a_iter.next();
+                if self.current_a.is_some() {
+                    self.b_iter = self.create_b_iter();
+                    continue;
+                }
+            }
+            self.done = true;
+            return None;
+        }
     }
 }
 
@@ -866,10 +1169,6 @@ impl Iterator for SequenceNegativeIter {
     type Item = String;
 
     fn next(&mut self) -> Option<Self::Item> {
-        if !self.initialized {
-            self.initialize();
-        }
-
         loop {
             if let Some(ref mut iter) = self.current_iter {
                 if let Some(val) = iter.next() {
@@ -885,17 +1184,6 @@ impl Iterator for SequenceNegativeIter {
             self.fail_pos += 1;
         }
     }
-}
-
-/// Compute cartesian product of two vectors.
-fn cartesian_product_vec(a: &[String], b: &[String]) -> Vec<String> {
-    let mut result = Vec::with_capacity(a.len() * b.len());
-    for s1 in a {
-        for s2 in b {
-            result.push(format!("{s1}{s2}"));
-        }
-    }
-    result
 }
 
 #[cfg(test)]

@@ -179,12 +179,10 @@ impl CommonOptions {
         let permute_iter = matches.get_one::<String>("permute").map(|permute_name| {
             let mut diag = Diagnostics::new();
             let grammar = Arc::new(grammar::load_grammar(&mut diag));
-            let include_negative = matches.get_flag("negative");
 
             let config = permute::PermuteConfig {
                 grammar: grammar.clone(),
                 production_name: permute_name.clone(),
-                include_negative,
             };
             Mutex::new(permute::PermutationIterator::new(config))
         });
@@ -266,6 +264,7 @@ impl CommonOptions {
         if let Some(ref iter) = self.permute_iter {
             if let Ok(mut iter) = iter.lock() {
                 if let Some(perm) = iter.next() {
+                    // println!("{:?}", perm.content);
                     return Some((perm.name, perm.content));
                 }
             }
@@ -311,7 +310,6 @@ fn common_args() -> Vec<clap::Arg> {
         arg!(--string <STRING> ... "source string to tokenize"),
         arg!(--path <PATH> ... "path of rust files to compare"),
         arg!(--permute <NAME> "grammar production to generate permutations for"),
-        arg!(--negative "include negative test cases when using --permute"),
         arg!(--tool <TOOLS> ... "tool to compare").value_parser(clap::value_parser!(Tool)),
         arg!(--edition <EDITION> "edition to use"),
         arg!(--coverage "record coverage data"),
