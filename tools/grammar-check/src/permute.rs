@@ -223,7 +223,7 @@ fn build_positive_iter(
 
         ExpressionKind::RepeatRange {
             expr: inner,
-            name,
+            name: _,
             min,
             max,
             limit,

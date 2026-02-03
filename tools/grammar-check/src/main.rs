@@ -21,7 +21,7 @@ use tracing_subscriber::layer::SubscriberExt;
 use tracing_subscriber::util::SubscriberInitExt;
 use walkdir::WalkDir;
 
-mod permute;
+mod permute2;
 mod test_cases;
 mod commands {
     pub mod count;
@@ -75,7 +75,7 @@ enum Message {
 struct CommonOptions {
     strings: Vec<(String, String)>,
     paths: Vec<PathBuf>,
-    permute_iter: Option<Mutex<permute::PermutationIterator>>,
+    permute_iter: Option<Mutex<permute2::PermutationIterator<'static>>>,
     tools: Arc<Vec<Tool>>,
     edition: Option<Edition>,
     coverage: bool,
@@ -179,13 +179,13 @@ impl CommonOptions {
         // Handle --permute flag to generate test cases from grammar productions.
         let permute_iter = matches.get_one::<String>("permute").map(|permute_name| {
             let mut diag = Diagnostics::new();
-            let grammar = Arc::new(grammar::load_grammar(&mut diag));
-
-            let config = permute::PermuteConfig {
-                grammar: grammar.clone(),
-                production_name: permute_name.clone(),
-            };
-            Mutex::new(permute::PermutationIterator::new(config))
+            let grammar = grammar::load_grammar(&mut diag);
+            
+            // Leak the grammar to get a 'static reference for the iterator
+            let grammar_ref: &'static grammar::Grammar = Box::leak(Box::new(grammar));
+            let production = &grammar_ref.productions.get(permute_name).unwrap().expression;
+            
+            Mutex::new(permute2::PermutationIterator::new(grammar_ref, production))
         });
 
         let use_spinner = permute_iter.is_some();
@@ -264,9 +264,9 @@ impl CommonOptions {
         }
         if let Some(ref iter) = self.permute_iter {
             if let Ok(mut iter) = iter.lock() {
-                if let Some(perm) = iter.next() {
-                    // println!("{:?}", perm.content);
-                    return Some((perm.name, perm.content));
+                if let Some(content) = iter.next() {
+                    // println!("{:?}", content);
+                    return Some(("permutation".to_string(), content));
                 }
             }
         }
