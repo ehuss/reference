@@ -11,6 +11,7 @@ struct Parser<'a> {
     grammar: &'a mut Grammar,
 }
 
+#[derive(Debug)]
 pub struct Error {
     message: String,
     line: String,
