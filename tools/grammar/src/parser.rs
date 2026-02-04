@@ -163,12 +163,15 @@ impl Parser<'_> {
     }
 
     fn parse_name(&mut self) -> Option<String> {
-        let name = self.take_while(&|c: char| c.is_alphanumeric() || c == '_');
-        if name.is_empty() {
-            None
-        } else {
-            Some(name.to_string())
+        let ch = self.input[self.index..].chars().next()?;
+        if !is_name_start(ch) {
+            return None;
         }
+        let mut name = String::from(ch);
+        self.index += name.len();
+        let rest = self.take_while(&|c: char| is_name_continue(c));
+        name.push_str(rest);
+        Some(name)
     }
 
     fn parse_expression(&mut self) -> Result<Option<Expression>> {
@@ -232,7 +235,7 @@ impl Parser<'_> {
         } else if self.input[self.index..]
             .chars()
             .next()
-            .map(|ch| ch.is_alphanumeric())
+            .map(|ch| is_name_start(ch))
             .unwrap_or(false)
         {
             self.parse_nonterminal()
@@ -467,7 +470,7 @@ impl Parser<'_> {
     fn parse_repeat_range(&mut self, kind: ExpressionKind) -> Result<ExpressionKind> {
         self.expect("{", "expected `{`")?;
         let start = self.index;
-        self.take_while(&|c: char| c.is_alphanumeric() || c == '_');
+        self.take_while(&|c: char| is_name_continue(c));
         let name = match (self.index == start, self.peek()) {
             (false, Some(b':')) => {
                 self.index += 1;
@@ -578,6 +581,14 @@ fn translate_position(input: &str, index: usize) -> (&str, usize, usize) {
         line_number += 1;
     }
     ("", line_number + 1, 0)
+}
+
+fn is_name_start(ch: char) -> bool {
+    ch.is_alphanumeric() || matches!(ch, '⊥')
+}
+
+fn is_name_continue(ch: char) -> bool {
+    ch.is_alphanumeric() || ch == '_'
 }
 
 #[cfg(test)]
