@@ -180,11 +180,15 @@ impl CommonOptions {
         let permute_iter = matches.get_one::<String>("permute").map(|permute_name| {
             let mut diag = Diagnostics::new();
             let grammar = grammar::load_grammar(&mut diag);
-            
+
             // Leak the grammar to get a 'static reference for the iterator
             let grammar_ref: &'static grammar::Grammar = Box::leak(Box::new(grammar));
-            let production = &grammar_ref.productions.get(permute_name).unwrap().expression;
-            
+            let production = &grammar_ref
+                .productions
+                .get(permute_name)
+                .unwrap()
+                .expression;
+
             Mutex::new(permute2::PermutationIterator::new(grammar_ref, production))
         });
 
@@ -356,8 +360,9 @@ fn main() {
         )
         .subcommand(
             Command::new("count")
-            .about("Count permutations")
-            .arg(arg!(production: <NAME> "the production name").required(true)))
+                .about("Count permutations")
+                .arg(arg!(production: <NAME> "the production name").required(true)),
+        )
         .get_matches();
     match matches.subcommand() {
         Some(("lex-compare", sub_matches)) => {

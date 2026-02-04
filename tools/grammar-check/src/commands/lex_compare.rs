@@ -337,7 +337,11 @@ fn print_final_summary(opts: &Arc<Mutex<CommonOptions>>, start: Instant) {
     }
     let n_errs = opts_l.errors.len() as u32;
     // Use actual test count (from progress) when test_count is 0 (spinner mode).
-    let total = if opts_l.test_count == 0 { actual_test_count } else { opts_l.test_count };
+    let total = if opts_l.test_count == 0 {
+        actual_test_count
+    } else {
+        opts_l.test_count
+    };
     eprintln!("passed: {}", total.saturating_sub(n_errs));
     eprintln!("failed: {n_errs}");
     let elapsed = start.elapsed();
