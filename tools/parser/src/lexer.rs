@@ -169,13 +169,6 @@ fn parse_frontmatter(
     {
         Ok((Some(node), next_index))
     } else {
-        let invalid_frontmatter = grammar.productions.get("INVALID_FRONTMATTER").unwrap();
-        if parse_production(grammar, coverage, invalid_frontmatter, &src, index)?.is_some() {
-            return Err(ParseError {
-                message: "invalid frontmatter".to_string(),
-                byte_offset: index.0,
-            });
-        }
         Ok((None, index))
     }
 }
