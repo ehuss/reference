@@ -10,6 +10,7 @@ use parser::coverage::Coverage;
 use parser::lexer::Tokens;
 use std::cell::RefCell;
 use std::ops::Range;
+use std::panic::AssertUnwindSafe;
 use std::sync::{Arc, Mutex};
 use std::time::Instant;
 
@@ -114,7 +115,24 @@ fn compare_loop(
         };
         let tools = opts_l.tools.clone();
         drop(opts_l);
-        let lexer_result = parser::lexer::tokenize(&grammar, &mut coverage, &src);
+        let lexer_result = match std::panic::catch_unwind(AssertUnwindSafe(|| {
+            parser::lexer::tokenize(&grammar, &mut coverage, &src)
+        })) {
+            Ok(r) => r,
+            Err(_) => {
+                let panic_msg = PANIC_OUTPUT.with(|c| {
+                    c.borrow_mut()
+                        .take()
+                        .unwrap_or_else(|| "unknown panic".to_string())
+                });
+                let mut opts_l = opts.lock().unwrap();
+                opts_l.errors.push(format!(
+                    "test {name} for reference lexer panicked:\n{panic_msg}"
+                ));
+                opts_l.set_progress_err_msg();
+                break;
+            }
+        };
 
         for tool in &*tools {
             match std::panic::catch_unwind(|| {
