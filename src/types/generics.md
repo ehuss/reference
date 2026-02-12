@@ -232,7 +232,7 @@ r[generics.arguments]
 ## Generic arguments
 
 r[generics.arguments.intro]
-Generic arguments are the concrete values provided for generic parameters when using a parameterized item. They are specified in angle brackets (`<...>`) following the item's path (see [paths in types] and [paths in expressions]). Generic arguments can include lifetimes, types, and const values corresponding to the generic parameters declared on the item.
+Generic arguments are the concrete values provided for generic parameters and associated types when using a parameterized item. They are specified in angle brackets (`<...>`) following the item's path (see [paths in types] and [paths in expressions]). Generic arguments can include lifetimes, types, const values, and associated bindings corresponding to the generic parameters declared on the item.
 
 ```rust
 struct Foo<'a, T, const N: usize> {
@@ -271,10 +271,87 @@ GenericArgsBounds ->
     IDENTIFIER GenericArgs? `:` TypeParamBounds
 ```
 
-r[generics.arguments.argument-order]
-The order of generic arguments is restricted to lifetime arguments, then type arguments, then const arguments, then equality constraints.
+r[generics.arguments.lifetime]
+r[generics.arguments.type]
+r[generics.arguments.const]
+r[generics.arguments.associated]
 
-r[generics.arguments.complex-const-params]
+r[generics.arguments.lifetime-order]
+Lifetime arguments must appear before all type and const arguments.
+
+r[generics.arguments.positional-matching]
+Generic arguments are matched to generic parameters positionally:
+
+- The *i*th lifetime argument corresponds to the *i*th lifetime parameter.
+- The *i*th type or const argument corresponds to the *i*th type or const parameter (counted together in declaration order).
+
+r[generics.arguments.constraint-order]
+Associated item constraints must be listed after all other argument kinds, and may be listed in any order.
+
+r[generics.arguments.lifetime-elision]
+Lifetime arguments may be omitted in the following cases:
+
+TODO
+
+r[generics.arguments.defaults]
+Type and const parameters with default values need not be supplied. Defaults must be trailing: a parameter without a default cannot follow one with a default.
+
+When fewer arguments are supplied than parameters exist, the missing trailing arguments use their defaults if available, or are inferred if inference is enabled for that context.
+
+r[generics.arguments.late-bound-lifetimes]
+For items with late-bound lifetime parameters (typically functions with lifetime parameters that don't appear in where-clauses), explicit lifetime arguments are restricted:
+
+<!-- TODO: Define late-bound. -->
+
+It is an error if explicit lifetime arguments are provided if late-bound lifetimes are present.
+
+> [!NOTE]
+> TODO: https://doc.rust-lang.org/nightly/rustc/lints/listing/warn-by-default.html#late-bound-lifetime-arguments (not in non-value position, it has an FCW)
+
+r[generics.arguments.self-param]
+The `Self` parameter (when present, e.g., in [trait definitions][items.traits.self-param]) is implicit and cannot be explicitly specified.
+
+r[generics.arguments.impl-trait-params]
+Synthetic type parameters corresponding to `impl Trait` types are implicit and cannot be explicitly specified.
+
+r[generics.arguments.associated]
+### Associated item constraints
+
+r[generics.arguments.associated.intro]
+TODO
+*binding argument*
+
+r[generics.arguments.associated.constraints-position]
+Associated item constraints (equality constraints like `Item = Ty` or bound constraints like `Item: Bound`) are only permitted on trait paths in type position:
+
+```rust
+// Trait bounds: `T: Iterator<Item = u32>`
+// Trait objects: `dyn Iterator<Item = u32>`
+```
+
+```rust,compile_error
+// Function calls: `foo::<Item = u32>()` — error
+// Struct/enum instantiation: `Vec::<Item = u32>` — error
+```
+
+### Infer arguments
+
+r[generics.arguments.inference]
+The placeholder `_` may be used for type or const arguments when the compiler can infer the value:
+
+```rust
+let v: Vec<_> = vec![1, 2, 3]; // _ inferred as i32
+```
+
+The `_` placeholder cannot be used for lifetime arguments; use `'_` for elided lifetimes instead.
+
+
+r[generics.arguments.const]
+### Const arguments
+
+r[generics.arguments.const.intro]
+
+r[generics.arguments.const.braces]
 Const arguments must be surrounded by braces unless they are a [literal], an [inferred const], or a single segment path. An [inferred const] may not be surrounded by braces.
 
 ```rust
@@ -300,13 +377,10 @@ let _: [_; 1] = f::<{ _ }>();
 > [!NOTE]
 > In a generic argument list, an [inferred const] is parsed as an [inferred type][InferredType] but then semantically treated as a separate kind of [const generic argument].
 
-r[generics.arguments.impl-trait-params]
-The synthetic type parameters corresponding to `impl Trait` types are implicit, and these cannot be explicitly specified.
-
 r[generics.parameters.attributes]
 ## Attributes
 
-Generic lifetime and type parameters allow [attributes] on them. There are no built-in attributes that do anything in this position, although custom derive attributes may give meaning to it.
+Generic parameters allow [attributes] on them. There are no built-in attributes that do anything in this position, although custom derive attributes may give meaning to it.
 
 This example shows using a custom derive attribute to modify the meaning of a generic parameter.
 
@@ -341,6 +415,7 @@ struct Foo<#[my_flexible_clone(unbounded)] H> {
 [inferred const]: generics.const.inferred
 [item declarations]: ../statements.md#item-declarations
 [item]: ../items.md
+[lifetime elision]: lifetime-elision
 [literal]: ../expressions/literal-expr.md
 [path]: ../paths.md
 [path expression]: ../expressions/path-expr.md
