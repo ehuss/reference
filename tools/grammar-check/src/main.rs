@@ -26,6 +26,7 @@ mod test_cases;
 mod commands {
     pub mod count;
     pub mod lex_compare;
+    pub mod split_check;
     pub mod tokenize;
     pub mod tree;
 }
@@ -363,6 +364,10 @@ fn main() {
                 .about("Count permutations")
                 .arg(arg!(production: <NAME> "the production name").required(true)),
         )
+        .subcommand(
+            Command::new("split-check")
+                .about("Check for potential token splitting locations in the grammar"),
+        )
         .get_matches();
     match matches.subcommand() {
         Some(("lex-compare", sub_matches)) => {
@@ -376,6 +381,9 @@ fn main() {
         }
         Some(("count", sub_matches)) => {
             commands::count::count(sub_matches);
+        }
+        Some(("split-check", sub_matches)) => {
+            commands::split_check::split_check(sub_matches);
         }
         _ => unreachable!(),
     }
