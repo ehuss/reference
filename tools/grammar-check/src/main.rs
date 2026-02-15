@@ -26,6 +26,7 @@ mod test_cases;
 mod commands {
     pub mod count;
     pub mod lex_compare;
+    pub mod print_grammar;
     pub mod split_check;
     pub mod tokenize;
     pub mod tree;
@@ -368,6 +369,11 @@ fn main() {
             Command::new("split-check")
                 .about("Check for potential token splitting locations in the grammar"),
         )
+        .subcommand(
+            Command::new("print-grammar")
+                .about("Print the grammar to stdout")
+                .arg(arg!(--debug "Print using Debug format")),
+        )
         .get_matches();
     match matches.subcommand() {
         Some(("lex-compare", sub_matches)) => {
@@ -384,6 +390,9 @@ fn main() {
         }
         Some(("split-check", sub_matches)) => {
             commands::split_check::split_check(sub_matches);
+        }
+        Some(("print-grammar", sub_matches)) => {
+            commands::print_grammar::print_grammar(sub_matches);
         }
         _ => unreachable!(),
     }
