@@ -778,7 +778,7 @@ mod tests {
 
     #[test]
     fn test_range_closed_exact() {
-        // `x{2..=2}` means exactly 2 — not empty.
+        // `x{2..=2}` means exactly 2 -- not empty.
         let (min, max, limit) = repeat_range("A -> x{2..=2}");
         assert_eq!(min, Some(2));
         assert_eq!(max, Some(2));
@@ -1178,5 +1178,146 @@ mod tests {
         assert_eq!(*min, Some(2));
         assert_eq!(*max, Some(5));
         assert!(matches!(limit, RangeLimit::HalfOpen));
+    }
+
+    // --- Named repeat range tests ---
+
+    /// Extract full `RepeatRange` fields including the name.
+    fn named_repeat_range(input: &str) -> (Option<String>, Option<u32>, Option<u32>, RangeLimit) {
+        let grammar = parse(input).unwrap();
+        let rule = grammar.productions.get("A").unwrap();
+        let ExpressionKind::RepeatRange {
+            name,
+            min,
+            max,
+            limit,
+            ..
+        } = &rule.expression.kind
+        else {
+            panic!("expected RepeatRange, got {:?}", rule.expression.kind);
+        };
+        (name.clone(), *min, *max, *limit)
+    }
+
+    #[test]
+    fn named_range_closed() {
+        let (name, min, max, limit) = named_repeat_range("A -> x{n:1..=255}");
+        assert_eq!(name.as_deref(), Some("n"));
+        assert_eq!(min, Some(1));
+        assert_eq!(max, Some(255));
+        assert!(matches!(limit, RangeLimit::Closed));
+    }
+
+    #[test]
+    fn named_range_half_open() {
+        let (name, min, max, limit) = named_repeat_range("A -> x{n:2..5}");
+        assert_eq!(name.as_deref(), Some("n"));
+        assert_eq!(min, Some(2));
+        assert_eq!(max, Some(5));
+        assert!(matches!(limit, RangeLimit::HalfOpen));
+    }
+
+    #[test]
+    fn named_range_omitted_min() {
+        let (name, min, max, limit) = named_repeat_range("A -> x{n:..=5}");
+        assert_eq!(name.as_deref(), Some("n"));
+        assert_eq!(min, None);
+        assert_eq!(max, Some(5));
+        assert!(matches!(limit, RangeLimit::Closed));
+    }
+
+    #[test]
+    fn named_range_omitted_max() {
+        let (name, min, max, limit) = named_repeat_range("A -> x{n:2..}");
+        assert_eq!(name.as_deref(), Some("n"));
+        assert_eq!(min, Some(2));
+        assert_eq!(max, None);
+        assert!(matches!(limit, RangeLimit::HalfOpen));
+    }
+
+    #[test]
+    fn named_reference() {
+        // `{n}` without a colon or range produces a
+        // RepeatRangeNamed variant.
+        let grammar = parse("A -> x{n}").unwrap();
+        let rule = grammar.productions.get("A").unwrap();
+        let ExpressionKind::RepeatRangeNamed(_, name) = &rule.expression.kind else {
+            panic!("expected RepeatRangeNamed, got {:?}", rule.expression.kind);
+        };
+        assert_eq!(name, "n");
+    }
+
+    #[test]
+    fn named_binding_and_reference_in_sequence() {
+        // A production with a named binding and a named reference.
+        let grammar = parse("A -> x{n:1..=255} y{n}").unwrap();
+        let rule = grammar.productions.get("A").unwrap();
+        let ExpressionKind::Sequence(seq) = &rule.expression.kind else {
+            panic!("expected Sequence, got {:?}", rule.expression.kind);
+        };
+        assert_eq!(seq.len(), 2);
+
+        // First element: x{n:1..=255}
+        let ExpressionKind::RepeatRange {
+            name,
+            min,
+            max,
+            limit,
+            ..
+        } = &seq[0].kind
+        else {
+            panic!("expected RepeatRange, got {:?}", seq[0].kind);
+        };
+        assert_eq!(name.as_deref(), Some("n"));
+        assert_eq!(*min, Some(1));
+        assert_eq!(*max, Some(255));
+        assert!(matches!(limit, RangeLimit::Closed));
+
+        // Second element: y{n}
+        let ExpressionKind::RepeatRangeNamed(_, ref_name) = &seq[1].kind else {
+            panic!("expected RepeatRangeNamed, got {:?}", seq[1].kind);
+        };
+        assert_eq!(ref_name, "n");
+    }
+
+    #[test]
+    fn named_range_backtrack_to_plain_range() {
+        // When parse_name() succeeds but the next byte is
+        // neither `:` nor `}`, the parser backtracks and
+        // falls through to plain range parsing.  `{2..5}` is
+        // such a case after the parse_name fix (digits are
+        // rejected), but let's test a scenario where a name is
+        // parsed and then backtracked.
+        //
+        // There is no single-character token after a name that
+        // triggers backtrack in valid grammar (the match arms
+        // cover `:` and `}`), but the fallback resets the index
+        // and tries plain range parsing.  We verify that
+        // `{2..5}` parses correctly as a plain range even
+        // though it starts with a digit.
+        let (min, max, limit) = repeat_range("A -> x{2..5}");
+        assert_eq!(min, Some(2));
+        assert_eq!(max, Some(5));
+        assert!(matches!(limit, RangeLimit::HalfOpen));
+    }
+
+    #[test]
+    fn named_range_err_colon_missing_dots() {
+        // `{n:}` -- name followed by colon, then no `..`.
+        let err = parse("A -> x{n:}").unwrap_err();
+        assert!(
+            err.contains("expected `..`"),
+            "expected `..` error for {{n:}}, got: {err}"
+        );
+    }
+
+    #[test]
+    fn named_range_err_empty_braces() {
+        // `{}` -- empty braces contain no name and no range.
+        let err = parse("A -> x{}").unwrap_err();
+        assert!(
+            err.contains("expected `..`"),
+            "expected `..` error for {{}}, got: {err}"
+        );
     }
 }
