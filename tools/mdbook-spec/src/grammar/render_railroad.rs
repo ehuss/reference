@@ -197,7 +197,7 @@ fn render_expression(expr: &Expression, cx: &RenderCtx, stack: bool) -> Option<B
                 // `(e{1..=b})?` (or `(e{1..b})?` for half-open).
                 ExpressionKind::RepeatRange {
                     expr: e,
-                    name,
+                    name: _,
                     min: None | Some(0),
                     max: Some(b @ 2..),
                     limit,
@@ -205,7 +205,7 @@ fn render_expression(expr: &Expression, cx: &RenderCtx, stack: bool) -> Option<B
                     state = ExpressionKind::Optional(Box::new(Expression::new_kind(
                         ExpressionKind::RepeatRange {
                             expr: e.clone(),
-                            name: name.clone(),
+                            name: None,
                             min: Some(1),
                             max: Some(*b),
                             limit: *limit,
@@ -246,14 +246,14 @@ fn render_expression(expr: &Expression, cx: &RenderCtx, stack: bool) -> Option<B
                 // - `e{a..b}` as `e{0..a-1} e{1..b-(a-1)}`
                 ExpressionKind::RepeatRange {
                     expr: e,
-                    name,
+                    name: _,
                     min: Some(a @ 2..),
                     max: b @ None,
                     limit,
                 }
                 | ExpressionKind::RepeatRange {
                     expr: e,
-                    name,
+                    name: _,
                     min: Some(a @ 2..),
                     max: b @ Some(_),
                     limit,
@@ -264,7 +264,7 @@ fn render_expression(expr: &Expression, cx: &RenderCtx, stack: bool) -> Option<B
                     }
                     es.push(Expression::new_kind(ExpressionKind::RepeatRange {
                         expr: e.clone(),
-                        name: name.clone(),
+                        name: None,
                         min: Some(1),
                         max: b.map(|x| x - (a - 1)),
                         limit: *limit,
@@ -305,6 +305,18 @@ fn render_expression(expr: &Expression, cx: &RenderCtx, stack: bool) -> Option<B
                 ExpressionKind::Unicode((_, s)) => Box::new(Terminal::new(format!("U+{}", s))),
             };
         }
+    };
+    // Wrap with a name label if this is a named RepeatRange.
+    let n = if let ExpressionKind::RepeatRange {
+        name: Some(ref name),
+        ..
+    } = expr.kind
+    {
+        let cmt = format!("repeat count {name}");
+        let lbox = LabeledBox::new(n, Comment::new(cmt));
+        Box::new(lbox) as Box<dyn Node>
+    } else {
+        n
     };
     if let Some(suffix) = &expr.suffix {
         let suffix = strip_markdown(suffix);
@@ -616,10 +628,7 @@ mod tests {
 
     #[test]
     fn repeat_range_with_name_renders() {
-        // A RepeatRange with a name should render without crash.
-        // The name is not currently displayed in railroad diagrams,
-        // so we just verify that SVG output is produced and
-        // contains the expected structural elements.
+        // A named RepeatRange should display the name as a label.
         let expr = Expression::new_kind(ExpressionKind::RepeatRange {
             expr: Box::new(Expression::new_kind(ExpressionKind::Nt("e".to_string()))),
             name: Some("n".to_string()),
@@ -629,12 +638,62 @@ mod tests {
         });
         let svg = render_to_svg(&expr).unwrap();
         assert!(
-            svg.contains("nonterminal"),
-            "expected nonterminal in SVG output"
+            svg.contains("repeat count n"),
+            "expected 'repeat count n' label, got: {svg}"
         );
+    }
+
+    #[test]
+    fn repeat_range_with_name_optional() {
+        // `e{k:0..=5}` decomposes to Optional(RepeatRange).  The
+        // name label should still appear on the outermost node.
+        let expr = Expression::new_kind(ExpressionKind::RepeatRange {
+            expr: Box::new(Expression::new_kind(ExpressionKind::Nt("e".to_string()))),
+            name: Some("k".to_string()),
+            min: Some(0),
+            max: Some(5),
+            limit: RangeLimit::Closed,
+        });
+        let svg = render_to_svg(&expr).unwrap();
         assert!(
-            svg.contains("more times"),
-            "expected 'more times' repeat comment"
+            svg.contains("repeat count k"),
+            "expected 'repeat count k' label, got: {svg}"
+        );
+    }
+
+    #[test]
+    fn repeat_range_without_name_no_label() {
+        // An unnamed RepeatRange should not have a "repeat count"
+        // label.
+        let expr = Expression::new_kind(ExpressionKind::RepeatRange {
+            expr: Box::new(Expression::new_kind(ExpressionKind::Nt("e".to_string()))),
+            name: None,
+            min: Some(2),
+            max: Some(5),
+            limit: RangeLimit::Closed,
+        });
+        let svg = render_to_svg(&expr).unwrap();
+        assert!(
+            !svg.contains("repeat count"),
+            "unnamed range should not have a 'repeat count' label"
+        );
+    }
+
+    #[test]
+    fn repeat_range_with_name_identity() {
+        // `e{n:1..=1}` renders as plain `e` but should still
+        // display the name label.
+        let expr = Expression::new_kind(ExpressionKind::RepeatRange {
+            expr: Box::new(Expression::new_kind(ExpressionKind::Nt("e".to_string()))),
+            name: Some("n".to_string()),
+            min: Some(1),
+            max: Some(1),
+            limit: RangeLimit::Closed,
+        });
+        let svg = render_to_svg(&expr).unwrap();
+        assert!(
+            svg.contains("repeat count n"),
+            "expected 'repeat count n' label on identity range"
         );
     }
 }
