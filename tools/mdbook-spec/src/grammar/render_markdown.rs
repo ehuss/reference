@@ -251,6 +251,7 @@ fn markdown_escape(s: &str) -> Cow<'_, str> {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use grammar::RangeLimit;
     use std::collections::HashMap;
 
     /// Creates a minimal `RenderCtx` for testing.
@@ -423,5 +424,57 @@ mod tests {
     #[test]
     fn markdown_escape_plain() {
         assert_eq!(markdown_escape("abc"), "abc");
+    }
+
+    // -- Named repeat range tests --
+
+    #[test]
+    fn repeat_range_with_name() {
+        // A RepeatRange with a name renders as `<sup>n:1..=255</sup>`.
+        let result = render(ExpressionKind::RepeatRange {
+            expr: Box::new(Expression::new_kind(ExpressionKind::Nt("x".to_string()))),
+            name: Some("n".to_string()),
+            min: Some(1),
+            max: Some(255),
+            limit: RangeLimit::Closed,
+        });
+        assert!(
+            result.contains("<sup>n:1..=255</sup>"),
+            "expected <sup>n:1..=255</sup>, got: {result}"
+        );
+    }
+
+    #[test]
+    fn repeat_range_without_name() {
+        // A RepeatRange without a name renders with no spurious
+        // colon -- just `<sup>2..5</sup>`.
+        let result = render(ExpressionKind::RepeatRange {
+            expr: Box::new(Expression::new_kind(ExpressionKind::Nt("x".to_string()))),
+            name: None,
+            min: Some(2),
+            max: Some(5),
+            limit: RangeLimit::HalfOpen,
+        });
+        assert!(
+            result.contains("<sup>2..5</sup>"),
+            "expected <sup>2..5</sup>, got: {result}"
+        );
+        assert!(
+            !result.contains(":"),
+            "unnamed range should not contain a colon"
+        );
+    }
+
+    #[test]
+    fn repeat_range_named_reference() {
+        // A RepeatRangeNamed renders as `<sup>n</sup>`.
+        let result = render(ExpressionKind::RepeatRangeNamed(
+            Box::new(Expression::new_kind(ExpressionKind::Nt("x".to_string()))),
+            "n".to_string(),
+        ));
+        assert!(
+            result.contains("<sup>n</sup>"),
+            "expected <sup>n</sup>, got: {result}"
+        );
     }
 }
