@@ -152,6 +152,12 @@ impl Parser<'_> {
     }
 
     fn parse_name(&mut self) -> Option<String> {
+        // Names must start with an alphabetic character or
+        // underscore.
+        let first = self.input[self.index..].chars().next()?;
+        if !first.is_alphabetic() && first != '_' {
+            return None;
+        }
         let name = self.take_while(&|c: char| c.is_alphanumeric() || c == '_');
         if name.is_empty() {
             None
@@ -1116,5 +1122,61 @@ mod tests {
             b,
             Character::Unicode((ch, _)) if *ch == '\u{7F}'
         ));
+    }
+
+    // --- `parse_name` digit rejection tests ---
+
+    #[test]
+    fn parse_name_rejects_leading_digits() {
+        // `{123}` should not parse as a named reference.  The
+        // digits don't form a valid name and there is no `..`
+        // range operator, so the parser should reject this.
+        let err = parse("A -> x{123}").unwrap_err();
+        assert!(
+            err.contains("expected `..`"),
+            "expected range-syntax error for {{123}}, got: {err}"
+        );
+    }
+
+    #[test]
+    fn parse_name_allows_letter_then_digit() {
+        // `n1` is a valid name (starts with a letter).
+        let grammar = parse("A -> x{n1:2..5}").unwrap();
+        let rule = grammar.productions.get("A").unwrap();
+        let ExpressionKind::RepeatRange {
+            name,
+            min,
+            max,
+            limit,
+            ..
+        } = &rule.expression.kind
+        else {
+            panic!("expected RepeatRange, got {:?}", rule.expression.kind);
+        };
+        assert_eq!(name.as_deref(), Some("n1"));
+        assert_eq!(*min, Some(2));
+        assert_eq!(*max, Some(5));
+        assert!(matches!(limit, RangeLimit::HalfOpen));
+    }
+
+    #[test]
+    fn parse_name_allows_underscore_start() {
+        // `_n` is a valid name (starts with underscore).
+        let grammar = parse("A -> x{_n:2..5}").unwrap();
+        let rule = grammar.productions.get("A").unwrap();
+        let ExpressionKind::RepeatRange {
+            name,
+            min,
+            max,
+            limit,
+            ..
+        } = &rule.expression.kind
+        else {
+            panic!("expected RepeatRange, got {:?}", rule.expression.kind);
+        };
+        assert_eq!(name.as_deref(), Some("_n"));
+        assert_eq!(*min, Some(2));
+        assert_eq!(*max, Some(5));
+        assert!(matches!(limit, RangeLimit::HalfOpen));
     }
 }
