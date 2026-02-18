@@ -596,4 +596,45 @@ mod tests {
             "neg expression should have exception label"
         );
     }
+
+    // -- Named repeat range tests --
+
+    #[test]
+    fn repeat_range_named_reference() {
+        // RepeatRangeNamed renders with a "repeat exactly n times"
+        // label.
+        let expr = Expression::new_kind(ExpressionKind::RepeatRangeNamed(
+            Box::new(Expression::new_kind(ExpressionKind::Nt("x".to_string()))),
+            "n".to_string(),
+        ));
+        let svg = render_to_svg(&expr).unwrap();
+        assert!(
+            svg.contains("repeat exactly n times"),
+            "expected 'repeat exactly n times' label, got: {svg}"
+        );
+    }
+
+    #[test]
+    fn repeat_range_with_name_renders() {
+        // A RepeatRange with a name should render without crash.
+        // The name is not currently displayed in railroad diagrams,
+        // so we just verify that SVG output is produced and
+        // contains the expected structural elements.
+        let expr = Expression::new_kind(ExpressionKind::RepeatRange {
+            expr: Box::new(Expression::new_kind(ExpressionKind::Nt("e".to_string()))),
+            name: Some("n".to_string()),
+            min: Some(2),
+            max: Some(5),
+            limit: RangeLimit::Closed,
+        });
+        let svg = render_to_svg(&expr).unwrap();
+        assert!(
+            svg.contains("nonterminal"),
+            "expected nonterminal in SVG output"
+        );
+        assert!(
+            svg.contains("more times"),
+            "expected 'more times' repeat comment"
+        );
+    }
 }
