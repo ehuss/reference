@@ -51,15 +51,12 @@ pub fn tokenize(src: &str, edition: Edition) -> Result<Vec<Node>, ParseError> {
         let source_map = Arc::new(SourceMap::new(FilePathMapping::empty()));
         // TODO: probably not needed?
         // source_map.new_source_file(Path::new("test.rs").to_owned().into(), "".to_owned());
-        // let translator = Translator::with_fallback_bundle(vec![DEFAULT_LOCALE_RESOURCE], false);
-        let translator = rustc_driver::default_translator();
         let output = Arc::new(Mutex::new(Vec::new()));
         let je = JsonEmitter::new(
             Box::new(Shared {
                 data: output.clone(),
             }),
             Some(source_map.clone()),
-            translator,
             false, // pretty
             HumanReadableErrorType {
                 short: true,
