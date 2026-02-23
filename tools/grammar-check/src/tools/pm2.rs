@@ -181,6 +181,7 @@ fn tokens_from_ts(src: &str, ts: TokenStream, output: &mut Vec<Node>) -> Result<
                     });
                 }
 
+                // https://github.com/dtolnay/proc-macro2/issues/532
                 if matches!(s.as_bytes().last_chunk::<2>(), Some(b"'_" | b"\"_" | b"#_")) {
                     return Err(ParseError {
                         message: "underscore suffix not allowed".to_string(),
