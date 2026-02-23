@@ -24,9 +24,11 @@ enum IteratorState<'g> {
     },
     Seq {
         exprs: Vec<&'g Expression>,
+        /// Current active length; counts down from exprs.len() to 1 to emit truncated sequences.
+        truncated_len: usize,
         iterators: Vec<PermutationIterator<'g>>,
         current_values: Vec<String>,
-        indices: Vec<usize>,
+        initialized: bool,
         exhausted: bool,
     },
     SeqWithNamedRanges {
@@ -127,19 +129,14 @@ impl<'g> PermutationIterator<'g> {
 
                     if named_range_indices.is_empty() {
                         // No named ranges, use regular Seq
-                        let iterators: Vec<_> = filtered_exprs
-                            .iter()
-                            .map(|e| Self::new_with_context(grammar, e, name_context.clone()))
-                            .collect();
-                        let current_values: Vec<_> =
-                            iterators.iter().map(|_| String::new()).collect();
-                        let indices = vec![0; iterators.len()];
+                        let n = filtered_exprs.len();
 
                         IteratorState::Seq {
                             exprs: filtered_exprs,
-                            iterators,
-                            current_values,
-                            indices,
+                            truncated_len: n,
+                            iterators: Vec::new(),
+                            current_values: Vec::new(),
+                            initialized: false,
                             exhausted: false,
                         }
                     } else {
@@ -507,53 +504,89 @@ impl<'g> Iterator for PermutationIterator<'g> {
             }
             IteratorState::Seq {
                 exprs,
+                truncated_len,
                 iterators,
                 current_values,
-                indices,
+                initialized,
                 exhausted,
             } => {
                 if *exhausted {
                     return None;
                 }
 
-                // Initialize: get first value from each iterator.
-                if indices.iter().all(|&i| i == 0) && current_values[0].is_empty() {
-                    for (i, iter) in iterators.iter_mut().enumerate() {
-                        if let Some(val) = iter.next() {
-                            current_values[i] = val;
+                loop {
+                    // (Re)initialize iterators for the current truncated_len.
+                    if !*initialized {
+                        let tlen = *truncated_len;
+                        *iterators = exprs[..tlen]
+                            .iter()
+                            .map(|e| Self::new_with_context(grammar, e, self.name_context.clone()))
+                            .collect();
+                        *current_values = vec![String::new(); tlen];
+
+                        // Get first value from each iterator.
+                        let mut ok = true;
+                        for (i, iter) in iterators.iter_mut().enumerate() {
+                            if let Some(val) = iter.next() {
+                                current_values[i] = val;
+                            } else {
+                                ok = false;
+                                break;
+                            }
+                        }
+
+                        if ok {
+                            *initialized = true;
+                            return Some(current_values.concat());
                         } else {
-                            *exhausted = true;
-                            return None;
+                            // Empty iterator at this length; try shorter.
+                            if *truncated_len > 1 {
+                                *truncated_len -= 1;
+                                continue;
+                            } else {
+                                *exhausted = true;
+                                return None;
+                            }
                         }
                     }
-                    // Return the first combination.
-                    return Some(current_values.concat());
-                }
 
-                // Try to advance the rightmost iterator.
-                let mut pos = iterators.len() - 1;
-                loop {
-                    if let Some(val) = iterators[pos].next() {
-                        current_values[pos] = val;
-                        indices[pos] += 1;
-                        return Some(current_values.concat());
-                    } else {
-                        // This iterator is exhausted, reset it and move to the left.
-                        if pos == 0 {
-                            // All iterators exhausted.
-                            *exhausted = true;
-                            return None;
-                        }
-
-                        // Reset this iterator.
-                        iterators[pos] =
-                            Self::new_with_context(grammar, &exprs[pos], self.name_context.clone());
+                    // Try to advance the rightmost iterator.
+                    let mut pos = iterators.len() - 1;
+                    let mut advanced = false;
+                    loop {
                         if let Some(val) = iterators[pos].next() {
                             current_values[pos] = val;
-                            indices[pos] = 0;
+                            advanced = true;
+                            break;
+                        } else {
+                            // This iterator is exhausted; reset it and move left.
+                            if pos == 0 {
+                                // All iterators for this truncated_len are exhausted.
+                                break;
+                            }
+                            iterators[pos] = Self::new_with_context(
+                                grammar,
+                                &exprs[pos],
+                                self.name_context.clone(),
+                            );
+                            if let Some(val) = iterators[pos].next() {
+                                current_values[pos] = val;
+                            }
+                            pos -= 1;
                         }
+                    }
 
-                        pos -= 1;
+                    if advanced {
+                        return Some(current_values.concat());
+                    }
+
+                    // Current length exhausted; move to the next shorter truncation.
+                    if *truncated_len > 1 {
+                        *truncated_len -= 1;
+                        *initialized = false;
+                    } else {
+                        *exhausted = true;
+                        return None;
                     }
                 }
             }
@@ -664,15 +697,35 @@ mod tests {
 
     #[test]
     fn seq_and_alt() {
+        // Full sequence, then truncations (length 2, then length 1).
         assert_permutations(
             "P -> `A` (`B` | (`C1` | `C2`) | `D`) `E`",
-            &["ABE", "AC1E", "AC2E", "ADE"],
+            &["ABE", "AC1E", "AC2E", "ADE", "AB", "AC1", "AC2", "AD", "A"],
         );
     }
 
     #[test]
     fn optional() {
-        assert_permutations("P -> `A` (`B` | `C`)? `D`", &["AD", "ABD", "ACD"]);
+        // Full sequence, then truncations.
+        assert_permutations(
+            "P -> `A` (`B` | `C`)? `D`",
+            &["AD", "ABD", "ACD", "A", "AB", "AC", "A"],
+        );
+    }
+
+    #[test]
+    fn seq_truncated() {
+        // A single sequence with no alternatives: ABC, then AB, then A.
+        assert_permutations("P -> `A` `B` `C`", &["ABC", "AB", "A"]);
+    }
+
+    #[test]
+    fn seq_truncated_with_alts() {
+        // Each position has alternatives; verify all combos per length, then shorter lengths.
+        assert_permutations(
+            "P -> (`A` | `X`) (`B` | `Y`)",
+            &["AB", "AY", "XB", "XY", "A", "X"],
+        );
     }
 
     #[test]
