@@ -50,7 +50,6 @@ enum IteratorState<'g> {
         include_empty: bool,
         current_stage: usize, // 0 = empty (if include_empty), 1 = single, 2 = double
         iterator: Option<Box<PermutationIterator<'g>>>,
-        pending_double: Option<String>, // Current value being repeated for stage 2
     },
     RepeatRange {
         expr: &'g Expression,
@@ -178,7 +177,6 @@ impl<'g> PermutationIterator<'g> {
                 include_empty: true,
                 current_stage: 0,
                 iterator: None,
-                pending_double: None,
             },
             ExpressionKind::RepeatPlus(expr) => {
                 IteratorState::Repeat {
@@ -186,7 +184,6 @@ impl<'g> PermutationIterator<'g> {
                     include_empty: false,
                     current_stage: 1, // Skip stage 0 (empty)
                     iterator: None,
-                    pending_double: None,
                 }
             }
             ExpressionKind::RepeatRange {
@@ -401,7 +398,6 @@ impl<'g> Iterator for PermutationIterator<'g> {
                 include_empty,
                 current_stage,
                 iterator,
-                pending_double,
             } => {
                 // Stage 0: emit empty string (only for Repeat, not RepeatPlus)
                 if *current_stage == 0 && *include_empty {
@@ -436,15 +432,10 @@ impl<'g> Iterator for PermutationIterator<'g> {
 
                 // Stage 2: emit double permutations (each element repeated twice)
                 if *current_stage == 2 {
-                    // Check if we have a pending double to emit
-                    if let Some(val) = pending_double.take() {
-                        return Some(val);
-                    }
-
                     // Get next single value and prepare to emit it twice
                     if let Some(iter) = iterator {
                         if let Some(val) = iter.next() {
-                            let doubled = format!("{}{}", val, val);
+                            let doubled = format!("{val}{val}");
                             return Some(doubled);
                         }
                     }
