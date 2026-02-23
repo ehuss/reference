@@ -235,6 +235,18 @@ fn tokens_from_ts(src: &str, ts: TokenStream, output: &mut Vec<Node>) -> Result<
                     if &src[range.clone()] == "\r" && close_delim == "]" {
                         range.start -= 1;
                         range.end -= 1;
+                        // After shifting back one byte we may now be inside a
+                        // multi-byte UTF-8 character. Walk start back further
+                        // until we're on a char boundary, then set end to the
+                        // end of that character.
+                        while range.start > 0 && !src.is_char_boundary(range.start) {
+                            range.start -= 1;
+                        }
+                        range.end = range.start
+                            + src[range.start..]
+                                .chars()
+                                .next()
+                                .map_or(1, |c| c.len_utf8());
                     }
                     output.push(Node::new("PUNCTUATION".to_string(), range));
                 }
