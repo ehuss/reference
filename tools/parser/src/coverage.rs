@@ -1,12 +1,6 @@
 //! Support for recording and rendering coverage of the grammar.
 
-use grammar::{ExpressionKind, Grammar};
-
-struct SpanInfo {
-    bg_color: String,
-    padding: usize,
-    tooltip: String,
-}
+use grammar::{Expression, ExpressionKind, Grammar};
 
 #[derive(Default)]
 pub struct Coverage {
@@ -86,11 +80,12 @@ impl Coverage {
     /// Saves the coverage data to a file called `coverage.html`.
     pub fn save(&self, grammar: &Grammar) {
         let mut html = String::new();
-        self.render_html(&mut html, grammar);
+        let mut span_stack = Vec::new();
+        self.render_html(&mut html, &mut span_stack, grammar);
         std::fs::write("coverage.html", html).expect("failed to write coverage.html");
     }
 
-    fn get_coverage_status(&self, id: u32, kind: &grammar::ExpressionKind) -> CoverageStatus {
+    fn get_coverage_status(&self, id: u32, kind: &ExpressionKind) -> CoverageStatus {
         let match_count = self.match_count.get(id as usize);
         let no_match = self.no_match_count.get(id as usize).copied().unwrap_or(0);
         let parse_error = self.parse_error.get(id as usize).copied().unwrap_or(0);
@@ -187,51 +182,59 @@ impl Coverage {
         }
     }
 
-    fn render_html(&self, output: &mut String, grammar: &Grammar) {
+    fn render_html(&self, output: &mut String, span_stack: &mut Vec<String>, grammar: &Grammar) {
         output.push_str(HTML_HEADER);
 
         for name in &grammar.name_order {
             if let Some(prod) = grammar.productions.get(name) {
-                self.render_production(prod, output);
+                self.render_production(prod, output, span_stack);
             }
         }
 
         output.push_str(HTML_FOOTER);
     }
 
-    fn render_production(&self, prod: &grammar::Production, output: &mut String) {
+    fn render_production(
+        &self,
+        prod: &grammar::Production,
+        output: &mut String,
+        span_stack: &mut Vec<String>,
+    ) {
         output.push_str("<div class=\"production\">");
         output.push_str(&format!(
             "<span class=\"production-name\">{}</span>",
             html_escape(&prod.name)
         ));
         output.push_str(" → ");
-        self.render_expression(&prod.expression, output, 0);
+        self.render_expression(&prod.expression, output, span_stack);
         output.push_str("</div>\n");
     }
 
-    fn render_expression(&self, expr: &grammar::Expression, output: &mut String, depth: usize) {
-        if matches!(expr.kind, grammar::ExpressionKind::Break(_)) {
-            // TODO: This isn't working as intended. The `<br>` is inside its
-            // parent span, which prevents it breaking the entire production.
-            // This probably will require a significant change to how
-            // rendering works.
-            if let grammar::ExpressionKind::Break(indent) = &expr.kind {
-                output.push_str("<br>");
-                for _ in 0..*indent {
-                    output.push_str("&nbsp;");
-                }
+    fn render_expression(
+        &self,
+        expr: &Expression,
+        output: &mut String,
+        span_stack: &mut Vec<String>,
+    ) {
+        if let ExpressionKind::Break(indent) = &expr.kind {
+            for _ in 0..span_stack.len() {
+                output.push_str("</span>");
+            }
+            output.push_str("<br>\n");
+            for span in span_stack {
+                output.push_str(span);
+            }
+            for _ in 0..*indent {
+                output.push_str("&nbsp;");
             }
             return;
         }
 
-        if matches!(expr.kind, grammar::ExpressionKind::Comment(_)) {
-            if let grammar::ExpressionKind::Comment(s) = &expr.kind {
-                output.push_str(&format!(
-                    "<span class=\"comment\">// {}</span>",
-                    html_escape(s)
-                ));
-            }
+        if let ExpressionKind::Comment(s) = &expr.kind {
+            output.push_str(&format!(
+                "<span class=\"comment\">// {}</span>",
+                html_escape(s)
+            ));
             return;
         }
 
@@ -239,114 +242,79 @@ impl Coverage {
         let bg_color = status.color();
         let has_error = self.parse_error.get(expr.id as usize).copied().unwrap_or(0) > 0;
 
-        let padding = depth * 2;
         let tooltip = self.generate_tooltip(expr.id);
 
-        output.push_str(&format!(
-            "<span class=\"expr\" style=\"background-color: {}; padding: {}px;\" \
+        let span = format!(
+            "<span class=\"expr\" style=\"background-color: {};\" \
              onmouseover=\"showTooltip(event, '{}')\" \
              onmouseout=\"hideTooltip()\">",
             bg_color,
-            padding,
             html_escape(&tooltip).replace("'", "&apos;")
-        ));
+        );
+        output.push_str(&span);
+        span_stack.push(span);
 
         if has_error {
             output.push_str("<span class=\"error-marker\">●</span>");
         }
 
-        self.render_expression_kind(
-            &expr.kind,
-            output,
-            depth + 1,
-            &SpanInfo {
-                bg_color: bg_color.to_string(),
-                padding,
-                tooltip: html_escape(&tooltip).replace("'", "&apos;"),
-            },
-        );
+        self.render_expression_kind(&expr.kind, output, span_stack);
 
         if let Some(suffix) = &expr.suffix {
             output.push_str(&format!("<sub>{}</sub>", html_escape(suffix)));
         }
 
         output.push_str("</span>");
+        span_stack.pop();
     }
 
     fn render_expression_kind(
         &self,
-        kind: &grammar::ExpressionKind,
+        kind: &ExpressionKind,
         output: &mut String,
-        depth: usize,
-        parent_span: &SpanInfo,
+        span_stack: &mut Vec<String>,
     ) {
-        use grammar::ExpressionKind;
-
         match kind {
             ExpressionKind::Grouped(e) => {
                 output.push_str("( ");
-                self.render_expression(e, output, depth);
+                self.render_expression(e, output, span_stack);
                 output.push_str(" )");
             }
             ExpressionKind::Alt(es) => {
-                for (i, e) in es.iter().enumerate() {
-                    if i > 0 {
-                        // Close and reopen span if next item is a Break
-                        if e.is_break() {
-                            output.push_str("</span>");
-                            self.render_expression(e, output, depth);
-                            // Reopen the parent span
-                            output.push_str(&format!(
-                                "<span class=\"expr\" style=\"background-color: {}; padding: {}px;\" \
-                                 onmouseover=\"showTooltip(event, '{}')\" \
-                                 onmouseout=\"hideTooltip()\">",
-                                parent_span.bg_color, parent_span.padding, parent_span.tooltip
-                            ));
-                            continue;
-                        } else {
-                            output.push_str(" | ");
+                let mut iter = es.iter().peekable();
+                while let Some(e) = iter.next() {
+                    self.render_expression(e, output, span_stack);
+                    if iter.peek().is_some() {
+                        if !e.last_expr().is_break() {
+                            output.push(' ');
                         }
+                        output.push_str("| ");
                     }
-                    self.render_expression(e, output, depth);
                 }
             }
             ExpressionKind::Sequence(es) => {
-                for (i, e) in es.iter().enumerate() {
-                    if e.is_break() {
-                        // Close span before Break, then reopen after
-                        output.push_str("</span>");
-                        self.render_expression(e, output, depth);
-                        if i + 1 < es.len() {
-                            // Reopen parent span
-                            output.push_str(&format!(
-                                "<span class=\"expr\" style=\"background-color: {}; padding: {}px;\" \
-                                 onmouseover=\"showTooltip(event, '{}')\" \
-                                 onmouseout=\"hideTooltip()\">",
-                                parent_span.bg_color, parent_span.padding, parent_span.tooltip
-                            ));
-                        }
-                    } else {
-                        if i > 0 && !es.get(i - 1).map(|prev| prev.is_break()).unwrap_or(false) {
-                            output.push(' ');
-                        }
-                        self.render_expression(e, output, depth);
+                let mut iter = es.iter().peekable();
+                while let Some(e) = iter.next() {
+                    self.render_expression(e, output, span_stack);
+                    if iter.peek().is_some() && !e.last_expr().is_break() {
+                        output.push(' ');
                     }
                 }
             }
             ExpressionKind::Optional(e) => {
-                self.render_expression(e, output, depth);
+                self.render_expression(e, output, span_stack);
                 output.push_str("<sup>?</sup>");
             }
             ExpressionKind::NegativeLookahead(e) => {
                 output.push('!');
-                self.render_expression(e, output, depth);
+                self.render_expression(e, output, span_stack);
             }
             ExpressionKind::Repeat(e) => {
-                self.render_expression(e, output, depth);
+                self.render_expression(e, output, span_stack);
                 output.push_str("<sup>*</sup>");
             }
             ExpressionKind::RepeatPlus(e) => {
-                self.render_expression(e, output, depth);
+                self.render_expression(e, output, span_stack);
                 output.push_str("<sup>+</sup>");
             }
             ExpressionKind::RepeatRange {
@@ -356,7 +324,7 @@ impl Coverage {
                 max,
                 limit,
             } => {
-                self.render_expression(expr, output, depth);
+                self.render_expression(expr, output, span_stack);
                 output.push_str("<sup>");
                 if let Some(n) = name {
                     output.push_str(&html_escape(n));
@@ -372,7 +340,7 @@ impl Coverage {
                 output.push_str("</sup>");
             }
             ExpressionKind::RepeatRangeNamed(e, name) => {
-                self.render_expression(e, output, depth);
+                self.render_expression(e, output, span_stack);
                 output.push_str(&format!("<sup>{}</sup>", html_escape(name)));
             }
             ExpressionKind::Nt(nt) => {
@@ -409,11 +377,11 @@ impl Coverage {
             }
             ExpressionKind::NegExpression(e) => {
                 output.push('~');
-                self.render_expression(e, output, depth);
+                self.render_expression(e, output, span_stack);
             }
             ExpressionKind::Cut(e) => {
                 output.push_str("^ ");
-                self.render_expression(e, output, depth);
+                self.render_expression(e, output, span_stack);
             }
             ExpressionKind::Unicode((_, s)) => {
                 output.push_str(&format!("U+{}", html_escape(s)));
