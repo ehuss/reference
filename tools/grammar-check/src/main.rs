@@ -188,7 +188,7 @@ impl CommonOptions {
             let production = &grammar_ref
                 .productions
                 .get(permute_name)
-                .unwrap()
+                .unwrap_or_else(|| panic!("production `{permute_name}` not found"))
                 .expression;
 
             Mutex::new(permute2::PermutationIterator::new(grammar_ref, production))
