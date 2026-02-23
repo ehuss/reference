@@ -76,7 +76,8 @@ fn tokens_from_ts(src: &str, ts: TokenStream, output: &mut Vec<Node>) -> Result<
 
         match tt {
             TokenTree::Ident(_) => {
-                // proc-macro2 does not reject RESERVED_TOKEN_DOUBLE_QUOTE
+                // proc-macro2 does not reject Edition 2021 reserved prefixes.
+                // https://github.com/dtolnay/proc-macro2/issues/534
                 if src[range.end..].chars().next() == Some('"')
                     && !matches!(&src[range.clone()], "b" | "c" | "r" | "br" | "cr")
                 {
@@ -152,6 +153,7 @@ fn tokens_from_ts(src: &str, ts: TokenStream, output: &mut Vec<Node>) -> Result<
                     }
                 }
 
+                // https://github.com/dtolnay/proc-macro2/issues/535
                 if s == "#"
                     && i < trees.len()
                     && let TokenTree::Literal(lit) = &trees[i]
@@ -189,6 +191,7 @@ fn tokens_from_ts(src: &str, ts: TokenStream, output: &mut Vec<Node>) -> Result<
                     });
                 }
 
+                // https://github.com/dtolnay/proc-macro2/issues/533
                 let s_rest = &src[range.start..];
                 if let Some(m) = NUM_DOT.find(s_rest) {
                     let next = src[range.start + m.len()..].chars().next();
@@ -362,6 +365,7 @@ fn normalize_reference_tokens(tokens: Vec<Node>, src: &str) -> Vec<Node> {
         .filter(|token| !matches!(token.name.as_str(), "LINE_COMMENT" | "BLOCK_COMMENT"))
         .fold(Vec::with_capacity(len), |mut acc, token| {
             // proc-macro2 does not handle ## reserved tokens (treats them as individual punctuation)
+            // https://github.com/dtolnay/proc-macro2/issues/535
             if token.name == "RESERVED_TOKEN" && src[token.range.clone()].chars().all(|c| c == '#')
             {
                 let count = token.range.len();
