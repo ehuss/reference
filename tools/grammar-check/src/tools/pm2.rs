@@ -70,7 +70,7 @@ fn tokens_from_ts(src: &str, ts: TokenStream, output: &mut Vec<Node>) -> Result<
         // For OUTER_LINE_DOC and CRLF input, the range ends up pointing at
         // the CR. Adjust this to match the other tools.
         let s_range = &src[range.clone()];
-        if s_range.starts_with("///") && s_range.ends_with('\r') {
+        if (s_range.starts_with("///") || s_range.starts_with("//!")) && s_range.ends_with('\r') {
             range.end -= 1;
         }
 
@@ -409,7 +409,6 @@ fn normalize_reference_tokens(tokens: Vec<Node>, src: &str) -> Vec<Node> {
                         },
                     ));
                 }
-                // acc.extend(std::iter::repeat(token).take(7)),
                 _ => acc.push(token),
             }
             acc
