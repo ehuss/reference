@@ -16,8 +16,12 @@ impl ParseError {
     pub fn display(&self, src: &str) -> String {
         let s = &src[self.byte_offset..];
         match s.char_indices().nth(100) {
-            Some((i, _)) => format!("{} at `{}…`", self.message, &s[..i]),
-            None => format!("{} at `{s}`", self.message),
+            Some((i, _)) => format!(
+                "{} at `{}…`",
+                self.message,
+                diagnostics::make_printable(&s[..i])
+            ),
+            None => format!("{} at `{}`", self.message, diagnostics::make_printable(s)),
         }
     }
 }

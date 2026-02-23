@@ -49,3 +49,15 @@ macro_rules! bug {
         std::process::exit(1);
     };
 }
+
+pub fn make_printable(line: &str) -> String {
+    line.chars()
+        .map(|ch| {
+            if ch <= '\x1f' {
+                char::from_u32((ch as u32) + 0x2400).unwrap()
+            } else {
+                ch
+            }
+        })
+        .collect()
+}
