@@ -168,10 +168,14 @@ impl<'g> PermutationIterator<'g> {
                     emitted_empty: false,
                 }
             }
-            ExpressionKind::NegativeLookahead(expr) => IteratorState::Terminal {
-                value: String::new(),
-                done: false,
-            },
+            ExpressionKind::NegativeLookahead(expr) => {
+                let iterator =
+                    Box::new(Self::new_with_context(grammar, expr, name_context.clone()));
+                IteratorState::Optional {
+                    iterator,
+                    emitted_empty: false,
+                }
+            }
             ExpressionKind::Repeat(expr) => IteratorState::Repeat {
                 expr,
                 include_empty: true,
@@ -703,5 +707,15 @@ mod tests {
     fn named_repeat_range() {
         // Test named repeat ranges are synchronized (only min and max values)
         assert_permutations("P -> `A`{n:1..=5} `B` `C`{n}", &["ABC", "AAAAABCCCCC"]);
+    }
+
+    #[test]
+    fn negative_lookahead() {
+        // NegativeLookahead emits empty string first, then all permutations of the expression.
+        assert_permutations("P -> !`A`", &["", "A"]);
+        assert_permutations("P -> !(`A` | `B`)", &["", "A", "B"]);
+        // In a sequence: empty lookahead plus the rest, then lookahead expr plus the rest,
+        // then truncated-length permutations (just the lookahead expression alone).
+        assert_permutations("P -> !`X` `Y`", &["Y", "XY", "", "X"]);
     }
 }
