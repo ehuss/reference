@@ -62,7 +62,7 @@ fn tokenize_src(src: &str, tool: Tool, edition: Edition) {
                     }
                 )
             );
-            std::process::exit(1);
+            return;
         }
     };
     for token in tokens {
