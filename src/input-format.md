@@ -62,7 +62,7 @@ r[input.shebang.syntax]
 
 ```grammar,lexer
 @root SHEBANG ->
-    `#!` !((WHITESPACE | LINE_COMMENT | BLOCK_COMMENT)* `[`) 
+    `#!` !((WHITESPACE | LINE_COMMENT | BLOCK_COMMENT)* `[`)
         ~LF* (LF | EOF)
 ```
 
