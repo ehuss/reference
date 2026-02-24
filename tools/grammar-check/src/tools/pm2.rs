@@ -86,6 +86,14 @@ fn tokens_from_ts(src: &str, ts: TokenStream, output: &mut Vec<Node>) -> Result<
                         byte_offset: range.end,
                     });
                 }
+                if src[range.end..].chars().next() == Some('\'')
+                    && !matches!(&src[range.clone()], "b")
+                {
+                    return Err(ParseError {
+                        message: "RESERVED_TOKEN_SINGLE_QUOTE".to_string(),
+                        byte_offset: range.end,
+                    });
+                }
 
                 if src[range.end..].chars().next() == Some('#') {
                     return Err(ParseError {
@@ -179,6 +187,14 @@ fn tokens_from_ts(src: &str, ts: TokenStream, output: &mut Vec<Node>) -> Result<
                 if SUFFIX_NO_E.is_match(&s) && !FLOAT_EXPONENT.is_match(&s) {
                     return Err(ParseError {
                         message: "bad E suffix".to_string(),
+                        byte_offset: range.start,
+                    });
+                }
+
+                // https://github.com/dtolnay/proc-macro2/issues/531
+                if s.starts_with("b'") && matches!(s.as_bytes()[2], b'\'' | b'\r' | b'\n' | b'\t') {
+                    return Err(ParseError {
+                        message: "invalid byte literal".to_string(),
                         byte_offset: range.start,
                     });
                 }
