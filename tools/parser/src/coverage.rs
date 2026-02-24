@@ -185,10 +185,34 @@ impl Coverage {
     fn render_html(&self, output: &mut String, span_stack: &mut Vec<String>, grammar: &Grammar) {
         output.push_str(HTML_HEADER);
 
+        // Group productions by category, preserving first-appearance order.
+        let mut category_order: Vec<String> = Vec::new();
+        let mut categories: std::collections::HashMap<String, Vec<&str>> =
+            std::collections::HashMap::new();
         for name in &grammar.name_order {
             if let Some(prod) = grammar.productions.get(name) {
-                self.render_production(prod, output, span_stack);
+                let cat = &prod.category;
+                if !categories.contains_key(cat) {
+                    category_order.push(cat.clone());
+                    categories.insert(cat.clone(), Vec::new());
+                }
+                categories.get_mut(cat).unwrap().push(name.as_str());
             }
+        }
+
+        for category in &category_order {
+            output.push_str(&format!(
+                "<div class=\"category\"><h2 class=\"category-name\">{}</h2>\n",
+                html_escape(category)
+            ));
+            if let Some(names) = categories.get(category) {
+                for name in names {
+                    if let Some(prod) = grammar.productions.get(*name) {
+                        self.render_production(prod, output, span_stack);
+                    }
+                }
+            }
+            output.push_str("</div>\n");
         }
 
         output.push_str(HTML_FOOTER);
@@ -536,6 +560,20 @@ const HTML_HEADER: &str = r#"<!DOCTYPE html>
         }
         h1 {
             color: #333;
+        }
+        .category {
+            margin: 30px 0;
+            border: 2px solid #aaa;
+            border-radius: 6px;
+            padding: 10px 16px;
+            background-color: #fafafa;
+        }
+        .category-name {
+            margin: 0 0 12px 0;
+            font-size: 1.1em;
+            color: #444;
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 6px;
         }
     </style>
 </head>
