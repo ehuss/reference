@@ -12,7 +12,7 @@ mod render_markdown;
 mod render_railroad;
 
 static NAMES_RE: LazyLock<Regex> =
-    LazyLock::new(|| Regex::new(r"(?m)^(?:@root )?([A-Za-z0-9_]+)(?: \([^)]+\))? ->").unwrap());
+    LazyLock::new(|| Regex::new(r"(?m)^(?:@root )?([A-Za-z0-9_⊥]+)(?: \([^)]+\))? ->").unwrap());
 
 #[derive(Debug)]
 pub struct RenderCtx {
