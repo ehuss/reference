@@ -1,5 +1,5 @@
 #![allow(unused)]
-use grammar::{Characters, Expression, ExpressionKind, Grammar, RangeLimit};
+use grammar::{Expression, ExpressionKind, Grammar, RangeLimit};
 use std::collections::HashMap;
 
 /// Represents a generated permutation with its name and content.
@@ -281,55 +281,37 @@ impl<'g> PermutationIterator<'g> {
             },
             ExpressionKind::Break(_) => unreachable!(),
             ExpressionKind::Comment(_) => unreachable!(),
-            ExpressionKind::Charset(items) => {
-                // Charset behaves as Alt of the given Characters
-                let mut iterators = Vec::new();
-                for chars in items {
-                    match chars {
-                        Characters::Named(name) => {
-                            // Behave like Nt - lookup the production
-                            let prod = grammar.productions.get(name).unwrap();
-                            iterators.push(Self::new_with_context(
-                                grammar,
-                                &prod.expression,
-                                name_context.clone(),
-                            ));
-                        }
-                        Characters::Terminal(s) => {
-                            // Behave like Terminal - create a Terminal iterator directly
-                            iterators.push(PermutationIterator {
-                                grammar,
-                                name_context: name_context.clone(),
-                                state: IteratorState::Terminal {
-                                    value: s.clone(),
-                                    done: false,
-                                },
-                            });
-                        }
-                        Characters::Range(start, end) => {
-                            // Behave like Alt of start and end characters
-                            let start_ch = start.get_ch();
-                            let end_ch = end.get_ch();
-                            iterators.push(PermutationIterator {
-                                grammar,
-                                name_context: name_context.clone(),
-                                state: IteratorState::Terminal {
-                                    value: start_ch.to_string(),
-                                    done: false,
-                                },
-                            });
-                            iterators.push(PermutationIterator {
-                                grammar,
-                                name_context: name_context.clone(),
-                                state: IteratorState::Terminal {
-                                    value: end_ch.to_string(),
-                                    done: false,
-                                },
-                            });
-                        }
-                    }
+            ExpressionKind::Charset(chars) => {
+                let iterators: Vec<_> = chars
+                    .iter()
+                    .map(|e| Self::new_with_context(grammar, e, name_context.clone()))
+                    .collect();
+                IteratorState::Alt {
+                    iterators,
+                    current_index: 0,
                 }
-
+            }
+            ExpressionKind::CharacterRange(start, end) => {
+                // Behave like Alt of start and end characters
+                let mut iterators = Vec::new();
+                let start_ch = start.get_ch();
+                let end_ch = end.get_ch();
+                iterators.push(PermutationIterator {
+                    grammar,
+                    name_context: name_context.clone(),
+                    state: IteratorState::Terminal {
+                        value: start_ch.to_string(),
+                        done: false,
+                    },
+                });
+                iterators.push(PermutationIterator {
+                    grammar,
+                    name_context: name_context.clone(),
+                    state: IteratorState::Terminal {
+                        value: end_ch.to_string(),
+                        done: false,
+                    },
+                });
                 IteratorState::Alt {
                     iterators,
                     current_index: 0,

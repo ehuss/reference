@@ -1,6 +1,6 @@
 //! Support for recording and rendering coverage of the grammar.
 
-use grammar::{Expression, ExpressionKind, Grammar};
+use grammar::{Character, Expression, ExpressionKind, Grammar};
 
 #[derive(Default)]
 pub struct Coverage {
@@ -395,9 +395,20 @@ impl Coverage {
                     if i > 0 {
                         output.push(' ');
                     }
-                    self.render_characters(chars, output);
+                    self.render_expression(chars, output, span_stack);
                 }
                 output.push(']');
+            }
+            ExpressionKind::CharacterRange(a, b) => {
+                let render_ch = |ch: &Character| -> String {
+                    match ch {
+                        Character::Char(c) => format!("`{}`", html_escape(&c.to_string())),
+                        Character::Unicode((_, s)) => format!("U+{}", html_escape(s)),
+                    }
+                };
+                output.push_str(&render_ch(a));
+                output.push('-');
+                output.push_str(&render_ch(b));
             }
             ExpressionKind::NegExpression(e) => {
                 output.push('~');
@@ -409,33 +420,6 @@ impl Coverage {
             }
             ExpressionKind::Unicode((_, s)) => {
                 output.push_str(&format!("U+{}", html_escape(s)));
-            }
-        }
-    }
-
-    fn render_characters(&self, chars: &grammar::Characters, output: &mut String) {
-        use grammar::{Character, Characters};
-
-        match chars {
-            Characters::Named(s) => {
-                output.push_str(&format!(
-                    "<span class=\"nonterminal\">{}</span>",
-                    html_escape(s)
-                ));
-            }
-            Characters::Terminal(s) => {
-                output.push_str(&format!("`{}`", html_escape(s)));
-            }
-            Characters::Range(a, b) => {
-                let render_ch = |ch: &Character| -> String {
-                    match ch {
-                        Character::Char(c) => format!("`{}`", html_escape(&c.to_string())),
-                        Character::Unicode((_, s)) => format!("U+{}", html_escape(s)),
-                    }
-                };
-                output.push_str(&render_ch(a));
-                output.push('-');
-                output.push_str(&render_ch(b));
             }
         }
     }

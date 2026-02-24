@@ -2,10 +2,10 @@
 
 use super::{Node, Nodes, ParseError};
 use crate::coverage::Coverage;
-use grammar::{Characters, Expression, ExpressionKind, Grammar, Production, RangeLimit};
+use grammar::{Expression, ExpressionKind, Grammar, Production, RangeLimit};
 use std::collections::HashMap;
 use std::ops::Range;
-use tracing::{debug, instrument};
+use tracing::instrument;
 
 /// This stores named repetitions.
 ///
@@ -478,44 +478,28 @@ fn parse(
         ExpressionKind::Comment(_) => unreachable!(),
         ExpressionKind::Charset(chars) => {
             assert_eq!(e.suffix, None);
-            if index >= src.len() {
+            for ch in chars {
+                if let Some(r) = parse(grammar, coverage, ch, src, index, env)? {
+                    cov_match(coverage, 1);
+                    return Ok(Some(r));
+                }
+            }
+            cov_no_match(coverage);
+            Ok(None)
+        }
+        ExpressionKind::CharacterRange(a, b) => {
+            let Some((next, range)) = src.get_element(index) else {
                 cov_no_match(coverage);
                 return Ok(None);
-            }
-            for ch in chars {
-                debug!("try {ch:?}");
-                match ch {
-                    Characters::Named(name) => {
-                        if let Some((nodes, next_index)) =
-                            parse_nt(grammar, name, src, index, env, coverage)?
-                        {
-                            // TODO
-                            cov_match(coverage, 1);
-                            return Ok(Some((nodes, next_index)));
-                        }
-                    }
-                    Characters::Terminal(s) => {
-                        if let Some((next_s, range)) = src.get_substring(index, s.len())
-                            && next_s == s
-                        {
-                            let next_index = src.advance(index, s.len());
-                            let nodes = Nodes::new(format!("Terminal {s:?}"), range);
-                            cov_match(coverage, 1); // TODO
-                            return Ok(Some((nodes, next_index)));
-                        }
-                    }
-                    Characters::Range(a, b) => {
-                        let (next, range) = src.get_element(index).unwrap();
-                        if next.chars().count() == 1 {
-                            let ch = next.chars().next().unwrap();
-                            if ch >= a.get_ch() && ch <= b.get_ch() {
-                                let next_index = src.advance(index, ch.len_utf8());
-                                let nodes = Nodes::new(format!("Range {a:?} to {b:?}"), range);
-                                cov_match(coverage, 1); //TODO
-                                return Ok(Some((nodes, next_index)));
-                            }
-                        }
-                    }
+            };
+            if next.chars().count() == 1 {
+                let ch = next.chars().next().unwrap();
+                if ch >= a.get_ch() && ch <= b.get_ch() {
+                    let next_index = src.advance(index, ch.len_utf8());
+                    let nodes = Nodes::new(format!("Range {a:?} to {b:?}"), range);
+                    // TODO: Would be nice to record coverage of how much of the range is covered.
+                    cov_match(coverage, 1);
+                    return Ok(Some((nodes, next_index)));
                 }
             }
             cov_no_match(coverage);

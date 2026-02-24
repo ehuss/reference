@@ -44,20 +44,17 @@ impl Display for Expression {
             ExpressionKind::Prose(s) => write!(f, "<{s}>")?,
             ExpressionKind::Break(_) => write!(f, " ")?,
             ExpressionKind::Comment(_) => {}
-            ExpressionKind::Charset(chars) => {
+            ExpressionKind::Charset(es) => {
                 write!(f, "[")?;
-                for (i, c) in chars.iter().enumerate() {
+                for (i, e) in es.iter().enumerate() {
                     if i > 0 {
                         write!(f, " ")?;
                     }
-                    match c {
-                        super::Characters::Named(s) => write!(f, "{s}")?,
-                        super::Characters::Terminal(s) => write!(f, "`{s}`")?,
-                        super::Characters::Range(start, end) => write!(f, "{start}-{end}")?,
-                    }
+                    write!(f, "{e}")?;
                 }
                 write!(f, "]")?;
             }
+            ExpressionKind::CharacterRange(start, end) => write!(f, "{start}-{end}")?,
             ExpressionKind::NegExpression(e) => write!(f, "~{e}")?,
             ExpressionKind::Cut(e) => write!(f, "^ {e}")?,
             ExpressionKind::Unicode((_, s)) => write!(f, "U+{s}")?,
