@@ -3,7 +3,7 @@
 use super::RenderCtx;
 use crate::grammar::Grammar;
 use anyhow::bail;
-use grammar::{Character, Characters, Expression, ExpressionKind, Production, RangeLimit};
+use grammar::{Character, Expression, ExpressionKind, Production, RangeLimit};
 use railroad::*;
 use regex::Regex;
 use std::fmt::Write;
@@ -298,8 +298,23 @@ fn render_expression(expr: &Expression, cx: &RenderCtx, stack: bool) -> Option<B
                 ExpressionKind::Break(_) => return None,
                 ExpressionKind::Comment(_) => return None,
                 ExpressionKind::Charset(set) => {
-                    let ns: Vec<_> = set.iter().map(|c| render_characters(c, cx)).collect();
-                    Box::new(Choice::<Box<dyn Node>>::new(ns))
+                    let choices: Vec<_> = set
+                        .iter()
+                        .map(|e| render_expression(e, cx, stack))
+                        .filter_map(|n| n)
+                        .collect();
+                    Box::new(Choice::<Box<dyn Node>>::new(choices))
+                }
+                ExpressionKind::CharacterRange(start, end) => {
+                    let mut s = String::new();
+                    let write_ch = |ch: &Character, output: &mut String| match ch {
+                        Character::Char(ch) => output.push(*ch),
+                        Character::Unicode((_, s)) => write!(output, "U+{s}").unwrap(),
+                    };
+                    write_ch(start, &mut s);
+                    s.push('-');
+                    write_ch(end, &mut s);
+                    Box::new(Terminal::new(s))
                 }
                 ExpressionKind::NegExpression(e) => {
                     let n = render_expression(e, cx, stack)?;
@@ -336,24 +351,6 @@ fn render_expression(expr: &Expression, cx: &RenderCtx, stack: bool) -> Option<B
     // on a vertical stack or a LabeledBox or something like that, but I
     // don't feel like bothering.
     Some(n)
-}
-
-fn render_characters(chars: &Characters, cx: &RenderCtx) -> Box<dyn Node> {
-    match chars {
-        Characters::Named(s) => node_for_nt(cx, s),
-        Characters::Terminal(s) => Box::new(Terminal::new(s.clone())),
-        Characters::Range(a, b) => {
-            let mut s = String::new();
-            let write_ch = |ch: &Character, output: &mut String| match ch {
-                Character::Char(ch) => output.push(*ch),
-                Character::Unicode((_, s)) => write!(output, "U+{s}").unwrap(),
-            };
-            write_ch(a, &mut s);
-            s.push('-');
-            write_ch(b, &mut s);
-            Box::new(Terminal::new(s))
-        }
-    }
 }
 
 fn node_for_nt(cx: &RenderCtx, name: &str) -> Box<dyn Node> {
@@ -416,7 +413,7 @@ impl Node for Except {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use grammar::{Character, Characters, Expression, ExpressionKind, RangeLimit};
+    use grammar::{Character, Expression, ExpressionKind, RangeLimit};
 
     /// Render an expression to an SVG string fragment.
     fn render_to_svg(expr: &Expression) -> Option<String> {
@@ -546,8 +543,8 @@ mod tests {
         let expr = Expression::new_kind(
             ExpressionKind::NegativeLookahead(Box::new(Expression::new_kind(
                 ExpressionKind::Charset(vec![
-                    Characters::Terminal("e".to_string()),
-                    Characters::Terminal("E".to_string()),
+                    Expression::new_kind(ExpressionKind::Terminal("e".to_string()), 0),
+                    Expression::new_kind(ExpressionKind::Terminal("E".to_string()), 0),
                 ]),
                 0,
             ))),
@@ -583,9 +580,12 @@ mod tests {
     #[test]
     fn charset_unicode_range() {
         let expr = Expression::new_kind(
-            ExpressionKind::Charset(vec![Characters::Range(
-                Character::Unicode(('\0', "0000".to_string())),
-                Character::Unicode(('\u{007F}', "007F".to_string())),
+            ExpressionKind::Charset(vec![Expression::new_kind(
+                ExpressionKind::CharacterRange(
+                    Character::Unicode(('\0', "0000".to_string())),
+                    Character::Unicode(('\u{007F}', "007F".to_string())),
+                ),
+                0,
             )]),
             0,
         );
@@ -597,9 +597,9 @@ mod tests {
     #[test]
     fn charset_char_range() {
         let expr = Expression::new_kind(
-            ExpressionKind::Charset(vec![Characters::Range(
-                Character::Char('a'),
-                Character::Char('z'),
+            ExpressionKind::Charset(vec![Expression::new_kind(
+                ExpressionKind::CharacterRange(Character::Char('a'), Character::Char('z')),
+                0,
             )]),
             0,
         );
@@ -633,7 +633,10 @@ mod tests {
     fn neg_expression_rendering() {
         let expr = Expression::new_kind(
             ExpressionKind::NegExpression(Box::new(Expression::new_kind(
-                ExpressionKind::Charset(vec![Characters::Terminal("a".to_string())]),
+                ExpressionKind::Charset(vec![Expression::new_kind(
+                    ExpressionKind::Terminal("a".to_string()),
+                    0,
+                )]),
                 0,
             ))),
             0,

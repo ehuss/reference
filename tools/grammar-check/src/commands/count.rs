@@ -1,6 +1,6 @@
 use clap::ArgMatches;
 use diagnostics::Diagnostics;
-use grammar::{Characters, Expression, ExpressionKind, Grammar};
+use grammar::{Expression, ExpressionKind, Grammar};
 use tracing::instrument;
 
 pub fn count(matches: &ArgMatches) {
@@ -38,19 +38,10 @@ fn count_expr(grammar: &Grammar, expr: &Expression) -> u64 {
         ExpressionKind::Prose(_) => 3,
         ExpressionKind::Break(_) => 0,
         ExpressionKind::Comment(_) => 0,
-        ExpressionKind::Charset(chars) => chars.iter().map(|ch| count_char(grammar, ch)).sum(),
+        ExpressionKind::Charset(chars) => chars.iter().map(|ch| count_expr(grammar, ch)).sum(),
+        ExpressionKind::CharacterRange(_, _) => 2,
         ExpressionKind::NegExpression(_) => 1,
         ExpressionKind::Cut(e) => count_expr(grammar, e),
         ExpressionKind::Unicode(_) => 1,
-    }
-}
-
-fn count_char(grammar: &Grammar, ch: &Characters) -> u64 {
-    match ch {
-        Characters::Named(nt) => {
-            count_expr(grammar, &grammar.productions.get(nt).unwrap().expression)
-        }
-        Characters::Terminal(_) => 1,
-        Characters::Range(_, _) => 2,
     }
 }
