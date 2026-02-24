@@ -515,7 +515,7 @@ r[lex.token.literal.int.kind-oct]
 r[lex.token.literal.int.kind-bin]
 * A _binary literal_ starts with the character sequence `U+0030` `U+0062` (`0b`) and continues as any mixture (with at least one digit) of binary digits and underscores.
 
-r[lex.token.literal.int.restriction]
+r[lex.token.literal.int.suffix]
 Like any literal, an integer literal may be followed (immediately, without any spaces) by a suffix as described above. The suffix may not begin with `e` or `E`, as that would be interpreted as the exponent of a floating-point literal. See [Integer literal expressions] for the effect of these suffixes.
 
 Examples of integer literals which are accepted as literal expressions:
