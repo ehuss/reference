@@ -138,6 +138,7 @@ fn find_split_locations<'a>(
         | ExpressionKind::Break(_)
         | ExpressionKind::Comment(_)
         | ExpressionKind::Charset(_)
+        | ExpressionKind::CharacterRange(..)
         | ExpressionKind::Unicode(_) => {
             // These don't contribute to token splitting
         }
@@ -311,31 +312,13 @@ fn get_possible_endings_impl(
         }
         ExpressionKind::Charset(chars) => {
             for ch in chars {
-                match ch {
-                    grammar::Characters::Terminal(s) => {
-                        for c in s.chars() {
-                            endings.insert(c.to_string());
-                        }
-                    }
-                    grammar::Characters::Range(start, end) => {
-                        // For ranges, we'll just add the boundary characters
-                        endings.insert(start.get_ch().to_string());
-                        endings.insert(end.get_ch().to_string());
-                    }
-                    grammar::Characters::Named(nt) => {
-                        if visited.insert(nt.clone()) {
-                            if let Some(prod) = grammar.productions.get(nt) {
-                                get_possible_endings_impl(
-                                    grammar,
-                                    &prod.expression,
-                                    endings,
-                                    visited,
-                                );
-                            }
-                        }
-                    }
-                }
+                get_possible_endings_impl(grammar, ch, endings, visited);
             }
+        }
+        ExpressionKind::CharacterRange(a, b) => {
+            // For ranges, we'll just add the boundary characters
+            endings.insert(a.get_ch().to_string());
+            endings.insert(b.get_ch().to_string());
         }
         ExpressionKind::Unicode((ch, _)) => {
             endings.insert(ch.to_string());
@@ -417,30 +400,12 @@ fn get_possible_starts_impl(
         }
         ExpressionKind::Charset(chars) => {
             for ch in chars {
-                match ch {
-                    grammar::Characters::Terminal(s) => {
-                        for c in s.chars() {
-                            starts.insert(c.to_string());
-                        }
-                    }
-                    grammar::Characters::Range(start, end) => {
-                        starts.insert(start.get_ch().to_string());
-                        starts.insert(end.get_ch().to_string());
-                    }
-                    grammar::Characters::Named(nt) => {
-                        if visited.insert(nt.clone()) {
-                            if let Some(prod) = grammar.productions.get(nt) {
-                                get_possible_starts_impl(
-                                    grammar,
-                                    &prod.expression,
-                                    starts,
-                                    visited,
-                                );
-                            }
-                        }
-                    }
-                }
+                get_possible_starts_impl(grammar, ch, starts, visited);
             }
+        }
+        ExpressionKind::CharacterRange(a, b) => {
+            starts.insert(a.get_ch().to_string());
+            starts.insert(b.get_ch().to_string());
         }
         ExpressionKind::Unicode((ch, _)) => {
             starts.insert(ch.to_string());

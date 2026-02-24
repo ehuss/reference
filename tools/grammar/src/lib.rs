@@ -85,7 +85,9 @@ pub enum ExpressionKind {
     /// `// Single line comment.`
     Comment(String),
     /// ``[`A`-`Z` `_` LF]``
-    Charset(Vec<Characters>),
+    Charset(Vec<Expression>),
+    /// `` `A`-`Z` `` used in a character set.
+    CharacterRange(Character, Character),
     /// ``~[` ` LF]``
     NegExpression(Box<Expression>),
     /// `^ A B C`
@@ -112,16 +114,6 @@ impl Display for RangeLimit {
         }
         .fmt(f)
     }
-}
-
-#[derive(Clone, Debug)]
-pub enum Characters {
-    /// `LF`
-    Named(String),
-    /// `` `_` ``
-    Terminal(String),
-    /// `` `A`-`Z` ``
-    Range(Character, Character),
 }
 
 #[derive(Clone, Debug)]
@@ -195,11 +187,14 @@ impl Expression {
             | ExpressionKind::Cut(e) => {
                 e.visit_nt(callback);
             }
-            ExpressionKind::Alt(es) | ExpressionKind::Sequence(es) => {
+            ExpressionKind::Alt(es)
+            | ExpressionKind::Sequence(es)
+            | ExpressionKind::Charset(es) => {
                 for e in es {
                     e.visit_nt(callback);
                 }
             }
+
             ExpressionKind::Nt(nt) => {
                 callback(nt);
             }
@@ -207,15 +202,8 @@ impl Expression {
             | ExpressionKind::Prose(_)
             | ExpressionKind::Break(_)
             | ExpressionKind::Comment(_)
-            | ExpressionKind::Unicode(_) => {}
-            ExpressionKind::Charset(set) => {
-                for ch in set {
-                    match ch {
-                        Characters::Named(s) => callback(s),
-                        Characters::Terminal(_) | Characters::Range(_, _) => {}
-                    }
-                }
-            }
+            | ExpressionKind::Unicode(_)
+            | ExpressionKind::CharacterRange(..) => {}
         }
     }
 
@@ -243,6 +231,7 @@ impl Expression {
             | ExpressionKind::Break(_)
             | ExpressionKind::Comment(_)
             | ExpressionKind::Charset(_)
+            | ExpressionKind::CharacterRange(..)
             | ExpressionKind::NegExpression(_)
             | ExpressionKind::Unicode(_) => &self.kind,
         }
