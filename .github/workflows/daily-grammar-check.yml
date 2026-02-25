@@ -26,7 +26,7 @@ jobs:
     - name: Install Rust nightly
       run: |
         rustup set profile minimal
-        rustup toolchain install nightly
+        rustup toolchain install nightly -c rustc-dev -c llvm-tools
         rustup default nightly
 
     - name: Report versions
@@ -37,7 +37,7 @@ jobs:
     - name: Run grammar check
       id: grammar-check
       continue-on-error: true
-      run: cargo run --release -p grammar-check -- lex-compare --path rust/tests
+      run: cargo run --release -p grammar-check -- lex-compare --path rust
 
     - name: Check for existing open issues
       if: steps.grammar-check.outcome == 'failure'
