@@ -20,9 +20,7 @@ BLOCK_COMMENT ->
       `/**/`
     | `/***/`
     | `/*`
-        ^
-        ( ~[`*` `!`] | `**` | BLOCK_COMMENT_OR_DOC )
-        ( BLOCK_COMMENT_OR_DOC | ~`*/` )*
+        ^ ( BLOCK_COMMENT_OR_DOC | ~`*/` )*
       `*/`
 
 INNER_LINE_DOC ->
@@ -46,9 +44,9 @@ OUTER_BLOCK_DOC ->
 BLOCK_CHAR -> (!(`*/` | CR) CHAR)
 
 BLOCK_COMMENT_OR_DOC ->
-      BLOCK_COMMENT
+      INNER_BLOCK_DOC
     | OUTER_BLOCK_DOC
-    | INNER_BLOCK_DOC
+    | BLOCK_COMMENT
 ```
 
 r[comments.normal]
