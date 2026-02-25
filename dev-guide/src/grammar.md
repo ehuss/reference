@@ -52,25 +52,22 @@ Footnote -> `[^` ~[`]` LF]+ `]`
 Quantifier ->
       Optional
     | Repeat
-    | RepeatNonGreedy
     | RepeatPlus
-    | RepeatPlusNonGreedy
     | RepeatRange
     | RepeatRangeInclusive
+    | RepeatRangeNamed
 
 Optional -> `?`
 
 Repeat -> `*`
 
-RepeatNonGreedy -> `*?`
-
 RepeatPlus -> `+`
 
-RepeatPlusNonGreedy -> `+?`
+RepeatRange -> `{` ( Name `:` )? Range? `..` Range? `}`
 
-RepeatRange -> `{` Range? `..` Range? `}`
+RepeatRangeInclusive -> `{` ( Name `:` )? Range? `..=` Range `}`
 
-RepeatRangeInclusive -> `{` Range? `..=` Range `}`
+RepeatRangeNamed -> `{` Name `}`
 
 Range -> [0-9]+
 
@@ -145,11 +142,11 @@ The general format is a series of productions separated by blank lines. The expr
 | Optional | Expr? | The preceding expression is optional. |
 | NegativeLookahead | !Expr | Matches if Expr does not follow, without consuming any input. |
 | Repeat | Expr* | The preceding expression is repeated 0 or more times. |
-| RepeatNonGreedy | Expr*? | The preceding expression is repeated 0 or more times without being greedy. |
 | RepeatPlus | Expr+ | The preceding expression is repeated 1 or more times. |
-| RepeatPlusNonGreedy | Expr+? | The preceding expression is repeated 1 or more times without being greedy. |
 | RepeatRange | Expr{2..4} | The preceding expression is repeated between the range of times specified. Either bound can be excluded, which works just like Rust ranges. |
 | RepeatRangeInclusive | Expr{2..=4} | The preceding expression is repeated between the inclusive range of times specified. The lower bound can be omitted. |
+| RepeatRange (named) | Expr{name:2..4} | When a name precedes the range, the number of repetitions is bound to that name so that subsequent RepeatRangeNamed expressions can refer to it. The same applies to RepeatRangeInclusive. |
+| RepeatRangeNamed | Expr{name} | The preceding expression is repeated the number of times determined by a previously named RepeatRange or RepeatRangeInclusive. |
 
 ## Automatic linking
 
