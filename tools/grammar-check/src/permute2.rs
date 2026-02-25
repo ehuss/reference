@@ -173,20 +173,12 @@ impl<'g> PermutationIterator<'g> {
                     emitted_empty: false,
                 }
             }
-            ExpressionKind::Repeat(expr) => IteratorState::Repeat {
+            ExpressionKind::Repeat(expr) | ExpressionKind::RepeatPlus(expr) => IteratorState::Repeat {
                 expr,
                 include_empty: true,
                 current_stage: 0,
                 iterator: None,
             },
-            ExpressionKind::RepeatPlus(expr) => {
-                IteratorState::Repeat {
-                    expr,
-                    include_empty: false,
-                    current_stage: 1, // Skip stage 0 (empty)
-                    iterator: None,
-                }
-            }
             ExpressionKind::RepeatRange {
                 expr,
                 name,
