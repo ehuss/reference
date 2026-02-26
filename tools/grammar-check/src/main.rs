@@ -77,7 +77,8 @@ enum Message {
 struct CommonOptions {
     strings: Vec<(String, String)>,
     paths: Vec<PathBuf>,
-    permute_iter: Option<Mutex<permute2::PermutationIterator<'static>>>,
+    permute_iter: Option<Mutex<Box<dyn Iterator<Item = String> + Send>>>,
+
     tools: Arc<Vec<Tool>>,
     edition: Option<Edition>,
     coverage: bool,
@@ -180,6 +181,9 @@ impl CommonOptions {
 
         // Handle --permute flag to generate test cases from grammar productions.
         let permute_iter = matches.get_one::<String>("permute").map(|permute_name| {
+            if permute_name == "three" {
+                return Mutex::new(Box::new(permute2::ThreeIterator::new()) as Box<dyn Iterator<Item = String> + Send>);
+            }
             let mut diag = Diagnostics::new();
             let grammar = grammar::load_grammar(&mut diag);
 
@@ -191,7 +195,7 @@ impl CommonOptions {
                 .unwrap_or_else(|| panic!("production `{permute_name}` not found"))
                 .expression;
 
-            Mutex::new(permute2::PermutationIterator::new(grammar_ref, production))
+            Mutex::new(Box::new(permute2::PermutationIterator::new(grammar_ref, production)) as Box<dyn Iterator<Item = String> + Send>)
         });
 
         let use_spinner = permute_iter.is_some();

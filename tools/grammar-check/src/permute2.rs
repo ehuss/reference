@@ -2,15 +2,6 @@
 use grammar::{Expression, ExpressionKind, Grammar, RangeLimit};
 use std::collections::HashMap;
 
-/// Represents a generated permutation with its name and content.
-#[derive(Debug, Clone)]
-pub struct Permutation {
-    /// The name describing this permutation (for test identification).
-    pub name: String,
-    /// The generated source string.
-    pub content: String,
-}
-
 pub struct PermutationIterator<'g> {
     pub grammar: &'g Grammar,
     name_context: HashMap<String, usize>,
@@ -330,7 +321,6 @@ impl<'g> PermutationIterator<'g> {
 }
 
 impl<'g> Iterator for PermutationIterator<'g> {
-    // type Item = Permutation;
     type Item = String;
 
     fn next(&mut self) -> Option<Self::Item> {
@@ -656,6 +646,69 @@ impl<'g> Iterator for PermutationIterator<'g> {
                 }
             }
         }
+    }
+}
+
+pub struct ThreeIterator {
+    /// Current string length being generated (1, 2, or 3).
+    len: u8,
+    /// Character indices for each position (values 0..=0x7F).
+    indices: [u8; 3],
+    /// Set when all lengths are exhausted.
+    done: bool,
+}
+
+impl ThreeIterator {
+    pub fn new() -> ThreeIterator {
+        ThreeIterator {
+            len: 1,
+            indices: [0; 3],
+            done: false,
+        }
+    }
+}
+
+impl Iterator for ThreeIterator {
+    type Item = String;
+
+    fn next(&mut self) -> Option<Self::Item> {
+        if self.done {
+            return None;
+        }
+
+        let len = self.len as usize;
+
+        // Build the current string from the active indices.
+        let result: String = self.indices[..len]
+            .iter()
+            .map(|&i| char::from_u32(i as u32).unwrap())
+            .collect();
+
+        // Advance indices right-to-left, carrying into higher positions.
+        let mut carry = true;
+        for i in (0..len).rev() {
+            if carry {
+                if self.indices[i] < 0x7F {
+                    self.indices[i] += 1;
+                    carry = false;
+                } else {
+                    self.indices[i] = 0;
+                    // carry remains true; propagate left
+                }
+            }
+        }
+
+        if carry {
+            // All positions overflowed — this length is exhausted.
+            if self.len < 3 {
+                self.len += 1;
+                self.indices = [0; 3];
+            } else {
+                self.done = true;
+            }
+        }
+
+        Some(result)
     }
 }
 
