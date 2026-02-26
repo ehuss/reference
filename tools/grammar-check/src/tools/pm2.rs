@@ -192,9 +192,14 @@ fn tokens_from_ts(src: &str, ts: TokenStream, output: &mut Vec<Node>) -> Result<
                 }
 
                 // https://github.com/dtolnay/proc-macro2/issues/531
-                if s.starts_with("b'") && matches!(s.as_bytes()[2], b'\'' | b'\r' | b'\n' | b'\t') {
+                if [
+                    "'''", "'\r'", "'\n'", "'\t'", "b'''", "b'\r'", "b'\n'", "b'\t'",
+                ]
+                .iter()
+                .any(|p| s.starts_with(p))
+                {
                     return Err(ParseError {
-                        message: "invalid byte literal".to_string(),
+                        message: "invalid byte or char literal".to_string(),
                         byte_offset: range.start,
                     });
                 }
