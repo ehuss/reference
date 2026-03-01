@@ -109,17 +109,17 @@ r[lex.token.literal.suffix]
 #### Suffixes
 
 r[lex.token.literal.literal.suffix.intro]
-A suffix is a sequence of characters following the primary part of a literal (without intervening whitespace), of the same form as a non-raw identifier or keyword.
+A suffix is a sequence of characters following (without intervening whitespace) the primary part of a literal of the same form as a non-raw identifier or keyword.
 
 r[lex.token.literal.suffix.syntax]
 ```grammar,lexer
-SUFFIX -> IDENTIFIER_OR_KEYWORD _except `_`_
-
-SUFFIX_NO_E -> ![`e` `E`] SUFFIX
+SUFFIX ->
+      `_` ^ XID_Continue+
+    | XID_Start XID_Continue*
 ```
 
 r[lex.token.literal.suffix.validity]
-Any kind of literal (string, integer, etc) with any suffix is valid as a token.
+Any kind of literal (string, integer, etc.) with any suffix is valid as a token.
 
 A literal token with any suffix can be passed to a macro without producing an error. The macro itself will decide how to interpret such a token and whether to produce an error or not. In particular, the `literal` fragment specifier for by-example macros matches literal tokens with arbitrary suffixes.
 
@@ -443,15 +443,16 @@ r[lex.token.literal.int]
 r[lex.token.literal.int.syntax]
 ```grammar,lexer
 INTEGER_LITERAL ->
-    ( BIN_LITERAL | OCT_LITERAL | HEX_LITERAL | DEC_LITERAL ) SUFFIX_NO_E?
+    ( BIN_LITERAL | OCT_LITERAL | HEX_LITERAL | DEC_LITERAL )
+    ^ !RESERVED_FLOAT SUFFIX?
 
 DEC_LITERAL -> DEC_DIGIT (DEC_DIGIT|`_`)*
 
-BIN_LITERAL -> `0b` `_`* BIN_DIGIT (BIN_DIGIT|`_`)*
+BIN_LITERAL -> `0b` ^ `_`* BIN_DIGIT (BIN_DIGIT|`_`)* ![`e` `E` `2`-`9`]
 
-OCT_LITERAL -> `0o` `_`* OCT_DIGIT (OCT_DIGIT|`_`)*
+OCT_LITERAL -> `0o` ^ `_`* OCT_DIGIT (OCT_DIGIT|`_`)* ![`e` `E` `8`-`9`]
 
-HEX_LITERAL -> `0x` `_`* HEX_DIGIT (HEX_DIGIT|`_`)*
+HEX_LITERAL -> `0x` ^ `_`* HEX_DIGIT (HEX_DIGIT|`_`)*
 
 BIN_DIGIT -> [`0`-`1`]
 
@@ -460,6 +461,8 @@ OCT_DIGIT -> [`0`-`7`]
 DEC_DIGIT -> [`0`-`9`]
 
 HEX_DIGIT -> [`0`-`9` `a`-`f` `A`-`F`]
+
+RESERVED_FLOAT -> `.` !(`.` | `_` | XID_Start)
 ```
 
 r[lex.token.literal.int.kind]
@@ -477,7 +480,7 @@ r[lex.token.literal.int.kind-oct]
 r[lex.token.literal.int.kind-bin]
 * A _binary literal_ starts with the character sequence `U+0030` `U+0062` (`0b`) and continues as any mixture (with at least one digit) of binary digits and underscores.
 
-r[lex.token.literal.int.restriction]
+r[lex.token.literal.int.suffix]
 Like any literal, an integer literal may be followed (immediately, without any spaces) by a suffix as described above. The suffix may not begin with `e` or `E`, as that would be interpreted as the exponent of a floating-point literal. See [Integer literal expressions] for the effect of these suffixes.
 
 Examples of integer literals which are accepted as literal expressions:
@@ -525,6 +528,35 @@ Examples of integer literals which are not accepted as literal expressions:
 # }
 ```
 
+r[lex.token.literal.int.invalid]
+##### Invalid integer literals
+
+r[lex.token.literal.int.invalid.intro]
+Certain integer literal forms are invalid. To avoid ambiguity, the tokenizer rejects them rather than splitting them into separate tokens.
+
+```rust,compile_fail
+0b0102;  // This is not `0b010` followed by `2`.
+0o1279;  // This is not `0o127` followed by `9`.
+0x80.0;  // This is not `0x80` followed by `.` and `0`.
+0b101e;  // This is not a suffixed literal or `0b101` followed by `e`.
+0b;      // This is not an integer literal or `0` followed by `b`.
+0b_;     // This is not an integer literal or `0` followed by `b_`.
+2em;     // This is not a suffixed literal or `2` followed by `em`.
+2.0em;   // This is not a suffixed literal or `2.0` followed by `em`.
+```
+
+r[lex.token.literal.int.out-of-range]
+It is an error to have an unsuffixed binary or octal literal followed without intervening whitespace by a decimal digit outside the range for its radix.
+
+r[lex.token.literal.int.period]
+It is an error to have an unsuffixed binary, octal, or hexadecimal literal followed without intervening whitespace by a period character (subject to the same restrictions on what may follow the period as in floating-point literals).
+
+r[lex.token.literal.int.exp]
+It is an error to have an unsuffixed binary or octal literal followed without intervening whitespace by the character `e` or `E`.
+
+r[lex.token.literal.int.empty-with-radix]
+It is an error for a radix prefix to not be followed, after any optional leading underscores, by at least one valid digit for its radix.
+
 r[lex.token.literal.int.tuple-field]
 #### Tuple index
 
@@ -559,7 +591,7 @@ r[lex.token.literal.float.syntax]
 ```grammar,lexer
 FLOAT_LITERAL ->
       DEC_LITERAL (`.` DEC_LITERAL)? FLOAT_EXPONENT SUFFIX?
-    | DEC_LITERAL `.` DEC_LITERAL SUFFIX_NO_E?
+    | DEC_LITERAL `.` DEC_LITERAL SUFFIX?
     | DEC_LITERAL `.` !(`.` | `_` | XID_Start)
 
 FLOAT_EXPONENT ->
@@ -601,52 +633,12 @@ Examples of floating-point literals which are not accepted as literal expression
 # }
 ```
 
-r[lex.token.literal.reserved]
-#### Reserved forms similar to number literals
-
-r[lex.token.literal.reserved.syntax]
-```grammar,lexer
-RESERVED_NUMBER ->
-      BIN_LITERAL [`2`-`9`]
-    | OCT_LITERAL [`8`-`9`]
-    | ( BIN_LITERAL | OCT_LITERAL | HEX_LITERAL ) `.` !(`.` | `_` | XID_Start)
-    | ( BIN_LITERAL | OCT_LITERAL ) (`e`|`E`)
-    | `0b` `_`* !BIN_DIGIT
-    | `0o` `_`* !OCT_DIGIT
-    | `0x` `_`* !HEX_DIGIT
-```
-
-r[lex.token.literal.reserved.intro]
-The following lexical forms similar to number literals are _reserved forms_. Due to the possible ambiguity these raise, they are rejected by the tokenizer instead of being interpreted as separate tokens.
-
-r[lex.token.literal.reserved.out-of-range]
-* An unsuffixed binary or octal literal followed, without intervening whitespace, by a decimal digit out of the range for its radix.
-
-r[lex.token.literal.reserved.period]
-* An unsuffixed binary, octal, or hexadecimal literal followed, without intervening whitespace, by a period character (with the same restrictions on what follows the period as for floating-point literals).
-
-r[lex.token.literal.reserved.exp]
-* An unsuffixed binary or octal literal followed, without intervening whitespace, by the character `e` or `E`.
-
-r[lex.token.literal.reserved.empty-with-radix]
-* Input which begins with one of the radix prefixes but is not a valid binary, octal, or hexadecimal literal (because it contains no digits).
-
-r[lex.token.literal.reserved.empty-exp]
-* Input which has the form of a floating-point literal with no digits in the exponent.
-
-Examples of reserved forms:
+r[lex.token.literal.float.invalid-exponent]
+It is an error for a floating-point literal to have an exponent with no digits.
 
 ```rust,compile_fail
-0b0102;  // this is not `0b010` followed by `2`
-0o1279;  // this is not `0o127` followed by `9`
-0x80.0;  // this is not `0x80` followed by `.` and `0`
-0b101e;  // this is not a suffixed literal, or `0b101` followed by `e`
-0b;      // this is not an integer literal, or `0` followed by `b`
-0b_;     // this is not an integer literal, or `0` followed by `b_`
-2e;      // this is not a floating-point literal, or `2` followed by `e`
-2.0e;    // this is not a floating-point literal, or `2.0` followed by `e`
-2em;     // this is not a suffixed literal, or `2` followed by `em`
-2.0em;   // this is not a suffixed literal, or `2.0` followed by `em`
+2e;   // This is not a floating-point literal or `2` followed by `e`.
+2.0e; // This is not a floating-point literal or `2.0` followed by `e`.
 ```
 
 r[lex.token.life]
@@ -771,7 +763,6 @@ r[lex.token.reserved.syntax]
 ```grammar,lexer
 RESERVED_TOKEN ->
       RESERVED_GUARDED_STRING_LITERAL
-    | RESERVED_NUMBER
     | RESERVED_POUNDS
     | RESERVED_RAW_IDENTIFIER
     | RESERVED_RAW_LIFETIME
