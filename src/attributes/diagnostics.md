@@ -395,6 +395,19 @@ struct MustUse();
 MustUse(); // ERROR: Unused value that must be used.
 ```
 
+r[attributes.diagnostics.must_use.type.uninhabited]
+As an exception to [attributes.diagnostics.must_use.type], the lint does not fire for `Result<(), E>` when `E` is [uninhabited] or for `ControlFlow<B, ()>` when `B` is [uninhabited]. A `#[non_exhaustive]` type from an external crate is not considered uninhabited for this purpose, because it may gain constructors in the future.
+
+```rust
+#![deny(unused_must_use)]
+# use core::ops::ControlFlow;
+enum Empty {}
+fn f1() -> Result<(), Empty> { Ok(()) }
+f1(); // OK: `Empty` is uninhabited.
+fn f2() -> ControlFlow<Empty, ()> { ControlFlow::Continue(()) }
+f2(); // OK: `Empty` is uninhabited.
+```
+
 r[attributes.diagnostics.must_use.fn]
 If the [expression] of an [expression statement] is a [call expression] or [method call expression] whose function operand is a function to which the attribute is applied, the use triggers the `unused_must_use` lint.
 
@@ -757,4 +770,5 @@ The first error message includes a somewhat confusing error message about the re
 [trait item]: ../items/traits.md
 [trait-impl]: ../items/implementations.md#trait-implementations
 [traits]: ../items/traits.md
+[uninhabited]: glossary.uninhabited
 [union]: ../items/unions.md
