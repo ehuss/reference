@@ -449,6 +449,19 @@ impl Tr for () {
 //          ^^^^^^^^^^^ ERROR: Unused return value that must be used.
 ```
 
+r[attributes.diagnostics.must_use.block-expr]
+When checking the [expression] of an [expression statement] for [attributes.diagnostics.must_use.type], [attributes.diagnostics.must_use.fn], [attributes.diagnostics.must_use.trait], and [attributes.diagnostics.must_use.trait-function], the lint looks through [block expressions][block expression] (including [`unsafe` blocks] and [labeled block expressions]) to the trailing expression of each. This applies recursively for nested block expressions.
+
+```rust,compile_fail
+#![deny(unused_must_use)]
+#[must_use]
+fn f() {}
+
+{ f() };        // ERROR: The lint looks through block expressions.
+unsafe { f() }; // ERROR: The lint looks through `unsafe` blocks.
+{ { f() } };    // ERROR: The lint looks through nested blocks.
+```
+
 r[attributes.diagnostics.must_use.trait-impl-function]
 When used on a function in a trait implementation, the attribute does nothing.
 
@@ -470,21 +483,34 @@ impl Tr for () {
 > `rustc` lints against use on functions in trait implementations. This may become an error in the future.
 
 > [!NOTE]
-> Wrapping the value, even trivially, will suppress the lint.
+> Wrapping the result of a `#[must_use]` function in certain expressions can suppress the [fn-based check][attributes.diagnostics.must_use.fn], because the [expression] of the [expression statement] is not a [call expression] or [method call expression] to a `#[must_use]` function.  The [type-based check][attributes.diagnostics.must_use.type] still applies if the type of the overall expression is `#[must_use]`.
 >
 > ```rust
 > #![deny(unused_must_use)]
 > #[must_use]
 > fn f() {}
 >
-> // None of these trigger the `unused_must_use` lint.
-> (f(),);
-> Some(f());
-> { f() };
-> if true { f() } else {};
-> match true {
+> // The fn-based check does not fire for any of these, because the
+> // expression of the expression statement is not a call to a
+> // `#[must_use]` function.
+> (f(),);                    // Expression is a tuple, not a call.
+> Some(f());                 // Callee `Some` is not `#[must_use]`.
+> if true { f() } else {};   // Expression is an `if`, not a call.
+> match true {               // Expression is a `match`, not a call.
 >     _ => f()
 > };
+> ```
+>
+> ```rust,compile_fail
+> #![deny(unused_must_use)]
+> #[must_use]
+> struct MustUse;
+> fn g() -> MustUse { MustUse }
+>
+> // Despite the `if` expression not being a call, the type-based check
+> // fires because the type of the expression is `MustUse`, which has
+> // the `#[must_use]` attribute.
+> if true { g() } else { MustUse }; // ERROR: Must be used.
 > ```
 
 > [!NOTE]
@@ -700,6 +726,7 @@ The first error message includes a somewhat confusing error message about the re
 
 [Clippy]: https://github.com/rust-lang/rust-clippy
 [`Drop`]: ../special-types-and-traits.md#drop
+[`unsafe` blocks]: ../expressions/block-expr.md#unsafe-blocks
 [attribute]: ../attributes.md
 [attributes]: ../attributes.md
 [block expression]: ../expressions/block-expr.md
@@ -715,6 +742,7 @@ The first error message includes a somewhat confusing error message about the re
 [impl trait]: ../types/impl-trait.md
 [implementation]: ../items/implementations.md
 [item]: ../items.md
+[labeled block expressions]: ../expressions/block-expr.md#labeled-block-expressions
 [let statement]: ../statements.md#let-statements
 [macro definition]: ../macros-by-example.md
 [module]: ../items/modules.md
