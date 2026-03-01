@@ -350,17 +350,17 @@ r[attributes.diagnostics.must_use]
 ## The `must_use` attribute
 
 r[attributes.diagnostics.must_use.intro]
-The *`must_use` [attribute][attributes]* is used to issue a diagnostic warning when a value is not used.
+The *`must_use` [attribute]* marks a value that should be used.
 
 r[attributes.diagnostics.must_use.syntax]
-The `must_use` attribute uses either the [MetaWord] syntax or the [MetaNameValueStr] syntax to be able to [specify a message][attributes.diagnostics.must_use.message].
+The `must_use` attribute uses the [MetaWord] and [MetaNameValueStr] syntaxes.
 
 > [!EXAMPLE]
 > ```rust
 > #[must_use]
-> fn use_me() -> u8 { 0 }
+> fn use_me1() -> u8 { 0 }
 >
-> #[must_use = "explanation of why it must be used"]
+> #[must_use = "explanation of why it should be used"]
 > fn use_me2() -> u8 { 0 }
 > ```
 
@@ -383,102 +383,118 @@ The `must_use` attribute may be used only once on an item.
 > `rustc` lints against any use following the first. This may become an error in the future.
 
 r[attributes.diagnostics.must_use.message]
-The `must_use` attribute may include a message by using the [MetaNameValueStr] syntax such as `#[must_use = "example message"]`. The message will be given alongside the warning.
+The `must_use` attribute may include a message by using the [MetaNameValueStr] syntax, e.g., `#[must_use = "example message"]`. The message may be emitted as part of the lint.
 
 r[attributes.diagnostics.must_use.type]
-When used on user-defined composite types, if the [expression] of an [expression statement] has that type, then the `unused_must_use` lint is violated.
+When the attribute is applied to a [struct], [enumeration], or [union], if the [expression] of an [expression statement] has that type, the use triggers the `unused_must_use` lint.
 
-> [!EXAMPLE]
-> ```rust
-> #[must_use]
-> struct MustUse {
->     // some fields
-> }
->
-> # impl MustUse {
-> #   fn new() -> MustUse { MustUse {} }
-> # }
-> #
-> // Violates the `unused_must_use` lint.
-> MustUse::new();
-> ```
+```rust,compile_fail
+#![deny(unused_must_use)]
+#[must_use]
+struct MustUse();
+MustUse(); // ERROR: Unused value that must be used.
+```
 
 r[attributes.diagnostics.must_use.fn]
-When used on a function, if the [expression] of an [expression statement] is a [call expression] to that function, then the `unused_must_use` lint is violated.
+If the [expression] of an [expression statement] is a [call expression] or [method call expression] whose function operand is a function to which the attribute is applied, the use triggers the `unused_must_use` lint.
 
-> [!EXAMPLE]
-> ```rust
-> #[must_use]
-> fn five() -> i32 { 5i32 }
->
-> // Violates the unused_must_use lint.
-> five();
-> ```
+```rust,compile_fail
+#![deny(unused_must_use)]
+#[must_use]
+fn f() {}
+f(); // ERROR: Unused return value that must be used.
+```
 
 r[attributes.diagnostics.must_use.trait]
-When used on a [trait declaration], a [call expression] of an [expression statement] to a function that returns an [impl trait] or a [dyn trait] of that trait violates the `unused_must_use` lint.
+If the [expression] of an [expression statement] is a [call expression] or [method call expression] whose function operand is a function that returns an [impl trait] or a [dyn trait] type where one or more traits in the bound are marked with the attribute, the use triggers the `unused_must_use` lint.
 
-> [!EXAMPLE]
-> ```rust
-> #[must_use]
-> trait Critical {}
-> impl Critical for i32 {}
->
-> fn get_critical() -> impl Critical {
->     4i32
-> }
->
-> // Violates the `unused_must_use` lint.
-> get_critical();
-> ```
+```rust,compile_fail
+#![deny(unused_must_use)]
+#[must_use]
+trait Tr {}
+impl Tr for () {}
+fn f() -> impl Tr {}
+f(); // ERROR: Unused implementor that must be used.
+```
 
 r[attributes.diagnostics.must_use.trait-function]
-When used on a function in a trait declaration, then the behavior also applies when the call expression is a function from an implementation of the trait.
+When the attribute is applied to a function in a trait declaration, the rules described in [attributes.diagnostics.must_use.fn] also apply when the function operand of the [call expression] or [method call expression] is an implementation of that function.
 
-> [!EXAMPLE]
-> ```rust
-> trait Trait {
->     #[must_use]
->     fn use_me(&self) -> i32;
-> }
->
-> impl Trait for i32 {
->     fn use_me(&self) -> i32 { 0i32 }
-> }
->
-> // Violates the `unused_must_use` lint.
-> 5i32.use_me();
-> ```
+```rust,compile_fail
+#![deny(unused_must_use)]
+trait Tr {
+    #[must_use]
+    fn use_me(&self);
+}
+
+impl Tr for () {
+    fn use_me(&self) {}
+}
+
+().use_me(); // ERROR: Unused return value that must be used.
+```
+
+```rust,compile_fail
+# #![deny(unused_must_use)]
+# trait Tr {
+#     #[must_use]
+#     fn use_me(&self);
+# }
+#
+# impl Tr for () {
+#     fn use_me(&self) {}
+# }
+#
+<() as Tr>::use_me(&());
+//          ^^^^^^^^^^^ ERROR: Unused return value that must be used.
+```
 
 r[attributes.diagnostics.must_use.trait-impl-function]
 When used on a function in a trait implementation, the attribute does nothing.
 
+```rust
+#![deny(unused_must_use)]
+trait Tr {
+    fn f(&self);
+}
+
+impl Tr for () {
+    #[must_use] // This has no effect.
+    fn f(&self) {}
+}
+
+().f(); // OK.
+```
+
 > [!NOTE]
-> Trivial no-op expressions containing the value will not violate the lint. Examples include wrapping the value in a type that does not implement [`Drop`] and then not using that type and being the final expression of a [block expression] that is not used.
+> `rustc` lints against use on functions in trait implementations. This may become an error in the future.
+
+> [!NOTE]
+> Wrapping the value, even trivially, will suppress the lint.
 >
 > ```rust
+> #![deny(unused_must_use)]
 > #[must_use]
-> fn five() -> i32 { 5i32 }
+> fn f() {}
 >
-> // None of these violate the unused_must_use lint.
-> (five(),);
-> Some(five());
-> { five() };
-> if true { five() } else { 0i32 };
+> // None of these trigger the `unused_must_use` lint.
+> (f(),);
+> Some(f());
+> { f() };
+> if true { f() } else {};
 > match true {
->     _ => five()
+>     _ => f()
 > };
 > ```
 
 > [!NOTE]
-> It is idiomatic to use a [let statement] with a pattern of `_` when a must-used value is purposely discarded.
+> Using a [let statement] with a pattern of `_` when a must-used value is purposely discarded is idiomatic.
 >
 > ```rust
+> #![deny(unused_must_use)]
 > #[must_use]
-> fn five() -> i32 { 5i32 }
->
-> // Does not violate the unused_must_use lint.
-> let _ = five();
+> fn f() {}
+> let _ = f(); // OK.
 > ```
 
 r[attributes.diagnostic.namespace]
@@ -684,9 +700,11 @@ The first error message includes a somewhat confusing error message about the re
 
 [Clippy]: https://github.com/rust-lang/rust-clippy
 [`Drop`]: ../special-types-and-traits.md#drop
+[attribute]: ../attributes.md
 [attributes]: ../attributes.md
 [block expression]: ../expressions/block-expr.md
 [call expression]: ../expressions/call-expr.md
+[method call expression]: ../expressions/method-call-expr.md
 [dyn trait]: ../types/trait-object.md
 [enum variant]: ../items/enumerations.md
 [enumeration]: ../items/enumerations.md
@@ -706,6 +724,7 @@ The first error message includes a somewhat confusing error message about the re
 [rustdoc]: ../../rustdoc/lints.html
 [struct field]: ../items/structs.md
 [struct]: ../items/structs.md
+[external block]: ../items/external-blocks.md
 [trait declaration]: ../items/traits.md
 [trait item]: ../items/traits.md
 [trait-impl]: ../items/implementations.md#trait-implementations
