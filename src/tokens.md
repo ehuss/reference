@@ -109,7 +109,7 @@ r[lex.token.literal.suffix]
 #### Suffixes
 
 r[lex.token.literal.literal.suffix.intro]
-A suffix is a sequence of characters following the primary part of a literal (without intervening whitespace), of the same form as a non-raw identifier or keyword.
+A suffix is a sequence of characters following (without intervening whitespace) the primary part of a literal of the same form as a non-raw identifier or keyword.
 
 r[lex.token.literal.suffix.syntax]
 ```grammar,lexer
@@ -119,7 +119,7 @@ SUFFIX ->
 ```
 
 r[lex.token.literal.suffix.validity]
-Any kind of literal (string, integer, etc) with any suffix is valid as a token.
+Any kind of literal (string, integer, etc.) with any suffix is valid as a token.
 
 A literal token with any suffix can be passed to a macro without producing an error. The macro itself will decide how to interpret such a token and whether to produce an error or not. In particular, the `literal` fragment specifier for by-example macros matches literal tokens with arbitrary suffixes.
 
@@ -532,32 +532,30 @@ r[lex.token.literal.int.invalid]
 ##### Invalid integer literals
 
 r[lex.token.literal.int.invalid.intro]
-The following integer literal forms are invalid. To avoid ambiguity, they are rejected by the tokenizer as a whole rather than being split into separate tokens.
+Certain integer literal forms are invalid. To avoid ambiguity, the tokenizer rejects them rather than splitting them into separate tokens.
 
-> [!EXAMPLE]
-> ```rust,compile_fail
-> 0b0102;  // this is not `0b010` followed by `2`
-> 0o1279;  // this is not `0o127` followed by `9`
-> 0x80.0;  // this is not `0x80` followed by `.` and `0`
-> 0b101e;  // this is not a suffixed literal, nor `0b101` followed by `e`
-> 0b;      // this is not an integer literal, nor `0` followed by `b`
-> 0b_;     // this is not an integer literal, nor `0` followed by `b_`
-> 2em;     // this is not a suffixed literal, nor `2` followed by `em`
-> 2.0em;   // this is not a suffixed literal, nor `2.0` followed by `em`
-> ```
+```rust,compile_fail
+0b0102;  // This is not `0b010` followed by `2`.
+0o1279;  // This is not `0o127` followed by `9`.
+0x80.0;  // This is not `0x80` followed by `.` and `0`.
+0b101e;  // This is not a suffixed literal or `0b101` followed by `e`.
+0b;      // This is not an integer literal or `0` followed by `b`.
+0b_;     // This is not an integer literal or `0` followed by `b_`.
+2em;     // This is not a suffixed literal or `2` followed by `em`.
+2.0em;   // This is not a suffixed literal or `2.0` followed by `em`.
+```
 
 r[lex.token.literal.int.out-of-range]
-It is an error to have an unsuffixed binary or octal literal followed, without intervening whitespace, by a decimal digit outside the range for its radix.
+It is an error to have an unsuffixed binary or octal literal followed without intervening whitespace by a decimal digit outside the range for its radix.
 
 r[lex.token.literal.int.period]
-It is an error to have an unsuffixed binary, octal, or hexadecimal literal followed, without intervening whitespace, by a period character (subject to the same restrictions on what may follow the period as in floating-point literals).
+It is an error to have an unsuffixed binary, octal, or hexadecimal literal followed without intervening whitespace by a period character (subject to the same restrictions on what may follow the period as in floating-point literals).
 
 r[lex.token.literal.int.exp]
-It is an error to have an unsuffixed binary or octal literal followed, without intervening whitespace, by the character `e` or `E`.
+It is an error to have an unsuffixed binary or octal literal followed without intervening whitespace by the character `e` or `E`.
 
 r[lex.token.literal.int.empty-with-radix]
 It is an error for a radix prefix to not be followed, after any optional leading underscores, by at least one valid digit for its radix.
-
 
 r[lex.token.literal.int.tuple-field]
 #### Tuple index
@@ -638,12 +636,10 @@ Examples of floating-point literals which are not accepted as literal expression
 r[lex.token.literal.float.invalid-exponent]
 It is an error for a floating-point literal to have an exponent with no digits.
 
-
-> [!EXAMPLE]
-> ```rust,compile_fail
-> 2e;      // this is not a floating-point literal, nor `2` followed by `e`
-> 2.0e;    // this is not a floating-point literal, nor `2.0` followed by `e`
-> ```
+```rust,compile_fail
+2e;   // This is not a floating-point literal or `2` followed by `e`.
+2.0e; // This is not a floating-point literal or `2.0` followed by `e`.
+```
 
 r[lex.token.life]
 ## Lifetimes and loop labels
