@@ -329,6 +329,28 @@ r[generics.const]
 r[generics.const.intro]
 *Const generic parameters* allow items to be generic over constant values.
 
+> [!EXAMPLE]
+> ```rust
+> struct Grid<const WIDTH: usize, const HEIGHT: usize> {
+>     data: [[f32; WIDTH]; HEIGHT],
+> }
+>
+> impl<const WIDTH: usize, const HEIGHT: usize> Grid<WIDTH, HEIGHT> {
+>     fn new() -> Self {
+>         Grid { data: [[0.0; WIDTH]; HEIGHT] }
+>     }
+>
+>     fn size(&self) -> usize {
+>         WIDTH * HEIGHT
+>     }
+> }
+>
+> let small: Grid<4, 4> = Grid::new();
+> let large: Grid<1920, 1080> = Grid::new();
+> assert_eq!(small.size(), 16);
+> assert_eq!(large.size(), 2_073_600);
+> ```
+
 r[generics.const.namespace]
 The const identifier introduces a name in the [value namespace] for the constant parameter, and all instances of the item must be instantiated with a value of the given type.
 
