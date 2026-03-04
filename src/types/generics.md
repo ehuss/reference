@@ -548,26 +548,25 @@ The inferred const cannot be used in item signatures.
 > ```
 
 r[generics.parameters.attributes]
-## Attributes
+## Attributes on generic parameters
 
-Generic parameters allow [attributes] on them. There are no built-in attributes that do anything in this position, although custom derive attributes may give meaning to it.
-
-This example shows using a custom derive attribute to modify the meaning of a generic parameter.
+The [built-in attributes] that have meaning on a generic parameter are [`cfg`] and [the lint check attributes].
 
 > [!EXAMPLE]
-> <!-- ignore: requires proc macro derive -->
-> ```rust,ignore
-> // Assume that the derive for MyFlexibleClone declared `my_flexible_clone` as
-> // an attribute it understands.
-> #[derive(MyFlexibleClone)]
-> struct Foo<#[my_flexible_clone(unbounded)] H> {
->     a: *const H
-> }
+> ```rust
+> use std::fmt::Debug;
+>
+> struct Wrapper<
+>     T,
+>     #[cfg(feature = "debug")] U: Debug,
+>     #[cfg(not(feature = "debug"))] U,
+> > (T, U);
 > ```
 
+[`cfg`]: cfg.attr
 [array repeat expression]: ../expressions/array-expr.md
 [arrays]: array.md
-[slices]: slice.md
+[built-in attributes]: attributes.builtin
 [associated const]: ../items/associated-items.md#associated-constants
 [associated type]: ../items/associated-items.md#associated-types
 [attributes]: ../attributes.md
@@ -595,7 +594,9 @@ This example shows using a custom derive attribute to modify the meaning of a ge
 [qualified path]: paths.qualified
 [raw pointers]: pointer.md#raw-pointers-const-and-mut
 [references]: pointer.md#shared-references-
+[slices]: slice.md
 [structs]: ../items/structs.md
+[the lint check attributes]: attributes.diagnostics.lint
 [trait bound]: bound
 [Trait bounds]: bound
 [trait object]: trait-object.md
