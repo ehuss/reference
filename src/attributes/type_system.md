@@ -133,14 +133,13 @@ The implicitly defined same-named constant of a [unit-like struct][struct], or t
 > let config = Config { window_width: 640, window_height: 480 }; // ERROR
 >
 > // Cannot construct an instance of `Token`; if new fields were added, then
-> // it would not be a unit-like struct any more, so the same-named constant
-> // created by it being a unit-like struct is not public outside the crate;
-> // this code fails to compile.
+> // it would not be a unit-like struct any more, so its implicit same-named
+> // constant is not public outside the crate.
 > let token = Token; // ERROR
 >
 > // Cannot construct an instance of `Id`; if new fields were added, then
 > // its constructor function signature would change, so its constructor
-> // function is not public outside the crate; this code fails to compile.
+> // function is not public outside the crate.
 > let id = Id(5); // ERROR
 >
 > // Can construct an instance of `Error`; new variants being introduced would
@@ -154,7 +153,7 @@ The implicitly defined same-named constant of a [unit-like struct][struct], or t
 > let message = Message::Reaction(0); // ERROR
 >
 > // Cannot construct an instance of `Message::Quit`; if this were converted to
-> // a tuple enum variant `upstream`, this would fail to compile.
+> // a tuple enum variant in `upstream`, this would fail to compile.
 > let message = Message::Quit; // ERROR
 > ```
 
