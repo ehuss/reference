@@ -52,7 +52,7 @@ r[layout.primitive.platform-specific-alignment]
 The alignment of primitives is platform-specific. In most cases, their alignment is equal to their size, but it may be less. In particular, `i128` and `u128` are often aligned to 4 or 8 bytes even though their size is 16, and on many 32-bit platforms, `i64`, `u64`, and `f64` are only aligned to 4 bytes, not 8.
 
 r[layout.primitive.integer-alignment]
-Alignment is guaranteed to be the same for signed and unsigned variants -- that is, for a given `N`, `align_of::<uN>() == align_of::<iN>()`.
+Alignment is guaranteed to be the same for fixed-width signed and unsigned integer variants of the same indicated size --- that is, for a given size `N`, `align_of::<uN>() == align_of::<iN>()`.
 
 r[layout.pointer]
 ## Pointers and references layout
