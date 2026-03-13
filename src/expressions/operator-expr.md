@@ -180,13 +180,13 @@ On non-pointer types `*x` is equivalent to `*std::ops::Deref::deref(&x)` in an [
 
 ```rust
 # struct NoCopy;
-let x = &7;
-assert_eq!(*x, 7);
-let y = &mut 9;
-*y = 11;
-assert_eq!(*y, 11);
-let z = Box::new(NoCopy);
-let _: NoCopy = *z;
+let a = &7;
+assert_eq!(*a, 7);
+let b = &mut 9;
+*b = 11;
+assert_eq!(*b, 11);
+let c = Box::new(NoCopy);
+let d: NoCopy = *c;
 ```
 
 r[expr.try]
