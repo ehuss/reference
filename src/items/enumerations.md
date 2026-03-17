@@ -197,7 +197,7 @@ enum OverflowingDiscriminantError2 {
 ```
 
 r[items.enum.discriminant.restrictions.generics]
-Explicit enum discriminants may not use generic parameters from the enclosing enum.
+Explicit enum discriminant initializers may not use generic parameters from the enclosing enum.
 
 ```rust,compile_fail
 #[repr(u32)]
