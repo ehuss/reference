@@ -199,21 +199,20 @@ enum OverflowingDiscriminantError2 {
 r[items.enum.discriminant.restrictions.generics]
 Explicit enum discriminants may not use generic parameters from the enclosing enum.
 
-> [!EXAMPLE]
-> ```rust,compile_fail
-> #[repr(u32)]
-> enum E<'a, T, const N: u32> {
->     Lifetime(&'a T) = {
->         let a: &'a (); // ERROR: generic parameters may not be used in enum discriminant
->         1
->     },
->     Type(T) = {
->         let x: T; // ERROR: generic parameters may not be used in enum discriminant
->         2
->     },
->     Const = N, // ERROR: generic parameters may not be used in enum discriminant
-> }
-> ```
+```rust,compile_fail
+#[repr(u32)]
+enum E<'a, T, const N: u32> {
+    Lifetime(&'a T) = {
+        let a: &'a (); // ERROR.
+        1
+    },
+    Type(T) = {
+        let x: T; // ERROR.
+        2
+    },
+    Const = N, // ERROR.
+}
+```
 
 ### Accessing discriminant
 
