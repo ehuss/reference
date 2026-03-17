@@ -196,6 +196,24 @@ enum OverflowingDiscriminantError2 {
 }
 ```
 
+r[items.enum.discriminant.restrictions.generics]
+Explicit enum discriminant initializers may not use generic parameters from the enclosing enum.
+
+```rust,compile_fail
+#[repr(u32)]
+enum E<'a, T, const N: u32> {
+    Lifetime(&'a T) = {
+        let a: &'a (); // ERROR.
+        1
+    },
+    Type(T) = {
+        let x: T; // ERROR.
+        2
+    },
+    Const = N, // ERROR.
+}
+```
+
 ### Accessing discriminant
 
 #### Via `mem::discriminant`
