@@ -495,6 +495,7 @@ impl Tr for () {
 > [!NOTE]
 > `rustc` lints against use on functions in trait implementations. This may become an error in the future.
 
+r[attributes.diagnostics.must_use.wrapping-suppression]
 > [!NOTE]
 > Wrapping the result of a `#[must_use]` function in certain expressions can suppress the [fn-based check][attributes.diagnostics.must_use.fn], because the [expression] of the [expression statement] is not a [call expression] or [method call expression] to a `#[must_use]` function.  The [type-based check][attributes.diagnostics.must_use.type] still applies if the type of the overall expression is `#[must_use]`.
 >
@@ -526,6 +527,7 @@ impl Tr for () {
 > if true { g() } else { MustUse }; // ERROR: Must be used.
 > ```
 
+r[attributes.diagnostics.must_use.underscore-idiom]
 > [!NOTE]
 > Using a [let statement] or [destructuring assignment] with a pattern of `_` when a must-used value is purposely discarded is idiomatic.
 >
