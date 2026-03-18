@@ -527,13 +527,14 @@ impl Tr for () {
 > ```
 
 > [!NOTE]
-> Using a [let statement] with a pattern of `_` when a must-used value is purposely discarded is idiomatic.
+> Using a [let statement] or [destructuring assignment] with a pattern of `_` when a must-used value is purposely discarded is idiomatic.
 >
 > ```rust
 > #![deny(unused_must_use)]
 > #[must_use]
 > fn f() {}
 > let _ = f(); // OK.
+> _ = f(); // OK.
 > ```
 
 r[attributes.diagnostic.namespace]
@@ -744,6 +745,7 @@ The first error message includes a somewhat confusing error message about the re
 [attributes]: ../attributes.md
 [block expression]: ../expressions/block-expr.md
 [call expression]: ../expressions/call-expr.md
+[destructuring assignment]: expr.assign.destructure
 [method call expression]: ../expressions/method-call-expr.md
 [dyn trait]: ../types/trait-object.md
 [enum variant]: ../items/enumerations.md
