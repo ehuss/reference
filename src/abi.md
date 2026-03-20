@@ -107,6 +107,12 @@ r[abi.link_section.unsafe]
 This attribute is unsafe as it allows users to place data and code into sections
 of memory not expecting them, such as mutable data into read-only areas.
 
+r[abi.link_section.duplicates]
+Only the first use of `link_section` on an item has effect.
+
+> [!NOTE]
+> `rustc` lints against any use following the first with a future-compatibility warning. This may become an error in the future.
+
 r[abi.link_section.edition2024]
 > [!EDITION-2024]
 > Before the 2024 edition it is allowed to use the `link_section` attribute without the `unsafe` qualification.
@@ -130,6 +136,12 @@ r[abi.export_name.unsafe]
 This attribute is unsafe as a symbol with a custom name may collide with another
 symbol with the same name (or with a well-known symbol), leading to undefined
 behavior.
+
+r[abi.export_name.duplicates]
+Only the first use of `export_name` on an item has effect.
+
+> [!NOTE]
+> `rustc` lints against any use following the first with a future-compatibility warning. This may become an error in the future.
 
 r[abi.export_name.edition2024]
 > [!EDITION-2024]
