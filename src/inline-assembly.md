@@ -318,6 +318,9 @@ unsafe { core::arch::asm!("/* {} */", in(reg) 5); }
 # }
 ```
 
+> [!NOTE]
+> If the value's type is smaller than the register, the value of the upper bits is platform-specific. Some targets zero out the upper bits, while others leave them untouched.
+
 r[asm.operand-type.supported-operands.out]
 * `out(<reg>) <expr>`
   - `<reg>` can refer to a register class or an explicit register. The allocated register name is substituted into the asm template string.
@@ -626,7 +629,7 @@ Here is the list of currently supported register classes:
 | s390x | `reg` | `r[0-10]`, `r[12-14]` | `r` |
 | s390x | `reg_addr` | `r[1-10]`, `r[12-14]` | `a` |
 | s390x | `freg` | `f[0-15]` | `f` |
-| s390x | `vreg` | `v[0-31]` | Only clobbers |
+| s390x | `vreg` | `v[0-31]` | `v` |
 | s390x | `areg` | `a[2-15]` | Only clobbers |
 | PowerPC | `reg` | `r0`, `r[3-12]`, `r[14-28]` | `r` |
 | PowerPC | `reg_nonzero` | `r[3-12]`, `r[14-28]` | `b` |
@@ -683,7 +686,7 @@ Each register class has constraints on which value types they can be used with. 
 | LoongArch | `freg` | `d` | `f64` |
 | s390x | `reg`, `reg_addr` | None | `i8`, `i16`, `i32`, `i64` |
 | s390x | `freg` | None | `f32`, `f64` |
-| s390x | `vreg` | N/A | Only clobbers |
+| s390x | `vreg` | `vector` | `i32`, `f32`, `i64`, `f64`, `i128`, <br> `i8x16`, `i16x8`, `i32x4`, `i64x2`, `f32x4`, `f64x2` |
 | s390x | `areg` | N/A | Only clobbers |
 | PowerPC | `spe_acc` | None | Only clobbers |
 | PowerPC/PowerPC64 | `reg` | None | `i8`, `i16`, `i32`, `i64` (PowerPC64 only) |
@@ -945,6 +948,7 @@ The supported modifiers are a subset of LLVM's (and GCC's) [asm template argumen
 | s390x | `reg` | None | `%r0` | None |
 | s390x | `reg_addr` | None | `%r1` | None |
 | s390x | `freg` | None | `%f0` | None |
+| s390x | `vreg` | None | `%v0` | None |
 | PowerPC/PowerPC64 | `reg` | None | `0` | None |
 | PowerPC/PowerPC64 | `reg_nonzero` | None | `3` | None |
 | PowerPC/PowerPC64 | `freg` | None | `0` | None |
