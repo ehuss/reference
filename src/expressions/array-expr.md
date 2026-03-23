@@ -84,7 +84,22 @@ r[expr.array.index.array]
 [Array] and [slice]-typed values can be indexed by writing a square-bracket-enclosed expression of type `usize` (the index) after them. When the array is mutable, the resulting [memory location] can be assigned to.
 
 r[expr.array.index.trait]
-For other types an index expression `a[b]` is equivalent to `*std::ops::Index::index(&a, b)`, or `*std::ops::IndexMut::index_mut(&mut a, b)` in a mutable place expression context. Just as with methods, Rust will also insert dereference operations on `a` repeatedly to find an implementation.
+For other types an index expression `a[b]` is equivalent to `*std::ops::Index::index(&a, b)`, or `*std::ops::IndexMut::index_mut(&mut a, b)` in a mutable place expression context, except that when the index expression undergoes [temporary lifetime extension], the indexed expression `a` also has its [temporary scope] extended. Just as with methods, Rust will also insert dereference operations on `a` repeatedly to find an implementation.
+
+```rust
+// The temporary holding the result of `vec![()]` is extended to
+// live to the end of the block, so `x` may be used in subsequent
+// statements.
+let x = &vec![()][0];
+# x;
+```
+
+```rust,compile_fail,E0716
+// The temporary holding the result of `vec![()]` is dropped at the
+// end of the statement, so it's an error to use `y` after.
+let y = &*std::ops::Index::index(&vec![()], 0); // ERROR
+# y;
+```
 
 r[expr.array.index.zero-index]
 Indices are zero-based for arrays and slices.
@@ -127,3 +142,5 @@ The array index expression can be implemented for types other than arrays and sl
 [panic]: ../panic.md
 [path]: path-expr.md
 [slice]: ../types/slice.md
+[temporary lifetime extension]: destructors.scope.lifetime-extension
+[temporary scope]: destructors.scope.temporary
