@@ -42,8 +42,10 @@ The size of most primitives is given in this table.
 | `f64`             | 8                  |
 | `char`            | 4                  |
 
-r[layout.primitive.size-int]
+r[layout.primitive.size-minimum]
 `usize` and `isize` have a size big enough to contain every address on the target platform. For example, on a 32 bit target, this is 4 bytes, and on a 64 bit target, this is 8 bytes.
+
+r[layout.primitive.size-align]
 `usize` and `isize` have the same size and alignment.
 
 r[layout.primitive.align]
