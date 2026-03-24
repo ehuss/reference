@@ -412,10 +412,10 @@ The `link_name` attribute may only be applied to a function or static item in an
 > `rustc` ignores use in other positions but lints against it. This may become an error in the future.
 
 r[items.extern.attributes.link_name.duplicates]
-Only the last use of `link_name` on an item has effect.
+Only the first use of `link_name` on an item has effect.
 
 > [!NOTE]
-> `rustc` lints against any use preceding the last. This may become an error in the future.
+> `rustc` lints against any use following the first with a future-compatibility warning. This may become an error in the future.
 
 r[items.extern.attributes.link_name.link_ordinal]
 The `link_name` attribute may not be used with the [`link_ordinal`] attribute.
