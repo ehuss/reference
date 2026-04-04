@@ -274,7 +274,7 @@ r[attributes.codegen.target_feature.x86]
 #### `x86` or `x86_64`
 
 Executing code with unsupported features is undefined behavior on this platform.
-Hence on this platform usage of `#[target_feature]` functions follows the
+Hence on this platform use of `#[target_feature]` functions follows the
 [above restrictions][attributes.codegen.target_feature.safety-restrictions].
 
 Feature     | Implicitly Enables | Description
@@ -399,7 +399,7 @@ Feature     | Implicitly Enables | Description
 r[attributes.codegen.target_feature.aarch64]
 #### `aarch64`
 
-On this platform the usage of `#[target_feature]` functions follows the
+On this platform the use of `#[target_feature]` functions follows the
 [above restrictions][attributes.codegen.target_feature.safety-restrictions].
 
 Further documentation on these features can be found in the [ARM Architecture
@@ -462,7 +462,7 @@ Feature        | Implicitly Enables | Feature Name
 r[attributes.codegen.target_feature.loongarch]
 #### `loongarch`
 
-On this platform the usage of `#[target_feature]` functions follows the
+On this platform the use of `#[target_feature]` functions follows the
 [above restrictions][attributes.codegen.target_feature.safety-restrictions].
 
 Feature     | Implicitly Enables  | Description
@@ -488,7 +488,7 @@ Feature     | Implicitly Enables  | Description
 r[attributes.codegen.target_feature.riscv]
 #### `riscv32` or `riscv64`
 
-On this platform the usage of `#[target_feature]` functions follows the
+On this platform the use of `#[target_feature]` functions follows the
 [above restrictions][attributes.codegen.target_feature.safety-restrictions].
 
 Further documentation on these features can be found in their respective

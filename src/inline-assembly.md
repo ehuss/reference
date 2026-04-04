@@ -183,7 +183,7 @@ unsafe { core::arch::asm!("/* {x} */"); } // ERROR: no argument named x
 ```
 
 r[asm.ts-args.one-or-more]
-An `asm!` invocation may have one or more template string arguments; an `asm!` with multiple template string arguments is treated as if all the strings were concatenated with a `\n` between them. The expected usage is for each template string argument to correspond to a line of assembly code.
+An `asm!` invocation may have one or more template string arguments; an `asm!` with multiple template string arguments is treated as if all the strings were concatenated with a `\n` between them. The expected use is for each template string argument to correspond to a line of assembly code.
 
 ```rust
 # #[cfg(target_arch = "x86_64")] {

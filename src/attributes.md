@@ -223,7 +223,7 @@ The following is an index of all built-in attributes.
   - [`automatically_derived`] --- Marker for implementations created by `derive`.
 
 - Macros
-  - [`macro_export`] --- Exports a `macro_rules` macro for cross-crate usage.
+  - [`macro_export`] --- Exports a `macro_rules` macro for cross-crate use.
   - [`macro_use`] --- Expands macro visibility, or imports macros from other crates.
   - [`proc_macro`] --- Defines a function-like macro.
   - [`proc_macro_derive`] --- Defines a derive macro.

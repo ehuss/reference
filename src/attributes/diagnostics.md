@@ -261,7 +261,7 @@ lints that would otherwise warn within the entity.
 fn example_err() {
     // This is an error because the `unsafe_code` warning has
     // been lifted to "deny".
-    unsafe { an_unsafe_fn() } // ERROR: usage of `unsafe` block
+    unsafe { an_unsafe_fn() } // ERROR: use of `unsafe` block
 }
 ```
 
@@ -304,7 +304,7 @@ r[attributes.diagnostics.deprecated]
 
 r[attributes.diagnostics.deprecated.intro]
 The *`deprecated` attribute* marks an item as deprecated. `rustc` will issue
-warnings on usage of `#[deprecated]` items. `rustdoc` will show item
+warnings on use of `#[deprecated]` items. `rustdoc` will show item
 deprecation, including the `since` version and `note`, if available.
 
 r[attributes.diagnostics.deprecated.syntax]

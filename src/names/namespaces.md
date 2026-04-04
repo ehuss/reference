@@ -4,7 +4,7 @@ r[names.namespaces]
 r[names.namespaces.intro]
 A *namespace* is a logical grouping of declared [names]. Names are segregated into separate namespaces based on the kind of entity the name refers to. Namespaces allow the occurrence of a name in one namespace to not conflict with the same name in another namespace.
 
-There are several different namespaces that each contain different kinds of entities. The usage of a name will look for the declaration of that name in different namespaces, based on the context, as described in the [name resolution] chapter.
+There are several different namespaces that each contain different kinds of entities. The use of a name will look for the declaration of that name in different namespaces, based on the context, as described in the [name resolution] chapter.
 
 r[names.namespaces.kinds]
 The following is a list of namespaces, with their corresponding entities:
