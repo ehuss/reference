@@ -182,7 +182,7 @@ r[items.use.self]
 ## `self` imports
 
 r[items.use.self.intro]
-The keyword `self` may be used within [brace syntax](#brace-syntax) to create a binding of the parent entity under its own name.
+The keyword `self` may be used within [brace syntax] to create a binding of the parent entity under its own name.
 
 ```rust
 mod stuff {
