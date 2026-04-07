@@ -56,7 +56,7 @@ The const identifier introduces a name in the [value namespace] for the constant
 r[items.generics.const.allowed-types]
 The only allowed types of const parameters are `u8`, `u16`, `u32`, `u64`, `u128`, `usize`, `i8`, `i16`, `i32`, `i64`, `i128`, `isize`, `char` and `bool`.
 
-r[items.generics.const.usage]
+r[items.generics.const.use]
 Const parameters can be used anywhere a [const item] can be used, with the exception that when used in a [type] or [array repeat expression], it must be standalone (as described below). That is, they are allowed in the following places:
 
 1. As an applied const to any type which forms a part of the signature of the item in question.

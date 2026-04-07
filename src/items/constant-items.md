@@ -11,7 +11,7 @@ r[items.const.intro]
 A *constant item* is an optionally named _[constant value]_ which is not associated with a specific memory location in the program.
 
 r[items.const.behavior]
-Constants are essentially inlined wherever they are used, meaning that they are copied directly into the relevant context when used. This includes usage of constants from external crates, and non-[`Copy`] types. References to the same constant are not necessarily guaranteed to refer to the same memory address.
+Constants are essentially inlined wherever they are used, meaning that they are copied directly into the relevant context when used. This includes use of constants from external crates, and non-[`Copy`] types. References to the same constant are not necessarily guaranteed to refer to the same memory address.
 
 r[items.const.namespace]
 The constant declaration defines the constant value in the [value namespace] of the module or block where it is located.

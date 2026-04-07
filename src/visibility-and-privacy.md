@@ -56,7 +56,7 @@ These two cases are surprisingly powerful for creating module hierarchies exposi
 
 In the second case, it mentions that a private item "can be accessed" by the current module and its descendants, but the exact meaning of accessing an item depends on what the item is.
 
-r[vis.usage]
+r[vis.use]
 Accessing a module, for example, would mean looking inside of it (to import more items). On the other hand, accessing a function would mean that it is invoked. Additionally, path expressions and import statements are considered to access an item in the sense that the import/expression is only valid if the destination is in the current visibility scope.
 
 Here's an example of a program which exemplifies the three cases outlined above:

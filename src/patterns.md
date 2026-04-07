@@ -61,7 +61,7 @@ if let
 }
 ```
 
-r[patterns.usage]
+r[patterns.use]
 Patterns are used in:
 
 r[patterns.let]

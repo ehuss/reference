@@ -20,13 +20,13 @@ An object with the boolean type has a [size and alignment] of 1 each.
 r[type.bool.repr]
 The value false has the bit pattern `0x00` and the value true has the bit pattern `0x01`. It is [undefined behavior] for an object with the boolean type to have any other bit pattern.
 
-r[type.bool.usage]
+r[type.bool.use]
 The boolean type is the type of many operands in various [expressions]:
 
-r[type.bool.usage-condition]
+r[type.bool.use-in-condition]
 * The condition operand in [if expressions] and [while expressions]
 
-r[type.bool.usage-lazy-operator]
+r[type.bool.use-in-lazy-operator]
 * The operands in [lazy boolean operator expressions][lazy]
 
 > [!NOTE]

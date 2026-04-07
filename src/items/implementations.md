@@ -188,7 +188,7 @@ impl Seq<bool> for u32 {
 }
 ```
 
-r[items.impl.generics.usage]
+r[items.impl.generics.use]
 Generic parameters *constrain* an implementation if the parameter appears at least once in one of:
 
 * The implemented trait, if it has one

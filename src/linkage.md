@@ -14,7 +14,7 @@ found in the [FFI section of the book][ffi].
 
 r[link.type]
 In one session of compilation, the compiler can generate multiple artifacts
-through the usage of either command line flags or the `crate_type` attribute.
+through the use of either command line flags or the `crate_type` attribute.
 If one or more command line flags are specified, all `crate_type` attributes will
 be ignored in favor of only building the artifacts specified by command line.
 
