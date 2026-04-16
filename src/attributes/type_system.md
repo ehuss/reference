@@ -176,7 +176,7 @@ For example, the following enum can be cast because it doesn't contain any non-e
 #[non_exhaustive]
 pub enum Example {
     First,
-    Second
+    Second,
 }
 ```
 
@@ -187,7 +187,7 @@ However, if the enum contains even a single non-exhaustive variant, casting will
 pub enum EnumWithNonExhaustiveVariants {
     First,
     #[non_exhaustive]
-    Second
+    Second,
 }
 ```
 
