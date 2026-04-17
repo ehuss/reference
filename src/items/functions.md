@@ -122,7 +122,7 @@ r[items.fn.generics.param-names]
 Inside the function signature and body, the name of the type parameter can be used as a type name.
 
 r[items.fn.generics.param-bounds]
-[Trait] bounds can be specified for type parameters to allow methods with that trait to be called on values of that type. This is specified using the `where` syntax:
+[Trait] bounds can be specified for type parameters to allow methods from that trait to be called on values of that type. This is specified using the `where` syntax:
 
 ```rust
 # use std::fmt::Debug;
