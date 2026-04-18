@@ -365,7 +365,7 @@ r[patterns.wildcard.intro]
 The _wildcard pattern_ (an underscore symbol) matches any value. It is used to ignore values when they don't matter.
 
 r[patterns.wildcard.struct-matcher]
-Inside other patterns it matches a single data field (as opposed to the `..` which matches the remaining fields).
+Inside other patterns, it matches a single data field (as opposed to the `..`, which matches the remaining fields).
 
 r[patterns.wildcard.no-binding]
 Unlike identifier patterns, it does not copy, move or borrow the value it matches.
