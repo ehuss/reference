@@ -368,7 +368,7 @@ r[patterns.wildcard.struct-matcher]
 Inside other patterns, it matches a single data field (as opposed to the `..`, which matches the remaining fields).
 
 r[patterns.wildcard.no-binding]
-Unlike identifier patterns, it does not copy, move or borrow the value it matches.
+Unlike identifier patterns, it does not copy, move, or borrow the value it matches.
 
 Examples:
 
