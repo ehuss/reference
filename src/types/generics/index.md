@@ -2,7 +2,7 @@ r[generics]
 # Generics
 
 r[generics.intro]
-Generics allow items to be parameterized by types, [lifetimes], and [constants]. This allows definitions to be written in a flexible way that can be reused with different concrete types and values.
+Generics allow items to be parameterized by [types], [lifetimes], and [constants]. This allows definitions to be written in a flexible way that can be reused with different concrete types and values.
 
 r[generics.parameters]
 ## Generic parameters
@@ -368,4 +368,5 @@ The [built-in attributes] that have meaning on a generic parameter are [`cfg`] a
 [tuples]: type.tuple
 [turbofish]: paths.expr.turbofish
 [type aliases]: items.type
+[types]: generics.types
 [unions]: items.union
