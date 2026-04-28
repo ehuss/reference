@@ -46,7 +46,7 @@ A closure can be forced to capture its environment by copying or moving values b
 r[expr.closure.trait-impl]
 ## Closure trait implementations
 
-Which traits the closure type implement depends on how variables are captured, the types of the captured variables, and the presence of `async`. See the [call traits and coercions] chapter for how and when a closure implements `Fn`, `FnMut`, and `FnOnce`. The closure type implements [`Send`] and [`Sync`] if the type of every captured variable also implements the trait.
+Which traits the closure type implements depends on how variables are captured, the types of the captured variables, and the presence of `async`. See the [call traits and coercions] chapter for how and when a closure implements `Fn`, `FnMut`, and `FnOnce`. The closure type implements [`Send`] and [`Sync`] if the type of every captured variable also implements the trait.
 
 r[expr.closure.async]
 ## Async closures
