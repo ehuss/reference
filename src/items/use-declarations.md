@@ -203,6 +203,21 @@ mod example {
 > [!NOTE]
 > `self` may also be used as the first segment of a path. The use of `self` as the first segment and inside a `use` brace is logically the same; it means the current module of the parent segment, or the current module if there is no parent segment. See [`self`] in the paths chapter for more information on the meaning of a leading `self`.
 
+r[items.use.self.trailing]
+`self` may appear as the last segment of a `use` path, preceded by `::`. A path of the form `P::self` is equivalent to `P::{self}`, and `P::self as name` is equivalent to `P::{self as name}`.
+
+```rust
+mod m {
+    pub enum E { V1, V2 }
+}
+use m::self as _; // Equivalent to `use m::{self as _};`.
+use m::E::self; // Equivalent to `use m::E::{self};`.
+# fn main() {}
+```
+
+> [!NOTE]
+> See [paths.qualifiers.mod-self.trailing] for restrictions on the preceding path.
+
 r[items.use.self.module]
 When `self` is used within [brace syntax], the path preceding the brace group must resolve to a [module], [enumeration], or [trait].
 
