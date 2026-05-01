@@ -98,9 +98,11 @@ The `link_section` attribute uses the [MetaNameValueStr] syntax to specify the s
 
 <!-- no_run: don't link. The format of the section name is platform-specific. -->
 ```rust,no_run
+# #[cfg(target_os = "linux")] {
 #[unsafe(no_mangle)]
 #[unsafe(link_section = ".example_section")]
 pub static VAR1: u32 = 1;
+# }
 ```
 
 r[abi.link_section.unsafe]
