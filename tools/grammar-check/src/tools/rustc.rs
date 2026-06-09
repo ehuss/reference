@@ -109,7 +109,11 @@ pub fn tokenize(src: &str, edition: Edition) -> Result<Vec<Node>, ParseError> {
                 for (ident, spans) in idents.drain(..) {
                     psess
                         .dcx()
-                        .emit_err(rustc_interface::errors::EmojiIdentifier { spans, ident });
+                        .struct_span_err(
+                            spans,
+                            format!("identifiers cannot contain emoji: {ident}"),
+                        )
+                        .emit();
                 }
             });
             psess.dcx().emit_stashed_diagnostics();
