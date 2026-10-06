@@ -81,7 +81,7 @@ Enum::Variant {};
 > ```
 
 r[expr.struct.diverging]
-A struct expression [diverges] if any of its field operands diverges.
+A struct expression [diverges] if any of its operands diverges.
 
 ```rust
 struct S {
