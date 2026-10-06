@@ -612,7 +612,7 @@ let y = false && panic!(); // false, doesn't evaluate `panic!()`
 ```
 
 r[expr.bool-logic.diverging]
-A lazy boolean expression [diverges] only if its left-hand operand diverges.
+A lazy boolean expression [diverges] if and only if its left-hand operand diverges.
 
 ```rust
 fn lazy_bool_lhs(x: !) -> ! {

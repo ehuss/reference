@@ -50,7 +50,7 @@ NeverType -> `!`
 ```
 
 r[type.never.coercion]
-An expression of type `!` can be coerced into any type unless it is a place [that is not read][divergence.place-read].
+An expression of type `!` can be coerced into any type unless it is a [place expression] that is not [read][divergence.place-read].
 
 ```rust
 fn coerce_never_to_i32(x: !) {
@@ -71,3 +71,4 @@ fn coerce_never_to_i32_not_read(x: !) {
 > The standard library type [`Infallible`] is a type alias for `!`.
 
 [`Infallible`]: core::convert::Infallible
+[place expression]: expr.place-value.place-memory-location

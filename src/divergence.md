@@ -146,15 +146,15 @@ fn f() -> ! {
 } // OK.
 ```
 
-r[divergence.place-read.non-place]
-A non-place expression always constitutes a read for divergence calculation.
+r[divergence.place-read.value-expressions]
+A [value expression] always constitutes a read for divergence calculation.
 
 r[divergence.place-read.not-read]
 A place expression constitutes a read for divergence calculation **except** for the following situations:
 
 - As the operand of a [borrow expression].
 - As the scrutinee of a [`match` expression], when not every arm's pattern constitutes a read (see [divergence.place-read.patterns]).
-- As the initializer of a [`let` condition], when the pattern does not constitute a read.
+- As the [scrutinee] of a [`let` condition], when the pattern does not constitute a read.
 - As the initializer of a [`let` statement], when the pattern does not constitute a read.
 
 > [!EXAMPLE]
@@ -262,5 +262,7 @@ If a type to be inferred is only unified with diverging expressions, then that t
 [or-pattern]: patterns.or
 [place expression]: expr.place-value.place-memory-location
 [place expressions]: expr.place-value.place-memory-location
+[scrutinee]: glossary.md#scrutinee
+[value expression]: expr.place-value.value-result
 [value expressions]: expr.place-value.value-result
 [wildcard pattern]: patterns.wildcard.intro

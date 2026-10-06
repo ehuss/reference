@@ -96,7 +96,7 @@ assert_eq!(point.1, 0.0);
 > Although arrays and slices also have elements, you must use an [array or slice indexing expression] or a [slice pattern] to access their elements.
 
 r[expr.tuple-index.diverging]
-A tuple indexing expression [diverges] if its expression operand diverges.
+A tuple indexing expression [diverges] if its tuple operand diverges.
 
 ```rust
 fn tuple_index_diverges(x: (i32, i32)) -> ! {

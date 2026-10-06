@@ -45,7 +45,7 @@ assert_eq!((a.f)(), "The field f");
 ```
 
 r[expr.paren.diverging]
-A parenthesized expression [diverges] if its operand diverges.
+A parenthesized expression [diverges] if its enclosed operand diverges.
 
 ```rust
 fn parenthesized_diverge(x: !) -> ! {

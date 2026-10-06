@@ -43,7 +43,7 @@ foo().x;
 ```
 
 r[expr.field.diverging]
-A field expression [diverges] if its expression operand diverges.
+A field expression [diverges] if its container operand diverges.
 
 ```rust
 struct S {
